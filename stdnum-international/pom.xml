@@ -9,12 +9,12 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>stdnum-all</artifactId>
-    <name>java-stdnum :: all</name>
-    <description>Aggregator that depends on every number module and sweeps the whole registry with the generic contract.</description>
+    <artifactId>stdnum-international</artifactId>
+    <name>java-stdnum :: international</name>
+    <description>International number formats: IBAN, ISBN, EAN, ISIN and BIC.</description>
 
     <properties>
-        <auto.module.name>io.github.jefersonsantos06.stdnum.all</auto.module.name>
+        <auto.module.name>io.github.jefersonsantos06.stdnum.international</auto.module.name>
     </properties>
 
     <dependencies>
@@ -24,11 +24,8 @@
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-br</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-international</artifactId>
+            <artifactId>stdnum-tck</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

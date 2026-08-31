@@ -1,0 +1,7 @@
+# wrong check digits
+GB29NWBK60161331926818
+DE89370400440532013001
+# BBAN structure violation (letters where the DE registry requires digits)
+DE89NWBK60161331926819
+# too short
+DE893704

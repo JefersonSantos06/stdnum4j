@@ -34,6 +34,12 @@ class AllRegisteredContractTest {
         assertEquals(34, StdNums.byCountry("BR").size());
         assertTrue(StdNums.byId("br.cpf").isPresent());
         assertTrue(StdNums.byId("br.ie.sp").isPresent());
+        // international types carry no country and are found by id
+        for (String id : new String[] {"iban", "isbn", "ean", "isin", "bic"}) {
+            assertTrue(StdNums.byId(id).isPresent(), id);
+            assertTrue(StdNums.byId(id).orElseThrow().descriptor().country().isEmpty(), id);
+        }
+        assertEquals(39, StdNums.all().size());
     }
 
     @TestFactory

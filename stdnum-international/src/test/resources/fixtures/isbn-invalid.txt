@@ -1,0 +1,9 @@
+# wrong check digit / character
+978-0-306-40615-8
+0-306-40615-3
+# X in a non-final position
+0-30X-40615-2
+# ISSN bookland prefix is not an ISBN
+9771234567898
+# wrong length
+978030640615

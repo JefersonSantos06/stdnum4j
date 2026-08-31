@@ -1,0 +1,10 @@
+# test database exercising the NumDb semantics
+0-2 zone="low"
+ 100-399 kind="a"
+ 200-299 extra="b"
+ 333 deep="yes"
+  22 leaf="ok"
+9 zone="nine"
+ 85 kind="x"
+50-59 wide="1"
+5 narrow="2"

@@ -1,0 +1,7 @@
+# wrong check digit
+123456789010001
+700000000000004
+# invalid first digit
+323456789010000
+# wrong length
+12345678901000

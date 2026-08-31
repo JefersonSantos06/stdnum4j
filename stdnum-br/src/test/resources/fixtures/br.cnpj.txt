@@ -1,0 +1,8 @@
+# valid CNPJs
+16.727.230/0001-97
+16727230000197
+16.727.230.0001-97
+# alphanumeric format (valid from July 2026)
+12.ABC.345/01DE-35
+12ABC34501DE35
+12abc34501de35

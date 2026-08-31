@@ -1,0 +1,11 @@
+# repeated digits (rejected by decision, even though the check digits match)
+111.111.111-11
+00000000000
+# wrong check digits
+231.002.999-00
+390.533.447-06
+# wrong length
+3905334470
+390533447051
+# bad characters
+39053344a05

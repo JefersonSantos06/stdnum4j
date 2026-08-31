@@ -1,0 +1,8 @@
+# wrong check digit
+102385010672
+# state code out of range
+102385012971
+# repeated digits fail the check naturally
+111111111111
+# wrong length
+1234567890123

@@ -1,0 +1,9 @@
+# wrong check digits
+16.727.230/0001-98
+12.ABC.345/01DE-36
+# repeated characters
+11111111111111
+# wrong length
+1672723000019
+# invalid separator kept in the number
+16.727.230/0001=97

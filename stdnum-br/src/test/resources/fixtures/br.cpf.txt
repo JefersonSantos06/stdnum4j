@@ -1,0 +1,5 @@
+# valid CPFs (well-known public test vectors)
+390.533.447-05
+39053344705
+123.456.789-09
+12345678909

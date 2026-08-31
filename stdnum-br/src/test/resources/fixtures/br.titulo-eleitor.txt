@@ -1,0 +1,6 @@
+102385010671
+1023 8501 0671
+# Minas Gerais with the remainder-zero exception
+000000000213
+# remainder 10 maps to zero
+500000000302

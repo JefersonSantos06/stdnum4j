@@ -1,0 +1,4 @@
+01234567897
+# legacy 9-digit number, accepted via zero padding
+123456789
+00123456789

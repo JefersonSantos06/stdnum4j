@@ -1,0 +1,9 @@
+# wrong check digit
+12345675
+12345670
+# wrong length
+1234567
+123456789
+# bad characters
+1234567a
+1234*5674

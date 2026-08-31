@@ -1,0 +1,6 @@
+# valid dummy numbers: 7 digits + Luhn check digit
+12345674
+1234 5674
+1234-5674
+1234.5674
+00000000

@@ -20,3 +20,6 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: maven
       - run: mvn -B -ntp verify
+      # the data file generators are not Maven modules, so compile them here
+      # to keep a refactor from breaking them unnoticed
+      - run: javac -d "${{ runner.temp }}/tools" tools/*.java

@@ -51,6 +51,12 @@ StdNums.byTag(Tag.TAX);
 | `stdnum-africa` | Africa: DZ, EG, GH, KE, MA, MU, MZ, SN and ZA. |
 | `stdnum-all` | Aggregator depending on every module, with a registry-wide contract sweep. |
 
+## Data files
+
+`iban.dat` and `isbn.dat` are generated from their upstream registries,
+never hand-edited. The generators live in [`tools/`](tools/README.md),
+which documents how to rebuild each file.
+
 ## Build
 
 ```

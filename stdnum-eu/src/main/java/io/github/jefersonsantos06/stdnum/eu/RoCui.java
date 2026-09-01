@@ -24,9 +24,9 @@ public final class RoCui implements StdNum {
             Descriptor.of("ro.cui", "CUI")
                     .country("RO")
                     .title("Codul Unic de Înregistrare")
-                    .description("Romanian company identifier and VAT number: 2 to 10 digits"
+                    .description("Romanian company identifier: 2 to 10 digits"
                             + " with a weighted mod 11 check digit.")
-                    .tags(Tag.VAT, Tag.COMPANY)
+                    .tags(Tag.COMPANY, Tag.TAX)
                     .build();
 
     private static final int[] WEIGHTS = {7, 5, 3, 2, 1, 7, 5, 3, 2};

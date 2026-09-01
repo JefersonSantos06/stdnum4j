@@ -62,6 +62,8 @@ public final class EuProvider implements StdNumProvider {
                 PlPesel.INSTANCE,
                 PlRegon.INSTANCE,
                 PtNif.INSTANCE,
+                RoCf.INSTANCE,
+                RoCnp.INSTANCE,
                 RoCui.INSTANCE,
                 RsPib.INSTANCE,
                 SeOrgnr.INSTANCE,

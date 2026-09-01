@@ -27,7 +27,7 @@ public final class ClRut implements StdNum {
                     .title("Rol Único Tributario")
                     .description("Chilean tax/identity number: 7-8 digits and a mod 11"
                             + " check character (0-9 or K).")
-                    .tags(Tag.TAX, Tag.PERSON)
+                    .tags(Tag.TAX, Tag.PERSON, Tag.VAT)
                     .build();
 
     private ClRut() {

@@ -12,15 +12,30 @@ public final class EuProvider implements StdNumProvider {
     @Override
     public Collection<StdNum> numbers() {
         return List.of(
+                AtUid.INSTANCE,
+                BeVat.INSTANCE,
                 DeVat.INSTANCE,
+                DkCpr.INSTANCE,
+                DkCvr.INSTANCE,
+                EsCif.INSTANCE,
+                EsDni.INSTANCE,
+                EsNie.INSTANCE,
+                EsNif.INSTANCE,
+                FiAlv.INSTANCE,
+                FiYtunnus.INSTANCE,
                 FrSiren.INSTANCE,
                 FrSiret.INSTANCE,
                 FrTva.INSTANCE,
-                EsDni.INSTANCE,
-                EsNie.INSTANCE,
-                EsCif.INSTANCE,
-                EsNif.INSTANCE,
+                GbVat.INSTANCE,
+                IeVat.INSTANCE,
                 ItIva.INSTANCE,
-                PtNif.INSTANCE);
+                LuTva.INSTANCE,
+                NlBsn.INSTANCE,
+                NlBtw.INSTANCE,
+                NoMva.INSTANCE,
+                NoOrgnr.INSTANCE,
+                PtNif.INSTANCE,
+                SeOrgnr.INSTANCE,
+                SeVat.INSTANCE);
     }
 }

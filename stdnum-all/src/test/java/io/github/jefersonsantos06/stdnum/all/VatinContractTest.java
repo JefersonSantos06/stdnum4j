@@ -23,15 +23,28 @@ class VatinContractTest extends StdNumContractTest {
     @Test
     void delegatesToTheCountryModules() {
         assertEquals("DE136695976", Vatin.INSTANCE.validate("DE 136,695 976"));
-        assertEquals("FR40303265045", Vatin.INSTANCE.validate("Fr 40 303 265 045"));
         assertEquals("BR16727230000197", Vatin.INSTANCE.validate("BR16.727.230/0001-97"));
+        assertEquals("GB980780684", Vatin.INSTANCE.validate("GB 980 7806 84"));
+    }
+
+    @Test
+    void resolvesVatNumbersThatCarryALocalName() {
+        // no <cc>.vat id exists for these: they are found by their VAT tag
+        assertEquals("FR40303265045", Vatin.INSTANCE.validate("Fr 40 303 265 045"));
         assertEquals("ESB58378431", Vatin.INSTANCE.validate("ES B-58378431"));
+        assertEquals("IT00743110157", Vatin.INSTANCE.validate("IT 00743110157"));
+        assertEquals("PT501964843", Vatin.INSTANCE.validate("PT 501 964 843"));
+    }
+
+    @Test
+    void northernIrelandIsHandledAsGreatBritain() {
+        assertEquals("XI980780684", Vatin.INSTANCE.validate("XI980780684"));
     }
 
     @Test
     void unsupportedCountriesAreComponentErrors() {
         assertThrows(InvalidComponentException.class,
-                () -> Vatin.INSTANCE.validate("GB123456789"));
+                () -> Vatin.INSTANCE.validate("JP123456789"));
         // Greece's EL prefix maps to GR, which has no module yet
         assertThrows(InvalidComponentException.class,
                 () -> Vatin.INSTANCE.validate("EL123456789"));

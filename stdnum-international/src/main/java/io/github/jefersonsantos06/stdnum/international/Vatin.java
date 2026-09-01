@@ -8,21 +8,24 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Optional;
 
 /**
  * VATIN (VAT identification number): an ISO country code followed by the
  * country-specific VAT number, dispatched through the registry to whatever
  * country modules are on the classpath.
  *
- * <p>This is the piece that replaces python-stdnum's dynamic imports: the
- * country prefix resolves to a registry id ({@code "de.vat"} by default,
- * with explicit aliases where the national VAT number has its own name,
- * such as {@code fr.tva} or the Brazilian CNPJ), and an absent module means
- * an unsupported country ({@code INVALID_COMPONENT}) rather than a
- * classpath error. Greece's {@code EL} prefix and Northern Ireland's
- * {@code XI} are mapped to GR and GB.</p>
+ * <p>This is the piece that replaces python-stdnum's dynamic imports. The
+ * country prefix resolves to a registry entry in two steps: the id
+ * {@code <cc>.vat} if it exists, otherwise the country's unique number
+ * tagged {@link Tag#VAT} (which is how countries whose VAT number has a
+ * local name — {@code fr.tva}, {@code it.iva}, {@code pt.nif} — are found
+ * without a hard-coded table). An absent or ambiguous module means an
+ * unsupported country ({@code INVALID_COMPONENT}) rather than a classpath
+ * error. Greece's {@code EL} prefix and Northern Ireland's {@code XI} are
+ * mapped to GR and GB.</p>
  */
 public final class Vatin implements StdNum {
 
@@ -37,18 +40,6 @@ public final class Vatin implements StdNum {
                     .references("https://en.wikipedia.org/wiki/VAT_identification_number")
                     .build();
 
-    /**
-     * Registry ids of national VAT numbers whose id is not {@code <cc>.vat}.
-     */
-    private static final Map<String, String> VAT_IDS = Map.of(
-            "fr", "fr.tva",
-            "es", "es.nif",
-            "it", "it.iva",
-            "pt", "pt.nif",
-            "br", "br.cnpj",
-            "ar", "ar.cuit",
-            "cl", "cl.rut");
-
     private Vatin() {
     }
 
@@ -61,9 +52,18 @@ public final class Vatin implements StdNum {
         String cc = countryCode.toLowerCase(Locale.ROOT)
                 .replace("el", "gr")   // Greece uses EL as its VAT prefix
                 .replace("xi", "gb");  // Northern Ireland after Brexit
-        return StdNums.byId(VAT_IDS.getOrDefault(cc, cc + ".vat"))
-                .orElseThrow(() -> new InvalidComponentException(
-                        "No VAT validator registered for country " + countryCode + "."));
+        Optional<StdNum> byId = StdNums.byId(cc + ".vat");
+        if (byId.isPresent()) {
+            return byId.get();
+        }
+        List<StdNum> tagged = StdNums.byCountry(cc).stream()
+                .filter(n -> n.descriptor().tags().contains(Tag.VAT))
+                .toList();
+        if (tagged.size() != 1) {
+            throw new InvalidComponentException(
+                    "No VAT validator registered for country " + countryCode + ".");
+        }
+        return tagged.get(0);
     }
 
     private static String countryOf(String cleaned) {

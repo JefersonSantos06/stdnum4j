@@ -33,7 +33,7 @@ public final class Cnpj implements StdNum {
                     .description("Brazilian company identifier: 12 alphanumeric positions"
                             + " plus two weighted mod 11 check digits, supporting the"
                             + " alphanumeric format valid from July 2026.")
-                    .tags(Tag.TAX, Tag.COMPANY)
+                    .tags(Tag.TAX, Tag.COMPANY, Tag.VAT)
                     .references("https://www.gov.br/receitafederal/pt-br/servicos/cnpj",
                             "https://en.wikipedia.org/wiki/CNPJ")
                     .build();

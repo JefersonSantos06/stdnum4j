@@ -1,0 +1,72 @@
+package io.github.jefersonsantos06.stdnum.na;
+
+import io.github.jefersonsantos06.stdnum.spi.Descriptor;
+import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
+import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.StdNum;
+import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Strings;
+
+import java.util.Set;
+
+/**
+ * SSN (U.S. Social Security Number): a three-digit area, a two-digit group
+ * and a four-digit serial. There is no check digit, so validation rejects
+ * the ranges that are never issued (area 000, 666 and 900-999; group 00;
+ * serial 0000) plus the numbers famously published in advertising.
+ */
+public final class UsSsn implements StdNum {
+
+    public static final UsSsn INSTANCE = new UsSsn();
+
+    private static final Descriptor DESCRIPTOR =
+            Descriptor.of("us.ssn", "SSN")
+                    .country("US")
+                    .title("Social Security Number")
+                    .description("US Social Security Number: 9 digits with no check digit;"
+                            + " never-issued ranges and known invalid numbers are rejected.")
+                    .tags(Tag.PERSON, Tag.TAX)
+                    .build();
+
+    /** Numbers that were published in advertising and are permanently void. */
+    private static final Set<String> BLACKLIST =
+            Set.of("078051120", "457555462", "219099999");
+
+    private UsSsn() {
+    }
+
+    @Override
+    public Descriptor descriptor() {
+        return DESCRIPTOR;
+    }
+
+    @Override
+    public String compact(String number) {
+        return Strings.compact(number, "-");
+    }
+
+    @Override
+    public String validate(String number) {
+        String n = compact(number);
+        if (!Strings.isDigits(n) || n.length() != 9) {
+            throw new InvalidFormatException();
+        }
+        String area = n.substring(0, 3);
+        String group = n.substring(3, 5);
+        String serial = n.substring(5);
+        if (area.equals("000") || area.equals("666") || area.charAt(0) == '9'
+                || group.equals("00") || serial.equals("0000")) {
+            throw new InvalidComponentException("This range of SSNs is never issued.");
+        }
+        if (BLACKLIST.contains(n)) {
+            throw new InvalidComponentException("This SSN is permanently void.");
+        }
+        return n;
+    }
+
+    @Override
+    public String format(String number) {
+        String n = validate(number);
+        return n.substring(0, 3) + "-" + n.substring(3, 5) + "-" + n.substring(5);
+    }
+}

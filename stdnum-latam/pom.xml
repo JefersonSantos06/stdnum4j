@@ -9,34 +9,18 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>stdnum-all</artifactId>
-    <name>java-stdnum :: all</name>
-    <description>Aggregator that depends on every number module and sweeps the whole registry with the generic contract.</description>
+    <artifactId>stdnum-latam</artifactId>
+    <name>java-stdnum :: latam</name>
+    <description>Latin American standard numbers (outside Brazil): Argentinian and Chilean identifiers.</description>
 
     <properties>
-        <auto.module.name>io.github.jefersonsantos06.stdnum.all</auto.module.name>
+        <auto.module.name>io.github.jefersonsantos06.stdnum.latam</auto.module.name>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
             <artifactId>stdnum-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-br</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-international</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-eu</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-latam</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>

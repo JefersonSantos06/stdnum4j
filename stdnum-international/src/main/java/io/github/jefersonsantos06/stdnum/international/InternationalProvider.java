@@ -16,6 +16,7 @@ public final class InternationalProvider implements StdNumProvider {
                 Isbn.INSTANCE,
                 Ean.INSTANCE,
                 Isin.INSTANCE,
-                Bic.INSTANCE);
+                Bic.INSTANCE,
+                Vatin.INSTANCE);
     }
 }

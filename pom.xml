@@ -18,6 +18,8 @@
         <module>stdnum-tck</module>
         <module>stdnum-br</module>
         <module>stdnum-international</module>
+        <module>stdnum-eu</module>
+        <module>stdnum-latam</module>
         <module>stdnum-all</module>
     </modules>
 
@@ -54,6 +56,16 @@
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
                 <artifactId>stdnum-international</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jefersonsantos06</groupId>
+                <artifactId>stdnum-eu</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jefersonsantos06</groupId>
+                <artifactId>stdnum-latam</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

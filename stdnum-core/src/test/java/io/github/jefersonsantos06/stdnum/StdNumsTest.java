@@ -35,7 +35,15 @@ class StdNumsTest {
         List<StdNum> xx = StdNums.byCountry("XX");
         assertEquals(2, xx.size());
         assertEquals(List.of(), StdNums.byCountry("YY"));
-        assertEquals(List.of(), StdNums.byCountry(null));
+        assertEquals(List.of(), StdNums.byCountry((String) null));
+    }
+
+    @Test
+    void byCountryAcceptsALocale() {
+        assertEquals(2, StdNums.byCountry(new java.util.Locale("xx", "XX")).size());
+        assertEquals(List.of(), StdNums.byCountry((java.util.Locale) null));
+        // a language-only locale has no country
+        assertEquals(List.of(), StdNums.byCountry(java.util.Locale.ENGLISH));
     }
 
     @Test

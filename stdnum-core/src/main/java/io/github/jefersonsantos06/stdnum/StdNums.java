@@ -79,6 +79,14 @@ public final class StdNums {
         return byId(countryCode + "." + name);
     }
 
+    /**
+     * Convenience overload extracting the country from a {@link java.util.Locale}
+     * (as obtained from a user session); the locale's language is irrelevant.
+     */
+    public static List<StdNum> byCountry(java.util.Locale locale) {
+        return locale == null ? List.of() : byCountry(locale.getCountry());
+    }
+
     /** All number types registered for the given ISO 3166-1 alpha-2 country code. */
     public static List<StdNum> byCountry(String countryCode) {
         if (countryCode == null) {

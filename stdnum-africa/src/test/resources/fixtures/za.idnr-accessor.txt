@@ -1,0 +1,9 @@
+getBirthDate	0001015077082	2000-01-01
+getBirthDate	7503305044089	1975-03-30
+getBirthDate	7611055077082	1976-11-05
+getGender	7209170838080	F
+getGender	7503305044089	M
+getGender	7611055077082	M
+getCitizenship	5306060050180	resident
+getCitizenship	7503305044089	citizen
+getCitizenship	9103225261083	citizen

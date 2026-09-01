@@ -1,5 +1,6 @@
 package io.github.jefersonsantos06.stdnum.eu;
 
+import io.github.jefersonsantos06.stdnum.international.Isin;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
@@ -42,6 +43,15 @@ public final class DeWkn implements StdNum {
     @Override
     public String compact(String number) {
         return Strings.compact(number, " ").toUpperCase(Locale.ROOT);
+    }
+
+    /**
+     * The ISIN this security is also known by: the German country prefix, the
+     * number padded out to the nine characters an ISIN reserves for it, and
+     * the ISIN's own check digit.
+     */
+    public static String toIsin(String number) {
+        return Isin.fromNationalId("DE", INSTANCE.validate(number));
     }
 
     @Override

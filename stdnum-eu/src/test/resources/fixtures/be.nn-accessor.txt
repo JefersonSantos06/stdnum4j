@@ -1,0 +1,13 @@
+getBirthDate	17 07 30 033 84	2017-07-30
+getBirthDate	85.07.30-033 28	1985-07-30
+getGender	75.06.08-980.09	F
+getGender	85.07.30-033 28	M
+getBirthMonth	00010000135	1
+getBirthMonth	17 07 30 033 84	7
+getBirthMonth	85.07.30-033 28	7
+getBirthMonth	85073500107	7
+getBirthYear	00000000128	2000
+getBirthYear	00010000135	2000
+getBirthYear	17 07 30 033 84	2017
+getBirthYear	85.07.30-033 28	1985
+getBirthYear	85073500107	1985

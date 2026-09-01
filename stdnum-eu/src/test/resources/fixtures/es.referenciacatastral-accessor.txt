@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+calcCheckDigits	9872023 ÑH5797S 0001	WP

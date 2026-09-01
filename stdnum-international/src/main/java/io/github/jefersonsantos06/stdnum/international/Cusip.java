@@ -81,6 +81,12 @@ public final class Cusip implements StdNum {
     }
 
     /** The ISIN of this security in the given country (usually {@code "US"}). */
+    /** The ISIN of the security, which for a CUSIP is a United States one. */
+    public static String toIsin(String number) {
+        return toIsin(number, "US");
+    }
+
+    /** The ISIN of the security, under the country that issued the CUSIP. */
     public static String toIsin(String number, String countryCode) {
         String base = countryCode.toUpperCase(Locale.ROOT) + INSTANCE.validate(number);
         return base + Isin.calcCheckDigit(base);

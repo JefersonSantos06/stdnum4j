@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+toSiren	RCS Nancy B 323159 715	323159715

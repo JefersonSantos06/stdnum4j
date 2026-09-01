@@ -9,6 +9,8 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 /**
@@ -70,6 +72,31 @@ public final class Meid implements StdNum {
         return Strings.isDigits(n) ? Luhn.calcCheckDigit(n) : Luhn.calcCheckDigit(n, HEX);
     }
 
+    /**
+     * The pseudo ESN of the handset: the reserved manufacturer code 80
+     * followed by the last three bytes of the SHA-1 of the number. The ESN
+     * space ran out, and a pseudo ESN is what a device with only an MEID
+     * presents to a network that still expects one.
+     */
+    public static String toPseudoEsn(String number) {
+        String n = INSTANCE.validate(number);
+        byte[] bytes = new byte[7];
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = (byte) Integer.parseInt(n.substring(i * 2, i * 2 + 2), 16);
+        }
+        byte[] digest;
+        try {
+            digest = MessageDigest.getInstance("SHA-1").digest(bytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("Every Java runtime provides SHA-1.", e);
+        }
+        StringBuilder sb = new StringBuilder("80");
+        for (int i = digest.length - 3; i < digest.length; i++) {
+            sb.append(String.format("%02X", digest[i]));
+        }
+        return sb.toString();
+    }
+
     /** The eighteen decimal digits as the fourteen hexadecimal ones. */
     private static String toHex(String decimal) {
         long manufacturer = Long.parseLong(decimal.substring(0, 10));
@@ -116,6 +143,13 @@ public final class Meid implements StdNum {
     @Override
     public String format(String number) {
         String n = validate(number);
-        return n.substring(0, 2) + ' ' + n.substring(2, 8) + ' ' + n.substring(8);
+        StringBuilder sb = new StringBuilder(20);
+        for (int i = 0; i < n.length(); i += 2) {
+            if (i > 0) {
+                sb.append(' ');
+            }
+            sb.append(n, i, i + 2);
+        }
+        return sb.toString();
     }
 }

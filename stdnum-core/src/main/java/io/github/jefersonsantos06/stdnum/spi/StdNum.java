@@ -70,10 +70,29 @@ public interface StdNum {
 
     /**
      * Reformats the number to its standard presentation form
-     * ({@code "390.533.447-05"}). The default implementation returns the
-     * compact representation.
+     * ({@code "390.533.447-05"}).
+     *
+     * <p>A presentation is the presentation <em>of a valid number</em>: this
+     * validates first and throws the same {@link ValidationException} subtype
+     * {@link #validate} would. python-stdnum instead regroups whatever it is
+     * given, which hands back a well-dressed string for a number that is not
+     * one — the point at which a number is formatted is usually the point at
+     * which it goes onto an invoice or a screen, and that is the worst place
+     * to launder it. A caller who wants the reference's behaviour writes
+     * {@code try { format(x) } catch (ValidationException e) { showRaw(x); }}
+     * and knows what it is showing; under the reference's rule there is no
+     * signal to catch.</p>
+     *
+     * <p>The default implementation is the compact form, which is already the
+     * presentation of a number written without separators. An implementation
+     * that delegates to another type must pass its <em>own</em>
+     * {@code validate} output — delegating the raw argument inherits the other
+     * type's weaker rule, and a Belgian account number would come back
+     * prettily grouped by a validator that rejects it.</p>
+     *
+     * @throws ValidationException if the number is not valid
      */
     default String format(String number) {
-        return compact(number);
+        return validate(number);
     }
 }

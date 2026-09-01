@@ -55,6 +55,7 @@ public final class NoIban implements StdNum {
 
     @Override
     public String format(String number) {
-        return Iban.INSTANCE.format(number);
+        // the generic grouping, but of a number this type accepts
+        return Iban.INSTANCE.format(validate(number));
     }
 }

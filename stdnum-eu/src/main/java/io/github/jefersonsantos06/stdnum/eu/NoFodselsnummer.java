@@ -48,7 +48,7 @@ public final class NoFodselsnummer implements StdNum {
 
     @Override
     public String compact(String number) {
-        return Strings.clean(number, " -:");
+        return Strings.compact(number, " -:");
     }
 
     /** The first check digit, in tenth position. */

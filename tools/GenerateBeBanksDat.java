@@ -4,6 +4,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * Generates the be-banks.dat registry consumed by the BeIban class.
@@ -12,6 +14,10 @@ import java.util.List;
  * of Belgium publishes as a spreadsheet. Each row gives a range of the
  * three-digit bank code, the BIC, and the institution's name in up to four
  * languages.</p>
+ *
+ * <p>The list also records the ranges nobody holds, as VRIJ/LIBRE (free) or
+ * Onbeschikbaar/Indisponible (unavailable). Those name no institution, so an
+ * account number in one of them belongs to nobody; they are left out.</p>
  *
  * <p>Usage:</p>
  * <pre>
@@ -60,6 +66,11 @@ public final class GenerateBeBanksDat {
         entries.forEach(out::println);
     }
 
+    /** The names the list gives a range that no institution holds. */
+    private static final Set<String> UNHELD =
+            Set.of("VRIJ", "LIBRE", "FREI", "FREE",
+                    "ONBESCHIKBAAR", "INDISPONIBLE", "NICHT VERFUGBAR", "NOT AVAILABLE");
+
     /** One range record, or null when the row names no institution. */
     private static String parseRow(List<String> row) {
         String low = cell(row, 0);
@@ -73,6 +84,9 @@ public final class GenerateBeBanksDat {
             }
         }
         if (low.isEmpty() || high.isEmpty() || (bic.isEmpty() && bank.isEmpty())) {
+            return null;
+        }
+        if (bic.equals("VRIJ") || UNHELD.contains(bank.toUpperCase(Locale.ROOT))) {
             return null;
         }
         StringBuilder sb = new StringBuilder(low).append('-').append(high);

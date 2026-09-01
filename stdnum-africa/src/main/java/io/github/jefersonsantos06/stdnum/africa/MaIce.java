@@ -14,6 +14,9 @@ import io.github.jefersonsantos06.stdnum.text.Strings;
  * identifier used across all administrations: fifteen digits — nine for
  * the enterprise, four for the establishment and two control digits that
  * make the whole number a multiple of 97.
+ *
+ * <p>The three parts are not written apart: an ICE is quoted as fifteen
+ * unbroken digits, which is what {@code format} returns.</p>
  */
 public final class MaIce implements StdNum {
 
@@ -53,11 +56,5 @@ public final class MaIce implements StdNum {
             throw new InvalidChecksumException();
         }
         return n;
-    }
-
-    @Override
-    public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 9) + " " + n.substring(9, 13) + " " + n.substring(13);
     }
 }

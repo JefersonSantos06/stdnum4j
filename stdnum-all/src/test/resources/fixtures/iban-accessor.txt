@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+calcCheckDigits	BExx435411161155	31

@@ -1,0 +1,6 @@
+# The checksum and the registered BBAN structure pass; the country's own rule
+# is what rejects these. They can only be caught where the country type is on
+# the classpath, which is why they live in the aggregator module.
+ES2121000418450200051331
+ES89 3183 1500 9500 0121 0562
+BE83138811735115

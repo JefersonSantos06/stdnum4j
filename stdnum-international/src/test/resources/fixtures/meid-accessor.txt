@@ -1,0 +1,3 @@
+# What python-stdnum's own tests expect of these accessors.
+toPseudoEsn	29360 87365 0070 3710	8016B128
+toPseudoEsn	AF 01 23 45 0A BC DE C	8016B128

@@ -86,6 +86,38 @@ public final class Isan implements StdNum {
         return parts[0] + parts[1] + check1 + parts[3] + check2;
     }
 
+    /**
+     * The URN form of the number, as ISO 15706 registers it. Both check
+     * characters are part of the URN, so any that the number does not carry
+     * are computed.
+     */
+    public static String toUrn(String number) {
+        return "URN:ISAN:" + INSTANCE.format(addCheckDigits(number));
+    }
+
+    /**
+     * The XML form of the number: the root, the episode and the version as
+     * three attributes. The check characters are not part of it, and the
+     * version is empty for a number that has none.
+     */
+    public static String toXml(String number) {
+        String[] parts = split(INSTANCE.validate(number));
+        return "<ISAN root=\"" + hyphenate(parts[0]) + "\" episode=\"" + parts[1]
+                + "\" version=\"" + hyphenate(parts[3]) + "\" />";
+    }
+
+    /** A run of hexadecimal characters broken into groups of four. */
+    private static String hyphenate(String part) {
+        StringBuilder sb = new StringBuilder(part.length() + part.length() / 4);
+        for (int i = 0; i < part.length(); i += 4) {
+            if (i > 0) {
+                sb.append('-');
+            }
+            sb.append(part, i, Math.min(i + 4, part.length()));
+        }
+        return sb.toString();
+    }
+
     @Override
     public String validate(String number) {
         String[] parts = split(number);

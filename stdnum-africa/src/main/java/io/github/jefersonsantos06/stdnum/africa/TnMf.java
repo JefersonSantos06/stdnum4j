@@ -46,7 +46,7 @@ public final class TnMf implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.clean(number, " /.-").toUpperCase(Locale.ROOT);
+        String n = Strings.compact(number, " /.-").toUpperCase(Locale.ROOT);
         // the serial is quoted without its leading zeros as often as with them
         int serial = 0;
         while (serial < n.length() && n.charAt(serial) >= '0' && n.charAt(serial) <= '9') {

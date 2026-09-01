@@ -1,0 +1,16 @@
+# IBANs from the countries whose own rule the generic validator delegates to.
+# The point of this file is the delegation, not IBAN coverage: the full set
+# lives beside IbanTest in the international module, which cannot see these
+# country types.
+BE11197980176748
+BE91005057985376
+ES7712341234161234567890
+ES4975525887631161615615
+ME25510000000006234133
+ME25611227383441093852
+NO9386011117947
+NO3442970740826
+# countries with no type of their own still go through the registry
+GB82 WEST 1234 5698 7654 32
+DE91100000000123456789
+FR7630006000011234567890189

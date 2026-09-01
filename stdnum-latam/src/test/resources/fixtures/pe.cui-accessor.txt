@@ -1,0 +1,3 @@
+# What python-stdnum's own tests expect of these accessors.
+toRuc	10117410-2	10101174102
+toRuc	10812543-3	10108125433

@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+toDni	10054148289	05414828

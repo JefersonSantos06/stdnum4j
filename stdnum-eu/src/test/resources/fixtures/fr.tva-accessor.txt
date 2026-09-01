@@ -1,0 +1,3 @@
+# What python-stdnum's own tests expect of these accessors.
+toSiren	23 334 175 221	334175221
+toSiren	Fr 40 303 265 045	303265045

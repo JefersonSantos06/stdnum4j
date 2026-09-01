@@ -5,8 +5,10 @@ import io.github.jefersonsantos06.stdnum.numdb.NumDb;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
+import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Map;
 
@@ -48,8 +50,17 @@ public final class BeIban implements StdNum {
         return Iban.INSTANCE.compact(number);
     }
 
-    /** The two national check digits, from the ten digits before them. */
+    /**
+     * The two national check digits, from the ten digits before them.
+     *
+     * @throws InvalidFormatException if the account part is not all digits,
+     *                                which the general IBAN check allows but
+     *                                a Belgian account never is
+     */
     public static String calcCheckDigits(String base) {
+        if (!Strings.isDigits(base)) {
+            throw new InvalidFormatException("A Belgian account number is all digits.");
+        }
         long check = Long.parseLong(base) % 97;
         return String.format("%02d", check == 0 ? 97 : check);
     }
@@ -85,6 +96,7 @@ public final class BeIban implements StdNum {
 
     @Override
     public String format(String number) {
-        return Iban.INSTANCE.format(number);
+        // the generic grouping, but of a number this type accepts
+        return Iban.INSTANCE.format(validate(number));
     }
 }

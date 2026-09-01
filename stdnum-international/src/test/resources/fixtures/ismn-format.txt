@@ -1,0 +1,8 @@
+9790060115615	979-0-060-11561-5
+9790321765450	979-0-3217-6545-0
+# The ten-character number keeps its M; the reference silently converts it to
+# the thirteen-digit form, which Ismn.convertTo13 does here on request.
+# reference: 979-0-2306-7118-7
+M230671187	M-2306-7118-7
+# reference: 979-0-3217-6546-7
+M-3217-6546-7	M-3217-6546-7

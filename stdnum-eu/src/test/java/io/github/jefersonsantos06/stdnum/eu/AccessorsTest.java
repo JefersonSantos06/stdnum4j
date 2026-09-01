@@ -1,5 +1,6 @@
 package io.github.jefersonsantos06.stdnum.eu;
 
+import io.github.jefersonsantos06.stdnum.international.Iban;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
 import org.junit.jupiter.api.Test;
 
@@ -66,5 +67,41 @@ class AccessorsTest {
         assertEquals(1963, RoCnp.getBirthDate("1630615123457").getYear());
         assertEquals(6, RoCnp.getBirthDate("1630615123457").getMonthValue());
         assertEquals(15, RoCnp.getBirthDate("1630615123457").getDayOfMonth());
+    }
+
+    @Test
+    void aConvertedFrenchNumberComesBackCompact() {
+        // python-stdnum returns '46 443 121 975' and '732 829 320', keeping
+        // the spacing of the number it was given
+        assertEquals("46443121975", FrSiren.toTva("443 121 975"));
+        assertEquals("732829320", FrSiret.toSiren("732 829 320 00074"));
+        assertEquals("732 829 320",
+                FrSiren.INSTANCE.format(FrSiret.toSiren("732 829 320 00074")));
+        assertEquals("44732829320", FrSiret.toTva("732 829 320 00074"));
+    }
+
+    @Test
+    void aNorwegianAccountNumberBecomesAnIbanInIbanGrouping() {
+        // python-stdnum returns 'NO93 8601 11 17947', which is the account
+        // number's own grouping with a prefix; an IBAN is written in fours
+        assertEquals("NO9386011117947", NoKontonr.toIban("8601 11 17947"));
+        assertEquals("NO93 8601 1117 947",
+                Iban.INSTANCE.format(NoKontonr.toIban("8601 11 17947")));
+    }
+
+    @Test
+    void anAccountNumberIsOnlyConvertedWhenItIsOneAtAll() {
+        // python-stdnum builds 'ES2121000418450200051331' out of this, though
+        // its own validate() calls the CCC's check digits wrong
+        assertThrows(ValidationException.class,
+                () -> EsCcc.toIban("21000418450200051331"));
+        assertEquals("ES9121000418450200051332",
+                EsCcc.toIban("2100 0418 45 0200051332"));
+    }
+
+    @Test
+    void theKindOfBelgianNumberIsTheTypeThatAcceptedIt() {
+        assertEquals("be.nn", BeSsn.kindOf("85.07.30-033 28").descriptor().id());
+        assertEquals("be.bis", BeSsn.kindOf("98.47.28-997.65").descriptor().id());
     }
 }

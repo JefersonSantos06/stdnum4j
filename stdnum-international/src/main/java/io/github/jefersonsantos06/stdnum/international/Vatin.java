@@ -49,10 +49,17 @@ public final class Vatin implements StdNum {
         return DESCRIPTOR;
     }
 
-    private static StdNum moduleFor(String countryCode) {
-        String cc = countryCode.toLowerCase(Locale.ROOT)
-                .replace("el", "gr")   // Greece uses EL as its VAT prefix
-                .replace("xi", "gb");  // Northern Ireland after Brexit
+    /**
+     * The type that validates a country's VAT number: the id {@code <cc>.vat}
+     * if there is one, otherwise the country's single type tagged
+     * {@link Tag#VAT}. Shared with {@link EuVat}, which resolves the country
+     * differently but looks the module up the same way.
+     *
+     * @throws InvalidComponentException if the country has no such type, or
+     *                                   has more than one
+     */
+    static StdNum vatModule(String countryCode) {
+        String cc = countryCode.toLowerCase(Locale.ROOT);
         Optional<StdNum> byId = StdNums.byId(cc + ".vat");
         if (byId.isPresent()) {
             return byId.get();
@@ -65,6 +72,12 @@ public final class Vatin implements StdNum {
                     "No VAT validator registered for country " + countryCode + ".");
         }
         return tagged.get(0);
+    }
+
+    private static StdNum moduleFor(String countryCode) {
+        return vatModule(countryCode.toLowerCase(Locale.ROOT)
+                .replace("el", "gr")   // Greece uses EL as its VAT prefix
+                .replace("xi", "gb")); // Northern Ireland after Brexit
     }
 
     private static String countryOf(String cleaned) {

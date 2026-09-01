@@ -1,0 +1,9 @@
+# What python-stdnum's own tests expect of these accessors.
+calcCheckDigit	00030705	2
+calcCheckDigit	010307052	4
+toBase10	009CUX	000307037
+toBase10	009CVD	000307052
+toBase32	000307037	009CUX
+toBase32	000307052	009CVD
+validateBase10	000307052	000307052
+validateBase32	009CVD	000307052

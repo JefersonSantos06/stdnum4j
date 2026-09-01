@@ -91,6 +91,23 @@ public final class EuNace implements StdNum {
         return info(number, revision).get("label");
     }
 
+    /**
+     * The code with a full stop between the division and the group under it
+     * ({@code "62.01"}), which is how the classification prints it. A section
+     * letter and a bare division have nothing to separate and come back as
+     * they are.
+     *
+     * <p>The code is validated first, so a code that no longer exists in the
+     * default revision is refused rather than dressed up; the reference has no
+     * such check, and also doubles the separator of an already-dotted code
+     * ({@code "03.30"} to {@code "03..30"}).</p>
+     */
+    @Override
+    public String format(String number) {
+        String n = validate(number);
+        return n.length() > 2 ? n.substring(0, 2) + "." + n.substring(2) : n;
+    }
+
     @Override
     public String validate(String number) {
         return validate(number, DEFAULT_REVISION);

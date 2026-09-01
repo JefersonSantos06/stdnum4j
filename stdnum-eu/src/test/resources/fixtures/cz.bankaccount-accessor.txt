@@ -1,0 +1,3 @@
+# What python-stdnum's own tests expect of these accessors.
+toBic	34278-0727558021/0100	KOMBCZPP
+toBic	34278-727558021/0100	KOMBCZPP

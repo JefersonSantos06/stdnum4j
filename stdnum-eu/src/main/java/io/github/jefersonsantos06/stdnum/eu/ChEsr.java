@@ -42,7 +42,7 @@ public final class ChEsr implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.clean(number, " ");
+        String n = Strings.compact(number, " ");
         int start = 0;
         while (start < n.length() && n.charAt(start) == '0') {
             start++;

@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+toEan	0264-3596	9770264359008

@@ -3,3 +3,6 @@ Amberg XXX 1234
 Amberg HRB 0
 Amberg HRB
 HRB 1234
+Aachen HRC 44123
+Berlin (Charlottenburg) HRA 11223 BBBB
+KXln HRB 49263

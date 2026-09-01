@@ -15,6 +15,13 @@ import java.util.Locale;
  * IRD number, used by the New Zealand Inland Revenue Department (Te Tari
  * Tāke): eight or nine digits in the issued range, closed by a check digit
  * that falls back to a second weight set when the first yields 10.
+ *
+ * <p>An eight-digit IRD number is the nine-digit one with its leading zero
+ * dropped, not a different number, so {@code compact} restores the zero and
+ * one number has one written form, {@code 049-098-576}. python-stdnum returns
+ * each spelling unchanged and prints them differently ({@code 49-098-576} and
+ * {@code 049-098-576}) — it pads to eight internally before weighting, so the
+ * two validate alike there as well.</p>
  */
 public final class NzIrd implements StdNum {
 

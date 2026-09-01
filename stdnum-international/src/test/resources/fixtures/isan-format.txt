@@ -1,0 +1,16 @@
+# The presentation groups the number as it was given. Where the reference
+# invents the check characters the number does not carry, its own string is
+# noted; Isan.addCheckDigits produces that form here.
+# reference: 0000-0001-8947-0000-8-0000-0000-D
+000000018947000000000000	0000-0001-8947-0000-0000-0000
+# reference: 0000-0000-D07A-0090-Q
+00000000D07A0090	0000-0000-D07A-0090
+# reference: 84D9-2348-F7EF-C44C-2
+84D92348F7EFC44C	84D9-2348-F7EF-C44C
+# reference: 1881-66C7-3420-6541-Y
+1881-66C7-3420-6541	1881-66C7-3420-6541
+# reference: 1881-66C7-3420-6541-Y-9F3A-0245-O
+188166C7342065419F3A0245	1881-66C7-3420-6541-9F3A-0245
+# a number that carries its check characters is written with them, as there
+1881-66C7-3420-6541-Y	1881-66C7-3420-6541-Y
+0000-0000-D07A-0090-Q-0000-0000-X	0000-0000-D07A-0090-Q-0000-0000-X

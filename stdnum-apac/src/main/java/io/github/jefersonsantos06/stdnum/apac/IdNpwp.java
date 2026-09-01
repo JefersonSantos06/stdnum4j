@@ -61,11 +61,18 @@ public final class IdNpwp implements StdNum {
         return n;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The grouping is the one the fifteen-digit number was printed in. A
+     * sixteen-digit number is written in the same groups, its extra digit
+     * falling at the end: dropping a digit to make it fit would make it a
+     * different number.</p>
+     */
     @Override
     public String format(String number) {
         String n = validate(number);
-        String b = n.length() == 16 ? n.substring(1) : n;
-        return b.substring(0, 2) + "." + b.substring(2, 5) + "." + b.substring(5, 8)
-                + "." + b.charAt(8) + "-" + b.substring(9, 12) + "." + b.substring(12);
+        return n.substring(0, 2) + "." + n.substring(2, 5) + "." + n.substring(5, 8)
+                + "." + n.charAt(8) + "-" + n.substring(9, 12) + "." + n.substring(12);
     }
 }

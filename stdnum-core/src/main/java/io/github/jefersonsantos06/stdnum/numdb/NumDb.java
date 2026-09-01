@@ -21,8 +21,9 @@ import java.util.regex.Pattern;
  * into its known parts and give me the properties of each part".
  *
  * <p>Data comes from indentation-structured text files. Each line holds one
- * or more prefix ranges plus optional {@code key="value"} properties; deeper
- * indentation nests ranges under the previous line:</p>
+ * or more prefix ranges plus optional {@code key="value"} properties, in
+ * which a backslash escapes the character after it; deeper indentation nests
+ * ranges under the previous line:</p>
  *
  * <pre>
  * # comment
@@ -53,7 +54,7 @@ public final class NumDb {
     }
 
     private static final Pattern PROPERTY_PATTERN =
-            Pattern.compile("([0-9A-Za-z_-]+)=\"([^\"]*)\"");
+            Pattern.compile("([0-9A-Za-z_-]+)=\"((?:[^\"\\\\]|\\\\.)*)\"");
 
     private static final Map<String, NumDb> CACHE = new ConcurrentHashMap<>();
 
@@ -131,9 +132,30 @@ public final class NumDb {
         Map<String, String> properties = new LinkedHashMap<>();
         Matcher matcher = PROPERTY_PATTERN.matcher(text);
         while (matcher.find()) {
-            properties.put(matcher.group(1), matcher.group(2));
+            properties.put(matcher.group(1), unescape(matcher.group(2)));
         }
         return properties;
+    }
+
+    /**
+     * A value as it was written: a backslash before a character stands for
+     * that character, which is how a value carries the quote that would
+     * otherwise close it. Registry names really do ({@code UAB "Teltonika
+     * Telematics"}).
+     */
+    private static String unescape(String value) {
+        if (value.indexOf('\\') < 0) {
+            return value;
+        }
+        StringBuilder sb = new StringBuilder(value.length());
+        for (int i = 0; i < value.length(); i++) {
+            char c = value.charAt(i);
+            if (c == '\\' && i + 1 < value.length()) {
+                c = value.charAt(++i);
+            }
+            sb.append(c);
+        }
+        return sb.toString();
     }
 
     /**

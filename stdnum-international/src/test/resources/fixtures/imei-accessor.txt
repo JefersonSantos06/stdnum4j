@@ -1,0 +1,4 @@
+# What python-stdnum's own tests expect of these accessors.
+imeiType	35-417803-685978-9	Optional[IMEI]
+imeiType	35686800-004141-20	Optional[IMEISV]
+imeiType	3568680000414120	Optional[IMEISV]

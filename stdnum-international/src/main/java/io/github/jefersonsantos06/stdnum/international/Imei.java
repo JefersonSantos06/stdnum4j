@@ -6,9 +6,11 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.spi.ValidationException;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * IMEI (International Mobile Equipment Identity), the identifier of mobile
@@ -39,6 +41,19 @@ public final class Imei implements StdNum {
     @Override
     public String compact(String number) {
         return Strings.compact(number, " -").toUpperCase(Locale.ROOT);
+    }
+
+    /** The two kinds of number: the identifier alone, or with a version. */
+    public enum Type { IMEI, IMEISV }
+
+    /** Which kind the number is, or empty when it is not a valid IMEI. */
+    public static Optional<Type> imeiType(String number) {
+        try {
+            return Optional.of(INSTANCE.validate(number).length() == 16
+                    ? Type.IMEISV : Type.IMEI);
+        } catch (ValidationException e) {
+            return Optional.empty();
+        }
     }
 
     /** Whether the number carries a software version instead of a check digit. */

@@ -1,0 +1,12 @@
+# What python-stdnum's own tests expect of these accessors.
+isBroadcast	FF-FF-FF-FF-FF-FF	true
+isBroadcast	d0:50:99:84:a2:a0	false
+isLocallyAdministered	fe:54:00:76:07:0a	true
+isMulticast	d0:50:99:84:a2:a0	false
+isUnicast	d0:50:99:84:a2:a0	true
+isUniversallyAdministered	d0:50:99:84:a2:a0	true
+oui	d0:50:99:84:a2:a0	D05099
+toEui48	d0:50:99:84:a2:a0	D0-50-99-84-A2-A0
+iab	d0:50:99:84:a2:a0	84A2A0
+manufacturer	2c:76:8a:ad:f2:74	Hewlett Packard
+manufacturer	d0:50:99:84:a2:a0	ASRock Incorporation

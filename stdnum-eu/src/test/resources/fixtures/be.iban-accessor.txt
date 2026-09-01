@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+toBic	BE 48 3200 7018 4927	BBRUBEBB

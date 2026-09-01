@@ -8,3 +8,17 @@ Ludwigshafen am Rhein HRB 5001
 Weiden HRA 400 B
 Bad Homburg HRB 9944
 aachen hrb 11223
+Aachen HRA 11223
+Aachen HRA 44123
+Bad Homburg v.d.H. PR 11223
+Berlin (Charlottenburg) HRA 11223 B
+Berlin (Charlottenburg) HRB 11223B
+Berlin HRB 11223 B
+Frankfurt/Oder GnR 11223
+Hamburg HRA 61755
+Homburg HRA 61755
+Koln HRB 49263
+Köln HRB 49263
+Ludwigshafen a.Rhein (Ludwigshafen) VR 11223
+St. Ingbert HRA 61755
+KÃ¶ln HRB 49263

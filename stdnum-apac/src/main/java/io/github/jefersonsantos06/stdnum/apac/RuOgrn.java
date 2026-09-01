@@ -39,7 +39,7 @@ public final class RuOgrn implements StdNum {
 
     @Override
     public String compact(String number) {
-        return Strings.clean(number, " ");
+        return Strings.compact(number, " ");
     }
 
     /**

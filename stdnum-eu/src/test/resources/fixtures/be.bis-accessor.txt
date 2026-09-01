@@ -1,0 +1,22 @@
+getBirthDate	01 49 07 001 85	2001-09-07
+getBirthDate	75.46.08-980.95	1975-06-08
+getBirthDate	98.47.28-997.65	1998-07-28
+getGender	75.46.08-980.95	F
+getGender	85473500193	M
+getGender	98.47.28-997.65	M
+getBirthMonth	00210000178	1
+getBirthMonth	00410000124	1
+getBirthMonth	01 49 07 001 85	9
+getBirthMonth	75.46.08-980.95	6
+getBirthMonth	85273500150	7
+getBirthMonth	85473500193	7
+getBirthMonth	98.47.28-997.65	7
+getBirthYear	00200000171	2000
+getBirthYear	00210000178	2000
+getBirthYear	00400000117	2000
+getBirthYear	00410000124	2000
+getBirthYear	01 49 07 001 85	2001
+getBirthYear	75.46.08-980.95	1975
+getBirthYear	85273500150	1985
+getBirthYear	85473500193	1985
+getBirthYear	98.47.28-997.65	1998

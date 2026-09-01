@@ -37,7 +37,8 @@ import java.util.regex.Pattern;
  * <p>{@link #validate(String)} returns the element string re-encoded from
  * what it decoded, which is what makes it a stable form: identifiers come
  * out in order, and variable values padded to their width unless a separator
- * was given.</p>
+ * was given. {@link #compact(String)} does the same, an element string
+ * having no shorter representation than the one it re-encodes to.</p>
  *
  * <p>Three things the reference allows are refused here, each of which would
  * otherwise turn bad input into a plausible-looking result:</p>
@@ -90,9 +91,23 @@ public final class Gs1128 implements StdNum {
         return NumDb.load(Gs1128.class, "gs1-ai.dat");
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The minimal representation of an element string is the one it
+     * re-encodes to: identifiers in order and values at their width. A string
+     * that cannot be read at all is returned with only its parentheses
+     * removed, so that compacting never fails where validating would say why.
+     * </p>
+     */
     @Override
     public String compact(String number) {
-        return Strings.compact(number, "()");
+        String stripped = Strings.compact(number, "()");
+        try {
+            return encode(decode(stripped, ""), "", false);
+        } catch (RuntimeException e) {
+            return stripped;
+        }
     }
 
     /** The widest value a format can hold. */
@@ -124,7 +139,12 @@ public final class Gs1128 implements StdNum {
      *                  without one such a value runs to its full width
      */
     public static Map<String, Object> info(String number, String separator) {
-        String rest = INSTANCE.compact(number);
+        return decode(Strings.compact(number, "()"), separator);
+    }
+
+    /** The same, over a string that has already had its parentheses removed. */
+    private static Map<String, Object> decode(String stripped, String separator) {
+        String rest = stripped;
         Map<String, Object> data = new TreeMap<>();
         if (!separator.isEmpty() && rest.startsWith(separator)) {
             rest = rest.substring(separator.length());
@@ -388,7 +408,7 @@ public final class Gs1128 implements StdNum {
      */
     public String validate(String number, String separator) {
         try {
-            return encode(info(number, separator), separator, false);
+            return encode(decode(Strings.compact(number, "()"), separator), separator, false);
         } catch (ValidationException e) {
             throw e;
         } catch (RuntimeException e) {

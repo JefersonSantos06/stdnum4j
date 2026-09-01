@@ -9,3 +9,9 @@ EL123456781
 # no country prefix
 123456789
 D1
+00
+FR
+FR 40 303
+US
+XX
+

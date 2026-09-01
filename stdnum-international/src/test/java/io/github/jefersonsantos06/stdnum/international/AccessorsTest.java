@@ -65,6 +65,25 @@ class AccessorsTest {
         assertEquals("979-0-3452-4680-5", Ismn.INSTANCE.format("9790345246805"));
         // the legacy form keeps its M and stays ten characters long
         assertEquals("M-3452-4680-5", Ismn.INSTANCE.format("M345246805"));
+        // python-stdnum prints the legacy form as the thirteen-digit one; the
+        // conversion is here, but the caller has to ask for it
+        assertEquals("979-0-2306-7118-7",
+                Ismn.INSTANCE.format(Ismn.convertTo13("M230671187")));
+        assertEquals("979-0-3217-6546-7",
+                Ismn.INSTANCE.format(Ismn.convertTo13("M-3217-6546-7")));
+    }
+
+    @Test
+    void isanGroupsWhatItWasGivenAndAddsCheckDigitsOnRequest() {
+        assertEquals("0000-0000-D07A-0090", Isan.INSTANCE.format("00000000D07A0090"));
+        // python-stdnum invents the check characters while formatting; here
+        // that is a separate step, so the number is never quietly changed
+        assertEquals("00000000D07A0090Q", Isan.addCheckDigits("00000000D07A0090"));
+        assertEquals("0000-0000-D07A-0090-Q",
+                Isan.INSTANCE.format(Isan.addCheckDigits("00000000D07A0090")));
+        assertEquals("0000-0001-8947-0000-8-0000-0000-D",
+                Isan.INSTANCE.format(Isan.addCheckDigits("000000018947000000000000")));
+        assertEquals("00000000D07A0090", Isan.stripCheckDigits("0000-0000-D07A-0090-Q"));
     }
 
     @Test
@@ -78,5 +97,27 @@ class AccessorsTest {
         // the second-least-significant bit of the first octet marks local scope
         assertTrue(Mac.isLocallyAdministered("02:00:00:00:00:01"));
         assertFalse(Mac.isLocallyAdministered("d0:50:99:84:a2:a0"));
+    }
+
+    @Test
+    void aConvertedNumberComesBackCompactAndIsPresentedSeparately() {
+        // python-stdnum echoes the separators of the number it was handed,
+        // so the answer's spelling depends on the question's; here the answer
+        // is the number, and format() decides how it is written
+        assertEquals("1857982185", Isbn.convertTo10("978-1-85798-218-3"));
+        assertEquals("1857982185", Isbn.convertTo10("978 1 85798218 3"));
+        assertEquals("1-85798-218-5",
+                Isbn.INSTANCE.format(Isbn.convertTo10("978-1-85798-218-3")));
+
+        assertEquals("9781857982183", Isbn.convertTo13("1-85798-218-5"));
+        assertEquals("9781857982183", Isbn.convertTo13("1 85798218 5"));
+        assertEquals("978-1-85798-218-3",
+                Isbn.INSTANCE.format(Isbn.convertTo13("1-85798-218-5")));
+
+        assertEquals("9790321765467", Ismn.convertTo13("M-32176546-7"));
+        // and the presentation is the canonical one, not the one the badly
+        // hyphenated input happened to use
+        assertEquals("979-0-3217-6546-7",
+                Ismn.INSTANCE.format(Ismn.convertTo13("M-32176546-7")));
     }
 }

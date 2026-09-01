@@ -12,14 +12,19 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
- * The VAT number of a trader registered in the European Union: the same
- * dispatch as {@link Vatin}, but confined to the member states.
+ * The VAT number of a trader registered in the European Union.
  *
  * <p>Greece writes EL where its ISO code is GR, Northern Ireland kept XI when
  * the rest of the United Kingdom left, and a trader in one of the One Stop
  * Shop schemes carries an EU or IM number instead of a national one. A plain
  * GB number is no longer an EU VAT number and is refused here, though
  * {@link Vatin} still accepts it.</p>
+ *
+ * <p>The whole number, prefix included, is handed to the country's own type,
+ * which strips the prefix it expects. This is stricter than {@link Vatin},
+ * which also tries the number with the prefix cut off and so accepts a
+ * doubled prefix such as {@code ATATU65033803}: here that is one prefix too
+ * many, and the number is rejected.</p>
  */
 public final class EuVat implements StdNum {
 
@@ -54,12 +59,13 @@ public final class EuVat implements StdNum {
             return StdNums.byId("eu.oss").orElseThrow(() -> new InvalidComponentException(
                     "The One Stop Shop numbers are not on the classpath."));
         }
-        // EL is Greece's VAT prefix; Vatin maps it, but membership is checked first
+        // EL is Greece's VAT prefix, but membership is held under its ISO code
         String cc = countryCode.equals("EL") ? "GR" : countryCode;
         if (!MEMBER_STATES.contains(cc)) {
             throw new InvalidComponentException(countryCode + " is not an EU member state.");
         }
-        return Vatin.INSTANCE;
+        // a Northern Irish number is a United Kingdom number
+        return Vatin.vatModule(cc.equals("XI") ? "GB" : cc);
     }
 
     /** The two-letter prefix a number opens with. */
@@ -70,15 +76,22 @@ public final class EuVat implements StdNum {
         return n.substring(0, 2);
     }
 
+    /** The prefix, restored if the country's type stripped it. */
+    private static String prefixed(String countryCode, String national) {
+        return national.startsWith(countryCode) ? national : countryCode + national;
+    }
+
     @Override
     public String compact(String number) {
         String n = Strings.compact(number, "").toUpperCase(Locale.ROOT);
-        return moduleFor(prefixOf(n)).compact(n);
+        String cc = prefixOf(n);
+        return prefixed(cc, moduleFor(cc).compact(n));
     }
 
     @Override
     public String validate(String number) {
         String n = Strings.compact(number, "").toUpperCase(Locale.ROOT);
-        return moduleFor(prefixOf(n)).validate(n);
+        String cc = prefixOf(n);
+        return prefixed(cc, moduleFor(cc).validate(n));
     }
 }

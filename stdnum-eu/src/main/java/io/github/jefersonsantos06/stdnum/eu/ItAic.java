@@ -95,6 +95,15 @@ public final class ItAic implements StdNum {
     }
 
     /** Validates the nine-digit base-10 form. */
+    public static String validateBase32(String number) {
+        String n = INSTANCE.compact(number);
+        if (n.length() != 6) {
+            throw new InvalidLengthException();
+        }
+        return validateBase10(toBase10(n));
+    }
+
+    /** Validates the nine-digit base-10 form, and returns it. */
     public static String validateBase10(String number) {
         String n = INSTANCE.compact(number);
         if (n.length() != 9) {

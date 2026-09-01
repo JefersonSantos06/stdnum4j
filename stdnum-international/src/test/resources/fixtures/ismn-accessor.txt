@@ -1,0 +1,4 @@
+# What python-stdnum's own tests expect of these accessors.
+ismnType	 M-2306-7118-7	Optional[ISMN10]
+ismnType	9790321765450	Optional[ISMN13]
+ismnType	M-3217-6546-7	Optional[ISMN10]

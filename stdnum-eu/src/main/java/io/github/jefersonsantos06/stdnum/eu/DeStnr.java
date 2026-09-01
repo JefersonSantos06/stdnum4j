@@ -89,16 +89,25 @@ public final class DeStnr implements StdNum {
         }
 
         /** The template with each run of F, B, U and P filled in, in order. */
-        String replace(Matcher parts) {
+        String replace(String... values) {
             StringBuilder sb = new StringBuilder();
             Matcher m = RUN.matcher(template);
             int last = 0;
-            int group = 1;
+            int i = 0;
             while (m.find()) {
-                sb.append(template, last, m.start()).append(parts.group(group++));
+                sb.append(template, last, m.start()).append(values[i++]);
                 last = m.end();
             }
             return sb.append(template.substring(last)).toString();
+        }
+
+        /** What the matcher captured, run by run. */
+        static String[] groups(Matcher m) {
+            String[] values = new String[m.groupCount()];
+            for (int i = 0; i < values.length; i++) {
+                values[i] = m.group(i + 1);
+            }
+            return values;
         }
     }
 
@@ -174,7 +183,7 @@ public final class DeStnr implements StdNum {
         for (Format[] forms : FORMATS.values()) {
             Matcher m = forms[1].matcher(n);
             if (m.matches()) {
-                return forms[0].replace(m);
+                return forms[0].replace(Format.groups(m));
             }
         }
         throw new InvalidFormatException();
@@ -201,13 +210,45 @@ public final class DeStnr implements StdNum {
                     throw new InvalidComponentException(
                             "More than one Land uses this layout: name the one that issued it.");
                 }
-                converted = forms[1].replace(m);
+                converted = forms[1].replace(Format.groups(m));
             }
         }
         if (converted == null) {
             throw new InvalidFormatException();
         }
         return converted;
+    }
+
+    @Override
+    public String format(String number) {
+        return format(number, null);
+    }
+
+    /**
+     * The number as its Land writes it: the tax office, then the district,
+     * then the taxpayer and its trailing digit run together, the three groups
+     * divided by slashes.
+     *
+     * <p>Without a Land the layout can only be guessed, and the guess is the
+     * first Land whose layout fits — two, three and five digits for a
+     * ten-digit number, three, three and five for an eleven-digit one. A
+     * Nordrhein-Westfalen number is only grouped three, four and four when
+     * its Land is named. The thirteen-digit country-wide form is written
+     * unbroken.</p>
+     *
+     * @param region the Land that issued it, or {@code null} to guess
+     * @throws InvalidComponentException if the region is not a German Land
+     */
+    public String format(String number, String region) {
+        String n = validate(number, region);
+        for (Format[] forms : formatsFor(region)) {
+            Matcher m = forms[0].matcher(n);
+            if (m.matches()) {
+                return forms[0].replace(m.group(1) + "/", m.group(2) + "/",
+                        m.group(3), m.group(4));
+            }
+        }
+        return n;
     }
 
     @Override

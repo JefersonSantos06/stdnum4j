@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+toIsin	SKWM02	DE000SKWM021

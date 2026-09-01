@@ -1,0 +1,2 @@
+getBirthDate	2110620629	1962-10-21
+checksum	2110625629	0

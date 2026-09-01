@@ -48,6 +48,16 @@ public final class BeBis implements StdNum {
     }
 
     /** The birth date encoded in the number, or {@code null} when it carries none. */
+    /** The year of birth, or {@code null} when the number records none. */
+    public static Integer getBirthYear(String number) {
+        return BeNn.getBirthYear(number);
+    }
+
+    /** The month of birth, or {@code null} when the number records none. */
+    public static Integer getBirthMonth(String number) {
+        return BeNn.getBirthMonth(number);
+    }
+
     public static LocalDate getBirthDate(String number) {
         return BeNn.getBirthDate(number);
     }

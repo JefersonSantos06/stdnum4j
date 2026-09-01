@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+calcCheckDigit	U1358562	7

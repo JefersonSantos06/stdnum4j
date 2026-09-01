@@ -45,7 +45,7 @@ public final class SePersonnummer implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.clean(number, " :");
+        String n = Strings.compact(number, " :");
         if ((n.length() == 10 || n.length() == 12) && "-+".indexOf(n.charAt(n.length() - 5)) < 0) {
             n = n.substring(0, n.length() - 4) + '-' + n.substring(n.length() - 4);
         }

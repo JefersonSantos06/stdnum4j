@@ -6,9 +6,11 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.spi.ValidationException;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * ISMN (International Standard Music Number), identifying sheet music:
@@ -77,6 +79,19 @@ public final class Ismn implements StdNum {
             {"3", "000", "099"}, {"4", "1000", "3999"}, {"5", "40000", "69999"},
             {"6", "700000", "899999"}, {"7", "9000000", "9999999"}};
 
+    /** The two lengths an ISMN comes in. */
+    public enum Type { ISMN10, ISMN13 }
+
+    /** The form of the number, or empty when it is not a valid ISMN. */
+    public static Optional<Type> ismnType(String number) {
+        try {
+            return Optional.of(INSTANCE.validate(number).length() == 10
+                    ? Type.ISMN10 : Type.ISMN13);
+        } catch (ValidationException e) {
+            return Optional.empty();
+        }
+    }
+
     /**
      * Splits the number into bookland prefix, ISMN prefix, publisher
      * element, item element and check digit, converting to the 13-digit
@@ -100,6 +115,11 @@ public final class Ismn implements StdNum {
      * Hyphenates the number between its parts, keeping the form it was
      * given in. The 10-character form carries the same check digit as its
      * 13-digit counterpart, so only the two leading elements differ.
+     *
+     * <p>python-stdnum prints the 10-character form as the 13-digit one, which
+     * loses the distinction {@code compact} and {@code validate} keep; the
+     * conversion is available as {@link #convertTo13}, so a caller who wants
+     * that presentation asks for it.</p>
      */
     @Override
     public String format(String number) {

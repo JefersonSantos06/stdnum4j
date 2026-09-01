@@ -7,3 +7,4 @@
 1672723000019
 # invalid separator kept in the number
 16.727.230/0001=97
+16.727.230.0001-98

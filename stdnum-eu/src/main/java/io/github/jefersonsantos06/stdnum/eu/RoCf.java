@@ -1,6 +1,7 @@
 package io.github.jefersonsantos06.stdnum.eu;
 
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
+import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
@@ -14,7 +15,8 @@ import java.util.Locale;
  * <p>It dispatches by length: two to ten digits are a company identifier
  * ({@link RoCui}), while thirteen digits are a personal numeric code
  * ({@link RoCnp}) — sources disagree on whether the latter is really
- * usable as a VAT number, but the registry accepts it.</p>
+ * usable as a VAT number, but the registry accepts it. Either may be written
+ * with the RO prefix, once: what is left after it must be digits.</p>
  */
 public final class RoCf implements StdNum {
 
@@ -46,6 +48,9 @@ public final class RoCf implements StdNum {
     @Override
     public String validate(String number) {
         String n = compact(number);
+        if (!Strings.isDigits(n)) {
+            throw new InvalidFormatException();
+        }
         if (n.length() == 13) {
             RoCnp.INSTANCE.validate(n);
         } else if (n.length() >= 2 && n.length() <= 10) {

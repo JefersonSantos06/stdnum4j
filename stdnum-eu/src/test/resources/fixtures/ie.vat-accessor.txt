@@ -1,0 +1,5 @@
+# What python-stdnum's own tests expect of these accessors.
+convert	123	123
+convert	1F23456T	0234561T
+convert	IE 632 3420 C	6323420C
+convert	IE8D79739I	0797398I

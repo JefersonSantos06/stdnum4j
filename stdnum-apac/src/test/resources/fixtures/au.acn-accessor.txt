@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+toAbn	002 724 334	43002724334

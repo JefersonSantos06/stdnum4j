@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+toIsin	91324PAE2	US91324PAE25

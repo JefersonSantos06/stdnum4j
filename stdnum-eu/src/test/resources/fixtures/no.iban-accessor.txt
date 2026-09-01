@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+toKontonr	NO93 8601 1117 947	86011117947

@@ -51,4 +51,19 @@ class AccessorsTest {
         assertThrows(ValidationException.class, () -> ThPin.INSTANCE.validate("0105536112014"));
         assertTrue(ThMoa.INSTANCE.isValid("0105536112014"));
     }
+
+    @Test
+    void theKindOfThaiNumberIsTheTypeThatAcceptedIt() {
+        assertEquals("th.moa", ThTin.kindOf("0-99-4-000-61772-1").descriptor().id());
+        assertEquals("th.moa", ThTin.kindOf("0234545678783").descriptor().id());
+        assertEquals("th.pin", ThTin.kindOf("1-2345-45678-78-1").descriptor().id());
+    }
+
+    @Test
+    void aVirtualIdIsOnlyMaskedWhenItIsOne() {
+        assertEquals("XXXX XXXX XXXX 2341", InVid.mask("2341234123412341"));
+        // python-stdnum masks anything; a number whose check digit is wrong is
+        // not a virtual ID, and dressing it up as one helps nobody
+        assertThrows(ValidationException.class, () -> InVid.mask("2341234123412342"));
+    }
 }

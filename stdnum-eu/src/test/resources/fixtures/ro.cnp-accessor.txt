@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+getCounty	1630615123457	Optional[Cluj]

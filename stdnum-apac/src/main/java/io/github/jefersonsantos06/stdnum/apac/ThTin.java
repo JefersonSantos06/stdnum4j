@@ -70,6 +70,9 @@ public final class ThTin implements StdNum {
     @Override
     public String format(String number) {
         StdNum kind = kindOf(number);
-        return kind == null ? compact(number) : kind.format(number);
+        if (kind == null) {
+            throw new InvalidFormatException("Neither a personal nor a company number.");
+        }
+        return kind.format(number);
     }
 }

@@ -1,5 +1,6 @@
 package io.github.jefersonsantos06.stdnum.international;
 
+import io.github.jefersonsantos06.stdnum.StdNums;
 import io.github.jefersonsantos06.stdnum.algo.Mod97;
 import io.github.jefersonsantos06.stdnum.numdb.NumDb;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
@@ -24,6 +25,12 @@ import java.util.regex.Pattern;
  * structure live in {@code iban.dat}; unknown countries are rejected as an
  * invalid component, and the BBAN is matched against the registered
  * structure ({@code 8!n16!c} notation).</p>
+ *
+ * <p>Several countries also give their account numbers a national check of
+ * their own, which the registered structure cannot express. Where the
+ * country's own type is on the classpath ({@code es.iban} and the like) the
+ * number is handed to it as well, so a Spanish IBAN whose CCC check digits
+ * are wrong is rejected here too.</p>
  */
 public final class Iban implements StdNum {
 
@@ -77,12 +84,13 @@ public final class Iban implements StdNum {
     }
 
     /**
-     * Validates the number, optionally without the country registry.
+     * Validates the number, optionally without the country's own rule.
      *
-     * @param checkCountry whether to require the country to be registered and
-     *                     its BBAN to match the structure registered for it.
-     *                     A national IBAN type applies its own rule to the
-     *                     BBAN and passes {@code false} here.
+     * <p>The checksum, the country registry and the registered BBAN structure
+     * are always checked. What {@code checkCountry} governs is the last step:
+     * handing the number to the country's own IBAN type, when one is
+     * registered. A national type calls this with {@code false}, since it is
+     * itself that step.</p>
      */
     public String validate(String number, boolean checkCountry) {
         String n = compact(number);
@@ -91,9 +99,6 @@ public final class Iban implements StdNum {
         }
         // rearranged checksum over the whole number
         Mod97.validate(n.substring(4) + n.substring(0, 4));
-        if (!checkCountry) {
-            return n;
-        }
         // country lookup
         NumDb.Entry country = registry().info(n).get(0);
         String structure = country.properties().get("bban");
@@ -104,6 +109,11 @@ public final class Iban implements StdNum {
         if (!structurePattern(structure).matcher(n.substring(4)).matches()) {
             throw new InvalidFormatException(
                     "The BBAN does not match the structure registered for " + n.substring(0, 2) + ".");
+        }
+        // the country's own rule, where the country has one on the classpath
+        if (checkCountry) {
+            StdNums.byCountry(n.substring(0, 2), "iban")
+                    .ifPresent(national -> national.validate(n));
         }
         return n;
     }

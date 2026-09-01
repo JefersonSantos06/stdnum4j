@@ -35,7 +35,7 @@ public final class EgTn implements StdNum {
 
     @Override
     public String compact(String number) {
-        return Strings.compact(number, " -");
+        return Strings.compact(number, " -/");
     }
 
     @Override

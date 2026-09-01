@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+getLabel	62.10	Computer programming activities

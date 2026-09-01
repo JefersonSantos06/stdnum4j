@@ -17,6 +17,10 @@ import java.util.List;
  * <p>They are tried in that order, so the kind with the tightest rules wins.
  * The ATIN comes last because the IRS publishes no structure for it, which
  * makes it accept any nine digits.</p>
+ *
+ * <p>{@code format} hands the number to the first kind that accepts it. A
+ * number that is no kind of TIN has no presentation and is refused, where
+ * python-stdnum returns its argument back verbatim, uncleaned.</p>
  */
 public final class UsTin implements StdNum {
 
@@ -71,6 +75,9 @@ public final class UsTin implements StdNum {
     @Override
     public String format(String number) {
         List<StdNum> kinds = kindsOf(number);
-        return kinds.isEmpty() ? compact(number) : kinds.get(0).format(number);
+        if (kinds.isEmpty()) {
+            throw new InvalidFormatException("No kind of TIN has this shape.");
+        }
+        return kinds.get(0).format(number);
     }
 }

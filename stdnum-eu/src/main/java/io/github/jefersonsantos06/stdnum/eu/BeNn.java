@@ -77,29 +77,66 @@ public final class BeNn implements StdNum {
     }
 
     /**
-     * The birth date encoded in the number, or {@code null} when it carries
-     * none: the date is sometimes only partly known, and a few serial numbers
+     * The birth date, part by part, with a zero standing for a part the
+     * number does not record. A date is sometimes only partly known: the day
+     * may be missing, or the month and day together, and a few serial numbers
      * stand for a date that was not known at all.
+     *
+     * @throws InvalidComponentException if the month is one no year has
      */
-    public static LocalDate getBirthDate(String number) {
+    private static int[] birthDateParts(String number) {
         String n = INSTANCE.compact(number);
         int century = getCentury(n);
         if (UNKNOWN_BIRTH_DATE.contains(n.substring(0, 6))) {
-            return null;
+            return new int[] {0, 0, 0};
         }
         int year = Integer.parseInt(n.substring(0, 2)) + century;
+        // the twenties and forties are the bis numbers, counting from the
+        // same months; and a zero month is one that was never recorded, or a
+        // day counter that ran out
         int month = Integer.parseInt(n.substring(2, 4)) % 20;
         int day = Integer.parseInt(n.substring(4, 6));
         if (month == 0) {
-            return null;
+            return new int[] {year, 0, 0};
         }
         if (month > 12) {
             throw new InvalidComponentException("The month must be in 1..12.");
         }
         if (day == 0 || day > YearMonth.of(year, month).lengthOfMonth()) {
-            return null;
+            return new int[] {year, month, 0};
         }
-        return LocalDate.of(year, month, day);
+        return new int[] {year, month, day};
+    }
+
+    /**
+     * The year of birth, or {@code null} when the number records none.
+     *
+     * @throws InvalidComponentException if the month is one no year has
+     */
+    public static Integer getBirthYear(String number) {
+        int year = birthDateParts(number)[0];
+        return year == 0 ? null : year;
+    }
+
+    /**
+     * The month of birth, or {@code null} when the number records none. A
+     * number can give the year and withhold the month.
+     *
+     * @throws InvalidComponentException if the month is one no year has
+     */
+    public static Integer getBirthMonth(String number) {
+        int month = birthDateParts(number)[1];
+        return month == 0 ? null : month;
+    }
+
+    /**
+     * The birth date encoded in the number, or {@code null} when the number
+     * does not record all three parts of it. What it does record is still
+     * available from {@link #getBirthYear} and {@link #getBirthMonth}.
+     */
+    public static LocalDate getBirthDate(String number) {
+        int[] parts = birthDateParts(number);
+        return parts[2] == 0 ? null : LocalDate.of(parts[0], parts[1], parts[2]);
     }
 
     /** The sex recorded in the number, {@code 'M'} or {@code 'F'}. */

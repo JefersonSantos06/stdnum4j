@@ -45,6 +45,23 @@ public final class InVid implements StdNum {
         return Strings.compact(number, " -");
     }
 
+    /** Written in four groups of four, as the Aadhaar it stands in for is. */
+    @Override
+    public String format(String number) {
+        String n = validate(number);
+        return n.substring(0, 4) + " " + n.substring(4, 8) + " "
+                + n.substring(8, 12) + " " + n.substring(12);
+    }
+
+    /**
+     * The number with everything but its last four digits struck out, which
+     * is how the Ministry of Electronics and Information Technology has it
+     * shown to anyone who does not need the whole of it.
+     */
+    public static String mask(String number) {
+        return "XXXX XXXX XXXX " + INSTANCE.validate(number).substring(12);
+    }
+
     @Override
     public String validate(String number) {
         String n = compact(number);

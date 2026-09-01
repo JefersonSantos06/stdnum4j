@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+mask	234123412346	XXXX XXXX 2346

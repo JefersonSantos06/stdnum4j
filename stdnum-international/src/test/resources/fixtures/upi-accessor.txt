@@ -1,0 +1,2 @@
+# What python-stdnum's own tests expect of these accessors.
+calcCheckDigit	QZK12RNSP6P	6

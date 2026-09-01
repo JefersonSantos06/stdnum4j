@@ -1,6 +1,6 @@
 # Data file generators
 
-The library ships two prefix databases that are **generated, never
+The library ships the prefix databases it needs **generated, never
 hand-edited**. Each one is produced by a single-file Java program here, so
 the data can always be traced back to its source and rebuilt from it.
 
@@ -74,6 +74,25 @@ javac -d tools/classes tools/Xlsx.java tools/GenerateNzBanksDat.java
 curl -L -o BankBranchRegister.xlsx   https://www.paymentsnz.co.nz/resources/industry-registers/bank-branch-register/download/xlsx/
 java -cp tools/classes GenerateNzBanksDat BankBranchRegister.xlsx   > stdnum-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/nz-banks.dat
 ```
+
+## oui.dat — the IEEE MAC address block registry
+
+Three registries, one per block size: MA-L assigns the first 24 bits of an
+address, MA-M the first 28 and MA-S the first 36. A medium or small block is
+always a subdivision of a large one, and is written nested under it. Blocks
+held by the Registration Authority itself, or registered privately, name no
+manufacturer and are left out — those are exactly the parents of the
+subdivided blocks.
+
+```bash
+curl -L -o oui.csv   https://standards-oui.ieee.org/oui/oui.csv
+curl -L -o mam.csv   https://standards-oui.ieee.org/oui28/mam.csv
+curl -L -o oui36.csv https://standards-oui.ieee.org/oui36/oui36.csv
+java tools/GenerateOuiDat.java oui.csv mam.csv oui36.csv   > stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/oui.dat
+```
+
+Consecutive blocks held by one organisation are joined into a range, which
+turns a company's run of hundreds of blocks into one entry.
 
 ## cfi.dat — the ISO 10962 classification
 

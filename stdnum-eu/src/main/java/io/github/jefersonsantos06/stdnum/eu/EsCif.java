@@ -66,4 +66,17 @@ public final class EsCif implements StdNum {
         }
         return n;
     }
+
+    /** The four components of a CIF: type letter, province, sequence and check. */
+    public record Parts(String organisationType, String province,
+                        String sequence, String checkDigit) {
+    }
+
+    /** Splits a valid CIF into its four components. */
+    public static Parts split(String number) {
+        String n = INSTANCE.validate(number);
+        return new Parts(n.substring(0, 1), n.substring(1, 3),
+                n.substring(3, 8), n.substring(8));
+    }
+
 }

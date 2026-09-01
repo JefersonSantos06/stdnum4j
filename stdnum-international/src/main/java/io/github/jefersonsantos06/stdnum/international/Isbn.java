@@ -8,6 +8,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.spi.ValidationException;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.List;
@@ -198,4 +199,18 @@ public final class Isbn implements StdNum {
         }
         return p.group() + "-" + p.publisher() + "-" + p.item() + "-" + n.charAt(9);
     }
+
+    /** Which form a valid number is in. */
+    public enum Type { ISBN10, ISBN13 }
+
+    /** The form of the number, or empty when it is not a valid ISBN. */
+    public static Optional<Type> isbnType(String number) {
+        try {
+            return Optional.of(INSTANCE.validate(number).length() == 10
+                    ? Type.ISBN10 : Type.ISBN13);
+        } catch (ValidationException e) {
+            return Optional.empty();
+        }
+    }
+
 }

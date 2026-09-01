@@ -66,4 +66,49 @@ public final class Ismn implements StdNum {
         String n = INSTANCE.validate(number);
         return n.length() == 13 ? n : "9790" + n.substring(1);
     }
+
+    /** The five parts of an ISMN in its 13-digit form. */
+    public record Parts(String bookland, String prefix, String publisher,
+                        String item, String checkDigit) {
+    }
+
+    /** Publisher element ranges: length, then the inclusive low and high bounds. */
+    private static final String[][] RANGES = {
+            {"3", "000", "099"}, {"4", "1000", "3999"}, {"5", "40000", "69999"},
+            {"6", "700000", "899999"}, {"7", "9000000", "9999999"}};
+
+    /**
+     * Splits the number into bookland prefix, ISMN prefix, publisher
+     * element, item element and check digit, converting to the 13-digit
+     * form first.
+     */
+    public static Parts split(String number) {
+        String n = convertTo13(number);
+        for (String[] range : RANGES) {
+            int length = Integer.parseInt(range[0]);
+            String candidate = n.substring(4, 4 + length);
+            if (candidate.compareTo(range[1]) >= 0 && candidate.compareTo(range[2]) <= 0) {
+                return new Parts(n.substring(0, 3), n.substring(3, 4), candidate,
+                        n.substring(4 + length, n.length() - 1),
+                        n.substring(n.length() - 1));
+            }
+        }
+        throw new InvalidComponentException("The publisher element is outside every range.");
+    }
+
+    /**
+     * Hyphenates the number between its parts, keeping the form it was
+     * given in. The 10-character form carries the same check digit as its
+     * 13-digit counterpart, so only the two leading elements differ.
+     */
+    @Override
+    public String format(String number) {
+        String n = validate(number);
+        Parts p = split(n);
+        return n.length() == 13
+                ? String.join("-", p.bookland(), p.prefix(), p.publisher(),
+                        p.item(), p.checkDigit())
+                : String.join("-", "M", p.publisher(), p.item(), p.checkDigit());
+    }
+
 }

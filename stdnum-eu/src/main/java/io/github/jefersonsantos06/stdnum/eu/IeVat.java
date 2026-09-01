@@ -91,4 +91,18 @@ public final class IeVat implements StdNum {
         }
         return n;
     }
+
+    /**
+     * Rewrites an old-style number, whose second character is a letter or
+     * symbol, into the new form where only the trailing character is a
+     * letter. Numbers already in the new form are returned unchanged.
+     */
+    public static String convert(String number) {
+        String n = INSTANCE.compact(number);
+        if (n.length() == 8 && !Strings.isDigits(n.substring(1, 2))) {
+            return "0" + n.substring(2, 7) + n.charAt(0) + n.substring(7);
+        }
+        return n;
+    }
+
 }

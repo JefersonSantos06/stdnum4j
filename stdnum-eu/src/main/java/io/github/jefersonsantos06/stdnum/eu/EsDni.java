@@ -62,4 +62,17 @@ public final class EsDni implements StdNum {
         }
         return n;
     }
+
+    /** The check letter for the eight-digit base. */
+    public static char calcCheckDigit(String base) {
+        String b = INSTANCE.compact(base);
+        if (!Strings.isDigits(b)) {
+            throw new InvalidFormatException();
+        }
+        if (b.length() != 8) {
+            throw new InvalidLengthException();
+        }
+        return checkLetter(b);
+    }
+
 }

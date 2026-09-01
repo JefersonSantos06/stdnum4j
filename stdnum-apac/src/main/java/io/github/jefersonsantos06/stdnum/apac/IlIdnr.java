@@ -54,4 +54,11 @@ public final class IlIdnr implements StdNum {
         Luhn.validate(n);
         return n;
     }
+
+    @Override
+    public String format(String number) {
+        String n = validate(number);
+        return n.substring(0, 8) + "-" + n.substring(8);
+    }
+
 }

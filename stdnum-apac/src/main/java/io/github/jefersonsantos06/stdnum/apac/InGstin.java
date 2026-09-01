@@ -83,4 +83,17 @@ public final class InGstin implements StdNum {
         Luhn.validate(n, ALPHABET);
         return n;
     }
+
+    /** The fields a GSTIN carries. */
+    public record Info(String stateCode, String pan, String initial,
+                       int registrationCount) {
+    }
+
+    /** The decomposed fields of a valid GSTIN. */
+    public static Info info(String number) {
+        String n = INSTANCE.validate(number);
+        return new Info(n.substring(0, 2), n.substring(2, 12),
+                n.substring(6, 7), ALPHABET.indexOf(n.charAt(12)));
+    }
+
 }

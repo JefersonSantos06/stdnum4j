@@ -95,4 +95,21 @@ public final class PlPesel implements StdNum {
         }
         return n;
     }
+
+    /** The check digit for the ten-digit base. */
+    public static char calcCheckDigit(String base) {
+        String b = INSTANCE.compact(base);
+        if (!Strings.isDigits(b)) {
+            throw new InvalidFormatException();
+        }
+        if (b.length() != 10) {
+            throw new InvalidLengthException();
+        }
+        int sum = 0;
+        for (int i = 0; i < WEIGHTS.length; i++) {
+            sum += WEIGHTS[i] * (b.charAt(i) - '0');
+        }
+        return (char) ('0' + (10 - sum % 10) % 10);
+    }
+
 }

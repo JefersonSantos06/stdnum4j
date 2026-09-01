@@ -83,4 +83,19 @@ public final class InPan implements StdNum {
         }
         return n;
     }
+
+    /**
+     * The number with the four serial digits masked, following the CBDT
+     * masking standard: {@code AAPPV8261K} becomes {@code AAPPVXXXXK}.
+     */
+    public static String mask(String number) {
+        String n = INSTANCE.validate(number);
+        return n.substring(0, 5) + "XXXX" + n.substring(9);
+    }
+
+    /** The initial of the holder's name or surname, in the fifth position. */
+    public static char initial(String number) {
+        return INSTANCE.validate(number).charAt(4);
+    }
+
 }

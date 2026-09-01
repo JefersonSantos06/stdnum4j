@@ -94,4 +94,12 @@ public final class SnNinea implements StdNum {
             throw new InvalidComponentException("Unknown COFI legal structure.");
         }
     }
+
+    @Override
+    public String format(String number) {
+        String n = validate(number);
+        // the COFI, when present, is set off from the numeric part
+        return n.length() > 9 ? n.substring(0, n.length() - 3) + " " + n.substring(n.length() - 3) : n;
+    }
+
 }

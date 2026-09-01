@@ -7,6 +7,8 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.regex.Pattern;
+
 import java.util.Set;
 
 /**
@@ -32,6 +34,9 @@ public final class UsSsn implements StdNum {
     private static final Set<String> BLACKLIST =
             Set.of("078051120", "457555462", "219099999");
 
+    /** The separators, if written, sit after the area and the group. */
+    private static final Pattern STRUCTURE = Pattern.compile("[0-9]{3}-?[0-9]{2}-?[0-9]{4}");
+
     private UsSsn() {
     }
 
@@ -47,6 +52,9 @@ public final class UsSsn implements StdNum {
 
     @Override
     public String validate(String number) {
+        if (!STRUCTURE.matcher(Strings.compact(number, "")).matches()) {
+            throw new InvalidFormatException();
+        }
         String n = compact(number);
         if (!Strings.isDigits(n) || n.length() != 9) {
             throw new InvalidFormatException();

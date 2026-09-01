@@ -67,4 +67,19 @@ public final class Imei implements StdNum {
         return n.substring(0, 2) + "-" + n.substring(2, 8) + "-"
                 + n.substring(8, 14) + (n.length() > 14 ? "-" + n.substring(14) : "");
     }
+
+    /** The three parts of an IMEI: allocation code, serial and tail. */
+    public record Parts(String typeAllocationCode, String serialNumber, String tail) {
+    }
+
+    /**
+     * Splits the number into its Type Allocation Code, serial number and
+     * tail — the check digit for an IMEI, the software version for an
+     * IMEISV, and empty for the 14-digit form.
+     */
+    public static Parts split(String number) {
+        String n = INSTANCE.validate(number);
+        return new Parts(n.substring(0, 8), n.substring(8, 14), n.substring(14));
+    }
+
 }

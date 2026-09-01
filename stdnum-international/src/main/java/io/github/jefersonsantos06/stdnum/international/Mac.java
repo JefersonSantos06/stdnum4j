@@ -83,4 +83,20 @@ public final class Mac implements StdNum {
     public static String oui(String number) {
         return INSTANCE.validate(number).substring(0, 8).replace(":", "").toUpperCase(Locale.ROOT);
     }
+
+    /** The upper-case dash-separated EUI-48 spelling of the address. */
+    public static String toEui48(String number) {
+        return INSTANCE.validate(number).replace(':', '-').toUpperCase(Locale.ROOT);
+    }
+
+    /** Whether the address is the broadcast address. */
+    public static boolean isBroadcast(String number) {
+        return "ff:ff:ff:ff:ff:ff".equals(INSTANCE.validate(number));
+    }
+
+    /** Whether the address is globally unique rather than locally assigned. */
+    public static boolean isUnicast(String number) {
+        return !isMulticast(number);
+    }
+
 }

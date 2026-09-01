@@ -79,4 +79,16 @@ public final class Isin implements StdNum {
         }
         return sb.toString();
     }
+
+    /**
+     * Builds an ISIN from a national security identifier, zero-padding the
+     * identifier to the nine characters the format reserves for it.
+     */
+    public static String fromNationalId(String countryCode, String number) {
+        String n = INSTANCE.compact(number);
+        String padded = n.length() < 9 ? "0".repeat(9 - n.length()) + n : n;
+        String base = countryCode.toUpperCase(Locale.ROOT) + padded;
+        return base + calcCheckDigit(base);
+    }
+
 }

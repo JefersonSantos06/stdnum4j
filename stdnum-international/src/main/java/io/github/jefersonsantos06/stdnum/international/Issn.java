@@ -77,4 +77,17 @@ public final class Issn implements StdNum {
         String base = "977" + INSTANCE.validate(number).substring(0, 7) + "00";
         return base + Ean.calcCheckDigit(base);
     }
+
+    /**
+     * The 13-digit EAN of this ISSN for a given issue code, which
+     * identifies the individual issue within the serial.
+     */
+    public static String toEan(String number, String issueCode) {
+        if (issueCode == null || issueCode.length() != 2 || !Strings.isDigits(issueCode)) {
+            throw new InvalidFormatException("The issue code is two digits.");
+        }
+        String base = "977" + INSTANCE.validate(number).substring(0, 7) + issueCode;
+        return base + Ean.calcCheckDigit(base);
+    }
+
 }

@@ -57,4 +57,16 @@ public final class EsNie implements StdNum {
         }
         return n;
     }
+
+    /** The check letter for an eight-character base starting with X, Y or Z. */
+    public static char calcCheckDigit(String base) {
+        String b = INSTANCE.compact(base);
+        if (b.length() != 8 || "XYZ".indexOf(b.charAt(0)) < 0
+                || !Strings.isDigits(b.substring(1))) {
+            throw new InvalidFormatException();
+        }
+        // the leading letter stands in for a digit: X=0, Y=1, Z=2
+        return EsDni.checkLetter("XYZ".indexOf(b.charAt(0)) + b.substring(1));
+    }
+
 }

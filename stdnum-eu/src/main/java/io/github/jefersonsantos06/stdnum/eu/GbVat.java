@@ -104,4 +104,16 @@ public final class GbVat implements StdNum {
                     "Not a valid government department or health authority number.");
         }
     }
+
+    @Override
+    public String format(String number) {
+        String n = validate(number);
+        if (n.length() == 5 || n.length() == 11) {
+            // government department and health authority numbers are not grouped
+            return n;
+        }
+        String grouped = n.substring(0, 3) + " " + n.substring(3, 7) + " " + n.substring(7, 9);
+        return n.length() == 12 ? grouped + " " + n.substring(9) : grouped;
+    }
+
 }

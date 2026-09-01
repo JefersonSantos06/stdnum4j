@@ -105,4 +105,18 @@ public final class KrRrn implements StdNum {
         String n = validate(number);
         return n.substring(0, 6) + "-" + n.substring(6);
     }
+
+    /**
+     * Validates the number, optionally rejecting birth dates in the future.
+     * The plain {@link #validate(String)} allows them, since the number is
+     * issued at birth and registries do carry forward-dated records.
+     */
+    public static String validate(String number, boolean allowFuture) {
+        String n = INSTANCE.validate(number);
+        if (!allowFuture && getBirthDate(n).isAfter(java.time.LocalDate.now())) {
+            throw new InvalidComponentException("The birth date is in the future.");
+        }
+        return n;
+    }
+
 }

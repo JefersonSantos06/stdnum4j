@@ -92,4 +92,25 @@ public final class DkCpr implements StdNum {
         String n = validate(number);
         return n.substring(0, 6) + "-" + n.substring(6);
     }
+
+    /**
+     * The legacy mod 11 checksum, which valid numbers used to fold to zero.
+     *
+     * <p>It was abandoned in 2007 when the sequence numbers ran out, so
+     * {@link #validate(String)} deliberately does not apply it. It remains
+     * available for numbers known to predate the change.</p>
+     */
+    public static int checksum(String number) {
+        String n = INSTANCE.compact(number);
+        if (!Strings.isDigits(n) || n.length() != 10) {
+            throw new InvalidFormatException();
+        }
+        int[] weights = {4, 3, 2, 7, 6, 5, 4, 3, 2, 1};
+        int sum = 0;
+        for (int i = 0; i < weights.length; i++) {
+            sum += weights[i] * (n.charAt(i) - '0');
+        }
+        return sum % 11;
+    }
+
 }

@@ -67,4 +67,11 @@ public final class AuAcn implements StdNum {
         String n = validate(number);
         return n.substring(0, 3) + " " + n.substring(3, 6) + " " + n.substring(6);
     }
+
+    /** The ABN derived from this company number, by prepending its check digits. */
+    public static String toAbn(String number) {
+        String n = INSTANCE.validate(number);
+        return AuAbn.calcCheckDigits(n) + n;
+    }
+
 }

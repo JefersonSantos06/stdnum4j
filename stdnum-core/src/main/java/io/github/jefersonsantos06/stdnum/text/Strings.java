@@ -65,12 +65,19 @@ public final class Strings {
 
     /**
      * Maps one code point to its ASCII counterpart, or returns the code point
-     * unchanged. Handles fullwidth digits (U+FF10..U+FF19) and the
-     * mathematical digit blocks (U+1D7CE..U+1D7FF) by range.
+     * unchanged. Handles fullwidth digits (U+FF10..U+FF19), the Arabic-Indic
+     * digits (U+0660.. and U+06F0..) and the mathematical digit blocks
+     * (U+1D7CE..U+1D7FF) by range.
      */
     private static int mapCodePoint(int cp) {
         if (cp >= 0xFF10 && cp <= 0xFF19) {
             return '0' + (cp - 0xFF10);
+        }
+        if (cp >= 0x0660 && cp <= 0x0669) {
+            return '0' + (cp - 0x0660);
+        }
+        if (cp >= 0x06F0 && cp <= 0x06F9) {
+            return '0' + (cp - 0x06F0);
         }
         if (cp >= 0x1D7CE && cp <= 0x1D7FF) {
             return '0' + ((cp - 0x1D7CE) % 10);

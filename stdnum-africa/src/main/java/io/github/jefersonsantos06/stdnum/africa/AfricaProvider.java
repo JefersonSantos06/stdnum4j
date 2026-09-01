@@ -11,6 +11,16 @@ public final class AfricaProvider implements StdNumProvider {
 
     @Override
     public Collection<StdNum> numbers() {
-        return List.of(ZaIdnr.INSTANCE, ZaTin.INSTANCE);
+        return List.of(
+                DzNif.INSTANCE,
+                EgTn.INSTANCE,
+                GhTin.INSTANCE,
+                KePin.INSTANCE,
+                MaIce.INSTANCE,
+                MuNid.INSTANCE,
+                MzNuit.INSTANCE,
+                SnNinea.INSTANCE,
+                ZaIdnr.INSTANCE,
+                ZaTin.INSTANCE);
     }
 }

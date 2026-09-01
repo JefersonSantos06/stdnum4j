@@ -30,6 +30,13 @@ class StringsTest {
     }
 
     @Test
+    void cleanMapsArabicIndicDigits() {
+        // Arabic-Indic and extended Arabic-Indic digits, as used in Egypt
+        assertEquals("123", Strings.clean("١٢٣"));
+        assertEquals("456", Strings.clean("۴۵۶"));
+    }
+
+    @Test
     void cleanMapsUnicodeSpaces() {
         // no-break space, ideographic space removed as declared separators
         assertEquals("12", Strings.clean("1 　2", " "));

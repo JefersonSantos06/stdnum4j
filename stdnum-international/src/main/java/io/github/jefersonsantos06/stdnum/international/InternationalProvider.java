@@ -12,11 +12,18 @@ public final class InternationalProvider implements StdNumProvider {
     @Override
     public Collection<StdNum> numbers() {
         return List.of(
-                Iban.INSTANCE,
-                Isbn.INSTANCE,
-                Ean.INSTANCE,
-                Isin.INSTANCE,
                 Bic.INSTANCE,
+                CasRn.INSTANCE,
+                Cusip.INSTANCE,
+                Ean.INSTANCE,
+                Iban.INSTANCE,
+                Imei.INSTANCE,
+                Imo.INSTANCE,
+                Isbn.INSTANCE,
+                Isin.INSTANCE,
+                Ismn.INSTANCE,
+                Issn.INSTANCE,
+                Lei.INSTANCE,
                 Vatin.INSTANCE);
     }
 }

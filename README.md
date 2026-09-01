@@ -44,8 +44,8 @@ StdNums.byTag(Tag.TAX);
 | `stdnum-tck`  | Reusable JUnit 5 contract tests for `StdNum` implementations. |
 | `stdnum-international` | Country-independent formats: IBAN, ISBN, ISSN, ISMN, ISNI, EAN/GTIN, ISIN, CUSIP, SEDOL, FIGI, BIC, IMEI, MAC, LEI, IMO, CAS RN, ISO 6346, ISO 11649 and the VATIN dispatcher. |
 | `stdnum-br` | Brazil: CPF, CNPJ (including the 2026 alphanumeric format), PIS/PASEP, CNS, titulo de eleitor, RENAVAM, NF-e access key, the FEBRABAN payment slip, the Pix BR Code and the state tax registrations of all 27 federative units. |
-| `stdnum-eu` | Europe: 48 types across AT, BE, BG, CH, CY, CZ, DE, DK, EE, ES, FI, FR, GB, GR, HR, HU, IE, IS, IT, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI and SK. |
-| `stdnum-latam` | Latin America: AR, CL, CO, CU, EC, GT, PE, PY, UY and VE. |
+| `stdnum-eu` | Europe: 58 types across AD, AL, AT, AZ, BE, BG, CH, CY, CZ, DE, DK, EE, ES, FI, FO, FR, GB, GR, HR, HU, IE, IS, IT, LI, LT, LU, LV, MD, ME, MK, MT, NL, NO, PL, PT, RO, RS, SE, SI, SK and UA. |
+| `stdnum-latam` | Latin America: AR, CL, CO, CR, CU, DO, EC, GT, MX, PE, PY, SV, UY and VE. |
 | `stdnum-na` | North America: the US SSN, ITIN, EIN and routing number, and the Canadian SIN and business number. |
 | `stdnum-apac` | Asia-Pacific and beyond: AU, CN, ID, IL, IN, JP, KR, MY, NZ, RU, SG, TH and TR. |
 | `stdnum-africa` | Africa: DZ, EG, GH, KE, MA, MU, MZ, SN and ZA. |

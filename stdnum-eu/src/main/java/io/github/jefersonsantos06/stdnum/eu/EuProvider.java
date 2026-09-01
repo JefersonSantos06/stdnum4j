@@ -12,7 +12,10 @@ public final class EuProvider implements StdNumProvider {
     @Override
     public Collection<StdNum> numbers() {
         return List.of(
+                AdNrt.INSTANCE,
+                AlNipt.INSTANCE,
                 AtUid.INSTANCE,
+                AzVoen.INSTANCE,
                 BeVat.INSTANCE,
                 BgEgn.INSTANCE,
                 BgPnf.INSTANCE,
@@ -32,6 +35,7 @@ public final class EuProvider implements StdNumProvider {
                 EsNif.INSTANCE,
                 FiAlv.INSTANCE,
                 FiYtunnus.INSTANCE,
+                FoVn.INSTANCE,
                 FrSiren.INSTANCE,
                 FrSiret.INSTANCE,
                 FrTva.INSTANCE,
@@ -42,9 +46,13 @@ public final class EuProvider implements StdNumProvider {
                 IeVat.INSTANCE,
                 IsKennitala.INSTANCE,
                 ItIva.INSTANCE,
+                LiPeid.INSTANCE,
                 LtPvm.INSTANCE,
                 LuTva.INSTANCE,
                 LvPvn.INSTANCE,
+                MdIdno.INSTANCE,
+                MePib.INSTANCE,
+                MkEdb.INSTANCE,
                 MtVat.INSTANCE,
                 NlBsn.INSTANCE,
                 NlBtw.INSTANCE,
@@ -55,10 +63,12 @@ public final class EuProvider implements StdNumProvider {
                 PlRegon.INSTANCE,
                 PtNif.INSTANCE,
                 RoCui.INSTANCE,
+                RsPib.INSTANCE,
                 SeOrgnr.INSTANCE,
                 SeVat.INSTANCE,
                 SiDdv.INSTANCE,
                 SkDph.INSTANCE,
-                SkRc.INSTANCE);
+                SkRc.INSTANCE,
+                UaEdrpou.INSTANCE);
     }
 }

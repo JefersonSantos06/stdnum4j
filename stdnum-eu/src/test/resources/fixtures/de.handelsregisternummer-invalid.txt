@@ -1,0 +1,5 @@
+Nowhere HRB 1234
+Amberg XXX 1234
+Amberg HRB 0
+Amberg HRB
+HRB 1234

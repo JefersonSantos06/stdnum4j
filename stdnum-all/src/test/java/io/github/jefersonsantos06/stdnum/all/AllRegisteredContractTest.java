@@ -40,9 +40,9 @@ class AllRegisteredContractTest {
             assertTrue(StdNums.byId(id).isPresent(), id);
             assertTrue(StdNums.byId(id).orElseThrow().descriptor().country().isEmpty(), id);
         }
-        assertEquals(9, StdNums.byCountry("ES").size());
+        assertEquals(10, StdNums.byCountry("ES").size());
         assertEquals(7, StdNums.byCountry("FR").size());
-        assertEquals(259, StdNums.all().size());
+        assertEquals(273, StdNums.all().size());
     }
 
     @TestFactory

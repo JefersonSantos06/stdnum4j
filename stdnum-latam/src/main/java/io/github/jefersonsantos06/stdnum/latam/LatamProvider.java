@@ -22,6 +22,7 @@ public final class LatamProvider implements StdNumProvider {
                 CrCr.INSTANCE,
                 CuNi.INSTANCE,
                 DoCedula.INSTANCE,
+                DoNcf.INSTANCE,
                 DoRnc.INSTANCE,
                 EcCi.INSTANCE,
                 EcRuc.INSTANCE,

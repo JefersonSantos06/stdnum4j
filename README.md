@@ -42,12 +42,12 @@ StdNums.byTag(Tag.TAX);
 |---|---|
 | `stdnum-core` | SPI, exceptions, check digit algorithms (Luhn, Damm, Verhoeff, ISO 7064, Mod 97-10, weighted mod 11, CRC-16), the NumDb prefix database and the registry. Zero dependencies. |
 | `stdnum-tck` | Reusable JUnit 5 contract tests for `StdNum` implementations. |
-| `stdnum-international` | Country-independent formats: IBAN, ISBN, ISSN, ISMN, ISNI, EAN/GTIN, ISIN, CUSIP, SEDOL, FIGI, BIC, IMEI, MAC, LEI, IMO, CAS RN, ISO 6346, ISO 11649, GRid, ISAN, ISRC, MEID, UPI and the VATIN and EU VAT dispatchers. |
+| `stdnum-international` | Country-independent formats: IBAN, ISBN, ISSN, ISMN, ISNI, EAN/GTIN, ISIN, CUSIP, SEDOL, FIGI, BIC, IMEI, MAC, LEI, IMO, CAS RN, ISO 6346, ISO 11649, GRid, ISAN, ISRC, MEID, UPI, CFI, IMSI, the GS1-128 element string, the Bitcoin address and the VATIN and EU VAT dispatchers. |
 | `stdnum-br` | Brazil: CPF, CNPJ (including the 2026 alphanumeric format), PIS/PASEP, CNS, titulo de eleitor, RENAVAM, NF-e access key, the FEBRABAN payment slip, the Pix BR Code and the state tax registrations of all 27 federative units. |
-| `stdnum-eu` | Europe: 122 types across AD, AL, AT, AZ, BE, BG, BY, CH, CY, CZ, DE, DK, EE, ES, FI, FO, FR, GB, GR, HR, HU, IE, IS, IT, LI, LT, LU, LV, MC, MD, ME, MK, MT, NL, NO, PL, PT, RO, RS, SE, SI, SK, SM and UA, plus the EU-wide SEPA creditor identifier and One Stop Shop numbers. |
+| `stdnum-eu` | Europe: 128 types across AD, AL, AT, AZ, BE, BG, BY, CH, CY, CZ, DE, DK, EE, ES, FI, FO, FR, GB, GR, HR, HU, IE, IS, IT, LI, LT, LU, LV, MC, MD, ME, MK, MT, NL, NO, PL, PT, RO, RS, SE, SI, SK, SM and UA, plus the EU-wide SEPA creditor identifier and One Stop Shop numbers. |
 | `stdnum-latam` | Latin America: AR, CL, CO, CR, CU, DO, EC, GT, MX, PE, PY, SV, UY and VE. |
 | `stdnum-na` | North America: the US SSN, ITIN, EIN, PTIN, ATIN, the TIN that is whichever of them a taxpayer holds, and the routing number; and the Canadian SIN, business number and British Columbia health number. |
-| `stdnum-apac` | Asia-Pacific and beyond: AU, CN, ID, IL, IN, JP, KR, MY, NZ, OM, PK, RU, SG, TH, TR, TW and VN. |
+| `stdnum-apac` | Asia-Pacific and beyond: AU, CN, ID, IL, IN, JP, KR, MY, NZ, OM, PK, RU, SG, TH, TR, TW and VN, including the Chinese identity card and the New Zealand bank account. |
 | `stdnum-africa` | Africa: DZ, EG, GH, GN, KE, MA, MU, MZ, SN, TN and ZA. |
 | `stdnum-all` | Aggregator depending on every module, with a registry-wide contract sweep. |
 
@@ -59,9 +59,15 @@ importing them.
 
 ## Data files
 
-`iban.dat` and `isbn.dat` are generated from their upstream registries,
-never hand-edited. The generators live in [`tools/`](tools/README.md),
-which documents how to rebuild each file.
+The prefix databases are generated from their upstream registries, never
+hand-edited: the IBAN and ISBN registries, the Austrian postcodes, the
+Czech, Belgian and New Zealand bank registers, the ISO 10962 CFI
+classification, the mobile country and network codes, the Chinese
+administrative division codes, the GS1 application identifiers, the NACE
+classification, the Austrian tax offices and the Indonesian regions. The generators live in
+[`tools/`](tools/README.md), which documents how to rebuild each file. They
+have no dependencies: the two published as spreadsheets are read with the
+JDK alone, an xlsx being a zip of XML.
 
 ## Build
 

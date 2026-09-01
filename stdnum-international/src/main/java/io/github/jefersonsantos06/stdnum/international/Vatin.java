@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.spi.ValidationException;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.List;
@@ -85,13 +86,26 @@ public final class Vatin implements StdNum {
     public String compact(String number) {
         String n = Strings.compact(number, "");
         String cc = countryOf(n);
-        return cc + moduleFor(cc).compact(n.substring(2));
+        StdNum module = moduleFor(cc);
+        try {
+            return cc + module.compact(n.substring(2));
+        } catch (ValidationException e) {
+            return module.compact(n);
+        }
     }
 
     @Override
     public String validate(String number) {
         String n = Strings.compact(number, "");
         String cc = countryOf(n);
-        return cc + moduleFor(cc).validate(n.substring(2));
+        StdNum module = moduleFor(cc);
+        try {
+            return cc + module.validate(n.substring(2));
+        } catch (ValidationException e) {
+            // Some national numbers carry the country code inside the number
+            // itself (the Swiss CHE prefix, for one), so the prefix must not
+            // be stripped: hand the whole string to the country module.
+            return module.validate(n);
+        }
     }
 }

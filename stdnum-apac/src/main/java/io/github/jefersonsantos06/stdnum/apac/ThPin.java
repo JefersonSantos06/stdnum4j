@@ -2,6 +2,7 @@ package io.github.jefersonsantos06.stdnum.apac;
 
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
+import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
@@ -56,6 +57,12 @@ public final class ThPin implements StdNum {
         }
         if (!Strings.isDigits(n)) {
             throw new InvalidFormatException();
+        }
+        if (n.charAt(0) == '0' || n.charAt(0) == '9') {
+            // 0 marks a number issued by the Department of Business
+            // Development (see ThMoa) and 9 is not assigned to people
+            throw new InvalidComponentException(
+                    "A personal identification number does not start with 0 or 9.");
         }
         if (n.charAt(12) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

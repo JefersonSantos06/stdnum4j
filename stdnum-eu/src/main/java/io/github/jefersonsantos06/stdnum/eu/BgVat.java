@@ -61,13 +61,25 @@ public final class BgVat implements StdNum {
         return (char) ('0' + check % 10);
     }
 
-    /** The check digit of an "other" ten-digit number, from its first nine digits. */
+    /**
+     * The check digit of an "other" ten-digit number, from its first nine
+     * digits.
+     *
+     * <p>The rule is {@code (11 - sum) mod 11}, which can yield 10 — a value
+     * with no single-digit representation. Such a base can never produce a
+     * valid number, so this throws instead of folding 10 down to 0, which
+     * would let numbers through that the rule rejects.</p>
+     */
     public static char calcCheckDigitOther(String base) {
         int sum = 0;
         for (int i = 0; i < OTHER_WEIGHTS.length && i < base.length(); i++) {
             sum += OTHER_WEIGHTS[i] * (base.charAt(i) - '0');
         }
-        return (char) ('0' + Math.floorMod(11 - sum, 11) % 10);
+        int check = Math.floorMod(11 - sum, 11);
+        if (check == 10) {
+            throw new InvalidChecksumException("No valid check digit exists for this number.");
+        }
+        return (char) ('0' + check);
     }
 
     @Override
@@ -81,15 +93,23 @@ public final class BgVat implements StdNum {
                 throw new InvalidChecksumException();
             }
         } else if (n.length() == 10) {
-            boolean valid = BgEgn.INSTANCE.isValid(n)
-                    || BgPnf.INSTANCE.isValid(n)
-                    || n.charAt(9) == calcCheckDigitOther(n.substring(0, 9));
-            if (!valid) {
+            if (!BgEgn.INSTANCE.isValid(n) && !BgPnf.INSTANCE.isValid(n)
+                    && !matchesOtherCheckDigit(n)) {
                 throw new InvalidChecksumException();
             }
         } else {
             throw new InvalidLengthException();
         }
         return n;
+    }
+
+    /** Whether the "other" rule yields a check digit and it matches. */
+    private static boolean matchesOtherCheckDigit(String n) {
+        try {
+            return n.charAt(9) == calcCheckDigitOther(n.substring(0, 9));
+        } catch (InvalidChecksumException e) {
+            // the base has no representable check digit, so it cannot match
+            return false;
+        }
     }
 }

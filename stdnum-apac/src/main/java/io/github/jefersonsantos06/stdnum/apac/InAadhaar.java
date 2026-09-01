@@ -51,6 +51,9 @@ public final class InAadhaar implements StdNum {
         if (!STRUCTURE.matcher(n).matches()) {
             throw new InvalidFormatException();
         }
+        if (n.contentEquals(new StringBuilder(n).reverse())) {
+            throw new InvalidFormatException("An Aadhaar cannot be a palindrome.");
+        }
         Verhoeff.validate(n);
         return n;
     }

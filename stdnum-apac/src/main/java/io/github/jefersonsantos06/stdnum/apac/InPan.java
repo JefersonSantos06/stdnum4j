@@ -43,6 +43,7 @@ public final class InPan implements StdNum {
             Map.entry('G', "Government Agency"),
             Map.entry('H', "Hindu Undivided Family (HUF)"),
             Map.entry('J', "Artificial Juridical Person"),
+            Map.entry('K', "Krish (Trust Krish)"),
             Map.entry('L', "Local Authority"),
             Map.entry('P', "Individual"),
             Map.entry('T', "Trust"));

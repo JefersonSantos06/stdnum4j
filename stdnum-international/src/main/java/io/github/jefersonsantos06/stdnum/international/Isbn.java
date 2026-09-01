@@ -58,7 +58,9 @@ public final class Isbn implements StdNum {
 
     @Override
     public String compact(String number) {
-        return Strings.compact(number, " -").toUpperCase(Locale.ROOT);
+        String n = Strings.compact(number, " -").toUpperCase(Locale.ROOT);
+        // an ISBN-10 whose leading zero was dropped is still an ISBN-10
+        return n.length() == 9 ? "0" + n : n;
     }
 
     @Override
@@ -119,7 +121,9 @@ public final class Isbn implements StdNum {
 
     /** The ISBN-10 check character for a 9-digit base. */
     public static char calcCheckDigit10(String base) {
-        String b = INSTANCE.compact(base);
+        // note: not INSTANCE.compact, which zero-pads a 9-character *number*
+        // to ISBN-10 — here nine characters are the expected base
+        String b = Strings.compact(base, " -").toUpperCase(Locale.ROOT);
         if (!Strings.isDigits(b)) {
             throw new InvalidFormatException();
         }

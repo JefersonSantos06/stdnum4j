@@ -18,6 +18,7 @@ public final class InternationalProvider implements StdNumProvider {
                 Ean.INSTANCE,
                 EuVat.INSTANCE,
                 Figi.INSTANCE,
+                Grid.INSTANCE,
                 Iban.INSTANCE,
                 Imei.INSTANCE,
                 Imo.INSTANCE,
@@ -27,10 +28,12 @@ public final class InternationalProvider implements StdNumProvider {
                 Isni.INSTANCE,
                 Iso11649.INSTANCE,
                 Iso6346.INSTANCE,
+                Isrc.INSTANCE,
                 Issn.INSTANCE,
                 Lei.INSTANCE,
                 Mac.INSTANCE,
                 Sedol.INSTANCE,
+                Upi.INSTANCE,
                 Vatin.INSTANCE);
     }
 }

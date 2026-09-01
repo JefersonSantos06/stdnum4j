@@ -42,7 +42,7 @@ class AllRegisteredContractTest {
         }
         assertEquals(6, StdNums.byCountry("ES").size());
         assertEquals(6, StdNums.byCountry("FR").size());
-        assertEquals(242, StdNums.all().size());
+        assertEquals(248, StdNums.all().size());
     }
 
     @TestFactory

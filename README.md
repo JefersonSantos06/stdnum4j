@@ -44,7 +44,7 @@ StdNums.byTag(Tag.TAX);
 | `stdnum-tck`  | Reusable JUnit 5 contract tests for `StdNum` implementations. |
 | `stdnum-international` | Country-independent formats: IBAN, ISBN, ISSN, ISMN, ISNI, EAN/GTIN, ISIN, CUSIP, SEDOL, FIGI, BIC, IMEI, MAC, LEI, IMO, CAS RN, ISO 6346, ISO 11649 and the VATIN and EU VAT dispatchers. |
 | `stdnum-br` | Brazil: CPF, CNPJ (including the 2026 alphanumeric format), PIS/PASEP, CNS, titulo de eleitor, RENAVAM, NF-e access key, the FEBRABAN payment slip, the Pix BR Code and the state tax registrations of all 27 federative units. |
-| `stdnum-eu` | Europe: 94 types across AD, AL, AT, AZ, BE, BG, BY, CH, CY, CZ, DE, DK, EE, ES, FI, FO, FR, GB, GR, HR, HU, IE, IS, IT, LI, LT, LU, LV, MC, MD, ME, MK, MT, NL, NO, PL, PT, RO, RS, SE, SI, SK and UA, plus the EU-wide SEPA creditor identifier and One Stop Shop numbers. |
+| `stdnum-eu` | Europe: 99 types across AD, AL, AT, AZ, BE, BG, BY, CH, CY, CZ, DE, DK, EE, ES, FI, FO, FR, GB, GR, HR, HU, IE, IS, IT, LI, LT, LU, LV, MC, MD, ME, MK, MT, NL, NO, PL, PT, RO, RS, SE, SI, SK and UA, plus the EU-wide SEPA creditor identifier and One Stop Shop numbers. |
 | `stdnum-latam` | Latin America: AR, CL, CO, CR, CU, DO, EC, GT, MX, PE, PY, SV, UY and VE. |
 | `stdnum-na` | North America: the US SSN, ITIN, EIN, PTIN, ATIN, the TIN that is whichever of them a taxpayer holds, and the routing number; and the Canadian SIN and business number. |
 | `stdnum-apac` | Asia-Pacific and beyond: AU, CN, ID, IL, IN, JP, KR, MY, NZ, OM, PK, RU, SG, TH, TR, TW and VN. |

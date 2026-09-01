@@ -12,6 +12,7 @@ public final class LatamProvider implements StdNumProvider {
     @Override
     public Collection<StdNum> numbers() {
         return List.of(
+                ArCbu.INSTANCE,
                 ArCuit.INSTANCE,
                 ArDni.INSTANCE,
                 ClRut.INSTANCE,

@@ -22,6 +22,9 @@ public enum Tag {
     /** Bank accounts, bank codes and payment references. */
     BANK,
 
+    /** Payment instruments: payment slips, transfer references, QR payloads. */
+    PAYMENT,
+
     /** Financial instruments and securities (ISIN, CUSIP, ...). */
     FINANCIAL,
 

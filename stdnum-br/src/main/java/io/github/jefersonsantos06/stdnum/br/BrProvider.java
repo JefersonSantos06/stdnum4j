@@ -20,7 +20,10 @@ public final class BrProvider implements StdNumProvider {
                 Cns.INSTANCE,
                 TituloEleitor.INSTANCE,
                 Renavam.INSTANCE,
-                ChaveNfe.INSTANCE));
+                ChaveNfe.INSTANCE,
+                CodigoBarras.INSTANCE,
+                LinhaDigitavel.INSTANCE,
+                BrCode.INSTANCE));
         numbers.addAll(InscricaoEstadual.all());
         return numbers;
     }

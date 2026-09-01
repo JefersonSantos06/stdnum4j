@@ -31,7 +31,7 @@ class AllRegisteredContractTest {
     @Test
     void registryIsPopulated() {
         // 7 national numbers + 27 state registrations
-        assertEquals(34, StdNums.byCountry("BR").size());
+        assertEquals(37, StdNums.byCountry("BR").size());
         assertTrue(StdNums.byId("br.cpf").isPresent());
         assertTrue(StdNums.byId("br.ie.sp").isPresent());
         // international types carry no country and are found by id
@@ -42,7 +42,7 @@ class AllRegisteredContractTest {
         }
         assertEquals(4, StdNums.byCountry("ES").size());
         assertEquals(3, StdNums.byCountry("FR").size());
-        assertEquals(125, StdNums.all().size());
+        assertEquals(128, StdNums.all().size());
     }
 
     @TestFactory

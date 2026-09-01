@@ -73,12 +73,27 @@ public final class Iban implements StdNum {
 
     @Override
     public String validate(String number) {
+        return validate(number, true);
+    }
+
+    /**
+     * Validates the number, optionally without the country registry.
+     *
+     * @param checkCountry whether to require the country to be registered and
+     *                     its BBAN to match the structure registered for it.
+     *                     A national IBAN type applies its own rule to the
+     *                     BBAN and passes {@code false} here.
+     */
+    public String validate(String number, boolean checkCountry) {
         String n = compact(number);
         if (n.length() < 5) {
             throw new InvalidLengthException();
         }
         // rearranged checksum over the whole number
         Mod97.validate(n.substring(4) + n.substring(0, 4));
+        if (!checkCountry) {
+            return n;
+        }
         // country lookup
         NumDb.Entry country = registry().info(n).get(0);
         String structure = country.properties().get("bban");

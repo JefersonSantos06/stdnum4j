@@ -41,15 +41,21 @@ StdNums.byTag(Tag.TAX);
 | Module | Content |
 |---|---|
 | `stdnum-core` | SPI, exceptions, check digit algorithms (Luhn, Damm, Verhoeff, ISO 7064, Mod 97-10, weighted mod 11, CRC-16), the NumDb prefix database and the registry. Zero dependencies. |
-| `stdnum-tck`  | Reusable JUnit 5 contract tests for `StdNum` implementations. |
-| `stdnum-international` | Country-independent formats: IBAN, ISBN, ISSN, ISMN, ISNI, EAN/GTIN, ISIN, CUSIP, SEDOL, FIGI, BIC, IMEI, MAC, LEI, IMO, CAS RN, ISO 6346, ISO 11649, GRid, ISRC, UPI and the VATIN and EU VAT dispatchers. |
+| `stdnum-tck` | Reusable JUnit 5 contract tests for `StdNum` implementations. |
+| `stdnum-international` | Country-independent formats: IBAN, ISBN, ISSN, ISMN, ISNI, EAN/GTIN, ISIN, CUSIP, SEDOL, FIGI, BIC, IMEI, MAC, LEI, IMO, CAS RN, ISO 6346, ISO 11649, GRid, ISAN, ISRC, MEID, UPI and the VATIN and EU VAT dispatchers. |
 | `stdnum-br` | Brazil: CPF, CNPJ (including the 2026 alphanumeric format), PIS/PASEP, CNS, titulo de eleitor, RENAVAM, NF-e access key, the FEBRABAN payment slip, the Pix BR Code and the state tax registrations of all 27 federative units. |
-| `stdnum-eu` | Europe: 119 types across AD, AL, AT, AZ, BE, BG, BY, CH, CY, CZ, DE, DK, EE, ES, FI, FO, FR, GB, GR, HR, HU, IE, IS, IT, LI, LT, LU, LV, MC, MD, ME, MK, MT, NL, NO, PL, PT, RO, RS, SE, SI, SK, SM and UA, plus the EU-wide SEPA creditor identifier and One Stop Shop numbers. |
+| `stdnum-eu` | Europe: 122 types across AD, AL, AT, AZ, BE, BG, BY, CH, CY, CZ, DE, DK, EE, ES, FI, FO, FR, GB, GR, HR, HU, IE, IS, IT, LI, LT, LU, LV, MC, MD, ME, MK, MT, NL, NO, PL, PT, RO, RS, SE, SI, SK, SM and UA, plus the EU-wide SEPA creditor identifier and One Stop Shop numbers. |
 | `stdnum-latam` | Latin America: AR, CL, CO, CR, CU, DO, EC, GT, MX, PE, PY, SV, UY and VE. |
 | `stdnum-na` | North America: the US SSN, ITIN, EIN, PTIN, ATIN, the TIN that is whichever of them a taxpayer holds, and the routing number; and the Canadian SIN, business number and British Columbia health number. |
 | `stdnum-apac` | Asia-Pacific and beyond: AU, CN, ID, IL, IN, JP, KR, MY, NZ, OM, PK, RU, SG, TH, TR, TW and VN. |
 | `stdnum-africa` | Africa: DZ, EG, GH, GN, KE, MA, MU, MZ, SN, TN and ZA. |
 | `stdnum-all` | Aggregator depending on every module, with a registry-wide contract sweep. |
+
+Every module depends on `stdnum-core` alone, except `stdnum-eu`, which also
+depends on `stdnum-international`: a Spanish, Montenegrin or Norwegian IBAN is
+an IBAN with a national rule on top. The dependency runs one way — the
+international module reaches country types through the registry, never by
+importing them.
 
 ## Data files
 

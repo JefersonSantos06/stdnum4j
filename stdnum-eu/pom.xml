@@ -24,6 +24,10 @@
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
+            <artifactId>stdnum-international</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.jefersonsantos06</groupId>
             <artifactId>stdnum-tck</artifactId>
             <scope>test</scope>
         </dependency>

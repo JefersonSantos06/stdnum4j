@@ -13,6 +13,13 @@ public enum Tag {
     /** Value added tax registration numbers (VAT, GST, ...). */
     VAT,
 
+    /**
+     * Excise numbers: the registration of an operator authorised to move
+     * alcohol, tobacco or energy products under duty suspension. Countries
+     * name theirs differently, so this is what identifies one.
+     */
+    EXCISE,
+
     /** Identifies a natural person. */
     PERSON,
 

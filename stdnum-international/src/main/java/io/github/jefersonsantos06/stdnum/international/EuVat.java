@@ -25,7 +25,8 @@ public final class EuVat implements StdNum {
 
     public static final EuVat INSTANCE = new EuVat();
 
-    private static final Set<String> MEMBER_STATES = Set.of(
+    /** The member states, as the prefixes their VAT and excise numbers open with. */
+    public static final Set<String> MEMBER_STATES = Set.of(
             "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GR",
             "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO",
             "SE", "SI", "SK", "XI");

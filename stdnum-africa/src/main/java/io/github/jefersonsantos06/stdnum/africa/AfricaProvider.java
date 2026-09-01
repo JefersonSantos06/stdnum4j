@@ -20,6 +20,7 @@ public final class AfricaProvider implements StdNumProvider {
                 MuNid.INSTANCE,
                 MzNuit.INSTANCE,
                 SnNinea.INSTANCE,
+                TnMf.INSTANCE,
                 ZaIdnr.INSTANCE,
                 ZaTin.INSTANCE);
     }

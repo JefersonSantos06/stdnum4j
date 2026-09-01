@@ -14,9 +14,12 @@ public final class NaProvider implements StdNumProvider {
         return List.of(
                 CaBn.INSTANCE,
                 CaSin.INSTANCE,
+                UsAtin.INSTANCE,
                 UsEin.INSTANCE,
                 UsItin.INSTANCE,
+                UsPtin.INSTANCE,
                 UsRtn.INSTANCE,
-                UsSsn.INSTANCE);
+                UsSsn.INSTANCE,
+                UsTin.INSTANCE);
     }
 }

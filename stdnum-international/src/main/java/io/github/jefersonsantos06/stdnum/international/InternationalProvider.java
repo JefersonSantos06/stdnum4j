@@ -16,6 +16,7 @@ public final class InternationalProvider implements StdNumProvider {
                 CasRn.INSTANCE,
                 Cusip.INSTANCE,
                 Ean.INSTANCE,
+                EuVat.INSTANCE,
                 Figi.INSTANCE,
                 Iban.INSTANCE,
                 Imei.INSTANCE,

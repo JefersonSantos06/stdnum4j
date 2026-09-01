@@ -12,6 +12,7 @@ public final class NaProvider implements StdNumProvider {
     @Override
     public Collection<StdNum> numbers() {
         return List.of(
+                CaBcPhn.INSTANCE,
                 CaBn.INSTANCE,
                 CaSin.INSTANCE,
                 UsAtin.INSTANCE,

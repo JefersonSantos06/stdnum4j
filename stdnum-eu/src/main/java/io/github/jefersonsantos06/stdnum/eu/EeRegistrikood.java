@@ -12,8 +12,8 @@ import io.github.jefersonsantos06.stdnum.text.Strings;
 /**
  * Registrikood, the Estonian organisation registry code: eight digits opening
  * with 1, 7, 8 or 9 — the digit tells apart companies, non-profits, state
- * agencies and the like — and closing with the same check digit Estonia uses
- * on personal identity codes.
+ * agencies and the like — and closing with the check digit Estonia also uses
+ * on the personal {@link EeIk}.
  */
 public final class EeRegistrikood implements StdNum {
 
@@ -42,27 +42,9 @@ public final class EeRegistrikood implements StdNum {
         return Strings.compact(number, " ");
     }
 
-    /**
-     * The check digit of a number, from every digit but its last. The weights
-     * run 1..9 cyclically; when that yields 10 the sum is taken again with
-     * the weights shifted by two.
-     */
+    /** The check digit of a number, from every digit but its last. */
     public static char calcCheckDigit(String number) {
-        String n = INSTANCE.compact(number);
-        int check = weightedSum(n, 1) % 11;
-        if (check == 10) {
-            check = weightedSum(n, 3) % 11;
-        }
-        return (char) ('0' + check % 10);
-    }
-
-    /** The digits of {@code n} bar the last, weighted from {@code first} on, cycling 1..9. */
-    private static int weightedSum(String n, int first) {
-        int sum = 0;
-        for (int i = 0; i < n.length() - 1; i++) {
-            sum += ((i + first - 1) % 9 + 1) * (n.charAt(i) - '0');
-        }
-        return sum;
+        return EeIk.calcCheckDigit(number);
     }
 
     @Override

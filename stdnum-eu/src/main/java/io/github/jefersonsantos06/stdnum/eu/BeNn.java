@@ -1,0 +1,141 @@
+package io.github.jefersonsantos06.stdnum.eu;
+
+import io.github.jefersonsantos06.stdnum.spi.Descriptor;
+import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
+import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
+import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.StdNum;
+import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Strings;
+
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.Set;
+
+/**
+ * Rijksregisternummer, the Belgian national number: the date of birth, a
+ * serial number that also gives the sex, and two check digits.
+ *
+ * <p>The century is not written down. It is recovered from the checksum,
+ * which is taken over the number as it stands for the 1900s and over the
+ * number prefixed with a 2 for the 2000s. Because a birth year of, say, 45
+ * cannot yet mean 2045, the second reading is only tried once that year has
+ * passed — so a number can become valid with time, never invalid.</p>
+ */
+public final class BeNn implements StdNum {
+
+    public static final BeNn INSTANCE = new BeNn();
+
+    /** Serial numbers issued to people whose date of birth was unknown. */
+    private static final Set<String> UNKNOWN_BIRTH_DATE = Set.of("000001", "002001", "004001");
+
+    private static final Descriptor DESCRIPTOR =
+            Descriptor.of("be.nn", "Rijksregisternummer")
+                    .country("BE")
+                    .title("Belgisch Rijksregisternummer")
+                    .description("Belgian national number: 11 digits giving the date of birth,"
+                            + " the sex and two mod 97 check digits.")
+                    .tags(Tag.PERSON)
+                    .references("https://nl.wikipedia.org/wiki/Rijksregisternummer")
+                    .build();
+
+    private BeNn() {
+    }
+
+    @Override
+    public Descriptor descriptor() {
+        return DESCRIPTOR;
+    }
+
+    @Override
+    public String compact(String number) {
+        return Strings.compact(number, " -.");
+    }
+
+    /**
+     * The century the number was issued in, established by whichever reading
+     * the check digits agree with.
+     *
+     * @throws InvalidChecksumException if neither reading agrees
+     */
+    public static int getCentury(String number) {
+        String n = INSTANCE.compact(number);
+        if (!Strings.isDigits(n) || n.length() != 11) {
+            throw new InvalidFormatException();
+        }
+        int check = Integer.parseInt(n.substring(9));
+        if (97 - Long.parseLong(n.substring(0, 9)) % 97 == check) {
+            return 1900;
+        }
+        int year = Integer.parseInt(n.substring(0, 2));
+        if (year + 2000 <= LocalDate.now().getYear()
+                && 97 - Long.parseLong("2" + n.substring(0, 9)) % 97 == check) {
+            return 2000;
+        }
+        throw new InvalidChecksumException();
+    }
+
+    /**
+     * The birth date encoded in the number, or {@code null} when it carries
+     * none: the date is sometimes only partly known, and a few serial numbers
+     * stand for a date that was not known at all.
+     */
+    public static LocalDate getBirthDate(String number) {
+        String n = INSTANCE.compact(number);
+        int century = getCentury(n);
+        if (UNKNOWN_BIRTH_DATE.contains(n.substring(0, 6))) {
+            return null;
+        }
+        int year = Integer.parseInt(n.substring(0, 2)) + century;
+        int month = Integer.parseInt(n.substring(2, 4)) % 20;
+        int day = Integer.parseInt(n.substring(4, 6));
+        if (month == 0) {
+            return null;
+        }
+        if (month > 12) {
+            throw new InvalidComponentException("The month must be in 1..12.");
+        }
+        if (day == 0 || day > YearMonth.of(year, month).lengthOfMonth()) {
+            return null;
+        }
+        return LocalDate.of(year, month, day);
+    }
+
+    /** The sex recorded in the number, {@code 'M'} or {@code 'F'}. */
+    public static char getGender(String number) {
+        String n = INSTANCE.compact(number);
+        if (!Strings.isDigits(n) || n.length() != 11) {
+            throw new InvalidFormatException();
+        }
+        return Integer.parseInt(n.substring(6, 9)) % 2 == 1 ? 'M' : 'F';
+    }
+
+    @Override
+    public String validate(String number) {
+        String n = compact(number);
+        if (!Strings.isDigits(n) || n.chars().allMatch(c -> c == '0')) {
+            throw new InvalidFormatException();
+        }
+        if (n.length() != 11) {
+            throw new InvalidLengthException();
+        }
+        getBirthDate(n);
+        int month = Integer.parseInt(n.substring(2, 4));
+        if (month > 12) {
+            throw new InvalidComponentException("The month must be in 1..12.");
+        }
+        return n;
+    }
+
+    @Override
+    public String format(String number) {
+        return group(validate(number));
+    }
+
+    /** The shared presentation of an eleven-digit compact number. */
+    static String group(String n) {
+        return n.substring(0, 2) + '.' + n.substring(2, 4) + '.' + n.substring(4, 6)
+                + '-' + n.substring(6, 9) + '.' + n.substring(9);
+    }
+}

@@ -37,16 +37,18 @@ class VatinContractTest extends StdNumContractTest {
     }
 
     @Test
-    void northernIrelandIsHandledAsGreatBritain() {
+    void prefixesThatDoNotMatchTheCountryCodeAreRemapped() {
+        // Northern Ireland (XI) is validated as Great Britain
         assertEquals("XI980780684", Vatin.INSTANCE.validate("XI980780684"));
+        // Greece uses EL instead of GR
+        assertEquals("EL094259216", Vatin.INSTANCE.validate("EL 094259216"));
     }
 
     @Test
     void unsupportedCountriesAreComponentErrors() {
         assertThrows(InvalidComponentException.class,
                 () -> Vatin.INSTANCE.validate("JP123456789"));
-        // Greece's EL prefix maps to GR, which has no module yet
         assertThrows(InvalidComponentException.class,
-                () -> Vatin.INSTANCE.validate("EL123456789"));
+                () -> Vatin.INSTANCE.validate("XX123456789"));
     }
 }

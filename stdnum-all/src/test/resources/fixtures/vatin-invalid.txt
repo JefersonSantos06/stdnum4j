@@ -1,11 +1,11 @@
 # no validator registered for the country
 XX123456789
 JP123456789
-EL123456789
 # delegated checksum failure
 DE136695978
 BR16727230000198
 GB980780685
+EL123456781
 # no country prefix
 123456789
 D1

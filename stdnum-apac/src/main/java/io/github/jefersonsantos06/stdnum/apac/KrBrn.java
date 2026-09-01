@@ -1,0 +1,73 @@
+package io.github.jefersonsantos06.stdnum.apac;
+
+import io.github.jefersonsantos06.stdnum.spi.Descriptor;
+import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
+import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.StdNum;
+import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Strings;
+
+/**
+ * BRN, the South Korean business registration number: ten digits in three
+ * groups — the tax office that issued it, the kind of business, and a serial
+ * number with a final digit.
+ *
+ * <p>The number carries no check digit, so validation is limited to the
+ * ranges the three groups are drawn from: the tax office code starts at 101,
+ * the business type is never 00 and the serial is never 0000.</p>
+ */
+public final class KrBrn implements StdNum {
+
+    public static final KrBrn INSTANCE = new KrBrn();
+
+    private static final Descriptor DESCRIPTOR =
+            Descriptor.of("kr.brn", "BRN")
+                    .country("KR")
+                    .title("Korean Business Registration Number")
+                    .description("South Korean business registration number: 10 digits as a tax"
+                            + " office code, a business type code and a serial number.")
+                    .tags(Tag.COMPANY, Tag.TAX)
+                    .references("https://www.nts.go.kr/")
+                    .build();
+
+    private KrBrn() {
+    }
+
+    @Override
+    public Descriptor descriptor() {
+        return DESCRIPTOR;
+    }
+
+    @Override
+    public String compact(String number) {
+        return Strings.compact(number, " -");
+    }
+
+    @Override
+    public String validate(String number) {
+        String n = compact(number);
+        if (n.length() != 10) {
+            throw new InvalidLengthException();
+        }
+        if (!Strings.isDigits(n)) {
+            throw new InvalidFormatException();
+        }
+        if (n.substring(0, 3).compareTo("101") < 0) {
+            throw new InvalidComponentException("Tax office codes start at 101.");
+        }
+        if (n.startsWith("00", 3)) {
+            throw new InvalidComponentException("00 is not a business type code.");
+        }
+        if (n.startsWith("0000", 5)) {
+            throw new InvalidComponentException("0000 is not a serial number.");
+        }
+        return n;
+    }
+
+    @Override
+    public String format(String number) {
+        String n = validate(number);
+        return n.substring(0, 3) + '-' + n.substring(3, 5) + '-' + n.substring(5);
+    }
+}

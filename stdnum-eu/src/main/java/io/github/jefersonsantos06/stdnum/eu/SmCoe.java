@@ -36,7 +36,8 @@ public final class SmCoe implements StdNum {
                     .description("San Marino economic operator code: up to 5 digits, those"
                             + " below 100 drawn from the ones actually issued.")
                     .tags(Tag.COMPANY, Tag.TAX)
-                    .references("https://www.gov.sm/")
+                    .references("https://www.camcom.sm/registri-e-servizi-della-camera-di-commercio/"
+                            + "registri/autorizzazioni-ad-operare/")
                     .build();
 
     private SmCoe() {

@@ -32,7 +32,8 @@ public final class FrRcs implements StdNum {
                     .description("French trade and companies register number: the city of the"
                             + " registry, a category letter and the SIREN.")
                     .tags(Tag.COMPANY)
-                    .references("https://www.infogreffe.fr/")
+                    .references("https://fr.wikipedia.org/wiki/"
+                            + "Registre_du_commerce_et_des_soci%C3%A9t%C3%A9s_(France)")
                     .build();
 
     private FrRcs() {

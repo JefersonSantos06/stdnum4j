@@ -39,8 +39,7 @@ public final class UsTin implements StdNum {
                     .description("US taxpayer number: whichever of the SSN, ITIN, EIN, PTIN"
                             + " and ATIN the taxpayer holds.")
                     .tags(Tag.TAX)
-                    .references("https://www.irs.gov/individuals/international-taxpayers/"
-                            + "taxpayer-identification-numbers-tin")
+                    .references("https://www.irs.gov/tin/taxpayer-identification-numbers-tin")
                     .build();
 
     private UsTin() {

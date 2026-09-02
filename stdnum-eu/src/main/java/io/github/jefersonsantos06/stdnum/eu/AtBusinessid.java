@@ -27,7 +27,7 @@ public final class AtBusinessid implements StdNum {
                     .description("Austrian company register number: digits followed by a"
                             + " lower-case check letter, optionally prefixed with FN.")
                     .tags(Tag.COMPANY)
-                    .references("https://en.wikipedia.org/wiki/Firmenbuch")
+                    .references("https://de.wikipedia.org/wiki/Firmenbuch")
                     .build();
 
     private AtBusinessid() {

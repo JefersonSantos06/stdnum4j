@@ -27,7 +27,7 @@ public final class AtVnr implements StdNum {
                     .description("Austrian social insurance number: 10 digits with a weighted"
                             + " mod 11 check digit in fourth position.")
                     .tags(Tag.PERSON, Tag.HEALTH)
-                    .references("https://en.wikipedia.org/wiki/National_identification_number#Austria")
+                    .references("https://de.wikipedia.org/wiki/Sozialversicherungsnummer")
                     .build();
 
     private AtVnr() {

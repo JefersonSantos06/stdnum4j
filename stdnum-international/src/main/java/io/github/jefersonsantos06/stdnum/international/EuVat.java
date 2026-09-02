@@ -43,7 +43,7 @@ public final class EuVat implements StdNum {
                     .description("VAT number of a trader registered in an EU member state, or"
                             + " in one of the One Stop Shop schemes.")
                     .tags(Tag.VAT, Tag.TAX)
-                    .references("https://ec.europa.eu/taxation_customs/vies/")
+                    .references("https://en.wikipedia.org/wiki/VAT_identification_number")
                     .build();
 
     private EuVat() {

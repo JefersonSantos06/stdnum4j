@@ -29,7 +29,7 @@ public final class EuEcnumber implements StdNum {
                     .description("Identifier of a chemical substance in the European"
                             + " Community inventories: 7 digits with a check digit.")
                     .tags(Tag.PRODUCT)
-                    .references("https://echa.europa.eu/information-on-chemicals")
+                    .references("https://en.wikipedia.org/wiki/European_Community_number")
                     .build();
 
     private EuEcnumber() {

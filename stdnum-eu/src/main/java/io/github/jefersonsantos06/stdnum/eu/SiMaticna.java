@@ -32,7 +32,8 @@ public final class SiMaticna implements StdNum {
                     .description("Slovenian business register number: 7 digits with a weighted"
                             + " mod 11 check digit, plus an optional 3-character subunit code.")
                     .tags(Tag.COMPANY)
-                    .references("https://www.ajpes.si/")
+                    .references("https://www.uradni-list.si/glasilo-uradni-list-rs/vsebina/2002-01-5722/"
+                            + "metodolosko-navodilo-za-vodenje-poslovnega-registra-slovenije")
                     .build();
 
     private SiMaticna() {

@@ -31,7 +31,8 @@ public final class AtPostleitzahl implements StdNum {
                     .description("Austrian postcode: 4 digits, checked against the codes in"
                             + " use rather than by a checksum.")
                     .tags(Tag.POSTAL)
-                    .references("https://data.rtr.at/")
+                    .references("https://www.rtr.at/TKP/aktuelles/veroeffentlichungen/veroeffentlichungen/"
+                            + "Postleitzahlen.de.html")
                     .build();
 
     private AtPostleitzahl() {

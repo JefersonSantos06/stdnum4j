@@ -30,7 +30,7 @@ public final class Cpf implements StdNum {
                             + " weighted mod 11 check digits. Numbers consisting of a single"
                             + " repeated digit are rejected.")
                     .tags(Tag.TAX, Tag.PERSON)
-                    .references("https://www.gov.br/receitafederal/pt-br/servicos/cpf",
+                    .references("https://www.gov.br/receitafederal/pt-br/assuntos/meu-cpf",
                             "https://en.wikipedia.org/wiki/CPF_number")
                     .build();
 

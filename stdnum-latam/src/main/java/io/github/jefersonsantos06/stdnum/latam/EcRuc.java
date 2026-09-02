@@ -36,7 +36,7 @@ public final class EcRuc implements StdNum {
                     .description("Ecuadorian taxpayer number: 13 digits giving the province,"
                             + " the taxpayer and the establishment.")
                     .tags(Tag.COMPANY, Tag.TAX)
-                    .references("https://www.sri.gob.ec/ruc")
+                    .references("https://www.sri.gob.ec/registro-unico-de-contribuyentes-ruc")
                     .build();
 
     private EcRuc() {

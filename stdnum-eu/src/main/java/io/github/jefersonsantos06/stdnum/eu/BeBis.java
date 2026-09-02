@@ -31,8 +31,7 @@ public final class BeBis implements StdNum {
                             + " national register: a national number with 20 or 40 added"
                             + " to the month of birth.")
                     .tags(Tag.PERSON)
-                    .references("https://sma-help.bosa.belgium.be/en/faq/"
-                            + "what-does-bis-number-mean")
+                    .references("https://sma-help.bosa.belgium.be/en/faq/where-can-i-find-my-bis-number")
                     .build();
 
     private BeBis() {

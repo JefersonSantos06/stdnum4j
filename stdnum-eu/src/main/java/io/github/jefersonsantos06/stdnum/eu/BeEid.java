@@ -29,7 +29,7 @@ public final class BeEid implements StdNum {
                     .description("Card number of a Belgian electronic identity card: 12 digits"
                             + " whose last two are the first ten modulo 97.")
                     .tags(Tag.PERSON)
-                    .references("https://www.ibz.rrn.fgov.be/")
+                    .references("https://en.wikipedia.org/wiki/Belgian_identity_card")
                     .build();
 
     private BeEid() {

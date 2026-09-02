@@ -34,7 +34,7 @@ public final class ItAic implements StdNum {
                     .description("Italian medicinal product code: 9 digits with a check digit,"
                             + " or the same number in a 6-character base-32 form.")
                     .tags(Tag.PRODUCT, Tag.HEALTH)
-                    .references("https://www.aifa.gov.it/")
+                    .references("https://www.fascicolosanitario.gov.it/portale/sistema-di-codifica-aic")
                     .build();
 
     private ItAic() {

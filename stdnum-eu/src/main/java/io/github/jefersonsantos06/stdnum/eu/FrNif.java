@@ -26,7 +26,8 @@ public final class FrNif implements StdNum {
                     .description("French personal tax number: 13 digits whose last three are"
                             + " the first ten modulo 511.")
                     .tags(Tag.PERSON, Tag.TAX)
-                    .references("https://en.wikipedia.org/wiki/National_identification_number#France")
+                    .references("https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/"
+                            + "france-tin.pdf")
                     .build();
 
     private FrNif() {

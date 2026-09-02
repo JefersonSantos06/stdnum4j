@@ -33,7 +33,7 @@ public final class CodigoBarras implements StdNum {
                     .description("Barcode of a Brazilian payment slip: 44 digits with the"
                             + " general check digit in position 5.")
                     .tags(Tag.BANK, Tag.PAYMENT)
-                    .references("https://portal.febraban.org.br/")
+                    .references("https://www.bcb.gov.br/pre/normativos/c_circ/2000/pdf/c_circ_2926_v1_o.pdf")
                     .build();
 
     private static final int[] WEIGHTS = Weighted.cyclic(43, 2, 3, 4, 5, 6, 7, 8, 9);

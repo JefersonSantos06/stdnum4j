@@ -29,8 +29,7 @@ public final class BeIban implements StdNum {
                     .description("Belgian IBAN: the international number whose account part"
                             + " carries a mod 97 check and the code of the institution.")
                     .tags(Tag.BANK)
-                    .references("https://www.nbb.be/en/payment-systems/payment-standards/"
-                            + "bank-identification-codes")
+                    .references("https://www.nbb.be/en/payments-and-securities/bank-identification-codes")
                     .build();
 
     private BeIban() {

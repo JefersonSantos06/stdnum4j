@@ -31,7 +31,8 @@ public final class Renavam implements StdNum {
                             + " weighted mod 11 check digit; legacy 9-digit numbers are"
                             + " accepted by zero-padding.")
                     .tags(Tag.VEHICLE)
-                    .references("https://www.gov.br/transportes/pt-br")
+                    .references("https://pt.wikipedia.org/wiki/"
+                            + "Registro_Nacional_de_Ve%C3%ADculos_Automotores")
                     .build();
 
     private static final int[] WEIGHTS = Weighted.cyclic(10, 2, 3, 4, 5, 6, 7, 8, 9);

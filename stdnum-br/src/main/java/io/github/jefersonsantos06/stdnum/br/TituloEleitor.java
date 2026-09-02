@@ -37,7 +37,7 @@ public final class TituloEleitor implements StdNum {
                             + " a 2-digit TSE state code (01-28) and two check digits"
                             + " (remainder mod 11, with the São Paulo/Minas Gerais zero rule).")
                     .tags(Tag.PERSON)
-                    .references("https://www.tse.jus.br/eleitor/titulo-de-eleitor")
+                    .references("https://www.justicaeleitoral.jus.br/titulo-eleitoral/")
                     .build();
 
     private TituloEleitor() {

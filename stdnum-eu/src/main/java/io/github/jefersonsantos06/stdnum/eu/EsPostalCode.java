@@ -24,7 +24,7 @@ public final class EsPostalCode implements StdNum {
                     .description("Spanish postal code: 5 digits opening with a province"
                             + " between 01 and 52.")
                     .tags(Tag.POSTAL)
-                    .references("https://es.wikipedia.org/wiki/Anexo:C%C3%B3digos_postales_de_Espa%C3%B1a")
+                    .references("https://es.wikipedia.org/wiki/C%C3%B3digo_postal_de_Espa%C3%B1a")
                     .build();
 
     private EsPostalCode() {

@@ -87,7 +87,7 @@ public final class DeHandelsregisternummer implements StdNum {
                     .description("German commercial register number: the registry court, the"
                             + " register and the number the company has in it.")
                     .tags(Tag.COMPANY)
-                    .references("https://www.handelsregister.de/")
+                    .references("https://de.wikipedia.org/wiki/Handelsregister_(Deutschland)")
                     .build();
 
     private DeHandelsregisternummer() {

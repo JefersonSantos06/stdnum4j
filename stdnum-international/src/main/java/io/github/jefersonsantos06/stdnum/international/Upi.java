@@ -35,7 +35,7 @@ public final class Upi implements StdNum {
                     .description("Identifier of an OTC derivative product: 12 characters"
                             + " starting with QZ, on an ISO 7064 MOD 31,30 check character.")
                     .tags(Tag.FINANCIAL, Tag.PRODUCT)
-                    .references("https://www.anna-dsb.com/upi-overview/")
+                    .references("https://www.anna-dsb.com/upi-/")
                     .build();
 
     private Upi() {

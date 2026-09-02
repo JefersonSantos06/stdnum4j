@@ -41,7 +41,7 @@ public final class EuOss implements StdNum {
                     .description("VAT number of a trader in an EU One Stop Shop scheme: EU and"
                             + " 9 digits, or IM and 10, opening with a member state code.")
                     .tags(Tag.VAT, Tag.TAX)
-                    .references("https://vat-one-stop-shop.ec.europa.eu/")
+                    .references("https://vat-one-stop-shop.ec.europa.eu/one-stop-shop/register-oss_en")
                     .build();
 
     private EuOss() {

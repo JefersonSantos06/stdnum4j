@@ -24,7 +24,9 @@ public final class FiVeronumero implements StdNum {
                             + " 12 digits.")
                     .tags(Tag.PERSON, Tag.TAX)
                     .references("https://www.vero.fi/en/individuals/tax-cards-and-tax-returns/"
-                            + "arriving_in_finland/work_in_the_construction_sector/")
+                            + "arriving_in_finland/work_in_finland/"
+                            + "specific-instructions-for-different-occupations/"
+                            + "coming-to-a-construction-site-or-a-shipyard/Tax_number/")
                     .build();
 
     private FiVeronumero() {

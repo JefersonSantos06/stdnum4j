@@ -41,7 +41,7 @@ public final class DeLeitweg implements StdNum {
                     .description("German e-invoicing routing identifier: an authority code, an"
                             + " address and two mod 97-10 check digits, separated by dashes.")
                     .tags(Tag.PAYMENT, Tag.OTHER)
-                    .references("https://www.e-rechnung-bund.de/faq/leitweg-id/")
+                    .references("https://e-rechnung-bund.de/faq/")
                     .build();
 
     private DeLeitweg() {

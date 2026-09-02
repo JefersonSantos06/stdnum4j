@@ -28,7 +28,8 @@ public final class TrVkn implements StdNum {
                     .description("Turkish tax identification number: 10 digits ending in a"
                             + " position-weighted mod 9 check digit.")
                     .tags(Tag.COMPANY, Tag.TAX)
-                    .references("https://www.turkiye.gov.tr/gib-intvrg-vergi-kimlik-numarasi-dogrulama")
+                    .references("https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/"
+                            + "turkiye-tin.pdf")
                     .build();
 
     private TrVkn() {

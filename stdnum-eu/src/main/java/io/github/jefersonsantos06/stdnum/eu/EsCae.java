@@ -38,7 +38,10 @@ public final class EsCae implements StdNum {
                     .description("Code of a Spanish establishment dealing in excise goods:"
                             + " 13 characters naming the office and the activity.")
                     .tags(Tag.COMPANY, Tag.EXCISE, Tag.TAX)
-                    .references("https://sede.agenciatributaria.gob.es/")
+                    .references("https://sede.agenciatributaria.gob.es/Sede/"
+                            + "impuestos-especiales-medioambientales/"
+                            + "censo-impuestos-especiales-medioambientales/"
+                            + "registro-impuestos-especiales-fabricacion.html")
                     .build();
 
     private EsCae() {

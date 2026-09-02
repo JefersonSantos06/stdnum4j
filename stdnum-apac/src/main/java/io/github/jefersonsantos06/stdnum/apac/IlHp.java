@@ -26,7 +26,7 @@ public final class IlHp implements StdNum {
                     .description("Israeli company number: 9 digits starting with 5 and ending"
                             + " in a Luhn check digit.")
                     .tags(Tag.COMPANY)
-                    .references("https://www.gov.il/en/departments/corporations_authority")
+                    .references("https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/israel-tin.pdf")
                     .build();
 
     private IlHp() {

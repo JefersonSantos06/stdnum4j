@@ -30,7 +30,8 @@ public final class ThTin implements StdNum {
                     .description("Thai tax number: the 13-digit registration number of a"
                             + " juristic person or the personal identification number.")
                     .tags(Tag.TAX)
-                    .references("https://www.rd.go.th/english/")
+                    .references("https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/"
+                            + "thailand-tin.pdf")
                     .build();
 
     private ThTin() {

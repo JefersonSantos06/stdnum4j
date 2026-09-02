@@ -35,7 +35,7 @@ public final class EsReferenciacatastral implements StdNum {
                     .description("Spanish cadastral reference of a property: 20 characters"
                             + " with two check letters.")
                     .tags(Tag.LOCATION)
-                    .references("https://www.catastro.minhap.es/")
+                    .references("https://www.catastro.hacienda.gob.es/es-ES/referencia_catastral.html")
                     .build();
 
     private EsReferenciacatastral() {

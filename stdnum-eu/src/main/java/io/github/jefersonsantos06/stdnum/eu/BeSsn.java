@@ -24,7 +24,7 @@ public final class BeSsn implements StdNum {
                     .description("Belgian social security number: either the national number"
                             + " or the BIS number of someone outside the national register.")
                     .tags(Tag.PERSON, Tag.HEALTH)
-                    .references("https://www.socialsecurity.be/")
+                    .references("https://www.ehealth.fgov.be/fr/page/niss-insz")
                     .build();
 
     private BeSsn() {

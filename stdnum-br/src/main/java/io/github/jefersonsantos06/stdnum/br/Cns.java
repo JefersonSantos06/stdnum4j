@@ -37,7 +37,7 @@ public final class Cns implements StdNum {
                             + " with weights 15..1 modulo 11 (DATASUS rules for definitive"
                             + " and provisional numbers).")
                     .tags(Tag.HEALTH, Tag.PERSON)
-                    .references("https://datasus.saude.gov.br/")
+                    .references("https://rni-docs.anvisa.gov.br/docs/regras_gerais/validacoes/validacaoCNS/")
                     .build();
 
     private static final int[] WEIGHTS_BASE = Weighted.descending(15, 11);

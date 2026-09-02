@@ -29,7 +29,7 @@ public final class PisPasep implements StdNum {
                     .description("Brazilian worker registration number: 11 digits with one"
                             + " weighted mod 11 check digit.")
                     .tags(Tag.PERSON)
-                    .references("https://www.gov.br/pt-br/servicos/consultar-inscricao-no-pis-pasep")
+                    .references("https://pt.wikipedia.org/wiki/Programa_de_Integra%C3%A7%C3%A3o_Social")
                     .build();
 
     private static final int[] WEIGHTS = Weighted.cyclic(10, 2, 3, 4, 5, 6, 7, 8, 9);

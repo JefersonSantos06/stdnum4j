@@ -36,7 +36,7 @@ public final class FiAssociationid implements StdNum {
                     .description("Registration number of a Finnish association: 1 to 6 digits,"
                             + " those below 100 drawn from the ones actually issued.")
                     .tags(Tag.COMPANY)
-                    .references("https://www.prh.fi/en/yhdistysrekisteri.html")
+                    .references("https://www.prh.fi/en/companiesandorganisations/yhdistysrekisteri.html")
                     .build();
 
     private FiAssociationid() {

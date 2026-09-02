@@ -36,7 +36,7 @@ public final class IdNik implements StdNum {
                     .description("Indonesian citizen number: 16 digits giving the region of"
                             + " registration, the date of birth and a serial number.")
                     .tags(Tag.PERSON)
-                    .references("https://sig.bps.go.id/")
+                    .references("https://id.wikipedia.org/wiki/Nomor_Induk_Kependudukan")
                     .build();
 
     private IdNik() {

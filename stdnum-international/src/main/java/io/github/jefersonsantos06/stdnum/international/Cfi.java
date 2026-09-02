@@ -35,8 +35,8 @@ public final class Cfi implements StdNum {
                     .description("ISO 10962 classification of a financial instrument: a"
                             + " category, a group and four attributes, in six letters.")
                     .tags(Tag.FINANCIAL, Tag.PRODUCT)
-                    .references("https://www.six-group.com/en/products-services/"
-                            + "financial-information/data-standards.html")
+                    .references("https://www.six-group.com/en/products-services/financial-information/"
+                            + "market-reference-data/data-standards.html")
                     .build();
 
     private Cfi() {

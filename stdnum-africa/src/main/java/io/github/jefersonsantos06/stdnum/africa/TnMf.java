@@ -33,7 +33,7 @@ public final class TnMf implements StdNum {
                     .description("Tunisian tax number: 7 digits and a control letter, followed"
                             + " for a company by a VAT code, a category and an establishment.")
                     .tags(Tag.COMPANY, Tag.TAX)
-                    .references("https://www.registre-entreprises.tn/")
+                    .references("https://www.finances.gov.tn/fr/octroi-dun-identifiant-fiscal")
                     .build();
 
     private TnMf() {

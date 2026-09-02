@@ -33,7 +33,8 @@ public final class BrCode implements StdNum {
                     .description("Payload of a Brazilian Pix charge: EMV TLV fields closed by"
                             + " a CRC-16/CCITT-FALSE in tag 63.")
                     .tags(Tag.BANK, Tag.PAYMENT)
-                    .references("https://www.bcb.gov.br/estabilidadefinanceira/pix")
+                    .references("https://www.bcb.gov.br/content/estabilidadefinanceira/pix/Regulamento_Pix/"
+                            + "II_ManualdePadroesparaIniciacaodoPix.pdf")
                     .build();
 
     private BrCode() {

@@ -24,7 +24,8 @@ public final class CzIco implements StdNum {
                     .description("Czech organisation identification number: 8 digits with a"
                             + " weighted mod 11 check digit.")
                     .tags(Tag.COMPANY, Tag.TAX)
-                    .references("https://en.wikipedia.org/wiki/VAT_identification_number")
+                    .references("https://cs.wikipedia.org/wiki/"
+                            + "Identifika%C4%8Dn%C3%AD_%C4%8D%C3%ADslo_osoby")
                     .build();
 
     private CzIco() {

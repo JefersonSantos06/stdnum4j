@@ -38,7 +38,8 @@ public final class ChaveNfe implements StdNum {
                             + " 44 digits carrying state, emission date, emitter, model,"
                             + " series, number and a weighted mod 11 check digit.")
                     .tags(Tag.TAX, Tag.COMPANY)
-                    .references("https://www.nfe.fazenda.gov.br/")
+                    .references("https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/"
+                            + "moc7-visao-geral.pdf")
                     .build();
 
     private static final int[] WEIGHTS = Weighted.cyclic(43, 2, 3, 4, 5, 6, 7, 8, 9);

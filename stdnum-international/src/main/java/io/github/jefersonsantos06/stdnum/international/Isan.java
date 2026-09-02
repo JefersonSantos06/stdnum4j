@@ -30,7 +30,7 @@ public final class Isan implements StdNum {
                     .description("Identifier of an audiovisual work: a root, an episode and an"
                             + " optional version, with optional check characters.")
                     .tags(Tag.MEDIA, Tag.PRODUCT)
-                    .references("https://www.isan.org/")
+                    .references("https://www.isan.org/standard")
                     .build();
 
     private Isan() {

@@ -29,8 +29,7 @@ public final class InVid implements StdNum {
                     .description("Revocable stand-in for an Aadhaar number: 16 digits with a"
                             + " Verhoeff check digit, never a palindrome.")
                     .tags(Tag.PERSON)
-                    .references("https://uidai.gov.in/en/contact-support/have-any-question/"
-                            + "284-faqs/aadhaar-online-services/virtual-id-vid.html")
+                    .references("https://en.wikipedia.org/wiki/Aadhaar#Virtual_ID")
                     .build();
 
     private InVid() {

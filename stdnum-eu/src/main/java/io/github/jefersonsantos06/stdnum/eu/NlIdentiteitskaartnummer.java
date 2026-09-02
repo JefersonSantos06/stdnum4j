@@ -30,7 +30,7 @@ public final class NlIdentiteitskaartnummer implements StdNum {
                     .description("Dutch identity card or passport number: 2 letters, 6"
                             + " alphanumerics and a digit, never containing the letter O.")
                     .tags(Tag.PERSON)
-                    .references("https://www.rijksoverheid.nl/onderwerpen/paspoort-en-identiteitskaart")
+                    .references("https://www.rvig.nl/node/356")
                     .build();
 
     private NlIdentiteitskaartnummer() {

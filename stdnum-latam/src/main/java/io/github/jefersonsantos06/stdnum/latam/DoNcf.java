@@ -51,7 +51,8 @@ public final class DoNcf implements StdNum {
                     .description("Dominican fiscal receipt number: 11, 13 or 19 characters"
                             + " naming the kind of document it stands for.")
                     .tags(Tag.TAX)
-                    .references("https://dgii.gov.do/")
+                    .references("https://dgii.gov.do/cicloContribuyente/facturacion/comprobantesFiscales/"
+                            + "Paginas/tiposComprobantes.aspx")
                     .build();
 
     private DoNcf() {

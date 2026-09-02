@@ -43,7 +43,7 @@ public final class RoOnrc implements StdNum {
                     .description("Romanian trade register number: an entity letter, a county,"
                             + " a serial number and the year of registration.")
                     .tags(Tag.COMPANY)
-                    .references("https://www.onrc.ro/")
+                    .references("https://static.anaf.ro/static/10/Anaf/legislatie/L_265_2022.pdf")
                     .build();
 
     private RoOnrc() {

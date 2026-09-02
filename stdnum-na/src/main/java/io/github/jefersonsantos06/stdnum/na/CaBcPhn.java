@@ -27,8 +27,8 @@ public final class CaBcPhn implements StdNum {
                     .description("Health number of British Columbia: 10 digits starting with 9"
                             + " and ending in a weighted mod 11 check digit.")
                     .tags(Tag.PERSON, Tag.HEALTH)
-                    .references("https://www2.gov.bc.ca/gov/content/health/"
-                            + "health-drug-coverage/msp/bc-residents/get-a-personal-health-number")
+                    .references("https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/"
+                            + "bc-residents/personal-health-identification")
                     .build();
 
     private CaBcPhn() {

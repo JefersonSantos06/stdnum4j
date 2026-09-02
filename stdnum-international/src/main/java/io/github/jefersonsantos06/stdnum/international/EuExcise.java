@@ -32,7 +32,7 @@ public final class EuExcise implements StdNum {
                     .description("Excise number of an authorised operator: a member state and"
                             + " 11 characters the state decides the shape of.")
                     .tags(Tag.COMPANY, Tag.TAX)
-                    .references("https://ec.europa.eu/taxation_customs/dds2/seed/")
+                    .references("https://ec.europa.eu/taxation_customs/dds2/seed/help/seedhedn.jsp?Lang=en")
                     .build();
 
     private EuExcise() {

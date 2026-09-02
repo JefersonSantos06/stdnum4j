@@ -29,7 +29,7 @@ public final class LinhaDigitavel implements StdNum {
                     .description("Typeable line of a Brazilian payment slip: 47 digits with"
                             + " three mod 10 field check digits and the general check digit.")
                     .tags(Tag.BANK, Tag.PAYMENT)
-                    .references("https://portal.febraban.org.br/")
+                    .references("https://www.bcb.gov.br/pre/normativos/c_circ/2000/pdf/c_circ_2926_v1_o.pdf")
                     .build();
 
     private LinhaDigitavel() {

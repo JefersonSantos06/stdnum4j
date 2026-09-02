@@ -24,7 +24,7 @@ public final class NlOnderwijsnummer implements StdNum {
                     .description("Dutch pupil number for those without a citizen number:"
                             + " 9 digits starting with 10, on a shifted elfproef.")
                     .tags(Tag.PERSON, Tag.EDUCATION)
-                    .references("https://duo.nl/")
+                    .references("https://nl.wikipedia.org/wiki/Onderwijsnummer")
                     .build();
 
     private NlOnderwijsnummer() {

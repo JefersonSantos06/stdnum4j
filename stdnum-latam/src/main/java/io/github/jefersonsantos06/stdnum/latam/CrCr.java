@@ -27,7 +27,7 @@ public final class CrCr implements StdNum {
                     .description("Costa Rican foreign resident number: 11 or 12 digits"
                             + " starting with 1.")
                     .tags(Tag.PERSON)
-                    .references("https://www.migracion.go.cr/")
+                    .references("https://consultapagos.hacienda.go.cr/consultapagos/ayuda_cedulas.htm")
                     .build();
 
     private CrCr() {

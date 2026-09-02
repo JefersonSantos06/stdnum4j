@@ -37,7 +37,7 @@ public final class Isbn implements StdNum {
                             + " (bookland EAN) forms, hyphenated with the official"
                             + " registration group and publisher ranges.")
                     .tags(Tag.MEDIA)
-                    .references("https://www.isbn-international.org/",
+                    .references("https://www.isbn-international.org/content/what-isbn/10",
                             "https://en.wikipedia.org/wiki/ISBN")
                     .build();
 

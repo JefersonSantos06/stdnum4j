@@ -27,7 +27,7 @@ public final class NlBrin implements StdNum {
                     .description("Number of a Dutch school: 2 digits and 2 letters, with an"
                             + " optional 2-digit location.")
                     .tags(Tag.EDUCATION)
-                    .references("https://duo.nl/open_onderwijsdata/")
+                    .references("https://nl.wikipedia.org/wiki/BRIN-nummer")
                     .build();
 
     private NlBrin() {

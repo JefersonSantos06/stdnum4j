@@ -29,7 +29,7 @@ public final class KrBrn implements StdNum {
                     .description("South Korean business registration number: 10 digits as a tax"
                             + " office code, a business type code and a serial number.")
                     .tags(Tag.COMPANY, Tag.TAX)
-                    .references("https://www.nts.go.kr/")
+                    .references("https://call.nts.go.kr/call/qna/selectQnaInfo.do?mi=1329&ctgId=CTG11944")
                     .build();
 
     private KrBrn() {

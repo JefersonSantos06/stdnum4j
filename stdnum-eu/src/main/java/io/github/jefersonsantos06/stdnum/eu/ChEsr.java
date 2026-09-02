@@ -29,7 +29,8 @@ public final class ChEsr implements StdNum {
                     .description("Reference number of a Swiss payment slip: up to 27 digits"
                             + " with a recursive mod 10 check digit.")
                     .tags(Tag.PAYMENT, Tag.BANK)
-                    .references("https://www.paymentstandards.ch/")
+                    .references("https://www.six-group.com/dam/download/banking-services/standardization/"
+                            + "qr-bill/ig-qr-bill-v2.3-en.pdf")
                     .build();
 
     private ChEsr() {

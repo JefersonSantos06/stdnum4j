@@ -29,7 +29,7 @@ public final class PtCc implements StdNum {
                     .description("Portuguese citizen card number: the civil identification"
                             + " number, two version characters and a base-36 Luhn check digit.")
                     .tags(Tag.PERSON)
-                    .references("https://www.autenticacao.gov.pt/cartao-de-cidadao")
+                    .references("https://www.autenticacao.gov.pt/o-cartao-de-cidadao")
                     .build();
 
     private PtCc() {

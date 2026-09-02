@@ -30,7 +30,8 @@ public final class FrAccise implements StdNum {
                     .description("French excise number: FR0, a department, an office, a letter"
                             + " for the kind of operator and a serial.")
                     .tags(Tag.COMPANY, Tag.TAX, Tag.EXCISE)
-                    .references("https://www.douane.gouv.fr/")
+                    .references("https://www.douane.gouv.fr/fiche/"
+                            + "fiches-dactivite-evaluez-votre-activite-fiscale")
                     .build();
 
     private FrAccise() {

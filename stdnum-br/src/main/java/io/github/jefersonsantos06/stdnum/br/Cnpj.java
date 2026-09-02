@@ -35,7 +35,8 @@ public final class Cnpj implements StdNum {
                             + " plus two weighted mod 11 check digits, supporting the"
                             + " alphanumeric format valid from July 2026.")
                     .tags(Tag.TAX, Tag.COMPANY, Tag.VAT)
-                    .references("https://www.gov.br/receitafederal/pt-br/servicos/cnpj",
+                    .references("https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/"
+                            + "cadastros/cnpj",
                             "https://en.wikipedia.org/wiki/CNPJ")
                     .build();
 

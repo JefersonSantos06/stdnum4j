@@ -23,7 +23,7 @@ public final class IsVsk implements StdNum {
                     .title("Virdisaukaskattur")
                     .description("Icelandic VAT number: 5 or 6 digits.")
                     .tags(Tag.VAT, Tag.COMPANY)
-                    .references("https://www.skatturinn.is/")
+                    .references("https://en.wikipedia.org/wiki/VAT_identification_number")
                     .build();
 
     private IsVsk() {

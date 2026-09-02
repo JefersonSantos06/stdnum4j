@@ -24,7 +24,8 @@ public final class SkIco implements StdNum {
                     .description("Slovak organisation identification number: 8 digits with a"
                             + " weighted mod 11 check digit.")
                     .tags(Tag.COMPANY, Tag.TAX)
-                    .references("https://en.wikipedia.org/wiki/VAT_identification_number")
+                    .references("https://sk.wikipedia.org/wiki/"
+                            + "Identifika%C4%8Dn%C3%A9_%C4%8D%C3%ADslo_organiz%C3%A1cie")
                     .build();
 
     private SkIco() {

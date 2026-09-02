@@ -14,6 +14,10 @@ import java.util.Objects;
  *     case Check.Invalid i -> reject(i.error(), i.reason());
  * }
  * }</pre>
+ *
+ * <p>{@link Invalid#reason()} is English, for a log. To show the rejection to
+ * someone, pass the {@link Invalid} to a {@link Messages} for their
+ * language.</p>
  */
 public sealed interface Check {
 
@@ -24,13 +28,25 @@ public sealed interface Check {
         }
     }
 
-    /** The number is invalid for the given {@code error}, detailed by {@code reason}. */
-    record Invalid(ValidationError error, String reason) implements Check {
+    /**
+     * The number is invalid for the given {@code error}, detailed by
+     * {@code message} — which carries the reason without committing to a
+     * language.
+     */
+    record Invalid(ValidationError error, Message message) implements Check {
         public Invalid {
             Objects.requireNonNull(error, "error");
-            if (reason == null) {
-                reason = "";
-            }
+            Objects.requireNonNull(message, "message");
+        }
+
+        /** A rejection whose reason is a plain English sentence. */
+        public Invalid(ValidationError error, String reason) {
+            this(error, Message.plain(reason));
+        }
+
+        /** The reason in English, which is what belongs in a log. */
+        public String reason() {
+            return message.text();
         }
     }
 

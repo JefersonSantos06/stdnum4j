@@ -27,6 +27,37 @@ public interface StdNum {
 when the number is invalid. The exceptions carry no stack trace: they are cheap
 signalling, not error reporting.
 
+### Saying why, in a language
+
+`getMessage()` and `Check.Invalid.reason()` are English, which is what belongs
+in a log. To show the failure to a person, hand it to a `Messages` for their
+locale — the library never picks one, holds no global state, and never reads
+`Locale.getDefault()`:
+
+```java
+Messages pt = Messages.forLocale(Locale.forLanguageTag("pt-BR"));
+
+switch (cpf.check(input)) {
+    case Check.Valid v   -> store(v.compact());
+    case Check.Invalid i -> reject(pt.render(i));   // "Um CPF formado por um
+}                                                  //  único dígito repetido
+                                                   //  não é válido."
+```
+
+A sentence is looked for under the message's own code, in the package of the
+class that threw — so a module ships its translations inside its own jar —
+then under `error.<NAME>` for the `ValidationError`, four sentences every
+translation carries, and finally the English the validator was written with.
+A translation is therefore never all-or-nothing: what is not translated yet
+costs a less specific sentence, not an English one.
+
+Translations are `messages_<language>[_<COUNTRY>].properties`, read as UTF-8
+from the package of the anchor class. There is deliberately no
+`messages.properties`: English lives in the Java source, once, next to the
+`throw`. On the module path the anchor's package has to be open to
+`stdnum-core`; nothing here declares a `module-info`, and automatic modules
+are open, so that costs nothing today.
+
 Implementations register through `StdNumProvider` (Java `ServiceLoader`) and are
 discoverable via the registry:
 

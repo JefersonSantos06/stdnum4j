@@ -5,10 +5,10 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
-
 import java.util.Locale;
 
 /**
@@ -84,8 +84,8 @@ public final class Cnpj implements StdNum {
             throw new InvalidFormatException();
         }
         if (Repeats.allSame(n)) {
-            throw new InvalidFormatException(
-                    "A CNPJ consisting of a single repeated character is not valid.");
+            throw new InvalidFormatException(Message.of(Cnpj.class, "cnpj.repeated",
+                    "A CNPJ consisting of a single repeated character is not valid."));
         }
         if (!n.endsWith(calcCheckDigits(n.substring(0, 12)))) {
             throw new InvalidChecksumException();

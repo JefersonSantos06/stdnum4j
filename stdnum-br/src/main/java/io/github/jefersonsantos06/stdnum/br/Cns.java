@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -74,8 +75,8 @@ public final class Cns implements StdNum {
                 throw new InvalidChecksumException();
             }
         } else {
-            throw new InvalidComponentException(
-                    "A CNS must start with 1, 2 (definitive) or 7, 8, 9 (provisional).");
+            throw new InvalidComponentException(Message.of(Cns.class, "cns.prefix",
+                    "A CNS must start with 1, 2 (definitive) or 7, 8, 9 (provisional)."));
         }
         return n;
     }

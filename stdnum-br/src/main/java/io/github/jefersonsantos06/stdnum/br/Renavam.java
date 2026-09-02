@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -75,8 +76,8 @@ public final class Renavam implements StdNum {
             throw new InvalidLengthException();
         }
         if (Repeats.allSame(n)) {
-            throw new InvalidFormatException(
-                    "A RENAVAM consisting of a single repeated digit is not valid.");
+            throw new InvalidFormatException(Message.of(Renavam.class, "renavam.repeated",
+                    "A RENAVAM consisting of a single repeated digit is not valid."));
         }
         if (n.charAt(10) - '0' != calcCheckDigit(n.substring(0, 10))) {
             throw new InvalidChecksumException();

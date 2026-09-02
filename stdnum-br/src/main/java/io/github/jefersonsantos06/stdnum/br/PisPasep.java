@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -68,8 +69,8 @@ public final class PisPasep implements StdNum {
             throw new InvalidLengthException();
         }
         if (Repeats.allSame(n)) {
-            throw new InvalidFormatException(
-                    "A PIS/PASEP consisting of a single repeated digit is not valid.");
+            throw new InvalidFormatException(Message.of(PisPasep.class, "pis-pasep.repeated",
+                    "A PIS/PASEP consisting of a single repeated digit is not valid."));
         }
         if (n.charAt(10) - '0' != calcCheckDigit(n.substring(0, 10))) {
             throw new InvalidChecksumException();

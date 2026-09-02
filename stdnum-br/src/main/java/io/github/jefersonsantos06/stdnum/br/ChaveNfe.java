@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -90,11 +91,13 @@ public final class ChaveNfe implements StdNum {
             throw new InvalidLengthException();
         }
         if (Uf.fromIbge(Integer.parseInt(n.substring(0, 2))).isEmpty()) {
-            throw new InvalidComponentException("Unknown IBGE state code.");
+            throw new InvalidComponentException(Message.of(ChaveNfe.class, "chave-nfe.uf",
+                    "Unknown IBGE state code."));
         }
         int month = Integer.parseInt(n.substring(4, 6));
         if (month < 1 || month > 12) {
-            throw new InvalidComponentException("The emission month must be 01-12.");
+            throw new InvalidComponentException(Message.of(ChaveNfe.class, "chave-nfe.month",
+                    "The emission month must be 01-12."));
         }
         if (n.charAt(43) - '0' != calcCheckDigit(n.substring(0, 43))) {
             throw new InvalidChecksumException();

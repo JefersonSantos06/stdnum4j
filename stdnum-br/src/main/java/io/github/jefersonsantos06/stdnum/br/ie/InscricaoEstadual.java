@@ -3,10 +3,10 @@ package io.github.jefersonsantos06.stdnum.br.ie;
 import io.github.jefersonsantos06.stdnum.br.Uf;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -104,8 +104,8 @@ public final class InscricaoEstadual implements StdNum {
             throw new InvalidFormatException();
         }
         if (allSame(n)) {
-            throw new InvalidFormatException(
-                    "A state registration consisting of a single repeated character is not valid.");
+            throw new InvalidFormatException(Message.of(InscricaoEstadual.class, "ie.repeated",
+                    "A state registration consisting of a single repeated character is not valid."));
         }
         return rule.validate(n);
     }

@@ -5,10 +5,10 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -72,17 +72,20 @@ public final class BrCode implements StdNum {
             String tag = n.substring(i, i + 2);
             String lengthText = n.substring(i + 2, i + 4);
             if (!Strings.isDigits(tag) || !Strings.isDigits(lengthText)) {
-                throw new InvalidFormatException("Malformed TLV field in the payload.");
+                throw new InvalidFormatException(Message.of(BrCode.class, "brcode.tlv.malformed",
+                        "Malformed TLV field in the payload."));
             }
             int length = Integer.parseInt(lengthText);
             if (i + 4 + length > n.length()) {
-                throw new InvalidFormatException("A TLV field runs past the end of the payload.");
+                throw new InvalidFormatException(Message.of(BrCode.class, "brcode.tlv.overrun",
+                        "A TLV field runs past the end of the payload."));
             }
             fields.put(tag, n.substring(i + 4, i + 4 + length));
             i += 4 + length;
         }
         if (i != n.length()) {
-            throw new InvalidFormatException("Trailing bytes after the last TLV field.");
+            throw new InvalidFormatException(Message.of(BrCode.class, "brcode.tlv.trailing",
+                    "Trailing bytes after the last TLV field."));
         }
         return fields;
     }
@@ -91,17 +94,19 @@ public final class BrCode implements StdNum {
     public String validate(String number) {
         String n = compact(number);
         if (n.length() < 8) {
-            throw new InvalidFormatException("The payload is too short to hold a CRC.");
+            throw new InvalidFormatException(Message.of(BrCode.class, "brcode.crc.short",
+                    "The payload is too short to hold a CRC."));
         }
         // the CRC tag sits at a fixed offset from the end; searching for
         // "6304" would misfire when the CRC value itself is 6304
         if (!n.startsWith("6304", n.length() - 8)) {
-            throw new InvalidComponentException(
-                    "A Pix payload ends with tag 63, length 04 and the CRC.");
+            throw new InvalidComponentException(Message.of(BrCode.class, "brcode.crc.tag",
+                    "A Pix payload ends with tag 63, length 04 and the CRC."));
         }
         String expected = calcCrc(n.substring(0, n.length() - 4));
         if (!n.endsWith(expected)) {
-            throw new InvalidChecksumException("The payload CRC does not match.");
+            throw new InvalidChecksumException(Message.of(BrCode.class, "brcode.crc.mismatch",
+                    "The payload CRC does not match."));
         }
         // structural check of the TLV fields, CRC field included
         parse(n);

@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -69,8 +70,8 @@ public final class CodigoBarras implements StdNum {
             throw new InvalidLengthException();
         }
         if (n.charAt(3) != '9') {
-            throw new InvalidComponentException(
-                    "The currency code of a payment slip barcode is 9 (real).");
+            throw new InvalidComponentException(Message.of(CodigoBarras.class, "codigo-barras.currency",
+                    "The currency code of a payment slip barcode is 9 (real)."));
         }
         String base = n.substring(0, 4) + n.substring(5);
         if (n.charAt(4) - '0' != calcCheckDigit(base)) {

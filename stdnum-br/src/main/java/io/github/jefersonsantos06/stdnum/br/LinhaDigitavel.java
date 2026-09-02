@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -84,8 +85,8 @@ public final class LinhaDigitavel implements StdNum {
 
     private static void checkField(String field, char expected) {
         if (expected - '0' != calcFieldCheckDigit(field)) {
-            throw new InvalidChecksumException(
-                    "The check digit of a field of the typeable line is invalid.");
+            throw new InvalidChecksumException(Message.of(LinhaDigitavel.class, "linha-digitavel.field-check",
+                    "The check digit of a field of the typeable line is invalid."));
         }
     }
 

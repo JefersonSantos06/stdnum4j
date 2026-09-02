@@ -64,7 +64,7 @@ public interface StdNum {
         try {
             return new Check.Valid(validate(number));
         } catch (ValidationException e) {
-            return new Check.Invalid(e.error(), e.getMessage());
+            return new Check.Invalid(e.error(), e.message());
         }
     }
 

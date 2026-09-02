@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -97,7 +98,8 @@ final class UfRules {
                 return n;
             }
         }
-        throw new InvalidComponentException("Unexpected state registration prefix.");
+        throw new InvalidComponentException(Message.of(InscricaoEstadual.class, "ie.prefix",
+                "Unexpected state registration prefix."));
     }
 
     private static int digit(String n, int index) {
@@ -139,7 +141,8 @@ final class UfRules {
         prefixed(n, "24");
         int type = digit(n, 2);
         if (type != 0 && type != 3 && type != 5 && type != 7 && type != 8) {
-            throw new InvalidComponentException("Invalid company type digit for AL.");
+            throw new InvalidComponentException(Message.of(InscricaoEstadual.class, "ie.al.company-type",
+                    "Invalid company type digit for AL."));
         }
         expect(n, 8, Weighted.mod11CheckDigit(n.substring(0, 8), W9_2));
         return n;
@@ -215,7 +218,8 @@ final class UfRules {
         digits(n, 9);
         int prefix = Integer.parseInt(n.substring(0, 2));
         if (prefix != 10 && prefix != 11 && (prefix < 20 || prefix > 29)) {
-            throw new InvalidComponentException("Unexpected state registration prefix.");
+            throw new InvalidComponentException(Message.of(InscricaoEstadual.class, "ie.prefix",
+                    "Unexpected state registration prefix."));
         }
         expect(n, 8, Weighted.mod11CheckDigit(n.substring(0, 8), W9_2));
         return n;
@@ -341,7 +345,8 @@ final class UfRules {
         digits(n, 11);
         String type = n.substring(2, 4);
         if (!type.equals("01") && !type.equals("02") && !type.equals("03") && !type.equals("99")) {
-            throw new InvalidComponentException("Invalid registration type for TO.");
+            throw new InvalidComponentException(Message.of(InscricaoEstadual.class, "ie.to.registration-type",
+                    "Invalid registration type for TO."));
         }
         String worked = n.substring(0, 2) + n.substring(4, 10);
         expect(n, 10, Weighted.mod11CheckDigit(worked, W9_2));

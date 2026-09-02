@@ -17,4 +17,9 @@ public final class InvalidChecksumException extends ValidationException {
     public InvalidChecksumException(String message) {
         super(ValidationError.INVALID_CHECKSUM, message);
     }
+
+    /** With a message that can be translated; see {@link Message}. */
+    public InvalidChecksumException(Message message) {
+        super(ValidationError.INVALID_CHECKSUM, message);
+    }
 }

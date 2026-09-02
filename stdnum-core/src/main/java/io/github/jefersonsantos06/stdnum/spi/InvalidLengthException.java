@@ -21,4 +21,9 @@ public final class InvalidLengthException extends InvalidFormatException {
     public InvalidLengthException(String message) {
         super(ValidationError.INVALID_LENGTH, message);
     }
+
+    /** With a message that can be translated; see {@link Message}. */
+    public InvalidLengthException(Message message) {
+        super(ValidationError.INVALID_LENGTH, message);
+    }
 }

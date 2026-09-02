@@ -19,8 +19,18 @@ public class InvalidFormatException extends ValidationException {
         super(ValidationError.INVALID_FORMAT, message);
     }
 
+    /** With a message that can be translated; see {@link Message}. */
+    public InvalidFormatException(Message message) {
+        super(ValidationError.INVALID_FORMAT, message);
+    }
+
     /** For subclasses that refine the error value (see {@link InvalidLengthException}). */
     protected InvalidFormatException(ValidationError error, String message) {
+        super(error, message);
+    }
+
+    /** For subclasses that refine the error value (see {@link InvalidLengthException}). */
+    protected InvalidFormatException(ValidationError error, Message message) {
         super(error, message);
     }
 }

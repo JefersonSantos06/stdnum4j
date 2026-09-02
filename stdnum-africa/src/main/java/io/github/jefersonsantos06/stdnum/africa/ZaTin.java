@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -51,7 +52,8 @@ public final class ZaTin implements StdNum {
             throw new InvalidFormatException();
         }
         if ("01239".indexOf(n.charAt(0)) < 0) {
-            throw new InvalidComponentException("A TIN starts with 0, 1, 2, 3 or 9.");
+            throw new InvalidComponentException(Message.of(ZaTin.class, "tin.prefix",
+                    "A TIN starts with 0, 1, 2, 3 or 9."));
         }
         Luhn.validate(n);
         return n;

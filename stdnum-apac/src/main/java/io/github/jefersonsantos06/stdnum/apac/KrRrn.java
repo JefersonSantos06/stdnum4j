@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -76,8 +78,7 @@ public final class KrRrn implements StdNum {
         try {
             return LocalDate.of(year, month, day);
         } catch (DateTimeException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid birth date.");
+            throw new InvalidComponentException(Reasons.birthDate());
         }
     }
 
@@ -92,7 +93,8 @@ public final class KrRrn implements StdNum {
         }
         getBirthDate(n);
         if (Integer.parseInt(n.substring(7, 9)) > 96) {
-            throw new InvalidComponentException("Unknown place of birth code.");
+            throw new InvalidComponentException(Message.of(KrRrn.class, "birth-place.unknown",
+                    "Unknown place of birth code."));
         }
         if (n.charAt(12) != calcCheckDigit(n.substring(0, 12))) {
             throw new InvalidChecksumException();
@@ -114,7 +116,8 @@ public final class KrRrn implements StdNum {
     public static String validate(String number, boolean allowFuture) {
         String n = INSTANCE.validate(number);
         if (!allowFuture && getBirthDate(n).isAfter(java.time.LocalDate.now())) {
-            throw new InvalidComponentException("The birth date is in the future.");
+            throw new InvalidComponentException(Message.of(KrRrn.class, "rrn.birth-date.future",
+                    "The birth date is in the future."));
         }
         return n;
     }

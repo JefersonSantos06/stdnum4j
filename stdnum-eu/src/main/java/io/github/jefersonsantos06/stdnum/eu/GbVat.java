@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -100,8 +101,8 @@ public final class GbVat implements StdNum {
         boolean valid = (number.startsWith("GD") && value < 500)
                 || (number.startsWith("HA") && value >= 500);
         if (!valid) {
-            throw new InvalidComponentException(
-                    "Not a valid government department or health authority number.");
+            throw new InvalidComponentException(Message.of(GbVat.class, "vat.gb.institutional",
+                    "Not a valid government department or health authority number."));
         }
     }
 

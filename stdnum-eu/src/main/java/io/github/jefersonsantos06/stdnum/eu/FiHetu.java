@@ -4,6 +4,8 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -82,8 +84,7 @@ public final class FiHetu implements StdNum {
             return LocalDate.of(century(m.group(4).charAt(0)) + Integer.parseInt(m.group(3)),
                     Integer.parseInt(m.group(2)), Integer.parseInt(m.group(1)));
         } catch (DateTimeException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid birth date.");
+            throw new InvalidComponentException(Reasons.birthDate());
         }
     }
 
@@ -105,10 +106,12 @@ public final class FiHetu implements StdNum {
         getBirthDate(n);
         int individual = Integer.parseInt(m.group(5));
         if (individual < 2) {
-            throw new InvalidComponentException("The serial number starts at 002.");
+            throw new InvalidComponentException(Message.of(FiHetu.class, "hetu.serial-start",
+                    "The serial number starts at 002."));
         }
         if (individual >= 900 && !allowTemporary) {
-            throw new InvalidComponentException("This is a temporary identity code.");
+            throw new InvalidComponentException(Message.of(FiHetu.class, "hetu.temporary",
+                    "This is a temporary identity code."));
         }
         if (m.group(6).charAt(0) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

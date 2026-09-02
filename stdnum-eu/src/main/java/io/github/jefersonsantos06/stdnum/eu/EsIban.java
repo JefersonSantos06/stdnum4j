@@ -3,6 +3,7 @@ package io.github.jefersonsantos06.stdnum.eu;
 import io.github.jefersonsantos06.stdnum.international.Iban;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 
@@ -41,7 +42,8 @@ public final class EsIban implements StdNum {
     public static String toCcc(String number) {
         String n = INSTANCE.compact(number);
         if (!n.startsWith("ES")) {
-            throw new InvalidComponentException("Not a Spanish IBAN.");
+            throw new InvalidComponentException(Message.of(EsIban.class, "iban.es.country",
+                    "Not a Spanish IBAN."));
         }
         return n.substring(4);
     }

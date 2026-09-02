@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -113,7 +114,8 @@ public final class ItAic implements StdNum {
             throw new InvalidFormatException();
         }
         if (n.charAt(0) != '0') {
-            throw new InvalidComponentException("A product code starts with 0.");
+            throw new InvalidComponentException(Message.of(ItAic.class, "aic.prefix",
+                    "A product code starts with 0."));
         }
         if (n.charAt(8) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

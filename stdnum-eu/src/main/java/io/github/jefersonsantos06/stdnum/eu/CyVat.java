@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -65,7 +66,8 @@ public final class CyVat implements StdNum {
             throw new InvalidLengthException();
         }
         if (n.startsWith("12")) {
-            throw new InvalidComponentException("Cypriot VAT numbers do not start with 12.");
+            throw new InvalidComponentException(Message.of(CyVat.class, "vat.cy.prefix",
+                    "Cypriot VAT numbers do not start with 12."));
         }
         if (n.charAt(8) != calcCheckDigit(n.substring(0, 8))) {
             throw new InvalidChecksumException();

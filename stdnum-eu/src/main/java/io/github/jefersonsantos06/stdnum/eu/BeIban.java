@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -59,7 +60,8 @@ public final class BeIban implements StdNum {
      */
     public static String calcCheckDigits(String base) {
         if (!Strings.isDigits(base)) {
-            throw new InvalidFormatException("A Belgian account number is all digits.");
+            throw new InvalidFormatException(Message.of(BeIban.class, "iban.be.account-digits",
+                    "A Belgian account number is all digits."));
         }
         long check = Long.parseLong(base) % 97;
         return String.format("%02d", check == 0 ? 97 : check);
@@ -69,7 +71,8 @@ public final class BeIban implements StdNum {
     public static Map<String, String> info(String number) {
         String n = INSTANCE.compact(number);
         if (n.length() < 7) {
-            throw new InvalidComponentException("Not a Belgian IBAN.");
+            throw new InvalidComponentException(Message.of(BeIban.class, "iban.be.country",
+                    "Not a Belgian IBAN."));
         }
         return banks().info(n.substring(4, 7)).get(0).properties();
     }
@@ -83,13 +86,15 @@ public final class BeIban implements StdNum {
     public String validate(String number) {
         String n = Iban.INSTANCE.validate(number, false);
         if (!n.startsWith("BE")) {
-            throw new InvalidComponentException("Not a Belgian IBAN.");
+            throw new InvalidComponentException(Message.of(BeIban.class, "iban.be.country",
+                    "Not a Belgian IBAN."));
         }
         if (!n.substring(n.length() - 2).equals(calcCheckDigits(n.substring(4, n.length() - 2)))) {
             throw new InvalidChecksumException();
         }
         if (info(n).isEmpty()) {
-            throw new InvalidComponentException("Not the code of an institution.");
+            throw new InvalidComponentException(Message.of(BeIban.class, "bank.institution",
+                    "Not the code of an institution."));
         }
         return n;
     }

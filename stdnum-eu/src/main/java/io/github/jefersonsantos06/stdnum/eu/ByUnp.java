@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -95,7 +97,7 @@ public final class ByUnp implements StdNum {
         }
         int check = sum % 11;
         if (check > 9) {
-            throw new InvalidChecksumException("No valid check digit exists for this number.");
+            throw new InvalidChecksumException(Reasons.noCheckDigit());
         }
         return (char) ('0' + check);
     }
@@ -115,7 +117,8 @@ public final class ByUnp implements StdNum {
             throw new InvalidFormatException();
         }
         if ("1234567ABCEHKM".indexOf(n.charAt(0)) < 0) {
-            throw new InvalidComponentException("Not the code of a region.");
+            throw new InvalidComponentException(Message.of(ByUnp.class, "unp.region",
+                    "Not the code of a region."));
         }
         if (n.charAt(8) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

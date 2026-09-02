@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -86,7 +87,8 @@ public final class FrTva implements StdNum {
     public static String toSiren(String number) {
         String n = INSTANCE.validate(number);
         if (n.startsWith("000", 2)) {
-            throw new InvalidComponentException("Monaco TVA numbers carry no SIREN.");
+            throw new InvalidComponentException(Message.of(FrTva.class, "tva.fr.monaco-siren",
+                    "Monaco TVA numbers carry no SIREN."));
         }
         return n.substring(2);
     }

@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
@@ -131,7 +132,8 @@ public final class MxRfc implements StdNum {
             return MonthDay.of(Integer.parseInt(yymmdd.substring(2, 4)),
                     Integer.parseInt(yymmdd.substring(4, 6)));
         } catch (DateTimeException | NumberFormatException e) {
-            throw new InvalidComponentException("The number does not name a day.");
+            throw new InvalidComponentException(Message.of(MxRfc.class, "rfc.date",
+                    "The number does not name a day."));
         }
     }
 
@@ -155,8 +157,8 @@ public final class MxRfc implements StdNum {
                 throw new InvalidFormatException();
             }
             if (FORBIDDEN_PREFIXES.contains(n.substring(0, 4))) {
-                throw new InvalidComponentException(
-                        "A personal number does not open with " + n.substring(0, 4) + ".");
+                throw new InvalidComponentException(Message.of(MxRfc.class, "rfc.forbidden-prefix",
+                        "A personal number does not open with {0}.", n.substring(0, 4)));
             }
             checkDate(n.substring(4, 10));
         } else if (n.length() == 12) {
@@ -170,7 +172,8 @@ public final class MxRfc implements StdNum {
         if (validateCheckDigits && n.length() >= 12) {
             String homoclave = n.substring(n.length() - 3);
             if (!HOMOCLAVE.matcher(homoclave).matches()) {
-                throw new InvalidComponentException("Malformed homoclave.");
+                throw new InvalidComponentException(Message.of(MxRfc.class, "rfc.homoclave",
+                        "Malformed homoclave."));
             }
             if (n.charAt(n.length() - 1) != calcCheckDigit(n.substring(0, n.length() - 1))) {
                 throw new InvalidChecksumException();

@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -55,7 +56,8 @@ public final class PeRuc implements StdNum {
     public static String toDni(String number) {
         String n = INSTANCE.validate(number);
         if (!n.startsWith("10")) {
-            throw new InvalidComponentException("Only personal RUC numbers carry a DNI.");
+            throw new InvalidComponentException(Message.of(PeRuc.class, "ruc.dni",
+                    "Only personal RUC numbers carry a DNI."));
         }
         return n.substring(2, 10);
     }
@@ -72,7 +74,8 @@ public final class PeRuc implements StdNum {
         String type = n.substring(0, 2);
         if (!type.equals("10") && !type.equals("15")
                 && !type.equals("17") && !type.equals("20")) {
-            throw new InvalidComponentException("Unknown RUC taxpayer type.");
+            throw new InvalidComponentException(Message.of(PeRuc.class, "ruc.taxpayer-type",
+                    "Unknown RUC taxpayer type."));
         }
         if (n.charAt(10) != calcCheckDigit(n.substring(0, 10))) {
             throw new InvalidChecksumException();

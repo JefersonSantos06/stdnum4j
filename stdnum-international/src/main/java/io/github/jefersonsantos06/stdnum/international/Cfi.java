@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -66,7 +67,8 @@ public final class Cfi implements StdNum {
     public static Map<String, String> info(String number) {
         List<NumDb.Entry> entries = classification().info(INSTANCE.compact(number));
         if (entries.size() != 6) {
-            throw new InvalidComponentException("Not a classification that exists.");
+            throw new InvalidComponentException(Message.of(Cfi.class, "cfi.classification",
+                    "Not a classification that exists."));
         }
         Map<String, String> info = new LinkedHashMap<>();
         info.putAll(entries.get(0).properties());
@@ -76,8 +78,8 @@ public final class Cfi implements StdNum {
             if (value == null) {
                 // X stands for a position that does not apply to this group
                 if (!entry.part().equals("X")) {
-                    throw new InvalidComponentException(
-                            "The letter " + entry.part() + " means nothing here.");
+                    throw new InvalidComponentException(Message.of(Cfi.class, "cfi.attribute",
+                            "The letter {0} means nothing here.", entry.part()));
                 }
                 continue;
             }

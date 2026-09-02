@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -52,7 +53,8 @@ public final class VeRif implements StdNum {
         String b = INSTANCE.compact(base);
         int type = TYPES.indexOf(b.charAt(0));
         if (type < 0) {
-            throw new InvalidComponentException("Unknown RIF type letter.");
+            throw new InvalidComponentException(Message.of(VeRif.class, "rif.type",
+                    "Unknown RIF type letter."));
         }
         int sum = TYPE_VALUES[type];
         for (int i = 0; i < WEIGHTS.length; i++) {
@@ -68,7 +70,8 @@ public final class VeRif implements StdNum {
             throw new InvalidLengthException();
         }
         if (TYPES.indexOf(n.charAt(0)) < 0) {
-            throw new InvalidComponentException("Unknown RIF type letter.");
+            throw new InvalidComponentException(Message.of(VeRif.class, "rif.type",
+                    "Unknown RIF type letter."));
         }
         if (!Strings.isDigits(n.substring(1))) {
             throw new InvalidFormatException();

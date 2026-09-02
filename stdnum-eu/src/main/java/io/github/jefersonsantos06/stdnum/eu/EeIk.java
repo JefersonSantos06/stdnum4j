@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -81,15 +83,14 @@ public final class EeIk implements StdNum {
             case '3', '4' -> 1900;
             case '5', '6' -> 2000;
             case '7', '8' -> 2100;
-            default -> throw new InvalidComponentException(
-                    "The first digit does not name a century.");
+            default -> throw new InvalidComponentException(Message.of(EeIk.class, "ik.century",
+                    "The first digit does not name a century."));
         };
         try {
             return LocalDate.of(century + Integer.parseInt(n.substring(1, 3)),
                     Integer.parseInt(n.substring(3, 5)), Integer.parseInt(n.substring(5, 7)));
         } catch (DateTimeException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid birth date.");
+            throw new InvalidComponentException(Reasons.birthDate());
         }
     }
 
@@ -97,7 +98,8 @@ public final class EeIk implements StdNum {
     public static char getGender(String number) {
         String n = INSTANCE.compact(number);
         if (n.isEmpty() || "12345678".indexOf(n.charAt(0)) < 0) {
-            throw new InvalidComponentException("The first digit does not name a sex.");
+            throw new InvalidComponentException(Message.of(EeIk.class, "ik.sex",
+                    "The first digit does not name a sex."));
         }
         return n.charAt(0) % 2 == 1 ? 'M' : 'F';
     }

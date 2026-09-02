@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -74,8 +75,7 @@ public final class MuNid implements StdNum {
                     Integer.parseInt(n.substring(3, 5)),
                     Integer.parseInt(n.substring(1, 3)));
         } catch (DateTimeException | NumberFormatException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid birth date.");
+            throw new InvalidComponentException(Reasons.birthDate());
         }
     }
 

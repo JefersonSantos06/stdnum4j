@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -63,7 +64,8 @@ public final class AzVoen implements StdNum {
             throw new InvalidFormatException();
         }
         if (n.charAt(9) != '1' && n.charAt(9) != '2') {
-            throw new InvalidComponentException("A VÖEN ends with 1 or 2.");
+            throw new InvalidComponentException(Message.of(AzVoen.class, "voen.suffix",
+                    "A VÖEN ends with 1 or 2."));
         }
         if (n.charAt(8) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

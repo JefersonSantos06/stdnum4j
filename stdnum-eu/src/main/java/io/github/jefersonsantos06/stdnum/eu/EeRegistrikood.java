@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -57,8 +58,8 @@ public final class EeRegistrikood implements StdNum {
             throw new InvalidLengthException();
         }
         if ("1789".indexOf(n.charAt(0)) < 0) {
-            throw new InvalidComponentException(
-                    "Estonian registry codes start with 1, 7, 8 or 9.");
+            throw new InvalidComponentException(Message.of(EeRegistrikood.class, "registrikood.prefix",
+                    "Estonian registry codes start with 1, 7, 8 or 9."));
         }
         if (n.charAt(7) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

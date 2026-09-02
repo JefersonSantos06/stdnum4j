@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -62,7 +63,7 @@ public final class NoKontonr implements StdNum {
         }
         int check = sum % 11;
         if (check == 10) {
-            throw new InvalidChecksumException("No valid check digit exists for this number.");
+            throw new InvalidChecksumException(Reasons.noCheckDigit());
         }
         return (char) ('0' + check);
     }

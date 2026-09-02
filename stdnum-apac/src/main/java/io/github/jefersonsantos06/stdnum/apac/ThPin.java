@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -61,8 +62,8 @@ public final class ThPin implements StdNum {
         if (n.charAt(0) == '0' || n.charAt(0) == '9') {
             // 0 marks a number issued by the Department of Business
             // Development (see ThMoa) and 9 is not assigned to people
-            throw new InvalidComponentException(
-                    "A personal identification number does not start with 0 or 9.");
+            throw new InvalidComponentException(Message.of(ThPin.class, "pin.prefix",
+                    "A personal identification number does not start with 0 or 9."));
         }
         if (n.charAt(12) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

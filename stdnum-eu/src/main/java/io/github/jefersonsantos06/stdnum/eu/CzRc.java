@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -61,7 +63,8 @@ public final class CzRc implements StdNum {
                 year -= 100;
             }
             if (year > 1953) {
-                throw new InvalidLengthException("No 9 digit birth numbers after 1953.");
+                throw new InvalidLengthException(Message.of(CzRc.class, "rc.nine-digit-year",
+                        "No 9 digit birth numbers after 1953."));
             }
         } else if (year < 1954) {
             year += 100;
@@ -69,8 +72,7 @@ public final class CzRc implements StdNum {
         try {
             return LocalDate.of(year, month, day);
         } catch (DateTimeException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid birth date.");
+            throw new InvalidComponentException(Reasons.birthDate());
         }
     }
 

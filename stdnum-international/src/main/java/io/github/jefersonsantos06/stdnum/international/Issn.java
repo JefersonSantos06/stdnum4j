@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -84,7 +85,8 @@ public final class Issn implements StdNum {
      */
     public static String toEan(String number, String issueCode) {
         if (issueCode == null || issueCode.length() != 2 || !Strings.isDigits(issueCode)) {
-            throw new InvalidFormatException("The issue code is two digits.");
+            throw new InvalidFormatException(Message.of(Issn.class, "issn.issue-code",
+                    "The issue code is two digits."));
         }
         String base = "977" + INSTANCE.validate(number).substring(0, 7) + issueCode;
         return base + Ean.calcCheckDigit(base);

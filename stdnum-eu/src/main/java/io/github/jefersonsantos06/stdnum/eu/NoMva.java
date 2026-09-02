@@ -2,6 +2,7 @@ package io.github.jefersonsantos06.stdnum.eu;
 
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -43,7 +44,8 @@ public final class NoMva implements StdNum {
     public String validate(String number) {
         String n = compact(number);
         if (!n.endsWith("MVA")) {
-            throw new InvalidFormatException("A Norwegian VAT number ends with MVA.");
+            throw new InvalidFormatException(Message.of(NoMva.class, "mva.suffix",
+                    "A Norwegian VAT number ends with MVA."));
         }
         NoOrgnr.INSTANCE.validate(n.substring(0, n.length() - 3));
         return n;

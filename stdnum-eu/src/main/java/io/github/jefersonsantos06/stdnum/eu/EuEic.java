@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -70,7 +71,8 @@ public final class EuEic implements StdNum {
             throw new InvalidLengthException();
         }
         if (n.charAt(15) == '-') {
-            throw new InvalidFormatException("The check character cannot be a filler.");
+            throw new InvalidFormatException(Message.of(EuEic.class, "eic.check-filler",
+                    "The check character cannot be a filler."));
         }
         if (n.charAt(15) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

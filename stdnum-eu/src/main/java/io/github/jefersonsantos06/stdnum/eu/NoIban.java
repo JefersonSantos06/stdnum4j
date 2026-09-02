@@ -3,6 +3,7 @@ package io.github.jefersonsantos06.stdnum.eu;
 import io.github.jefersonsantos06.stdnum.international.Iban;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 
@@ -41,7 +42,8 @@ public final class NoIban implements StdNum {
     public static String toKontonr(String number) {
         String n = INSTANCE.compact(number);
         if (!n.startsWith("NO")) {
-            throw new InvalidComponentException("Not a Norwegian IBAN.");
+            throw new InvalidComponentException(Message.of(NoIban.class, "iban.no.country",
+                    "Not a Norwegian IBAN."));
         }
         return n.substring(4);
     }

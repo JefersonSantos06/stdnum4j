@@ -6,6 +6,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -92,8 +94,7 @@ public final class CnRic implements StdNum {
             return LocalDate.of(Integer.parseInt(n.substring(6, 10)),
                     Integer.parseInt(n.substring(10, 12)), Integer.parseInt(n.substring(12, 14)));
         } catch (DateTimeException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid birth date.");
+            throw new InvalidComponentException(Reasons.birthDate());
         }
     }
 
@@ -112,7 +113,8 @@ public final class CnRic implements StdNum {
         }
         String counties = info.get("county");
         if (info.isEmpty() || counties == null) {
-            throw new InvalidComponentException("Not a division that has been allocated.");
+            throw new InvalidComponentException(Message.of(CnRic.class, "ric.division",
+                    "Not a division that has been allocated."));
         }
         int year = getBirthDate(n).getYear();
         for (String county : counties.split(",")) {
@@ -131,8 +133,8 @@ public final class CnRic implements StdNum {
             info.put("county", name);
             return info;
         }
-        throw new InvalidComponentException(
-                "The division carried no county in the year of birth.");
+        throw new InvalidComponentException(Message.of(CnRic.class, "ric.county",
+                "The division carried no county in the year of birth."));
     }
 
     @Override

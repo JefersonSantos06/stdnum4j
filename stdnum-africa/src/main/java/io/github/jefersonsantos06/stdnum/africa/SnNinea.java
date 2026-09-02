@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -85,13 +86,16 @@ public final class SnNinea implements StdNum {
     /** The COFI: a tax status digit, a tax centre letter and a structure digit. */
     private static void validateCofi(String cofi) {
         if ("012".indexOf(cofi.charAt(0)) < 0) {
-            throw new InvalidComponentException("Unknown COFI tax status.");
+            throw new InvalidComponentException(Message.of(SnNinea.class, "ninea.cofi.tax-status",
+                    "Unknown COFI tax status."));
         }
         if (TAX_CENTRES.indexOf(cofi.charAt(1)) < 0) {
-            throw new InvalidComponentException("Unknown COFI tax centre.");
+            throw new InvalidComponentException(Message.of(SnNinea.class, "ninea.cofi.tax-centre",
+                    "Unknown COFI tax centre."));
         }
         if (cofi.charAt(2) < '0' || cofi.charAt(2) > '9') {
-            throw new InvalidComponentException("Unknown COFI legal structure.");
+            throw new InvalidComponentException(Message.of(SnNinea.class, "ninea.cofi.legal-structure",
+                    "Unknown COFI legal structure."));
         }
     }
 

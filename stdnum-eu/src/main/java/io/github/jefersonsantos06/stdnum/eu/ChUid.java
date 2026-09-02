@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -55,7 +57,7 @@ public final class ChUid implements StdNum {
         }
         int check = Math.floorMod(11 - sum, 11);
         if (check > 9) {
-            throw new InvalidChecksumException("No valid check digit exists for this number.");
+            throw new InvalidChecksumException(Reasons.noCheckDigit());
         }
         return (char) ('0' + check);
     }
@@ -67,7 +69,8 @@ public final class ChUid implements StdNum {
             throw new InvalidLengthException();
         }
         if (!n.startsWith("CHE")) {
-            throw new InvalidComponentException("A Swiss UID starts with CHE.");
+            throw new InvalidComponentException(Message.of(ChUid.class, "uid.prefix",
+                    "A Swiss UID starts with CHE."));
         }
         if (!Strings.isDigits(n.substring(3))) {
             throw new InvalidFormatException();

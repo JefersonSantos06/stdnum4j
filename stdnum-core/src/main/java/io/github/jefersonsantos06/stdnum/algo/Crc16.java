@@ -1,6 +1,7 @@
 package io.github.jefersonsantos06.stdnum.algo;
 
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 
 import java.nio.charset.StandardCharsets;
 
@@ -22,7 +23,7 @@ public final class Crc16 {
     /** The CRC of the UTF-8 bytes of {@code text}, as an unsigned 16-bit value. */
     public static int checksum(String text) {
         if (text == null) {
-            throw new InvalidFormatException("The text is null.");
+            throw new InvalidFormatException(Reasons.nullText());
         }
         return checksum(text.getBytes(StandardCharsets.UTF_8));
     }

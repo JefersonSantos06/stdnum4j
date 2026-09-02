@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
@@ -49,12 +50,14 @@ public final class Ismn implements StdNum {
         String n = compact(number);
         if (n.length() == 10) {
             if (n.charAt(0) != 'M') {
-                throw new InvalidFormatException("A 10-character ISMN starts with M.");
+                throw new InvalidFormatException(Message.of(Ismn.class, "ismn.prefix-10",
+                        "A 10-character ISMN starts with M."));
             }
             Ean.INSTANCE.validate("9790" + n.substring(1));
         } else if (n.length() == 13) {
             if (!n.startsWith("9790")) {
-                throw new InvalidComponentException("A 13-digit ISMN starts with 9790.");
+                throw new InvalidComponentException(Message.of(Ismn.class, "ismn.prefix-13",
+                        "A 13-digit ISMN starts with 9790."));
             }
             Ean.INSTANCE.validate(n);
         } else {
@@ -108,7 +111,8 @@ public final class Ismn implements StdNum {
                         n.substring(n.length() - 1));
             }
         }
-        throw new InvalidComponentException("The publisher element is outside every range.");
+        throw new InvalidComponentException(Message.of(Ismn.class, "ismn.publisher",
+                "The publisher element is outside every range."));
     }
 
     /**

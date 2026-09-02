@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -65,13 +67,15 @@ public final class UyRut implements StdNum {
         }
         String registration = n.substring(0, 2);
         if (registration.compareTo("01") < 0 || registration.compareTo("22") > 0) {
-            throw new InvalidComponentException("Unknown RUT registration number.");
+            throw new InvalidComponentException(Message.of(UyRut.class, "rut.registration",
+                    "Unknown RUT registration number."));
         }
         if (n.startsWith("000000", 2)) {
-            throw new InvalidComponentException("The sequence number must not be zero.");
+            throw new InvalidComponentException(Reasons.zeroSequence());
         }
         if (!n.startsWith("001", 8)) {
-            throw new InvalidComponentException("A RUT carries 001 before the check digit.");
+            throw new InvalidComponentException(Message.of(UyRut.class, "rut.constant",
+                    "A RUT carries 001 before the check digit."));
         }
         if (n.charAt(11) != calcCheckDigit(n.substring(0, 11))) {
             throw new InvalidChecksumException();

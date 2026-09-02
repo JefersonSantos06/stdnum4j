@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -65,10 +67,11 @@ public final class EcCi implements StdNum {
         boolean knownProvince = (province.compareTo("01") >= 0 && province.compareTo("24") <= 0)
                 || province.equals("30") || province.equals("50");
         if (!knownProvince) {
-            throw new InvalidComponentException("Unknown province code.");
+            throw new InvalidComponentException(Reasons.unknownProvince());
         }
         if (n.charAt(2) > '6') {
-            throw new InvalidComponentException("The third digit must be 6 or lower.");
+            throw new InvalidComponentException(Message.of(EcCi.class, "ci.third-digit",
+                    "The third digit must be 6 or lower."));
         }
         if (checksum(n) != 0) {
             throw new InvalidChecksumException();

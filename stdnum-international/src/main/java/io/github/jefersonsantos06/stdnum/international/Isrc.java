@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Resources;
@@ -66,7 +67,8 @@ public final class Isrc implements StdNum {
             throw new InvalidFormatException();
         }
         if (!prefixes().contains(n.substring(0, 2))) {
-            throw new InvalidComponentException("Not a prefix the ISRC agency allocates.");
+            throw new InvalidComponentException(Message.of(Isrc.class, "isrc.prefix",
+                    "Not a prefix the ISRC agency allocates."));
         }
         return n;
     }

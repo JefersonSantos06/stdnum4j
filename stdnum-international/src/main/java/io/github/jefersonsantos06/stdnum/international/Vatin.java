@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.StdNums;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
@@ -68,8 +69,8 @@ public final class Vatin implements StdNum {
                 .filter(n -> n.descriptor().tags().contains(Tag.VAT))
                 .toList();
         if (tagged.size() != 1) {
-            throw new InvalidComponentException(
-                    "No VAT validator registered for country " + countryCode + ".");
+            throw new InvalidComponentException(Message.of(Vatin.class, "vatin.module",
+                    "No VAT validator registered for country {0}.", countryCode));
         }
         return tagged.get(0);
     }
@@ -88,8 +89,8 @@ public final class Vatin implements StdNum {
         for (int i = 0; i < 2; i++) {
             char c = cc.charAt(i);
             if (c < 'A' || c > 'Z') {
-                throw new InvalidFormatException(
-                        "A VATIN must start with a two-letter country code.");
+                throw new InvalidFormatException(Message.of(Vatin.class, "vatin.country-prefix",
+                        "A VATIN must start with a two-letter country code."));
             }
         }
         return cc;

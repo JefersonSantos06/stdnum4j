@@ -3,6 +3,7 @@ package io.github.jefersonsantos06.stdnum.eu;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -49,7 +50,8 @@ public final class SeVat implements StdNum {
             throw new InvalidLengthException();
         }
         if (!n.endsWith("01")) {
-            throw new InvalidFormatException("A Swedish VAT number ends with 01.");
+            throw new InvalidFormatException(Message.of(SeVat.class, "vat.se.suffix",
+                    "A Swedish VAT number ends with 01."));
         }
         SeOrgnr.INSTANCE.validate(n.substring(0, 10));
         return n;

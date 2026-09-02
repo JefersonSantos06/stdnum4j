@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -100,11 +101,13 @@ public final class RoOnrc implements StdNum {
             throw new InvalidLengthException();
         }
         if (parts[0].length() > 2 || !isCounty(Integer.parseInt(parts[0]))) {
-            throw new InvalidComponentException("Not the code of a county.");
+            throw new InvalidComponentException(Message.of(RoOnrc.class, "onrc.county",
+                    "Not the code of a county."));
         }
         int year = Integer.parseInt(parts[2]);
         if (year < FIRST_YEAR || year > LAST_OLD_YEAR) {
-            throw new InvalidComponentException("The year is outside the range of this form.");
+            throw new InvalidComponentException(Message.of(RoOnrc.class, "onrc.year",
+                    "The year is outside the range of this form."));
         }
     }
 
@@ -117,7 +120,8 @@ public final class RoOnrc implements StdNum {
         }
         int year = Integer.parseInt(n.substring(1, 5));
         if (year < FIRST_YEAR || year > LocalDate.now().getYear()) {
-            throw new InvalidComponentException("The year is outside the range of this form.");
+            throw new InvalidComponentException(Message.of(RoOnrc.class, "onrc.year",
+                    "The year is outside the range of this form."));
         }
         int county = Integer.parseInt(n.substring(11, 13));
         // the county was dropped when the register went national during 2024
@@ -125,7 +129,8 @@ public final class RoOnrc implements StdNum {
                 : year == LAST_OLD_YEAR ? isCounty(county) || county == 0
                 : county == 0;
         if (!countyAllowed) {
-            throw new InvalidComponentException("Not the code of a county.");
+            throw new InvalidComponentException(Message.of(RoOnrc.class, "onrc.county",
+                    "Not the code of a county."));
         }
         if (n.charAt(13) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();
@@ -136,9 +141,8 @@ public final class RoOnrc implements StdNum {
     public String validate(String number) {
         String n = compact(number);
         if (n.isEmpty() || "JFC".indexOf(n.charAt(0)) < 0) {
-            throw new InvalidComponentException(
-                    "The number names a legal entity (J), a sole trader (F) or a"
-                            + " cooperative (C).");
+            throw new InvalidComponentException(Message.of(RoOnrc.class, "onrc.entity-kind",
+                    "The number names a legal entity (J), a sole trader (F) or a cooperative (C)."));
         }
         if (n.indexOf('/') >= 0) {
             validateOld(n);

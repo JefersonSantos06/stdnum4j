@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -117,10 +118,12 @@ public final class AtTin implements StdNum {
         }
         Map<String, String> info = info(n);
         if (info.isEmpty()) {
-            throw new InvalidComponentException("Not the number of a tax office.");
+            throw new InvalidComponentException(Message.of(AtTin.class, "tin.office",
+                    "Not the number of a tax office."));
         }
         if (office != null && !key(info.getOrDefault("office", "")).equals(key(office))) {
-            throw new InvalidComponentException("Not a number of the " + office + " office.");
+            throw new InvalidComponentException(Message.of(AtTin.class, "tin.office-mismatch",
+                    "Not a number of the {0} office.", office));
         }
         return n;
     }

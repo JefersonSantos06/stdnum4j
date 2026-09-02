@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -69,11 +70,13 @@ public final class LtPvm implements StdNum {
         }
         if (n.length() == 9) {
             if (n.charAt(7) != '1') {
-                throw new InvalidComponentException("A 9-digit PVM has 1 before the check digit.");
+                throw new InvalidComponentException(Message.of(LtPvm.class, "pvm.marker-9",
+                        "A 9-digit PVM has 1 before the check digit."));
             }
         } else if (n.length() == 12) {
             if (n.charAt(10) != '1') {
-                throw new InvalidComponentException("A 12-digit PVM has 1 before the check digit.");
+                throw new InvalidComponentException(Message.of(LtPvm.class, "pvm.marker-12",
+                        "A 12-digit PVM has 1 before the check digit."));
             }
         } else {
             throw new InvalidLengthException();

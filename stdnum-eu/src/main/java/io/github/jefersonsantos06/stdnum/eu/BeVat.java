@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -60,10 +61,12 @@ public final class BeVat implements StdNum {
             throw new InvalidLengthException();
         }
         if (Long.parseLong(n) <= 0) {
-            throw new InvalidFormatException("An enterprise number must be greater than zero.");
+            throw new InvalidFormatException(Message.of(BeVat.class, "vat.be.positive",
+                    "An enterprise number must be greater than zero."));
         }
         if (n.charAt(0) != '0' && n.charAt(0) != '1') {
-            throw new InvalidComponentException("A Belgian enterprise number starts with 0 or 1.");
+            throw new InvalidComponentException(Message.of(BeVat.class, "vat.be.prefix",
+                    "A Belgian enterprise number starts with 0 or 1."));
         }
         if ((Long.parseLong(n.substring(0, 8)) + Long.parseLong(n.substring(8))) % 97 != 0) {
             throw new InvalidChecksumException();

@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.algo.Iso7064;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -53,8 +54,8 @@ public final class DeIdnr implements StdNum {
             throw new InvalidFormatException();
         }
         if (!hasValidDigitDistribution(n)) {
-            throw new InvalidFormatException(
-                    "In the first ten digits exactly one digit must repeat, two or three times.");
+            throw new InvalidFormatException(Message.of(DeIdnr.class, "idnr.digit-distribution",
+                    "In the first ten digits exactly one digit must repeat, two or three times."));
         }
         return Iso7064.MOD_11_10.validate(n);
     }

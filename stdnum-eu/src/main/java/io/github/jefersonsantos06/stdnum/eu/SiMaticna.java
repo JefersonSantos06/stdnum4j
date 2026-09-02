@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -63,7 +64,7 @@ public final class SiMaticna implements StdNum {
         }
         int remainder = Math.floorMod(-total, 11);
         if (remainder == 0) {
-            throw new InvalidChecksumException("No valid check digit exists for this number.");
+            throw new InvalidChecksumException(Reasons.noCheckDigit());
         }
         return (char) ('0' + remainder % 10);
     }

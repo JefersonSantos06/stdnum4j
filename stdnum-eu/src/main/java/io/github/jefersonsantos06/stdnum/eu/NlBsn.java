@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -60,7 +61,8 @@ public final class NlBsn implements StdNum {
             throw new InvalidLengthException();
         }
         if (Long.parseLong(n) <= 0) {
-            throw new InvalidFormatException("A BSN must be greater than zero.");
+            throw new InvalidFormatException(Message.of(NlBsn.class, "bsn.positive",
+                    "A BSN must be greater than zero."));
         }
         if (checksum(n) != 0) {
             throw new InvalidChecksumException();

@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.algo.Mod97;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -54,7 +55,8 @@ public final class Iso11649 implements StdNum {
             throw new InvalidLengthException();
         }
         if (!n.startsWith("RF")) {
-            throw new InvalidFormatException("A creditor reference starts with RF.");
+            throw new InvalidFormatException(Message.of(Iso11649.class, "iso11649.prefix",
+                    "A creditor reference starts with RF."));
         }
         Mod97.validate(n.substring(4) + n.substring(0, 4));
         return n;

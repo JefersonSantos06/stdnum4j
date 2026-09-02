@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -99,8 +101,7 @@ public final class RoCnp implements StdNum {
                     Integer.parseInt(n.substring(3, 5)),
                     Integer.parseInt(n.substring(5, 7)));
         } catch (DateTimeException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid birth date.");
+            throw new InvalidComponentException(Reasons.birthDate());
         }
     }
 
@@ -121,14 +122,16 @@ public final class RoCnp implements StdNum {
         }
         if (n.charAt(0) == '0') {
             // 7 and 8 mark foreign residents, 9 another kind of foreigner
-            throw new InvalidComponentException("A CNP does not start with 0.");
+            throw new InvalidComponentException(Message.of(RoCnp.class, "cnp.prefix",
+                    "A CNP does not start with 0."));
         }
         if (n.length() != 13) {
             throw new InvalidLengthException();
         }
         getBirthDate(n);
         if (getCounty(n).isEmpty()) {
-            throw new InvalidComponentException("Unknown county code.");
+            throw new InvalidComponentException(Message.of(RoCnp.class, "cnp.county",
+                    "Unknown county code."));
         }
         if (n.charAt(12) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

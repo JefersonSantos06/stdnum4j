@@ -3,6 +3,7 @@ package io.github.jefersonsantos06.stdnum.na;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -90,7 +91,8 @@ public final class UsEin implements StdNum {
         }
         String n = compact(number);
         if (!CAMPUSES.containsKey(n.substring(0, 2))) {
-            throw new InvalidComponentException("This EIN prefix is not assigned.");
+            throw new InvalidComponentException(Message.of(UsEin.class, "ein.prefix",
+                    "This EIN prefix is not assigned."));
         }
         return n;
     }

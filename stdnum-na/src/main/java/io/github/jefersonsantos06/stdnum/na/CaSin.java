@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -50,7 +51,8 @@ public final class CaSin implements StdNum {
             throw new InvalidFormatException();
         }
         if (n.charAt(0) == '0' || n.charAt(0) == '8') {
-            throw new InvalidComponentException("SINs do not start with 0 or 8.");
+            throw new InvalidComponentException(Message.of(CaSin.class, "sin.prefix",
+                    "SINs do not start with 0 or 8."));
         }
         Luhn.validate(n);
         return n;

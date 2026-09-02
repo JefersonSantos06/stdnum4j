@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -102,8 +103,8 @@ public final class Meid implements StdNum {
         long manufacturer = Long.parseLong(decimal.substring(0, 10));
         long serial = Long.parseLong(decimal.substring(10, 18));
         if (manufacturer > 0xFFFFFFFFL || serial > 0xFFFFFFL) {
-            throw new InvalidComponentException(
-                    "The number does not fit the manufacturer and serial fields.");
+            throw new InvalidComponentException(Message.of(Meid.class, "meid.fields",
+                    "The number does not fit the manufacturer and serial fields."));
         }
         return String.format("%08X%06X", manufacturer, serial);
     }

@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -66,8 +67,8 @@ public final class IsKennitala implements StdNum {
         try {
             return LocalDate.of(year, month, day);
         } catch (DateTimeException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid date.");
+            throw new InvalidComponentException(Message.of(IsKennitala.class, "kennitala.date",
+                    "The number does not contain a valid date."));
         }
     }
 

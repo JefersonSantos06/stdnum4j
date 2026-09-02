@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -55,7 +56,8 @@ public final class FrNif implements StdNum {
             throw new InvalidFormatException();
         }
         if ("0123".indexOf(n.charAt(0)) < 0) {
-            throw new InvalidComponentException("French tax numbers start with 0, 1, 2 or 3.");
+            throw new InvalidComponentException(Message.of(FrNif.class, "nif.prefix",
+                    "French tax numbers start with 0, 1, 2 or 3."));
         }
         if (n.length() != 13) {
             throw new InvalidLengthException();

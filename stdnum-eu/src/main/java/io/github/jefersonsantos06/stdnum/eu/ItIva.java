@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -60,7 +61,8 @@ public final class ItIva implements StdNum {
         boolean validProvince = (province >= 1 && province <= 100)
                 || province == 120 || province == 121 || province == 888 || province == 999;
         if (!validProvince) {
-            throw new InvalidComponentException("Unknown province of residence.");
+            throw new InvalidComponentException(Message.of(ItIva.class, "iva.province",
+                    "Unknown province of residence."));
         }
         Luhn.validate(n);
         return n;

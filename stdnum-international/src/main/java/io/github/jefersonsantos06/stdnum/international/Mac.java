@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.numdb.NumDb;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
@@ -85,8 +86,8 @@ public final class Mac implements StdNum {
         // the last part is what the block does not cover, so the block itself
         // is the one before it, and it must name someone
         if (parts.size() < 2 || !parts.get(parts.size() - 2).properties().containsKey("o")) {
-            throw new InvalidComponentException(
-                    "No manufacturer holds the block " + hex.substring(0, 6) + ".");
+            throw new InvalidComponentException(Message.of(Mac.class, "mac.block",
+                    "No manufacturer holds the block {0}.", hex.substring(0, 6)));
         }
         return parts;
     }

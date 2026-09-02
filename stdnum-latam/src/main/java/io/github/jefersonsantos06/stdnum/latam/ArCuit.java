@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -66,7 +67,8 @@ public final class ArCuit implements StdNum {
             throw new InvalidFormatException();
         }
         if (!TYPES.contains(n.substring(0, 2))) {
-            throw new InvalidComponentException("Unknown CUIT type prefix.");
+            throw new InvalidComponentException(Message.of(ArCuit.class, "cuit.type",
+                    "Unknown CUIT type prefix."));
         }
         if (n.charAt(10) != calcCheckDigit(n.substring(0, 10))) {
             throw new InvalidChecksumException();

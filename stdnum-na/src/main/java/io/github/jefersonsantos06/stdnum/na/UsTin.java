@@ -2,6 +2,7 @@ package io.github.jefersonsantos06.stdnum.na;
 
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
@@ -76,7 +77,8 @@ public final class UsTin implements StdNum {
     public String format(String number) {
         List<StdNum> kinds = kindsOf(number);
         if (kinds.isEmpty()) {
-            throw new InvalidFormatException("No kind of TIN has this shape.");
+            throw new InvalidFormatException(Message.of(UsTin.class, "tin.kind",
+                    "No kind of TIN has this shape."));
         }
         return kinds.get(0).format(number);
     }

@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -62,7 +63,8 @@ public final class CaBcPhn implements StdNum {
             throw new InvalidFormatException();
         }
         if (n.charAt(0) != '9') {
-            throw new InvalidComponentException("A health number starts with 9.");
+            throw new InvalidComponentException(Message.of(CaBcPhn.class, "bc-phn.prefix",
+                    "A health number starts with 9."));
         }
         if (n.charAt(9) != calcCheckDigit(n.substring(1, 9))) {
             throw new InvalidChecksumException();

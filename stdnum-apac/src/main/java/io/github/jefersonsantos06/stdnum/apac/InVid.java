@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.algo.Verhoeff;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -72,7 +73,8 @@ public final class InVid implements StdNum {
             throw new InvalidFormatException();
         }
         if (n.contentEquals(new StringBuilder(n).reverse())) {
-            throw new InvalidFormatException("A virtual ID cannot be a palindrome.");
+            throw new InvalidFormatException(Message.of(InVid.class, "vid.palindrome",
+                    "A virtual ID cannot be a palindrome."));
         }
         Verhoeff.validate(n);
         return n;

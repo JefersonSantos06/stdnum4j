@@ -51,6 +51,12 @@ translation carries, and finally the English the validator was written with.
 A translation is therefore never all-or-nothing: what is not translated yet
 costs a less specific sentence, not an English one.
 
+Every reason the library gives is translated into Portuguese, and the contract
+test says so for every number type: it reads the translation file and fails
+naming any reason that has no sentence. The sentences more than one number
+gives — a birth date that is not a date, a number that is null — are written
+once in `Reasons` and translated once.
+
 Translations are `messages_<language>[_<COUNTRY>].properties`, read as UTF-8
 from the package of the anchor class. There is deliberately no
 `messages.properties`: English lives in the Java source, once, next to the

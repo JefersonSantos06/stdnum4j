@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -72,8 +73,8 @@ public final class Sedol implements StdNum {
             throw new InvalidLengthException();
         }
         if (Strings.isDigits(n.substring(0, 1)) && !Strings.isDigits(n)) {
-            throw new InvalidFormatException(
-                    "A SEDOL starting with a digit must be entirely numeric.");
+            throw new InvalidFormatException(Message.of(Sedol.class, "sedol.numeric",
+                    "A SEDOL starting with a digit must be entirely numeric."));
         }
         if (n.charAt(6) != calcCheckDigit(n.substring(0, 6))) {
             throw new InvalidChecksumException();

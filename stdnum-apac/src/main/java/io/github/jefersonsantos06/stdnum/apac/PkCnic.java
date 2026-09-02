@@ -4,6 +4,8 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -73,10 +75,11 @@ public final class PkCnic implements StdNum {
             throw new InvalidLengthException();
         }
         if (n.charAt(12) == '0') {
-            throw new InvalidComponentException("The gender digit must not be zero.");
+            throw new InvalidComponentException(Message.of(PkCnic.class, "cnic.gender",
+                    "The gender digit must not be zero."));
         }
         if (!PROVINCES.containsKey(n.charAt(0))) {
-            throw new InvalidComponentException("Unknown province code.");
+            throw new InvalidComponentException(Reasons.unknownProvince());
         }
         return n;
     }

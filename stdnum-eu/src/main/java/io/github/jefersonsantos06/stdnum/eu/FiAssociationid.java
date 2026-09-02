@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -61,7 +62,8 @@ public final class FiAssociationid implements StdNum {
             throw new InvalidLengthException();
         }
         if (n.length() < 3 && !LOW_NUMBERS.contains(Integer.parseInt(n))) {
-            throw new InvalidComponentException("This number below 100 was never issued.");
+            throw new InvalidComponentException(Message.of(FiAssociationid.class, "register.low-number",
+                    "This number below 100 was never issued."));
         }
         return n;
     }

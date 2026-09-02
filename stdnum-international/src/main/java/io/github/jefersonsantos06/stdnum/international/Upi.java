@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -67,7 +68,8 @@ public final class Upi implements StdNum {
             throw new InvalidLengthException();
         }
         if (!n.startsWith("QZ")) {
-            throw new InvalidComponentException("A product identifier starts with QZ.");
+            throw new InvalidComponentException(Message.of(Upi.class, "upi.prefix",
+                    "A product identifier starts with QZ."));
         }
         return MOD_31_30.validate(n);
     }

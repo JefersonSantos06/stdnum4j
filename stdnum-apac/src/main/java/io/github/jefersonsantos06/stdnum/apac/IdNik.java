@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -74,8 +76,7 @@ public final class IdNik implements StdNum {
             try {
                 return LocalDate.of(year + 2000, month, day);
             } catch (DateTimeException second) {
-                throw new InvalidComponentException(
-                        "The number does not contain a valid birth date.");
+                throw new InvalidComponentException(Reasons.birthDate());
             }
         }
     }
@@ -97,7 +98,8 @@ public final class IdNik implements StdNum {
         }
         List<NumDb.Entry> entries = regions().info(n.substring(0, 4));
         if (entries.isEmpty() || entries.get(0).properties().isEmpty()) {
-            throw new InvalidComponentException("Not a region that has been allocated.");
+            throw new InvalidComponentException(Message.of(IdNik.class, "nik.region",
+                    "Not a region that has been allocated."));
         }
         // both levels name themselves name_id, so they are kept apart rather
         // than merged, where the regency would silently shadow its province

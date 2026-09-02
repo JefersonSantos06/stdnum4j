@@ -3,6 +3,7 @@ package io.github.jefersonsantos06.stdnum.eu;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Resources;
@@ -183,12 +184,13 @@ public final class DeHandelsregisternummer implements StdNum {
         Matcher m = split(number);
         String court = courts().get(key(m.group("court").strip()));
         if (court == null) {
-            throw new InvalidComponentException("Not a court that keeps a register.");
+            throw new InvalidComponentException(Message.of(DeHandelsregisternummer.class, "handelsregisternummer.court",
+                    "Not a court that keeps a register."));
         }
         if (companyForm != null
                 && !m.group("registry").equals(REGISTRY_BY_COMPANY_FORM.get(companyForm))) {
-            throw new InvalidComponentException(
-                    "A " + companyForm + " does not belong in this register.");
+            throw new InvalidComponentException(Message.of(DeHandelsregisternummer.class, "handelsregisternummer.company-form",
+                    "A {0} does not belong in this register.", companyForm));
         }
         return join(court, m);
     }

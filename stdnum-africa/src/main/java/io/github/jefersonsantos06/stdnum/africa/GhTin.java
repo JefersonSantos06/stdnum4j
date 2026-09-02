@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -53,8 +54,8 @@ public final class GhTin implements StdNum {
         for (int i = 1; i < 10 && i < n.length(); i++) {
             char c = n.charAt(i);
             if (c < '0' || c > '9') {
-                throw new InvalidFormatException(
-                        "The check character covers digits only.");
+                throw new InvalidFormatException(Message.of(GhTin.class, "tin.check-digits",
+                        "The check character covers digits only."));
             }
             sum += i * (c - '0');
         }

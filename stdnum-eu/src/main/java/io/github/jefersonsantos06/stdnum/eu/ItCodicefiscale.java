@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -104,12 +106,14 @@ public final class ItCodicefiscale implements StdNum {
     public static LocalDate getBirthDate(String number, int minYear) {
         String n = INSTANCE.compact(number);
         if (n.length() != 16) {
-            throw new InvalidComponentException("Only a 16-character code carries a birth date.");
+            throw new InvalidComponentException(Message.of(ItCodicefiscale.class, "codicefiscale.birth-date-length",
+                    "Only a 16-character code carries a birth date."));
         }
         int day = (dateDigit(n.charAt(9)) * 10 + dateDigit(n.charAt(10))) % 40;
         int month = MONTH_LETTERS.indexOf(n.charAt(8)) + 1;
         if (month == 0) {
-            throw new InvalidComponentException("The character in ninth position is not a month.");
+            throw new InvalidComponentException(Message.of(ItCodicefiscale.class, "codicefiscale.month",
+                    "The character in ninth position is not a month."));
         }
         int year = dateDigit(n.charAt(6)) * 10 + dateDigit(n.charAt(7)) + minYear / 100 * 100;
         if (year < minYear) {
@@ -118,8 +122,7 @@ public final class ItCodicefiscale implements StdNum {
         try {
             return LocalDate.of(year, month, day);
         } catch (DateTimeException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid birth date.");
+            throw new InvalidComponentException(Reasons.birthDate());
         }
     }
 
@@ -127,7 +130,8 @@ public final class ItCodicefiscale implements StdNum {
     public static char getGender(String number) {
         String n = INSTANCE.compact(number);
         if (n.length() != 16) {
-            throw new InvalidComponentException("Only a 16-character code carries a sex.");
+            throw new InvalidComponentException(Message.of(ItCodicefiscale.class, "codicefiscale.sex-length",
+                    "Only a 16-character code carries a sex."));
         }
         return dateDigit(n.charAt(9)) * 10 + dateDigit(n.charAt(10)) < 32 ? 'M' : 'F';
     }

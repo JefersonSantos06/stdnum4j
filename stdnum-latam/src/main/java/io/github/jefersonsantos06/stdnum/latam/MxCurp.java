@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -90,8 +92,7 @@ public final class MxCurp implements StdNum {
             return LocalDate.of(year, Integer.parseInt(n.substring(6, 8)),
                     Integer.parseInt(n.substring(8, 10)));
         } catch (DateTimeException | NumberFormatException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid birth date.");
+            throw new InvalidComponentException(Reasons.birthDate());
         }
     }
 
@@ -104,8 +105,8 @@ public final class MxCurp implements StdNum {
         return switch (n.charAt(10)) {
             case 'H' -> 'M';
             case 'M' -> 'F';
-            default -> throw new InvalidComponentException(
-                    "The character in eleventh position is not a sex.");
+            default -> throw new InvalidComponentException(Message.of(MxCurp.class, "curp.sex",
+                    "The character in eleventh position is not a sex."));
         };
     }
 
@@ -141,12 +142,14 @@ public final class MxCurp implements StdNum {
             throw new InvalidFormatException();
         }
         if (NAME_BLACKLIST.contains(n.substring(0, 4))) {
-            throw new InvalidComponentException("This opening is replaced rather than issued.");
+            throw new InvalidComponentException(Message.of(MxCurp.class, "curp.name-blacklist",
+                    "This opening is replaced rather than issued."));
         }
         getBirthDate(n);
         getGender(n);
         if (!STATES.contains(n.substring(11, 13))) {
-            throw new InvalidComponentException("Not the code of a state of birth.");
+            throw new InvalidComponentException(Message.of(MxCurp.class, "curp.state",
+                    "Not the code of a state of birth."));
         }
         if (validateCheckDigit && n.charAt(17) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

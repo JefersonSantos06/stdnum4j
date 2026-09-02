@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -73,7 +74,8 @@ public final class Imsi implements StdNum {
         String n = INSTANCE.compact(number);
         List<NumDb.Entry> entries = registry().info(n);
         if (entries.size() != 3) {
-            throw new InvalidComponentException("Not a country code that has been allocated.");
+            throw new InvalidComponentException(Message.of(Imsi.class, "imsi.mcc",
+                    "Not a country code that has been allocated."));
         }
         Map<String, String> info = new LinkedHashMap<>();
         info.put("number", n);
@@ -95,7 +97,8 @@ public final class Imsi implements StdNum {
             throw new InvalidLengthException();
         }
         if (split(n).size() < 2) {
-            throw new InvalidComponentException("Not a country code that has been allocated.");
+            throw new InvalidComponentException(Message.of(Imsi.class, "imsi.mcc",
+                    "Not a country code that has been allocated."));
         }
         return n;
     }

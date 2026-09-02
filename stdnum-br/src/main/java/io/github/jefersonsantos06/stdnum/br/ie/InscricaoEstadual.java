@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;

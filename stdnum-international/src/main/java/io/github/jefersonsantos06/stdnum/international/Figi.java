@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -81,13 +82,16 @@ public final class Figi implements StdNum {
             throw new InvalidLengthException();
         }
         if (Character.isDigit(n.charAt(0)) || Character.isDigit(n.charAt(1))) {
-            throw new InvalidFormatException("A FIGI starts with two letters.");
+            throw new InvalidFormatException(Message.of(Figi.class, "figi.letters",
+                    "A FIGI starts with two letters."));
         }
         if (RESERVED_PREFIXES.contains(n.substring(0, 2))) {
-            throw new InvalidComponentException("This prefix is reserved.");
+            throw new InvalidComponentException(Message.of(Figi.class, "figi.reserved-prefix",
+                    "This prefix is reserved."));
         }
         if (n.charAt(2) != 'G') {
-            throw new InvalidComponentException("The third character of a FIGI is G.");
+            throw new InvalidComponentException(Message.of(Figi.class, "figi.g",
+                    "The third character of a FIGI is G."));
         }
         if (n.charAt(11) != calcCheckDigit(n.substring(0, 11))) {
             throw new InvalidChecksumException();

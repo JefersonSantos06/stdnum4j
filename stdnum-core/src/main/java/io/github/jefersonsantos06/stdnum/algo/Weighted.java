@@ -2,6 +2,7 @@ package io.github.jefersonsantos06.stdnum.algo;
 
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 
 /**
  * Weighted sum check digits, the workhorse behind most Brazilian numbers
@@ -83,7 +84,7 @@ public final class Weighted {
      */
     public static int weightedSum(String number, int[] weights) {
         if (number == null) {
-            throw new InvalidFormatException("The number is null.");
+            throw new InvalidFormatException(Reasons.nullNumber());
         }
         if (number.length() != weights.length) {
             throw new InvalidLengthException();

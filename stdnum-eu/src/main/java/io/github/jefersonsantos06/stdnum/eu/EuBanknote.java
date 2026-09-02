@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -68,7 +69,8 @@ public final class EuBanknote implements StdNum {
             throw new InvalidLengthException();
         }
         if (PRINTERS.indexOf(n.charAt(0)) < 0) {
-            throw new InvalidComponentException("Not the code of a printer.");
+            throw new InvalidComponentException(Message.of(EuBanknote.class, "banknote.printer",
+                    "Not the code of a printer."));
         }
         if (checksum(n) != 0) {
             throw new InvalidChecksumException();

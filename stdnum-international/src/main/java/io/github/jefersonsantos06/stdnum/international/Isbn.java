@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
@@ -113,7 +114,8 @@ public final class Isbn implements StdNum {
             throw new InvalidFormatException();
         }
         if (!n.startsWith("978") && !n.startsWith("979")) {
-            throw new InvalidComponentException("An ISBN-13 must start with 978 or 979.");
+            throw new InvalidComponentException(Message.of(Isbn.class, "isbn.bookland",
+                    "An ISBN-13 must start with 978 or 979."));
         }
         if (Ean.checksum(n) != 0) {
             throw new InvalidChecksumException();
@@ -159,7 +161,8 @@ public final class Isbn implements StdNum {
             return n;
         }
         if (!n.startsWith("978")) {
-            throw new InvalidComponentException("Only 978-prefixed ISBNs have a 10-digit form.");
+            throw new InvalidComponentException(Message.of(Isbn.class, "isbn.convert-10",
+                    "Only 978-prefixed ISBNs have a 10-digit form."));
         }
         String base = n.substring(3, 12);
         return base + calcCheckDigit10(base);

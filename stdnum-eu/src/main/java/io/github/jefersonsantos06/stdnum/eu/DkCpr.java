@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -66,8 +67,8 @@ public final class DkCpr implements StdNum {
         try {
             return LocalDate.of(year, month, day);
         } catch (DateTimeException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain valid birth date information.");
+            throw new InvalidComponentException(Message.of(DkCpr.class, "cpr.birth-date",
+                    "The number does not contain valid birth date information."));
         }
     }
 
@@ -81,8 +82,8 @@ public final class DkCpr implements StdNum {
             throw new InvalidLengthException();
         }
         if (getBirthDate(n).isAfter(LocalDate.now())) {
-            throw new InvalidComponentException(
-                    "The birth date is valid, but this person has not been born yet.");
+            throw new InvalidComponentException(Message.of(DkCpr.class, "cpr.birth-date.future",
+                    "The birth date is valid, but this person has not been born yet."));
         }
         return n;
     }

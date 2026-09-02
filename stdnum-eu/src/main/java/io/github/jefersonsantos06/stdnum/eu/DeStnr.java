@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -161,7 +162,8 @@ public final class DeStnr implements StdNum {
                 .map(Map.Entry::getValue)
                 .toList();
         if (found.isEmpty()) {
-            throw new InvalidComponentException(region + " is not a German Land.");
+            throw new InvalidComponentException(Message.of(DeStnr.class, "stnr.land",
+                    "{0} is not a German Land.", region));
         }
         return found;
     }
@@ -207,8 +209,8 @@ public final class DeStnr implements StdNum {
             Matcher m = forms[0].matcher(n);
             if (m.matches()) {
                 if (converted != null) {
-                    throw new InvalidComponentException(
-                            "More than one Land uses this layout: name the one that issued it.");
+                    throw new InvalidComponentException(Message.of(DeStnr.class, "stnr.ambiguous-layout",
+                            "More than one Land uses this layout: name the one that issued it."));
                 }
                 converted = forms[1].replace(Format.groups(m));
             }

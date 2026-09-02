@@ -1,6 +1,7 @@
 package io.github.jefersonsantos06.stdnum.text;
 
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -104,7 +105,7 @@ public final class Strings {
      */
     public static String clean(String number, String deleteChars) {
         if (number == null) {
-            throw new InvalidFormatException("The number is null.");
+            throw new InvalidFormatException(Reasons.nullNumber());
         }
         String delete = (deleteChars == null) ? "" : deleteChars;
         StringBuilder sb = new StringBuilder(number.length());

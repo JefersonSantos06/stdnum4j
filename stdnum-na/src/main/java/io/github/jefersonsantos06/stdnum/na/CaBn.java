@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -57,7 +58,8 @@ public final class CaBn implements StdNum {
             String program = n.substring(9, 11);
             if (!program.equals("RC") && !program.equals("RM")
                     && !program.equals("RP") && !program.equals("RT")) {
-                throw new InvalidComponentException("Unknown program identifier.");
+                throw new InvalidComponentException(Message.of(CaBn.class, "bn.program",
+                        "Unknown program identifier."));
             }
             if (!Strings.isDigits(n.substring(11))) {
                 throw new InvalidFormatException();

@@ -2,6 +2,7 @@ package io.github.jefersonsantos06.stdnum.eu;
 
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 
@@ -44,7 +45,8 @@ public final class McTva implements StdNum {
     public String validate(String number) {
         String n = FrTva.INSTANCE.validate(number);
         if (!n.startsWith("000", 2)) {
-            throw new InvalidComponentException("Monegasque VAT numbers carry a 000 SIREN prefix.");
+            throw new InvalidComponentException(Message.of(McTva.class, "tva.mc.siren-prefix",
+                    "Monegasque VAT numbers carry a 000 SIREN prefix."));
         }
         return "FR" + n;
     }

@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -51,7 +52,8 @@ public final class IlHp implements StdNum {
             throw new InvalidFormatException();
         }
         if (n.charAt(0) != '5') {
-            throw new InvalidComponentException("Israeli company numbers start with 5.");
+            throw new InvalidComponentException(Message.of(IlHp.class, "hp.prefix",
+                    "Israeli company numbers start with 5."));
         }
         Luhn.validate(n);
         return n;

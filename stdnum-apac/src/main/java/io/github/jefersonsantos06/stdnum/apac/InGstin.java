@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -71,13 +72,16 @@ public final class InGstin implements StdNum {
             throw new InvalidFormatException();
         }
         if (!STATE_CODES.contains(n.substring(0, 2))) {
-            throw new InvalidComponentException("Unknown state code.");
+            throw new InvalidComponentException(Message.of(InGstin.class, "gstin.state",
+                    "Unknown state code."));
         }
         if (n.charAt(12) == '0') {
-            throw new InvalidComponentException("The registration counter must not be zero.");
+            throw new InvalidComponentException(Message.of(InGstin.class, "gstin.registration-counter",
+                    "The registration counter must not be zero."));
         }
         if (n.charAt(13) != 'Z') {
-            throw new InvalidComponentException("The fourteenth character of a GSTIN is Z.");
+            throw new InvalidComponentException(Message.of(InGstin.class, "gstin.z",
+                    "The fourteenth character of a GSTIN is Z."));
         }
         InPan.INSTANCE.validate(n.substring(2, 12));
         Luhn.validate(n, ALPHABET);

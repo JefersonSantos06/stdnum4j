@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -103,12 +104,13 @@ public final class Iban implements StdNum {
         NumDb.Entry country = registry().info(n).get(0);
         String structure = country.properties().get("bban");
         if (structure == null) {
-            throw new InvalidComponentException("Unknown IBAN country code.");
+            throw new InvalidComponentException(Message.of(Iban.class, "iban.country",
+                    "Unknown IBAN country code."));
         }
         // country-specific BBAN structure
         if (!structurePattern(structure).matcher(n.substring(4)).matches()) {
-            throw new InvalidFormatException(
-                    "The BBAN does not match the structure registered for " + n.substring(0, 2) + ".");
+            throw new InvalidFormatException(Message.of(Iban.class, "iban.bban",
+                    "The BBAN does not match the structure registered for {0}.", n.substring(0, 2)));
         }
         // the country's own rule, where the country has one on the classpath
         if (checkCountry) {

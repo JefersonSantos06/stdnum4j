@@ -2,6 +2,7 @@ package io.github.jefersonsantos06.stdnum.apac;
 
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
@@ -71,7 +72,8 @@ public final class ThTin implements StdNum {
     public String format(String number) {
         StdNum kind = kindOf(number);
         if (kind == null) {
-            throw new InvalidFormatException("Neither a personal nor a company number.");
+            throw new InvalidFormatException(Message.of(ThTin.class, "tin.kind",
+                    "Neither a personal nor a company number."));
         }
         return kind.format(number);
     }

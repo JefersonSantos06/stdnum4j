@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -140,7 +141,8 @@ public final class Bitcoin implements StdNum {
             }
         }
         if (bits >= 5 || (accumulator & (1 << bits) - 1) != 0) {
-            throw new InvalidComponentException("The address has trailing bits set.");
+            throw new InvalidComponentException(Message.of(Bitcoin.class, "bitcoin.trailing-bits",
+                    "The address has trailing bits set."));
         }
         return out.toByteArray();
     }
@@ -191,7 +193,8 @@ public final class Bitcoin implements StdNum {
         int witnessVersion = data[0];
         byte[] program = fromFiveBitGroups(Arrays.copyOfRange(data, 1, data.length - 6));
         if (witnessVersion > 16) {
-            throw new InvalidComponentException("Not a witness version.");
+            throw new InvalidComponentException(Message.of(Bitcoin.class, "bitcoin.witness-version",
+                    "Not a witness version."));
         }
         if (program.length < 2 || program.length > 40) {
             throw new InvalidLengthException();
@@ -209,7 +212,8 @@ public final class Bitcoin implements StdNum {
         } else if (n.startsWith("bc1")) {
             validateBech32(n);
         } else {
-            throw new InvalidComponentException("Not a Bitcoin address.");
+            throw new InvalidComponentException(Message.of(Bitcoin.class, "bitcoin.form",
+                    "Not a Bitcoin address."));
         }
         return n;
     }

@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -86,7 +87,8 @@ public final class BeBis implements StdNum {
         BeNn.getBirthDate(n);
         int month = Integer.parseInt(n.substring(2, 4));
         if ((month < 20 || month > 32) && (month < 40 || month > 52)) {
-            throw new InvalidComponentException("The month must be in 20..32 or 40..52.");
+            throw new InvalidComponentException(Message.of(BeBis.class, "bis.month",
+                    "The month must be in 20..32 or 40..52."));
         }
         return n;
     }

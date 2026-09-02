@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -55,7 +57,7 @@ public final class RuOgrn implements StdNum {
         long head = Long.parseLong(n.substring(0, n.length() - 1));
         long check = n.length() == 13 ? head % 11 % 10 : head % 13;
         if (check > 9) {
-            throw new InvalidChecksumException("No valid check digit exists for this number.");
+            throw new InvalidChecksumException(Reasons.noCheckDigit());
         }
         return (char) ('0' + check);
     }
@@ -68,11 +70,13 @@ public final class RuOgrn implements StdNum {
         }
         if (n.length() == 13) {
             if (n.charAt(0) == '0') {
-                throw new InvalidComponentException("The first digit names a kind of record.");
+                throw new InvalidComponentException(Message.of(RuOgrn.class, "ogrn.record-kind",
+                        "The first digit names a kind of record."));
             }
         } else if (n.length() == 15) {
             if (n.charAt(0) != '3' && n.charAt(0) != '4') {
-                throw new InvalidComponentException("A sole trader's number starts with 3 or 4.");
+                throw new InvalidComponentException(Message.of(RuOgrn.class, "ogrn.sole-trader-prefix",
+                        "A sole trader's number starts with 3 or 4."));
             }
         } else {
             throw new InvalidLengthException();

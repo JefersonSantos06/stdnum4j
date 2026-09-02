@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -52,7 +53,8 @@ public final class ChSsn implements StdNum {
             throw new InvalidFormatException();
         }
         if (!n.startsWith("756")) {
-            throw new InvalidComponentException("Swiss social security numbers start with 756.");
+            throw new InvalidComponentException(Message.of(ChSsn.class, "ssn.prefix",
+                    "Swiss social security numbers start with 756."));
         }
         if (n.charAt(12) != eanCheckDigit(n)) {
             throw new InvalidChecksumException();

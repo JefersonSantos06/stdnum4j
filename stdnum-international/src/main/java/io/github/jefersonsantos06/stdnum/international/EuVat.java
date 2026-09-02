@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.StdNums;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -56,13 +57,14 @@ public final class EuVat implements StdNum {
     /** The type that validates numbers under this prefix. */
     private static StdNum moduleFor(String countryCode) {
         if (countryCode.equals("EU") || countryCode.equals("IM")) {
-            return StdNums.byId("eu.oss").orElseThrow(() -> new InvalidComponentException(
-                    "The One Stop Shop numbers are not on the classpath."));
+            return StdNums.byId("eu.oss").orElseThrow(() -> new InvalidComponentException(Message.of(EuVat.class, "vat.oss-missing",
+                    "The One Stop Shop numbers are not on the classpath.")));
         }
         // EL is Greece's VAT prefix, but membership is held under its ISO code
         String cc = countryCode.equals("EL") ? "GR" : countryCode;
         if (!MEMBER_STATES.contains(cc)) {
-            throw new InvalidComponentException(countryCode + " is not an EU member state.");
+            throw new InvalidComponentException(Message.of(EuVat.class, "eu.member-state",
+                    "{0} is not an EU member state.", countryCode));
         }
         // a Northern Irish number is a United Kingdom number
         return Vatin.vatModule(cc.equals("XI") ? "GB" : cc);

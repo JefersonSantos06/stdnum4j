@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
@@ -150,14 +151,16 @@ public final class Gs1128 implements StdNum {
             rest = rest.substring(separator.length());
         }
         if (rest.isEmpty()) {
-            throw new InvalidLengthException("An element string carries at least one identifier.");
+            throw new InvalidLengthException(Message.of(Gs1128.class, "gs1-128.empty",
+                    "An element string carries at least one identifier."));
         }
         while (!rest.isEmpty()) {
             NumDb.Entry entry = identifiers().info(rest).get(0);
             String ai = entry.part();
             Map<String, String> properties = entry.properties();
             if (properties.isEmpty() || !rest.startsWith(ai)) {
-                throw new InvalidComponentException("Not an application identifier: " + ai);
+                throw new InvalidComponentException(Message.of(Gs1128.class, "gs1-128.identifier",
+                        "Not an application identifier: {0}", ai));
             }
             rest = rest.substring(ai.length());
             String format = properties.get("format");
@@ -177,8 +180,8 @@ public final class Gs1128 implements StdNum {
             if (data.put(ai, decode(ai, format, properties.get("type"), value)) != null) {
                 // keeping only the last value would discard the rest of the
                 // string without saying so
-                throw new InvalidComponentException(
-                        "The identifier " + ai + " appears more than once.");
+                throw new InvalidComponentException(Message.of(Gs1128.class, "gs1-128.duplicate",
+                        "The identifier {0} appears more than once.", ai));
             }
             if (!separator.isEmpty() && rest.startsWith(separator)) {
                 rest = rest.substring(separator.length());
@@ -195,13 +198,13 @@ public final class Gs1128 implements StdNum {
      */
     private static void requireWholeValue(String ai, String format, String value) {
         if (value.isEmpty()) {
-            throw new InvalidComponentException("The identifier " + ai + " carries no value.");
+            throw new InvalidComponentException(Message.of(Gs1128.class, "gs1-128.value-missing",
+                    "The identifier {0} carries no value.", ai));
         }
         boolean fixed = !format.contains("..") && !format.contains("[");
         if (fixed && value.length() != maxLength(format)) {
-            throw new InvalidComponentException(
-                    "The value of " + ai + " is " + value.length() + " long, not "
-                            + maxLength(format) + ".");
+            throw new InvalidComponentException(Message.of(Gs1128.class, "gs1-128.value-length",
+                    "The value of {0} is {1} long, not {2}.", ai, value.length(), maxLength(format)));
         }
     }
 
@@ -253,7 +256,8 @@ public final class Gs1128 implements StdNum {
             String tail = "MMddHHmmss".substring(0, value.length() - 2);
             return LocalDateTime.parse(value, shortDate(tail));
         } catch (DateTimeException e) {
-            throw new InvalidComponentException("Not a date: " + value);
+            throw new InvalidComponentException(Message.of(Gs1128.class, "gs1-128.date",
+                    "Not a date: {0}", value));
         }
     }
 
@@ -287,8 +291,8 @@ public final class Gs1128 implements StdNum {
             NumDb.Entry entry = identifiers().info(item.getKey()).get(0);
             Map<String, String> properties = entry.properties();
             if (properties.isEmpty()) {
-                throw new InvalidComponentException(
-                        "Not an application identifier: " + item.getKey());
+                throw new InvalidComponentException(Message.of(Gs1128.class, "gs1-128.identifier",
+                        "Not an application identifier: {0}", item.getKey()));
             }
             String ai = entry.part();
             StdNum validator = VALIDATORS.get(ai);
@@ -380,7 +384,8 @@ public final class Gs1128 implements StdNum {
                     trimZeroes(moment.format(pattern("yyMMddHHmm")));
             case "N8+N..4", "N8[+N..4]" ->
                     trimZeroes(moment.format(pattern("yyMMddHHmmss")));
-            default -> throw new InvalidFormatException("Unsupported date format: " + format);
+            default -> throw new InvalidFormatException(Message.of(Gs1128.class, "gs1-128.date-format",
+                    "Unsupported date format: {0}", format));
         };
     }
 

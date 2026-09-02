@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -60,8 +62,7 @@ public final class ZaIdnr implements StdNum {
             LocalDate date = LocalDate.of(year, month, day);
             return date.isAfter(LocalDate.now()) ? date.minusYears(100) : date;
         } catch (DateTimeException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid birth date.");
+            throw new InvalidComponentException(Reasons.birthDate());
         }
     }
 
@@ -79,7 +80,8 @@ public final class ZaIdnr implements StdNum {
         return switch (n.charAt(10)) {
             case '0' -> "citizen";
             case '1' -> "resident";
-            default -> throw new InvalidComponentException("Unknown citizenship digit.");
+            default -> throw new InvalidComponentException(Message.of(ZaIdnr.class, "idnr.citizenship",
+                    "Unknown citizenship digit."));
         };
     }
 

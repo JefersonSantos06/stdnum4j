@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -65,14 +66,16 @@ public final class CrCpj implements StdNum {
             case '3' -> require(CLASS_THREE_TYPES.contains(type));
             case '4' -> require(type.equals("000"));
             case '5' -> require(type.equals("001"));
-            default -> throw new InvalidComponentException("Unknown class of juridical person.");
+            default -> throw new InvalidComponentException(Message.of(CrCpj.class, "cpj.class",
+                    "Unknown class of juridical person."));
         }
         return n;
     }
 
     private static void require(boolean condition) {
         if (!condition) {
-            throw new InvalidComponentException("Unknown type of juridical person.");
+            throw new InvalidComponentException(Message.of(CrCpj.class, "cpj.type",
+                    "Unknown type of juridical person."));
         }
     }
 

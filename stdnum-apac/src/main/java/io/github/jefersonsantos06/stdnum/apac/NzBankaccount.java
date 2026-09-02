@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -147,7 +148,8 @@ public final class NzBankaccount implements StdNum {
         }
         Map<String, String> info = info(n);
         if (!info.containsKey("bank") || !info.containsKey("branch")) {
-            throw new InvalidComponentException("Not the number of a bank and branch.");
+            throw new InvalidComponentException(Message.of(NzBankaccount.class, "bankaccount.bank-branch",
+                    "Not the number of a bank and branch."));
         }
         return n;
     }

@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -87,7 +88,8 @@ public final class NzIrd implements StdNum {
         }
         long value = Long.parseLong(n);
         if (value <= 10_000_000L || value >= 150_000_000L) {
-            throw new InvalidComponentException("The number is outside the issued range.");
+            throw new InvalidComponentException(Message.of(NzIrd.class, "ird.range",
+                    "The number is outside the issued range."));
         }
         if (n.charAt(n.length() - 1) != calcCheckDigit(n.substring(0, n.length() - 1))) {
             throw new InvalidChecksumException();

@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -71,8 +72,8 @@ public final class CzDic implements StdNum {
         }
         if (n.length() == 8) {
             if (n.charAt(0) == '9') {
-                throw new InvalidComponentException(
-                        "A legal entity DIČ does not start with 9.");
+                throw new InvalidComponentException(Message.of(CzDic.class, "dic.legal-entity-prefix",
+                        "A legal entity DIČ does not start with 9."));
             }
             if (n.charAt(7) != calcCheckDigitLegal(n.substring(0, 7))) {
                 throw new InvalidChecksumException();

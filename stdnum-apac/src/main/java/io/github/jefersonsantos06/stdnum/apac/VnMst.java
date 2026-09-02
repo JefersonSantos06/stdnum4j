@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -62,10 +64,11 @@ public final class VnMst implements StdNum {
             throw new InvalidFormatException();
         }
         if (n.startsWith("0000000", 2)) {
-            throw new InvalidComponentException("The sequence number must not be zero.");
+            throw new InvalidComponentException(Reasons.zeroSequence());
         }
         if (n.length() == 13 && n.endsWith("000")) {
-            throw new InvalidComponentException("The branch code must not be zero.");
+            throw new InvalidComponentException(Message.of(VnMst.class, "mst.branch",
+                    "The branch code must not be zero."));
         }
         if (n.charAt(9) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

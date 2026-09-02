@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -73,7 +74,8 @@ public final class SvNit implements StdNum {
             throw new InvalidFormatException();
         }
         if ("019".indexOf(n.charAt(0)) < 0) {
-            throw new InvalidComponentException("A NIT starts with 0, 1 or 9.");
+            throw new InvalidComponentException(Message.of(SvNit.class, "nit.prefix",
+                    "A NIT starts with 0, 1 or 9."));
         }
         if (n.charAt(13) != calcCheckDigit(n)) {
             throw new InvalidChecksumException();

@@ -3,13 +3,13 @@ package io.github.jefersonsantos06.stdnum.na;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.regex.Pattern;
-
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * SSN (U.S. Social Security Number): a three-digit area, a two-digit group
@@ -64,10 +64,12 @@ public final class UsSsn implements StdNum {
         String serial = n.substring(5);
         if (area.equals("000") || area.equals("666") || area.charAt(0) == '9'
                 || group.equals("00") || serial.equals("0000")) {
-            throw new InvalidComponentException("This range of SSNs is never issued.");
+            throw new InvalidComponentException(Message.of(UsSsn.class, "ssn.range",
+                    "This range of SSNs is never issued."));
         }
         if (BLACKLIST.contains(n)) {
-            throw new InvalidComponentException("This SSN is permanently void.");
+            throw new InvalidComponentException(Message.of(UsSsn.class, "ssn.blacklist",
+                    "This SSN is permanently void."));
         }
         return n;
     }

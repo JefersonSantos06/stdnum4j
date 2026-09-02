@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -114,7 +115,8 @@ public final class CzBankaccount implements StdNum {
             throw new InvalidChecksumException();
         }
         if (!info(n).containsKey("bank")) {
-            throw new InvalidComponentException("Not the code of an institution.");
+            throw new InvalidComponentException(Message.of(CzBankaccount.class, "bank.institution",
+                    "Not the code of an institution."));
         }
         return n;
     }

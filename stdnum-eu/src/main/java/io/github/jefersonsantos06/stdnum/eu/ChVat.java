@@ -3,6 +3,7 @@ package io.github.jefersonsantos06.stdnum.eu;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 
@@ -47,8 +48,8 @@ public final class ChVat implements StdNum {
         String suffix = n.substring(12);
         if (!suffix.equals("MWST") && !suffix.equals("TVA")
                 && !suffix.equals("IVA") && !suffix.equals("TPV")) {
-            throw new InvalidComponentException(
-                    "A Swiss VAT number ends with MWST, TVA, IVA or TPV.");
+            throw new InvalidComponentException(Message.of(ChVat.class, "vat.ch.suffix",
+                    "A Swiss VAT number ends with MWST, TVA, IVA or TPV."));
         }
         return n;
     }

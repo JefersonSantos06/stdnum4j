@@ -117,41 +117,27 @@ class MessagesBrTest {
     }
 
     /**
-     * Every reason a Brazilian number gives has a Portuguese sentence, and
-     * every Portuguese sentence is a reason some number gives.
+     * Nothing in the two bundles is a key no number ever names.
      *
-     * <p>The first half asks the <em>bundle</em> whether the key is there, not
-     * the renderer whether the sentence looks Portuguese: a missing key falls
-     * through to {@code error.<NAME>}, which <em>is</em> translated, so
-     * rendering can never reveal one.</p>
-     *
-     * <p>The second half is why {@link #UNREACHED} exists. The fixtures cannot
-     * reach every message — some need a payload this module has no invalid
-     * sample for — so a new key has to be either exercised or listed, and
-     * either way somebody decided.</p>
+     * <p>That every reason a number gives <em>is</em> translated is checked
+     * for every type in every module by the contract test; this is the other
+     * direction, and it is here because {@link #UNREACHED} has to be kept by
+     * hand. The fixtures cannot provoke every message — some want a payload
+     * this module has no invalid sample for — so a new key is either exercised
+     * or listed, and either way somebody decided.</p>
      */
     @Test
-    void theTranslationsAndTheMessagesAreTheSameSet() {
-        Map<String, String> untranslated = new TreeMap<>();
+    void noTranslationIsAKeyNobodyUses() {
         TreeSet<String> reached = new TreeSet<>();
         for (StdNum number : StdNums.byCountry("BR")) {
             String id = number.descriptor().id();
             for (String sample : Fixtures.load(getClass(), id + "-invalid")) {
-                if (!(number.check(sample) instanceof Check.Invalid invalid)) {
-                    continue;
-                }
-                String code = invalid.message().code();
-                if (code == null) {
-                    continue;
-                }
-                if (bundleOf(invalid.message().anchor()).containsKey(code)) {
-                    reached.add(code);
-                } else {
-                    untranslated.put(code, invalid.reason());
+                if (number.check(sample) instanceof Check.Invalid invalid
+                        && invalid.message().code() != null) {
+                    reached.add(invalid.message().code());
                 }
             }
         }
-        assertTrue(untranslated.isEmpty(), () -> "sem tradução pt: " + untranslated);
         assertFalse(reached.isEmpty(), "nenhuma mensagem com código foi exercitada");
 
         TreeSet<String> orphans = new TreeSet<>(keys());

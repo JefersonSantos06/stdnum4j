@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -99,8 +101,8 @@ public final class NoFodselsnummer implements StdNum {
         int year = Integer.parseInt(n.substring(4, 6));
         int individual = Integer.parseInt(n.substring(6, 9));
         if (day >= 80) {
-            throw new InvalidComponentException(
-                    "This is an FH-number and carries no birth date by design.");
+            throw new InvalidComponentException(Message.of(NoFodselsnummer.class, "fodselsnummer.fh-number",
+                    "This is an FH-number and carries no birth date by design."));
         }
         if (day > 40) {
             day -= 40;
@@ -117,13 +119,13 @@ public final class NoFodselsnummer implements StdNum {
         } else if (individual >= 900) {
             year += 1900;
         } else {
-            throw new InvalidComponentException("The century of birth cannot be determined.");
+            throw new InvalidComponentException(Message.of(NoFodselsnummer.class, "fodselsnummer.century",
+                    "The century of birth cannot be determined."));
         }
         try {
             return LocalDate.of(year, month, day);
         } catch (DateTimeException e) {
-            throw new InvalidComponentException(
-                    "The number does not contain a valid birth date.");
+            throw new InvalidComponentException(Reasons.birthDate());
         }
     }
 
@@ -140,8 +142,8 @@ public final class NoFodselsnummer implements StdNum {
             throw new InvalidChecksumException();
         }
         if (getBirthDate(n).isAfter(LocalDate.now())) {
-            throw new InvalidComponentException(
-                    "The birth date is valid but has not happened yet.");
+            throw new InvalidComponentException(Message.of(NoFodselsnummer.class, "fodselsnummer.birth-date.future",
+                    "The birth date is valid but has not happened yet."));
         }
         return n;
     }

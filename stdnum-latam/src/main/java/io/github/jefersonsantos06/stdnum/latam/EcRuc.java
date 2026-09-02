@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
@@ -60,14 +62,16 @@ public final class EcRuc implements StdNum {
 
     private static void validateNatural(String n) {
         if (n.endsWith("000")) {
-            throw new InvalidComponentException("Not an establishment number.");
+            throw new InvalidComponentException(Message.of(EcRuc.class, "ruc.establishment",
+                    "Not an establishment number."));
         }
         EcCi.INSTANCE.validate(n.substring(0, 10));
     }
 
     private static void validatePublic(String n) {
         if (n.endsWith("0000")) {
-            throw new InvalidComponentException("Not an establishment number.");
+            throw new InvalidComponentException(Message.of(EcRuc.class, "ruc.establishment",
+                    "Not an establishment number."));
         }
         if (checksum(n.substring(0, 9), PUBLIC_WEIGHTS) != 0) {
             throw new InvalidChecksumException();
@@ -76,7 +80,8 @@ public final class EcRuc implements StdNum {
 
     private static void validateJuridical(String n) {
         if (n.endsWith("000")) {
-            throw new InvalidComponentException("Not an establishment number.");
+            throw new InvalidComponentException(Message.of(EcRuc.class, "ruc.establishment",
+                    "Not an establishment number."));
         }
         if (checksum(n.substring(0, 10), JURIDICAL_WEIGHTS) != 0) {
             throw new InvalidChecksumException();
@@ -95,7 +100,7 @@ public final class EcRuc implements StdNum {
         String province = n.substring(0, 2);
         if ((province.compareTo("01") < 0 || province.compareTo("24") > 0)
                 && !province.equals("30") && !province.equals("50")) {
-            throw new InvalidComponentException("Not the code of a province.");
+            throw new InvalidComponentException(Reasons.provinceCode());
         }
         char kind = n.charAt(2);
         if (kind < '6') {
@@ -113,7 +118,8 @@ public final class EcRuc implements StdNum {
                 validateJuridical(n);
             }
         } else {
-            throw new InvalidComponentException("The third digit names no taxpayer scheme.");
+            throw new InvalidComponentException(Message.of(EcRuc.class, "ruc.scheme",
+                    "The third digit names no taxpayer scheme."));
         }
         return n;
     }

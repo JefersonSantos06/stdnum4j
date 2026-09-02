@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -50,7 +51,8 @@ public final class EuNace implements StdNum {
     private static NumDb classification(String revision) {
         String key = revision.replace(".", "");
         if (!key.equals("20") && !key.equals("21")) {
-            throw new InvalidComponentException("No such revision: " + revision);
+            throw new InvalidComponentException(Message.of(EuNace.class, "nace.revision",
+                    "No such revision: {0}", revision));
         }
         return NumDb.load(EuNace.class, "eu-nace" + key + ".dat");
     }
@@ -74,7 +76,8 @@ public final class EuNace implements StdNum {
         Map<String, String> info = new LinkedHashMap<>();
         for (NumDb.Entry entry : classification(revision).info(INSTANCE.compact(number))) {
             if (entry.properties().isEmpty()) {
-                throw new InvalidComponentException("Not a heading of the classification.");
+                throw new InvalidComponentException(Message.of(EuNace.class, "nace.heading",
+                        "Not a heading of the classification."));
             }
             info.putAll(entry.properties());
         }

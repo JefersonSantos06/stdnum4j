@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -68,14 +69,15 @@ public final class EuOss implements StdNum {
                 throw new InvalidLengthException();
             }
         } else {
-            throw new InvalidComponentException("One Stop Shop numbers start with EU or IM.");
+            throw new InvalidComponentException(Message.of(EuOss.class, "oss.prefix",
+                    "One Stop Shop numbers start with EU or IM."));
         }
         if (!Strings.isDigits(n.substring(2))) {
             throw new InvalidFormatException();
         }
         if (!MEMBER_STATES.contains(n.substring(2, 5))) {
-            throw new InvalidComponentException(
-                    "Not the code of a member state of identification.");
+            throw new InvalidComponentException(Message.of(EuOss.class, "oss.member-state",
+                    "Not the code of a member state of identification."));
         }
         return n;
     }

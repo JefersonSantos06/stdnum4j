@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.StdNums;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -78,7 +79,8 @@ public final class EuExcise implements StdNum {
         }
         String cc = n.substring(0, 2);
         if (!EuVat.MEMBER_STATES.contains(cc)) {
-            throw new InvalidComponentException(cc + " is not an EU member state.");
+            throw new InvalidComponentException(Message.of(EuExcise.class, "eu.member-state",
+                    "{0} is not an EU member state.", cc));
         }
         moduleFor(cc).ifPresent(m -> m.validate(n));
         return n;

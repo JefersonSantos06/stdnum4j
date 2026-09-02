@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -54,13 +55,16 @@ public final class KrBrn implements StdNum {
             throw new InvalidFormatException();
         }
         if (n.substring(0, 3).compareTo("101") < 0) {
-            throw new InvalidComponentException("Tax office codes start at 101.");
+            throw new InvalidComponentException(Message.of(KrBrn.class, "brn.tax-office",
+                    "Tax office codes start at 101."));
         }
         if (n.startsWith("00", 3)) {
-            throw new InvalidComponentException("00 is not a business type code.");
+            throw new InvalidComponentException(Message.of(KrBrn.class, "brn.business-type",
+                    "00 is not a business type code."));
         }
         if (n.startsWith("0000", 5)) {
-            throw new InvalidComponentException("0000 is not a serial number.");
+            throw new InvalidComponentException(Message.of(KrBrn.class, "brn.serial",
+                    "0000 is not a serial number."));
         }
         return n;
     }

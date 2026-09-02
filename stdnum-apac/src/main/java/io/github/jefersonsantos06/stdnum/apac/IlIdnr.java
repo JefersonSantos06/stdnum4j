@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.algo.Luhn;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -49,7 +50,8 @@ public final class IlIdnr implements StdNum {
             throw new InvalidLengthException();
         }
         if (Long.parseLong(n) <= 0) {
-            throw new InvalidFormatException("The number must be greater than zero.");
+            throw new InvalidFormatException(Message.of(IlIdnr.class, "idnr.positive",
+                    "The number must be greater than zero."));
         }
         Luhn.validate(n);
         return n;

@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -100,7 +101,8 @@ public final class BeNn implements StdNum {
             return new int[] {year, 0, 0};
         }
         if (month > 12) {
-            throw new InvalidComponentException("The month must be in 1..12.");
+            throw new InvalidComponentException(Message.of(BeNn.class, "nn.month",
+                    "The month must be in 1..12."));
         }
         if (day == 0 || day > YearMonth.of(year, month).lengthOfMonth()) {
             return new int[] {year, month, 0};
@@ -160,7 +162,8 @@ public final class BeNn implements StdNum {
         getBirthDate(n);
         int month = Integer.parseInt(n.substring(2, 4));
         if (month > 12) {
-            throw new InvalidComponentException("The month must be in 1..12.");
+            throw new InvalidComponentException(Message.of(BeNn.class, "nn.month",
+                    "The month must be in 1..12."));
         }
         return n;
     }

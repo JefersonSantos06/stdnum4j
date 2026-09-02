@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -50,7 +51,7 @@ public final class EsPostalCode implements StdNum {
         }
         String province = n.substring(0, 2);
         if (province.compareTo("01") < 0 || province.compareTo("52") > 0) {
-            throw new InvalidComponentException("Not the code of a province.");
+            throw new InvalidComponentException(Reasons.provinceCode());
         }
         return n;
     }

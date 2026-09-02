@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -55,15 +56,18 @@ public final class AdNrt implements StdNum {
             throw new InvalidFormatException();
         }
         if (TYPES.indexOf(n.charAt(0)) < 0) {
-            throw new InvalidComponentException("Unknown NRT type letter.");
+            throw new InvalidComponentException(Message.of(AdNrt.class, "nrt.type",
+                    "Unknown NRT type letter."));
         }
         String digits = n.substring(1, 7);
         if (n.charAt(0) == 'F' && digits.compareTo("699999") > 0) {
-            throw new InvalidComponentException("An F number is below 700000.");
+            throw new InvalidComponentException(Message.of(AdNrt.class, "nrt.range-f",
+                    "An F number is below 700000."));
         }
         if ((n.charAt(0) == 'A' || n.charAt(0) == 'L')
                 && !(digits.compareTo("699999") > 0 && digits.compareTo("800000") < 0)) {
-            throw new InvalidComponentException("An A or L number is between 700000 and 800000.");
+            throw new InvalidComponentException(Message.of(AdNrt.class, "nrt.range-al",
+                    "An A or L number is between 700000 and 800000."));
         }
         return n;
     }

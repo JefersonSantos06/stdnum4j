@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -130,7 +131,8 @@ public final class SgUen implements StdNum {
             throw new InvalidFormatException();
         }
         if (Integer.parseInt(n.substring(0, 4)) > LocalDate.now().getYear()) {
-            throw new InvalidComponentException("The year of issuance is in the future.");
+            throw new InvalidComponentException(Message.of(SgUen.class, "uen.year.future",
+                    "The year of issuance is in the future."));
         }
         if (n.charAt(9) != calcCompanyCheckDigit(n)) {
             throw new InvalidChecksumException();
@@ -139,7 +141,8 @@ public final class SgUen implements StdNum {
 
     private static void validateOther(String n) {
         if ("RST".indexOf(n.charAt(0)) < 0) {
-            throw new InvalidComponentException("An other-form UEN starts with R, S or T.");
+            throw new InvalidComponentException(Message.of(SgUen.class, "uen.other-prefix",
+                    "An other-form UEN starts with R, S or T."));
         }
         if (!Strings.isDigits(n.substring(1, 3)) || !Strings.isDigits(n.substring(5, 9))
                 || !Character.isLetter(n.charAt(9))) {
@@ -147,10 +150,12 @@ public final class SgUen implements StdNum {
         }
         if (n.charAt(0) == 'T'
                 && Integer.parseInt(n.substring(1, 3)) > LocalDate.now().getYear() % 100) {
-            throw new InvalidComponentException("The year of issuance is in the future.");
+            throw new InvalidComponentException(Message.of(SgUen.class, "uen.year.future",
+                    "The year of issuance is in the future."));
         }
         if (!OTHER_ENTITY_TYPES.contains(n.substring(3, 5))) {
-            throw new InvalidComponentException("Unknown entity type.");
+            throw new InvalidComponentException(Message.of(SgUen.class, "uen.entity-type",
+                    "Unknown entity type."));
         }
         if (n.charAt(9) != calcOtherCheckDigit(n)) {
             throw new InvalidChecksumException();

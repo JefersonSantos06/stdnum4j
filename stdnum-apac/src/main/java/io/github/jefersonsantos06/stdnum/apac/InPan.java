@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -76,10 +77,12 @@ public final class InPan implements StdNum {
             throw new InvalidFormatException();
         }
         if (!HOLDER_TYPES.containsKey(n.charAt(3))) {
-            throw new InvalidComponentException("Unknown holder type.");
+            throw new InvalidComponentException(Message.of(InPan.class, "pan.holder-type",
+                    "Unknown holder type."));
         }
         if (n.startsWith("0000", 5)) {
-            throw new InvalidComponentException("The serial number must not be zero.");
+            throw new InvalidComponentException(Message.of(InPan.class, "pan.serial",
+                    "The serial number must not be zero."));
         }
         return n;
     }

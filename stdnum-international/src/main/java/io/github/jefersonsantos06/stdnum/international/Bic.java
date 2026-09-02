@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -92,8 +93,8 @@ public final class Bic implements StdNum {
             throw new InvalidFormatException();
         }
         if (!COUNTRY_CODES.contains(n.substring(4, 6))) {
-            throw new InvalidComponentException(
-                    "No country is coded " + n.substring(4, 6) + ".");
+            throw new InvalidComponentException(Message.of(Bic.class, "bic.country",
+                    "No country is coded {0}.", n.substring(4, 6)));
         }
         return n;
     }

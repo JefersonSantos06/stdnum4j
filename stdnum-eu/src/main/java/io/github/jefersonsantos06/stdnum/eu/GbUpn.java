@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -88,7 +89,8 @@ public final class GbUpn implements StdNum {
             throw new InvalidFormatException();
         }
         if (!AUTHORITIES.contains(Integer.parseInt(n.substring(1, 4)))) {
-            throw new InvalidComponentException("Not the code of a local authority.");
+            throw new InvalidComponentException(Message.of(GbUpn.class, "upn.local-authority",
+                    "Not the code of a local authority."));
         }
         if (n.charAt(0) != calcCheckDigit(n.substring(1))) {
             throw new InvalidChecksumException();

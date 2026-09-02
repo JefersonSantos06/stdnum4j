@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -90,7 +91,8 @@ public final class DoNcf implements StdNum {
             default -> throw new InvalidLengthException();
         }
         if (!allowed.contains(type)) {
-            throw new InvalidComponentException("Not the code of a kind of document.");
+            throw new InvalidComponentException(Message.of(DoNcf.class, "ncf.document-type",
+                    "Not the code of a kind of document."));
         }
         return n;
     }

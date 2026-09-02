@@ -5,6 +5,8 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 
@@ -59,7 +61,7 @@ public final class DeLeitweg implements StdNum {
     @Override
     public String compact(String number) {
         if (number == null) {
-            throw new InvalidFormatException("The number is null.");
+            throw new InvalidFormatException(Reasons.nullNumber());
         }
         return number.strip().toUpperCase(Locale.ROOT);
     }
@@ -74,7 +76,8 @@ public final class DeLeitweg implements StdNum {
             throw new InvalidFormatException();
         }
         if (!AUTHORITIES.contains(n.substring(0, 2))) {
-            throw new InvalidComponentException("Not the code of a Land or of the federation.");
+            throw new InvalidComponentException(Message.of(DeLeitweg.class, "leitweg.authority",
+                    "Not the code of a Land or of the federation."));
         }
         Mod97.validate(n.replace("-", ""));
         return n;

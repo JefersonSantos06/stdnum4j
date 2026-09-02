@@ -4,6 +4,8 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
+import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -64,8 +66,7 @@ public final class MyNric implements StdNum {
             try {
                 return LocalDate.of(year + 2000, month, day);
             } catch (DateTimeException e2) {
-                throw new InvalidComponentException(
-                        "The number does not contain a valid birth date.");
+                throw new InvalidComponentException(Reasons.birthDate());
             }
         }
     }
@@ -92,7 +93,8 @@ public final class MyNric implements StdNum {
                 || place == 80 || place == 81
                 || (place >= 94 && place <= 97) || place == 99;
         if (unassigned) {
-            throw new InvalidComponentException("Unknown place of birth code.");
+            throw new InvalidComponentException(Message.of(MyNric.class, "birth-place.unknown",
+                    "Unknown place of birth code."));
         }
         return n;
     }

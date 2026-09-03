@@ -8,7 +8,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * OIB (Osobni identifikacijski broj), the Croatian identification number
@@ -39,8 +38,7 @@ public final class HrOib implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -").toUpperCase(Locale.ROOT);
-        return n.startsWith("HR") ? n.substring(2) : n;
+        return Strings.compact(number, " -", "HR");
     }
 
     @Override

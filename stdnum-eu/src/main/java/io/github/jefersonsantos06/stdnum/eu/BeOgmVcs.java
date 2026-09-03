@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -29,6 +30,8 @@ public final class BeOgmVcs implements StdNum {
                     .tags(Tag.PAYMENT, Tag.BANK)
                     .references("https://nl.wikipedia.org/wiki/Gestructureerde_mededeling")
                     .build();
+
+    private static final Mask MASK = Mask.of("###/####/#####");
 
     private BeOgmVcs() {
     }
@@ -67,7 +70,6 @@ public final class BeOgmVcs implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + '/' + n.substring(3, 7) + '/' + n.substring(7);
+        return MASK.fill(validate(number));
     }
 }

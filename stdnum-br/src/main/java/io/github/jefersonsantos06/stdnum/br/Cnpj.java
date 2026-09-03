@@ -8,6 +8,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Locale;
@@ -39,6 +40,8 @@ public final class Cnpj implements StdNum {
                             + "cadastros/cnpj",
                             "https://en.wikipedia.org/wiki/CNPJ")
                     .build();
+
+    private static final Mask MASK = Mask.of("##.###.###/####-##");
 
     private static final int[] WEIGHTS_1 = Weighted.cyclic(12, 2, 3, 4, 5, 6, 7, 8, 9);
     private static final int[] WEIGHTS_2 = Weighted.cyclic(13, 2, 3, 4, 5, 6, 7, 8, 9);
@@ -97,9 +100,7 @@ public final class Cnpj implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 2) + "." + n.substring(2, 5) + "." + n.substring(5, 8)
-                + "/" + n.substring(8, 12) + "-" + n.substring(12);
+        return MASK.fill(validate(number));
     }
 
     private static boolean isBaseAlphabet(String s) {

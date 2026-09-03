@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -25,6 +26,8 @@ public final class JpCn implements StdNum {
                             + " check digit.")
                     .tags(Tag.COMPANY, Tag.TAX)
                     .build();
+
+    private static final Mask MASK = Mask.of("#-####-####-####");
 
     private JpCn() {
     }
@@ -66,8 +69,6 @@ public final class JpCn implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.charAt(0) + "-" + n.substring(1, 5) + "-"
-                + n.substring(5, 9) + "-" + n.substring(9);
+        return MASK.fill(validate(number));
     }
 }

@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -23,6 +24,8 @@ public final class FrSiren implements StdNum {
                     .description("French company identifier: 9 digits with a Luhn checksum.")
                     .tags(Tag.COMPANY)
                     .build();
+
+    private static final Mask MASK = Mask.of("### ### ###");
 
     private FrSiren() {
     }
@@ -52,8 +55,7 @@ public final class FrSiren implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + " " + n.substring(3, 6) + " " + n.substring(6);
+        return MASK.fill(validate(number));
     }
 
     /** The French VAT number derived from this SIREN (two check digits prepended). */

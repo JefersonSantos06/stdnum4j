@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Resources;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
@@ -38,6 +39,8 @@ public final class Isrc implements StdNum {
                     .tags(Tag.MEDIA, Tag.PRODUCT)
                     .references("https://isrc.ifpi.org/")
                     .build();
+
+    private static final Mask MASK = Mask.of("##-###-##-#####");
 
     private Isrc() {
     }
@@ -75,8 +78,6 @@ public final class Isrc implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 2) + '-' + n.substring(2, 5) + '-'
-                + n.substring(5, 7) + '-' + n.substring(7);
+        return MASK.fill(validate(number));
     }
 }

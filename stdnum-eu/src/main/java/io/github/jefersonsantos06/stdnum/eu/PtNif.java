@@ -9,7 +9,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * NIF (Número de Identificação Fiscal), the Portuguese tax and VAT number:
@@ -41,8 +40,7 @@ public final class PtNif implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -.").toUpperCase(Locale.ROOT);
-        return n.startsWith("PT") ? n.substring(2) : n;
+        return Strings.compact(number, " -.", "PT");
     }
 
     @Override

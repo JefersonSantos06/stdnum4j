@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -25,6 +26,8 @@ public final class MzNuit implements StdNum {
                             + " check digit.")
                     .tags(Tag.TAX, Tag.VAT)
                     .build();
+
+    private static final Mask MASK = Mask.of("### ### ###");
 
     private static final int[] WEIGHTS = {8, 9, 4, 5, 6, 7, 8, 9};
 
@@ -67,7 +70,6 @@ public final class MzNuit implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + " " + n.substring(3, 6) + " " + n.substring(6);
+        return MASK.fill(validate(number));
     }
 }

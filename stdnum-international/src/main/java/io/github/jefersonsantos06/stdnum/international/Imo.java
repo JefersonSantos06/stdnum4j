@@ -8,7 +8,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * IMO number (International Maritime Organization), identifying a ship's
@@ -38,8 +37,7 @@ public final class Imo implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -").toUpperCase(Locale.ROOT);
-        return n.startsWith("IMO") ? n.substring(3) : n;
+        return Strings.compact(number, " -", "IMO");
     }
 
     /** The check digit for the six-digit base. */

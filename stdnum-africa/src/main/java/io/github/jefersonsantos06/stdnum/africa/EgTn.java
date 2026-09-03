@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -24,6 +25,8 @@ public final class EgTn implements StdNum {
                             + " Arabic-Indic digits are accepted.")
                     .tags(Tag.TAX, Tag.VAT)
                     .build();
+
+    private static final Mask MASK = Mask.of("###-###-###");
 
     private EgTn() {
     }
@@ -52,7 +55,6 @@ public final class EgTn implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + "-" + n.substring(3, 6) + "-" + n.substring(6);
+        return MASK.fill(validate(number));
     }
 }

@@ -9,7 +9,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * ДДС номер, the Bulgarian VAT number: nine digits for legal entities, or
@@ -41,8 +40,7 @@ public final class BgVat implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -.").toUpperCase(Locale.ROOT);
-        return n.startsWith("BG") ? n.substring(2) : n;
+        return Strings.compact(number, " -.", "BG");
     }
 
     /** The check digit of a legal entity number, from its first eight digits. */

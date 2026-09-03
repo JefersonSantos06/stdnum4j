@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.regex.Pattern;
@@ -32,6 +33,8 @@ public final class InVid implements StdNum {
                     .references("https://en.wikipedia.org/wiki/Aadhaar#Virtual_ID")
                     .build();
 
+    private static final Mask MASK = Mask.of("#### #### #### ####");
+
     private InVid() {
     }
 
@@ -48,9 +51,7 @@ public final class InVid implements StdNum {
     /** Written in four groups of four, as the Aadhaar it stands in for is. */
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 4) + " " + n.substring(4, 8) + " "
-                + n.substring(8, 12) + " " + n.substring(12);
+        return MASK.fill(validate(number));
     }
 
     /**

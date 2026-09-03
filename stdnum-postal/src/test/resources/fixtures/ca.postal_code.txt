@@ -7,3 +7,5 @@ K1A 0B1
 # mixed case, as libaddressinput accepts it
 h2b 2y5
 H3Z2Y7
+V6B 1A4
+V6B1A4

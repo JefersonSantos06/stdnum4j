@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -24,6 +25,8 @@ public final class SeOrgnr implements StdNum {
                     .description("Swedish company number: 10 digits with a Luhn checksum.")
                     .tags(Tag.COMPANY)
                     .build();
+
+    private static final Mask MASK = Mask.of("######-####");
 
     private SeOrgnr() {
     }
@@ -53,7 +56,6 @@ public final class SeOrgnr implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 6) + "-" + n.substring(6);
+        return MASK.fill(validate(number));
     }
 }

@@ -8,7 +8,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * TVA (taxe sur la valeur ajoutée), the Luxembourgian VAT number: eight
@@ -36,8 +35,7 @@ public final class LuTva implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " :.-").toUpperCase(Locale.ROOT);
-        return n.startsWith("LU") ? n.substring(2) : n;
+        return Strings.compact(number, " :.-", "LU");
     }
 
     /** The two check digits for the six-digit base. */

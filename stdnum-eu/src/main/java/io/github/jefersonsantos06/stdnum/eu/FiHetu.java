@@ -1,16 +1,15 @@
 package io.github.jefersonsantos06.stdnum.eu;
 
+import io.github.jefersonsantos06.stdnum.spi.Dates;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
-import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -80,12 +79,8 @@ public final class FiHetu implements StdNum {
         if (!m.matches()) {
             throw new InvalidFormatException();
         }
-        try {
-            return LocalDate.of(century(m.group(4).charAt(0)) + Integer.parseInt(m.group(3)),
-                    Integer.parseInt(m.group(2)), Integer.parseInt(m.group(1)));
-        } catch (DateTimeException e) {
-            throw new InvalidComponentException(Reasons.birthDate());
-        }
+        return Dates.birthDate(century(m.group(4).charAt(0)) + Integer.parseInt(m.group(3)),
+                Integer.parseInt(m.group(2)), Integer.parseInt(m.group(1)));
     }
 
     @Override

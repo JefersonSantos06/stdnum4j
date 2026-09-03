@@ -8,6 +8,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -27,6 +28,8 @@ public final class CaSin implements StdNum {
                             + " checksum.")
                     .tags(Tag.PERSON)
                     .build();
+
+    private static final Mask MASK = Mask.of("###-###-###");
 
     private CaSin() {
     }
@@ -60,7 +63,6 @@ public final class CaSin implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + "-" + n.substring(3, 6) + "-" + n.substring(6);
+        return MASK.fill(validate(number));
     }
 }

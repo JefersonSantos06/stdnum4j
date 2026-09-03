@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -28,6 +29,8 @@ public final class JpIn implements StdNum {
                     .tags(Tag.PERSON, Tag.TAX)
                     .references("https://en.wikipedia.org/wiki/Individual_Number")
                     .build();
+
+    private static final Mask MASK = Mask.of("#### #### ####");
 
     private JpIn() {
     }
@@ -69,7 +72,6 @@ public final class JpIn implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 4) + ' ' + n.substring(4, 8) + ' ' + n.substring(8);
+        return MASK.fill(validate(number));
     }
 }

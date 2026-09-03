@@ -8,6 +8,7 @@ import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Map;
@@ -31,6 +32,8 @@ public final class PkCnic implements StdNum {
                             + " gender, with no check digit.")
                     .tags(Tag.PERSON)
                     .build();
+
+    private static final Mask MASK = Mask.of("#####-#######-#");
 
     private static final Map<Character, String> PROVINCES = Map.of(
             '1', "Khyber Pakhtunkhwa",
@@ -86,7 +89,6 @@ public final class PkCnic implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 5) + "-" + n.substring(5, 12) + "-" + n.substring(12);
+        return MASK.fill(validate(number));
     }
 }

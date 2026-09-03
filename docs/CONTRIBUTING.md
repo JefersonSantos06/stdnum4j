@@ -142,11 +142,17 @@ entra em `PostalCode.HAND_WRITTEN` para o genérico sair do caminho. O
   privada na classe. Não cole um laço de Luhn.
 - Sobrescreva `format` **só** se a apresentação diferir da forma compacta. O
   padrão já valida e devolve a forma compacta, que é a apresentação correta de
-  um número escrito sem separadores.
+  um número escrito sem separadores. Quando diferir, ela é uma `Mask` num campo
+  `static final`, não aritmética de `substring`:
+  `private static final Mask MASK = Mask.of("###.###.###-##");` e
+  `return MASK.fill(validate(number));`.
 - Acessores (`getBirthDate`, `toSiren`, `manufacturer`) são `public static`,
   recebem uma única `String` e **validam primeiro**. Um método público que
   lança `NumberFormatException` num número dos nossos próprios fixtures é um
-  defeito; isso já aconteceu, e os fixtures existem para pegar.
+  defeito; isso já aconteceu, e os fixtures existem para pegar. Abra com
+  `Strings.requireDigits(INSTANCE.compact(number), 11)` e termine uma data com
+  `Dates.birthDate(ano, mês, dia)`, que já recusa o dia que não existe com a
+  frase que todos os outros usam.
 - Nunca deixe escapar de `validate`, `compact` ou de um acessor nada além de
   uma subclasse de `ValidationException`. Nem em `null`, nem em string vazia,
   nem em 1.024 noves, nem num emoji.

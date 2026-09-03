@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Locale;
@@ -28,6 +29,8 @@ public final class Issn implements StdNum {
                     .tags(Tag.MEDIA)
                     .references("https://en.wikipedia.org/wiki/International_Standard_Serial_Number")
                     .build();
+
+    private static final Mask MASK = Mask.of("####-####");
 
     private Issn() {
     }
@@ -69,8 +72,7 @@ public final class Issn implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 4) + "-" + n.substring(4);
+        return MASK.fill(validate(number));
     }
 
     /** The 13-digit EAN of this ISSN, in the 977 bookland prefix. */

@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.regex.Pattern;
@@ -27,6 +28,8 @@ public final class UsItin implements StdNum {
                             + " starting with 9 and a restricted group range.")
                     .tags(Tag.PERSON, Tag.TAX)
                     .build();
+
+    private static final Mask MASK = Mask.of("###-##-####");
 
     /** The separators, if written, sit after the area and the group. */
     private static final Pattern STRUCTURE = Pattern.compile("[0-9]{3}-?[0-9]{2}-?[0-9]{4}");
@@ -67,7 +70,6 @@ public final class UsItin implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + "-" + n.substring(3, 5) + "-" + n.substring(5);
+        return MASK.fill(validate(number));
     }
 }

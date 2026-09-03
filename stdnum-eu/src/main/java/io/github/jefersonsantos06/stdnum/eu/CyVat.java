@@ -10,7 +10,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * Αριθμός Εγγραφής Φ.Π.Α., the Cypriot VAT number: eight digits and a
@@ -42,8 +41,7 @@ public final class CyVat implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -").toUpperCase(Locale.ROOT);
-        return n.startsWith("CY") ? n.substring(2) : n;
+        return Strings.compact(number, " -", "CY");
     }
 
     /** The check letter for the eight-digit base. */

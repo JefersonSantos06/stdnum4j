@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.time.DateTimeException;
@@ -34,6 +35,8 @@ public final class DkCpr implements StdNum {
                     .tags(Tag.PERSON)
                     .build();
 
+    private static final Mask MASK = Mask.of("######-####");
+
     private DkCpr() {
     }
 
@@ -49,10 +52,7 @@ public final class DkCpr implements StdNum {
 
     /** The birth date encoded in the number. */
     public static LocalDate getBirthDate(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 10) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 10);
         int day = Integer.parseInt(n.substring(0, 2));
         int month = Integer.parseInt(n.substring(2, 4));
         int year = Integer.parseInt(n.substring(4, 6));
@@ -90,8 +90,7 @@ public final class DkCpr implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 6) + "-" + n.substring(6);
+        return MASK.fill(validate(number));
     }
 
     /**
@@ -102,10 +101,7 @@ public final class DkCpr implements StdNum {
      * available for numbers known to predate the change.</p>
      */
     public static int checksum(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 10) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 10);
         int[] weights = {4, 3, 2, 7, 6, 5, 4, 3, 2, 1};
         int sum = 0;
         for (int i = 0; i < weights.length; i++) {

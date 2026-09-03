@@ -1,5 +1,6 @@
 package io.github.jefersonsantos06.stdnum.latam;
 
+import io.github.jefersonsantos06.stdnum.spi.Dates;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
@@ -11,7 +12,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Set;
@@ -86,14 +86,15 @@ public final class MxCurp implements StdNum {
         if (n.length() != 18) {
             throw new InvalidLengthException();
         }
-        int year = Integer.parseInt(n.substring(4, 6));
-        year += Character.isDigit(n.charAt(16)) ? 1900 : 2000;
-        try {
-            return LocalDate.of(year, Integer.parseInt(n.substring(6, 8)),
-                    Integer.parseInt(n.substring(8, 10)));
-        } catch (DateTimeException | NumberFormatException e) {
+        // all three parses inside the guard: an 18-character CURP whose date
+        // is not digits at all must be refused, not thrown out of
+        if (!Strings.isDigits(n.substring(4, 10))) {
             throw new InvalidComponentException(Reasons.birthDate());
         }
+        int year = Integer.parseInt(n.substring(4, 6))
+                + (Character.isDigit(n.charAt(16)) ? 1900 : 2000);
+        return Dates.birthDate(year, Integer.parseInt(n.substring(6, 8)),
+                Integer.parseInt(n.substring(8, 10)));
     }
 
     /** The sex recorded in the code, {@code 'M'} or {@code 'F'}. */

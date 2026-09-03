@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Locale;
@@ -29,6 +30,8 @@ public final class AdNrt implements StdNum {
                             + " letter, with type-dependent ranges.")
                     .tags(Tag.TAX, Tag.VAT)
                     .build();
+
+    private static final Mask MASK = Mask.of("#-######-#");
 
     private static final String TYPES = "ACDEFGLOPU";
 
@@ -74,7 +77,6 @@ public final class AdNrt implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.charAt(0) + "-" + n.substring(1, 7) + "-" + n.charAt(7);
+        return MASK.fill(validate(number));
     }
 }

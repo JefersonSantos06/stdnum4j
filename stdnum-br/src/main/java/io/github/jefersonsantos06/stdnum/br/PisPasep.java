@@ -8,6 +8,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -31,6 +32,8 @@ public final class PisPasep implements StdNum {
                     .tags(Tag.PERSON)
                     .references("https://pt.wikipedia.org/wiki/Programa_de_Integra%C3%A7%C3%A3o_Social")
                     .build();
+
+    private static final Mask MASK = Mask.of("###.#####.##-#");
 
     private static final int[] WEIGHTS = Weighted.cyclic(10, 2, 3, 4, 5, 6, 7, 8, 9);
 
@@ -80,8 +83,6 @@ public final class PisPasep implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + "." + n.substring(3, 8) + "."
-                + n.substring(8, 10) + "-" + n.substring(10);
+        return MASK.fill(validate(number));
     }
 }

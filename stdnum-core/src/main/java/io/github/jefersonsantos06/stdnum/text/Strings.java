@@ -1,9 +1,11 @@
 package io.github.jefersonsantos06.stdnum.text;
 
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
+import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Reasons;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -131,6 +133,24 @@ public final class Strings {
     }
 
     /**
+     * As {@link #compact(String, String)}, and then without the prefix the
+     * number is often written with but never stored with — nearly always the
+     * country code in front of a VAT number, {@code NL2611ET} for a Dutch
+     * postcode, {@code SE11418} for a Swedish one.
+     *
+     * <p>Unlike the two-argument form this upper-cases, because a prefix can
+     * only be recognised once the case has settled. The prefix is dropped
+     * only when something follows it, so a number that <em>is</em> those
+     * letters survives.</p>
+     */
+    public static String compact(String number, String deleteChars, String prefix) {
+        String n = compact(number, deleteChars).toUpperCase(Locale.ROOT);
+        return n.length() > prefix.length() && n.startsWith(prefix)
+                ? n.substring(prefix.length())
+                : n;
+    }
+
+    /**
      * Whether the string is non-empty and consists only of ASCII digits
      * {@code '0'-'9'}. Unlike {@link Character#isDigit(char)} this rejects
      * all other Unicode digit categories. Returns {@code false} for {@code null}.
@@ -146,6 +166,25 @@ public final class Strings {
             }
         }
         return true;
+    }
+
+    /**
+     * The number back, once it is that many ASCII digits and nothing else —
+     * the guard an accessor opens with, since a caller may hand it anything
+     * and a public method must refuse rather than throw arithmetic out.
+     *
+     * <p>A wrong length is an {@link InvalidLengthException}, which
+     * <em>is</em> an {@link InvalidFormatException}, so catching the general
+     * one still catches both.</p>
+     */
+    public static String requireDigits(String number, int length) {
+        if (!isDigits(number)) {
+            throw new InvalidFormatException();
+        }
+        if (number.length() != length) {
+            throw new InvalidLengthException();
+        }
+        return number;
     }
 
     /**

@@ -5,9 +5,9 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * The Swedish postnummer: five digits, the first of which is never zero.
@@ -25,6 +25,8 @@ public final class SePostnummer implements StdNum {
                     .references("https://sv.wikipedia.org/wiki/Postnummer_i_Sverige")
                     .build();
 
+    private static final Mask MASK = Mask.of("### ##");
+
     private SePostnummer() {
     }
 
@@ -35,8 +37,7 @@ public final class SePostnummer implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -").toUpperCase(Locale.ROOT);
-        return n.startsWith("SE") ? n.substring(2) : n;
+        return Strings.compact(number, " -", "SE");
     }
 
     @Override
@@ -53,7 +54,6 @@ public final class SePostnummer implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + ' ' + n.substring(3);
+        return MASK.fill(validate(number));
     }
 }

@@ -199,12 +199,20 @@ Nada aqui declara `module-info`.
 io.github.jefersonsantos06.stdnum          StdNums — o registry
                                     .spi   StdNum, Descriptor, Tag, Check,
                                            as exceções, Message, Messages,
-                                           Reasons, StdNumProvider
+                                           Reasons, Dates, StdNumProvider
                                     .algo  Luhn, Damm, Verhoeff, Iso7064,
                                            Mod97, Weighted, Crc16
                                     .numdb NumDb — o banco de prefixos
-                                    .text  Strings, Resources
+                                    .text  Strings, Mask, Resources
 ```
+
+O que se repetiria em cada tipo mora aqui. `Mask` escreve o número do jeito
+que ele se escreve, e é o `format` de 57 tipos; `Strings.compact` de três
+argumentos tira o prefixo que 34 números carregam mas não guardam;
+`Strings.requireDigits` é a guarda com que todo acessor abre; `Dates.birthDate`
+é o que duas dúzias de identificadores pessoais fazem com os seis dígitos da
+data. A regra de qual século dois dígitos significam continua em cada país,
+porque cada país tem a sua.
 
 `algo` é a aritmética, e só a aritmética: `Luhn.calcCheckDigit`,
 `Weighted.mod11CheckDigit`, `Iso7064.MOD_11_2.validate`. Nenhuma classe de

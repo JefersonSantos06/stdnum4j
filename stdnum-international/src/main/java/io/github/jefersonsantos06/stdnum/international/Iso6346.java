@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Locale;
@@ -29,6 +30,8 @@ public final class Iso6346 implements StdNum {
                     .tags(Tag.VEHICLE)
                     .references("https://en.wikipedia.org/wiki/ISO_6346")
                     .build();
+
+    private static final Mask MASK = Mask.of("#### ###### #");
 
     private static final Pattern STRUCTURE = Pattern.compile("[A-Z]{3}[UJZR][0-9]{7}");
 
@@ -79,7 +82,6 @@ public final class Iso6346 implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 4) + " " + n.substring(4, 10) + " " + n.substring(10);
+        return MASK.fill(validate(number));
     }
 }

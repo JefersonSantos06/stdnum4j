@@ -61,10 +61,7 @@ public final class BeNn implements StdNum {
      * @throws InvalidChecksumException if neither reading agrees
      */
     public static int getCentury(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 11) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 11);
         int check = Integer.parseInt(n.substring(9));
         if (97 - Long.parseLong(n.substring(0, 9)) % 97 == check) {
             return 1900;
@@ -143,10 +140,7 @@ public final class BeNn implements StdNum {
 
     /** The sex recorded in the number, {@code 'M'} or {@code 'F'}. */
     public static char getGender(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 11) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 11);
         return Integer.parseInt(n.substring(6, 9)) % 2 == 1 ? 'M' : 'F';
     }
 

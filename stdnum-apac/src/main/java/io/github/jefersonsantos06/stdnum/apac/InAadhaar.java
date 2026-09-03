@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.regex.Pattern;
@@ -27,6 +28,8 @@ public final class InAadhaar implements StdNum {
                             + " check digit.")
                     .tags(Tag.PERSON)
                     .build();
+
+    private static final Mask MASK = Mask.of("#### #### ####");
 
     private static final Pattern STRUCTURE = Pattern.compile("[2-9][0-9]{11}");
 
@@ -62,8 +65,7 @@ public final class InAadhaar implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 4) + " " + n.substring(4, 8) + " " + n.substring(8);
+        return MASK.fill(validate(number));
     }
 
     /** The number with everything but the last four digits masked. */

@@ -8,6 +8,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Locale;
@@ -30,6 +31,8 @@ public final class BeVat implements StdNum {
                             + " check on the last two.")
                     .tags(Tag.VAT, Tag.COMPANY)
                     .build();
+
+    private static final Mask MASK = Mask.of("####.###.###");
 
     private BeVat() {
     }
@@ -76,7 +79,6 @@ public final class BeVat implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 4) + "." + n.substring(4, 7) + "." + n.substring(7);
+        return MASK.fill(validate(number));
     }
 }

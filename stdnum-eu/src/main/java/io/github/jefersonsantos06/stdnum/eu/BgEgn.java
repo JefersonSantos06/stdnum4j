@@ -1,16 +1,14 @@
 package io.github.jefersonsantos06.stdnum.eu;
 
+import io.github.jefersonsantos06.stdnum.spi.Dates;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
-import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
-import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 
 /**
@@ -58,10 +56,7 @@ public final class BgEgn implements StdNum {
 
     /** The birth date encoded in the number. */
     public static LocalDate getBirthDate(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 10) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 10);
         int year = Integer.parseInt(n.substring(0, 2)) + 1900;
         int month = Integer.parseInt(n.substring(2, 4));
         int day = Integer.parseInt(n.substring(4, 6));
@@ -72,11 +67,7 @@ public final class BgEgn implements StdNum {
             year -= 100;
             month -= 20;
         }
-        try {
-            return LocalDate.of(year, month, day);
-        } catch (DateTimeException e) {
-            throw new InvalidComponentException(Reasons.birthDate());
-        }
+        return Dates.birthDate(year, month, day);
     }
 
     @Override

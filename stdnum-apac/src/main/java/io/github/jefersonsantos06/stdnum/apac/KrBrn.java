@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -31,6 +32,8 @@ public final class KrBrn implements StdNum {
                     .tags(Tag.COMPANY, Tag.TAX)
                     .references("https://call.nts.go.kr/call/qna/selectQnaInfo.do?mi=1329&ctgId=CTG11944")
                     .build();
+
+    private static final Mask MASK = Mask.of("###-##-#####");
 
     private KrBrn() {
     }
@@ -71,7 +74,6 @@ public final class KrBrn implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + '-' + n.substring(3, 5) + '-' + n.substring(5);
+        return MASK.fill(validate(number));
     }
 }

@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -31,6 +32,8 @@ public final class LinhaDigitavel implements StdNum {
                     .tags(Tag.BANK, Tag.PAYMENT)
                     .references("https://www.bcb.gov.br/pre/normativos/c_circ/2000/pdf/c_circ_2926_v1_o.pdf")
                     .build();
+
+    private static final Mask MASK = Mask.of("#####.##### #####.###### #####.###### # ##############");
 
     private LinhaDigitavel() {
     }
@@ -98,10 +101,6 @@ public final class LinhaDigitavel implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 5) + "." + n.substring(5, 10) + " "
-                + n.substring(10, 15) + "." + n.substring(15, 21) + " "
-                + n.substring(21, 26) + "." + n.substring(26, 32) + " "
-                + n.charAt(32) + " " + n.substring(33);
+        return MASK.fill(validate(number));
     }
 }

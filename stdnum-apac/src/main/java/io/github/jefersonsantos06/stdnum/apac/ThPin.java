@@ -8,6 +8,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -27,6 +28,8 @@ public final class ThPin implements StdNum {
                             + " weighted mod 11 check digit.")
                     .tags(Tag.PERSON)
                     .build();
+
+    private static final Mask MASK = Mask.of("#-####-#####-##-#");
 
     private ThPin() {
     }
@@ -73,8 +76,6 @@ public final class ThPin implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.charAt(0) + "-" + n.substring(1, 5) + "-" + n.substring(5, 10)
-                + "-" + n.substring(10, 12) + "-" + n.substring(12);
+        return MASK.fill(validate(number));
     }
 }

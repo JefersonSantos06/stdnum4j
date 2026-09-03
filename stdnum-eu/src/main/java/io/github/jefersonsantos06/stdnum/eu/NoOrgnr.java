@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -24,6 +25,8 @@ public final class NoOrgnr implements StdNum {
                             + " mod 11 check.")
                     .tags(Tag.COMPANY)
                     .build();
+
+    private static final Mask MASK = Mask.of("### ### ###");
 
     private static final int[] WEIGHTS = {3, 2, 7, 6, 5, 4, 3, 2, 1};
 
@@ -61,7 +64,6 @@ public final class NoOrgnr implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + " " + n.substring(3, 6) + " " + n.substring(6);
+        return MASK.fill(validate(number));
     }
 }

@@ -8,7 +8,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -44,8 +43,7 @@ public final class NlPostcode implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -").toUpperCase(Locale.ROOT);
-        return n.startsWith("NL") ? n.substring(2) : n;
+        return Strings.compact(number, " -", "NL");
     }
 
     /**

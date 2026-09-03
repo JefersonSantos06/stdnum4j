@@ -67,10 +67,7 @@ public final class BeBis implements StdNum {
      * 20..32 range, which was issued before the sex was established.
      */
     public static Character getGender(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 11) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 11);
         return Integer.parseInt(n.substring(2, 4)) >= 40 ? BeNn.getGender(n) : null;
     }
 

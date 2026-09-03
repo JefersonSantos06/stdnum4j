@@ -1,16 +1,14 @@
 package io.github.jefersonsantos06.stdnum.eu;
 
+import io.github.jefersonsantos06.stdnum.spi.Dates;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
-import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
-import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 
 /**
@@ -60,26 +58,16 @@ public final class SiEmso implements StdNum {
 
     /** The birth date encoded in the number, whose year runs on three digits. */
     public static LocalDate getBirthDate(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 13) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 13);
         int year = Integer.parseInt(n.substring(4, 7));
         year += year < 800 ? 2000 : 1000;
-        try {
-            return LocalDate.of(year, Integer.parseInt(n.substring(2, 4)),
-                    Integer.parseInt(n.substring(0, 2)));
-        } catch (DateTimeException e) {
-            throw new InvalidComponentException(Reasons.birthDate());
-        }
+        return Dates.birthDate(year,
+                Integer.parseInt(n.substring(2, 4)), Integer.parseInt(n.substring(0, 2)));
     }
 
     /** The sex recorded in the number, {@code 'M'} or {@code 'F'}. */
     public static char getGender(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 13) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 13);
         return Integer.parseInt(n.substring(9, 12)) < 500 ? 'M' : 'F';
     }
 

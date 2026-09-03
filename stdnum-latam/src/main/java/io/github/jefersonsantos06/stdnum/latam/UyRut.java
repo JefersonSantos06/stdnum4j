@@ -9,9 +9,9 @@ import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * RUT (Registro Único Tributario), the Uruguayan tax number for legal
@@ -31,6 +31,8 @@ public final class UyRut implements StdNum {
                     .tags(Tag.TAX, Tag.VAT, Tag.COMPANY)
                     .build();
 
+    private static final Mask MASK = Mask.of("##-######-###-#");
+
     private static final int[] WEIGHTS = {4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
 
     private UyRut() {
@@ -43,8 +45,7 @@ public final class UyRut implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -").toUpperCase(Locale.ROOT);
-        return n.startsWith("UY") ? n.substring(2) : n;
+        return Strings.compact(number, " -", "UY");
     }
 
     /** The check digit for the eleven-digit base. */
@@ -85,8 +86,6 @@ public final class UyRut implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 2) + "-" + n.substring(2, 8) + "-"
-                + n.substring(8, 11) + "-" + n.substring(11);
+        return MASK.fill(validate(number));
     }
 }

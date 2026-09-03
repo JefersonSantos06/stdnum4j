@@ -8,6 +8,7 @@ import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.time.DateTimeException;
@@ -36,6 +37,8 @@ public final class MyNric implements StdNum {
                     .tags(Tag.PERSON)
                     .build();
 
+    private static final Mask MASK = Mask.of("######-##-####");
+
     private MyNric() {
     }
 
@@ -51,10 +54,7 @@ public final class MyNric implements StdNum {
 
     /** The birth date encoded in the number; the century is inferred. */
     public static LocalDate getBirthDate(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 12) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 12);
         int year = Integer.parseInt(n.substring(0, 2));
         int month = Integer.parseInt(n.substring(2, 4));
         int day = Integer.parseInt(n.substring(4, 6));
@@ -101,7 +101,6 @@ public final class MyNric implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 6) + "-" + n.substring(6, 8) + "-" + n.substring(8);
+        return MASK.fill(validate(number));
     }
 }

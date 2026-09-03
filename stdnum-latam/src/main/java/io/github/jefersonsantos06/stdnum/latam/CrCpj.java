@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Set;
@@ -29,6 +30,8 @@ public final class CrCpj implements StdNum {
                             + " and type prefix, and no check digit.")
                     .tags(Tag.TAX, Tag.VAT, Tag.COMPANY)
                     .build();
+
+    private static final Mask MASK = Mask.of("#-###-######");
 
     private static final Set<String> CLASS_TWO_TYPES =
             Set.of("100", "200", "300", "400");
@@ -81,7 +84,6 @@ public final class CrCpj implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.charAt(0) + "-" + n.substring(1, 4) + "-" + n.substring(4);
+        return MASK.fill(validate(number));
     }
 }

@@ -1,5 +1,6 @@
 package io.github.jefersonsantos06.stdnum.apac;
 
+import io.github.jefersonsantos06.stdnum.spi.Dates;
 import io.github.jefersonsantos06.stdnum.numdb.NumDb;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
@@ -7,13 +8,11 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
-import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.math.BigInteger;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -90,12 +89,8 @@ public final class CnRic implements StdNum {
         if (n.length() < 14 || !Strings.isDigits(n.substring(0, 14))) {
             throw new InvalidFormatException();
         }
-        try {
-            return LocalDate.of(Integer.parseInt(n.substring(6, 10)),
-                    Integer.parseInt(n.substring(10, 12)), Integer.parseInt(n.substring(12, 14)));
-        } catch (DateTimeException e) {
-            throw new InvalidComponentException(Reasons.birthDate());
-        }
+        return Dates.birthDate(Integer.parseInt(n.substring(6,
+                10)), Integer.parseInt(n.substring(10, 12)), Integer.parseInt(n.substring(12, 14)));
     }
 
     /**

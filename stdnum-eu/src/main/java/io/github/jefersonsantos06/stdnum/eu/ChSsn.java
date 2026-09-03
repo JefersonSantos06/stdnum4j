@@ -8,6 +8,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -29,6 +30,8 @@ public final class ChSsn implements StdNum {
                     .tags(Tag.PERSON, Tag.HEALTH)
                     .references("https://en.wikipedia.org/wiki/National_identification_number#Switzerland")
                     .build();
+
+    private static final Mask MASK = Mask.of("###.####.####.##");
 
     private ChSsn() {
     }
@@ -77,8 +80,6 @@ public final class ChSsn implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + '.' + n.substring(3, 7) + '.'
-                + n.substring(7, 11) + '.' + n.substring(11);
+        return MASK.fill(validate(number));
     }
 }

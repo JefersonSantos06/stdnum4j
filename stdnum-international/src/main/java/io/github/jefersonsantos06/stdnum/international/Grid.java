@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Locale;
@@ -26,6 +27,8 @@ public final class Grid implements StdNum {
                     .tags(Tag.MEDIA, Tag.PRODUCT)
                     .references("https://en.wikipedia.org/wiki/Global_Release_Identifier")
                     .build();
+
+    private static final Mask MASK = Mask.of("##-#####-##########-#");
 
     private Grid() {
     }
@@ -52,8 +55,6 @@ public final class Grid implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 2) + '-' + n.substring(2, 7) + '-'
-                + n.substring(7, 17) + '-' + n.substring(17);
+        return MASK.fill(validate(number));
     }
 }

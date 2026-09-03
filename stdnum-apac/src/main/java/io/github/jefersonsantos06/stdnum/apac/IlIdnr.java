@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -25,6 +26,8 @@ public final class IlIdnr implements StdNum {
                     .description("Israeli identity number: 9 digits with a Luhn check digit.")
                     .tags(Tag.PERSON)
                     .build();
+
+    private static final Mask MASK = Mask.of("########-#");
 
     private IlIdnr() {
     }
@@ -59,8 +62,7 @@ public final class IlIdnr implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 8) + "-" + n.substring(8);
+        return MASK.fill(validate(number));
     }
 
 }

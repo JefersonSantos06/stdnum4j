@@ -1,18 +1,15 @@
 package io.github.jefersonsantos06.stdnum.eu;
 
+import io.github.jefersonsantos06.stdnum.spi.Dates;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
-import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
-import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.Locale;
 
 /**
  * PVN (Pievienotās vērtības nodoklis), the Latvian VAT number: eleven
@@ -46,24 +43,16 @@ public final class LvPvn implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -").toUpperCase(Locale.ROOT);
-        return n.startsWith("LV") ? n.substring(2) : n;
+        return Strings.compact(number, " -", "LV");
     }
 
     /** The birth date encoded in an old-style personal code. */
     public static LocalDate getBirthDate(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 11) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 11);
         int day = Integer.parseInt(n.substring(0, 2));
         int month = Integer.parseInt(n.substring(2, 4));
         int year = Integer.parseInt(n.substring(4, 6)) + 1800 + (n.charAt(6) - '0') * 100;
-        try {
-            return LocalDate.of(year, month, day);
-        } catch (DateTimeException e) {
-            throw new InvalidComponentException(Reasons.birthDate());
-        }
+        return Dates.birthDate(year, month, day);
     }
 
     /** The check digit of a personal code, from its first ten digits. */

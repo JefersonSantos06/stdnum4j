@@ -8,6 +8,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -39,6 +40,8 @@ public final class TituloEleitor implements StdNum {
                     .tags(Tag.PERSON)
                     .references("https://www.justicaeleitoral.jus.br/titulo-eleitoral/")
                     .build();
+
+    private static final Mask MASK = Mask.of("#### #### ####");
 
     private TituloEleitor() {
     }
@@ -93,8 +96,7 @@ public final class TituloEleitor implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 4) + " " + n.substring(4, 8) + " " + n.substring(8);
+        return MASK.fill(validate(number));
     }
 
     private static int digit(int sum, boolean spMg) {

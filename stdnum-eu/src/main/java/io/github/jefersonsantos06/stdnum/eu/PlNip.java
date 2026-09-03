@@ -6,9 +6,9 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * NIP (Numer Identyfikacji Podatkowej), the Polish VAT number: ten digits
@@ -26,6 +26,8 @@ public final class PlNip implements StdNum {
                     .tags(Tag.VAT)
                     .build();
 
+    private static final Mask MASK = Mask.of("###-###-##-##");
+
     private static final int[] WEIGHTS = {6, 5, 7, 2, 3, 4, 5, 6, 7, -1};
 
     private PlNip() {
@@ -38,8 +40,7 @@ public final class PlNip implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -").toUpperCase(Locale.ROOT);
-        return n.startsWith("PL") ? n.substring(2) : n;
+        return Strings.compact(number, " -", "PL");
     }
 
     @Override
@@ -63,8 +64,6 @@ public final class PlNip implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + "-" + n.substring(3, 6) + "-"
-                + n.substring(6, 8) + "-" + n.substring(8);
+        return MASK.fill(validate(number));
     }
 }

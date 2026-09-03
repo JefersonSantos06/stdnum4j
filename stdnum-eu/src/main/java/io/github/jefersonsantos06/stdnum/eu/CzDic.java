@@ -10,7 +10,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * DIČ (Daňové identifikační číslo), the Czech VAT number. Three shapes:
@@ -41,8 +40,7 @@ public final class CzDic implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " /").toUpperCase(Locale.ROOT);
-        return n.startsWith("CZ") ? n.substring(2) : n;
+        return Strings.compact(number, " /", "CZ");
     }
 
     /** The check digit of an 8-digit legal entity number, from its first seven digits. */

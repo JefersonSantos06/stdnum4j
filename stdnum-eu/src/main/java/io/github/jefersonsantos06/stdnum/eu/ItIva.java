@@ -10,7 +10,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * Partita IVA, the Italian VAT number: seven digits identifying the
@@ -41,8 +40,7 @@ public final class ItIva implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -:").toUpperCase(Locale.ROOT);
-        return n.startsWith("IT") ? n.substring(2) : n;
+        return Strings.compact(number, " -:", "IT");
     }
 
     @Override

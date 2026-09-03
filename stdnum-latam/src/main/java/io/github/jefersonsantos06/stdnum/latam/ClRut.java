@@ -9,7 +9,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * RUT (Rol Único Tributario), the Chilean tax and national identification
@@ -40,8 +39,7 @@ public final class ClRut implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -.").toUpperCase(Locale.ROOT);
-        return n.startsWith("CL") ? n.substring(2) : n;
+        return Strings.compact(number, " -.", "CL");
     }
 
     /** The check character for the base without its check position. */

@@ -9,6 +9,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Set;
@@ -31,6 +32,8 @@ public final class ArCuit implements StdNum {
                             + " weighted mod 11 check digit.")
                     .tags(Tag.TAX, Tag.VAT)
                     .build();
+
+    private static final Mask MASK = Mask.of("##-########-#");
 
     private static final int[] WEIGHTS = {5, 4, 3, 2, 7, 6, 5, 4, 3, 2};
 
@@ -78,7 +81,6 @@ public final class ArCuit implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 2) + "-" + n.substring(2, 10) + "-" + n.substring(10);
+        return MASK.fill(validate(number));
     }
 }

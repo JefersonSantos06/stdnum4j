@@ -7,6 +7,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -30,6 +31,8 @@ public final class DeIdnr implements StdNum {
                     .tags(Tag.PERSON, Tag.TAX)
                     .references("https://de.wikipedia.org/wiki/Steuerliche_Identifikationsnummer")
                     .build();
+
+    private static final Mask MASK = Mask.of("## ### ### ###");
 
     private DeIdnr() {
     }
@@ -83,8 +86,6 @@ public final class DeIdnr implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 2) + ' ' + n.substring(2, 5) + ' '
-                + n.substring(5, 8) + ' ' + n.substring(8);
+        return MASK.fill(validate(number));
     }
 }

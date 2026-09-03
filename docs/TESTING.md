@@ -1,6 +1,6 @@
 # Testes
 
-`mvn verify` roda **21.331 testes**. Quase nenhum deles foi escrito um a um.
+`mvn verify` roda **21.340 testes**. Quase nenhum deles foi escrito um a um.
 Esta página explica como se chega a esse número, para que adicionar um tipo de
 número signifique adicionar dados, e não adicionar código de teste.
 
@@ -209,18 +209,18 @@ atualizar este teste de propósito. Veja
 
 | Módulo | Testes | Pulados |
 |---|---:|---:|
-| `stdnum-core` | 89 | 0 |
+| `stdnum-core` | 92 | 0 |
 | `stdnum-tck` | 28 | 2 |
 | `stdnum-br` | 794 | 22 |
 | `stdnum-international` | 2.715 | 31 |
 | `stdnum-eu` | 6.702 | 180 |
-| `stdnum-latam` | 3.678 | 27 |
+| `stdnum-latam` | 3.679 | 27 |
 | `stdnum-na` | 353 | 13 |
 | `stdnum-apac` | 3.069 | 35 |
 | `stdnum-africa` | 1.269 | 13 |
-| `stdnum-postal` | 815 | 16 |
+| `stdnum-postal` | 820 | 16 |
 | `stdnum-all` | 1.819 | 7 |
-| **Total** | **21.331** | **346** |
+| **Total** | **21.340** | **346** |
 
 O `stdnum-tck` testa a si mesmo contra um `DummyNumber` que existe só para
 provar que o contrato pega o que diz pegar, e o `RegistryIntegrationTest` prova

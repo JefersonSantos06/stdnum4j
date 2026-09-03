@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
@@ -25,6 +26,8 @@ public final class AuAbn implements StdNum {
                             + " with two check digits.")
                     .tags(Tag.COMPANY, Tag.VAT, Tag.TAX)
                     .build();
+
+    private static final Mask MASK = Mask.of("## ### ### ###");
 
     private static final int[] WEIGHTS = {3, 5, 7, 9, 11, 13, 15, 17, 19};
 
@@ -67,8 +70,6 @@ public final class AuAbn implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 2) + " " + n.substring(2, 5) + " "
-                + n.substring(5, 8) + " " + n.substring(8);
+        return MASK.fill(validate(number));
     }
 }

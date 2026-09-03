@@ -8,7 +8,6 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.util.Locale;
 
 /**
  * CVR (Momsregistreringsnummer), the Danish VAT number: eight digits not
@@ -38,8 +37,7 @@ public final class DkCvr implements StdNum {
 
     @Override
     public String compact(String number) {
-        String n = Strings.compact(number, " -.,/:").toUpperCase(Locale.ROOT);
-        return n.startsWith("DK") ? n.substring(2) : n;
+        return Strings.compact(number, " -.,/:", "DK");
     }
 
     @Override

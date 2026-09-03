@@ -50,10 +50,7 @@ public final class GrAmka implements StdNum {
 
     /** The birth date encoded in the number. */
     public static LocalDate getBirthDate(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 11) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 11);
         int day = Integer.parseInt(n.substring(0, 2));
         int month = Integer.parseInt(n.substring(2, 4));
         int year = Integer.parseInt(n.substring(4, 6)) + 1900;
@@ -70,10 +67,7 @@ public final class GrAmka implements StdNum {
 
     /** The sex recorded in the number, {@code 'M'} or {@code 'F'}. */
     public static char getGender(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 11) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 11);
         return (n.charAt(9) - '0') % 2 == 1 ? 'M' : 'F';
     }
 

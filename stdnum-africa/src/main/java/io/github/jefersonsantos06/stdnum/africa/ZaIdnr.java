@@ -1,17 +1,17 @@
 package io.github.jefersonsantos06.stdnum.africa;
 
 import io.github.jefersonsantos06.stdnum.algo.Luhn;
+import io.github.jefersonsantos06.stdnum.spi.Dates;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
-import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 
 /**
@@ -35,6 +35,8 @@ public final class ZaIdnr implements StdNum {
                     .tags(Tag.PERSON)
                     .build();
 
+    private static final Mask MASK = Mask.of("###### #### ## #");
+
     private ZaIdnr() {
     }
 
@@ -50,20 +52,13 @@ public final class ZaIdnr implements StdNum {
 
     /** The birth date encoded in the number; the century is inferred. */
     public static LocalDate getBirthDate(String number) {
-        String n = INSTANCE.compact(number);
-        if (!Strings.isDigits(n) || n.length() != 13) {
-            throw new InvalidFormatException();
-        }
+        String n = Strings.requireDigits(INSTANCE.compact(number), 13);
         int century = LocalDate.now().getYear() / 100 * 100;
         int year = Integer.parseInt(n.substring(0, 2)) + century;
         int month = Integer.parseInt(n.substring(2, 4));
         int day = Integer.parseInt(n.substring(4, 6));
-        try {
-            LocalDate date = LocalDate.of(year, month, day);
-            return date.isAfter(LocalDate.now()) ? date.minusYears(100) : date;
-        } catch (DateTimeException e) {
-            throw new InvalidComponentException(Reasons.birthDate());
-        }
+        LocalDate date = Dates.birthDate(year, month, day);
+        return date.isAfter(LocalDate.now()) ? date.minusYears(100) : date;
     }
 
     /** The gender encoded in the number: {@code 'M'} or {@code 'F'}. */
@@ -102,8 +97,6 @@ public final class ZaIdnr implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 6) + " " + n.substring(6, 10) + " "
-                + n.substring(10, 12) + " " + n.substring(12);
+        return MASK.fill(validate(number));
     }
 }

@@ -147,4 +147,31 @@ public final class Strings {
         }
         return true;
     }
+
+    /**
+     * Whether the string is non-empty and made of a single repeated character
+     * — {@code 11111111111}, which many issuers reject however well its check
+     * digit closes. The empty string and {@code null} are not.
+     */
+    public static boolean allSame(String s) {
+        return allSame(s, false);
+    }
+
+    /**
+     * As {@link #allSame(String)}, but {@code allowEmpty} decides what the
+     * empty string and {@code null} count as. Pass {@code true} where the
+     * caller has already rejected the empty string and the answer for it can
+     * never be observed.
+     */
+    public static boolean allSame(String s, boolean allowEmpty) {
+        if (s == null) {
+            return allowEmpty;
+        }
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) != s.charAt(0)) {
+                return false;
+            }
+        }
+        return allowEmpty || !s.isEmpty();
+    }
 }

@@ -1,6 +1,6 @@
 # Testes
 
-`mvn verify` roda **19.999 testes**. Quase nenhum deles foi escrito um a um.
+`mvn verify` roda **20.148 testes**. Quase nenhum deles foi escrito um a um.
 Esta página explica como se chega a esse número, para que adicionar um tipo de
 número signifique adicionar dados, e não adicionar código de teste.
 
@@ -97,11 +97,11 @@ a procedência da amostra.
 
 | Arquivo | Contém | Arquivos | Linhas |
 |---|---|---|---|
-| `<id>.txt` | números válidos | 251 | 13.217 |
+| `<id>.txt` | números válidos | 251 | 13.365 |
 | `<id>-invalid.txt` | números que precisam ser recusados | 251 | 1.973 |
-| `<id>-format.txt` | `entrada<TAB>apresentação esperada` | 120 | 196 |
+| `<id>-format.txt` | `entrada<TAB>apresentação esperada` | 120 | 197 |
 | `<id>-accessor.txt` | `método<TAB>entrada<TAB>esperado` | 52 | 234 |
-| | | **674** | **15.620** |
+| | | **674** | **15.769** |
 
 Os dois últimos existem porque a verificação de ida e volta não prende tudo.
 `validate(format(x))` prova que o `format` produz *alguma coisa* válida; não
@@ -211,15 +211,15 @@ atualizar este teste de propósito. Veja
 |---|---:|---:|
 | `stdnum-core` | 80 | 0 |
 | `stdnum-tck` | 28 | 2 |
-| `stdnum-br` | 646 | 22 |
+| `stdnum-br` | 794 | 22 |
 | `stdnum-international` | 2.715 | 31 |
 | `stdnum-eu` | 6.702 | 180 |
-| `stdnum-latam` | 3.677 | 27 |
+| `stdnum-latam` | 3.678 | 27 |
 | `stdnum-na` | 353 | 13 |
 | `stdnum-apac` | 3.069 | 35 |
 | `stdnum-africa` | 1.269 | 13 |
 | `stdnum-all` | 1.460 | 7 |
-| **Total** | **19.999** | **330** |
+| **Total** | **20.148** | **330** |
 
 O `stdnum-tck` testa a si mesmo contra um `DummyNumber` que existe só para
 provar que o contrato pega o que diz pegar, e o `RegistryIntegrationTest` prova

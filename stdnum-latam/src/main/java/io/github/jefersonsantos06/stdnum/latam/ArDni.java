@@ -55,6 +55,6 @@ public final class ArDni implements StdNum {
         String n = validate(number);
         return n.length() == 8
                 ? n.substring(0, 2) + "." + n.substring(2, 5) + "." + n.substring(5)
-                : n.substring(0, 1) + "." + n.substring(1, 4) + "." + n.substring(4);
+                : n.charAt(0) + "." + n.substring(1, 4) + "." + n.substring(4);
     }
 }

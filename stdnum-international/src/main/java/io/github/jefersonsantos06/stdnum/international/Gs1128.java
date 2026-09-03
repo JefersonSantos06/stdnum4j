@@ -325,9 +325,10 @@ public final class Gs1128 implements StdNum {
     /** A value widened to its format, numbers to the right and text to the left. */
     private static String pad(String format, String type, String value) {
         int width = maxLength(format);
-        String padding = " ".repeat(Math.max(0, width - value.length()));
+        int max = Math.max(0, width - value.length());
+        String padding = " ".repeat(max);
         if ("decimal".equals(type) || "int".equals(type)) {
-            return "0".repeat(Math.max(0, width - value.length())) + value;
+            return "0".repeat(max) + value;
         }
         return value + padding;
     }

@@ -40,7 +40,7 @@ public final class RoCnp implements StdNum {
     private static final Map<Character, Integer> CENTURIES = Map.of(
             '1', 1900, '2', 1900, '3', 1800, '4', 1800, '5', 2000, '6', 2000);
 
-    private static final Map<String, String> COUNTIES = Map.ofEntries(
+    private static final Map<String, String> COUNTIES = Map.<String, String>ofEntries(
             Map.entry("01", "Alba"), Map.entry("02", "Arad"), Map.entry("03", "Argeș"),
             Map.entry("04", "Bacău"), Map.entry("05", "Bihor"), Map.entry("06", "Bistrița-Năsăud"),
             Map.entry("07", "Botoșani"), Map.entry("08", "Brașov"), Map.entry("09", "Brăila"),

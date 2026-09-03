@@ -68,7 +68,7 @@ public final class PisPasep implements StdNum {
         if (n.length() != 11) {
             throw new InvalidLengthException();
         }
-        if (Repeats.allSame(n)) {
+        if (Strings.allSame(n)) {
             throw new InvalidFormatException(Message.of(PisPasep.class, "pis-pasep.repeated",
                     "A PIS/PASEP consisting of a single repeated digit is not valid."));
         }

@@ -54,7 +54,7 @@ public final class FrRcs implements StdNum {
         for (int i = 2; i < parts.length; i++) {
             rest.append(parts[i]);
         }
-        if (rest.length() == 0) {
+        if (rest.isEmpty()) {
             throw new InvalidFormatException();
         }
         return parts[0] + ' ' + parts[1] + ' ' + rest.charAt(0) + ' '

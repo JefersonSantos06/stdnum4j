@@ -133,7 +133,7 @@ public final class Isan implements StdNum {
             }
         }
         if (root.length() != 12 || episode.length() != 4 || check1.length() > 1
-                || (version.length() != 0 && version.length() != 8)) {
+                || (!version.isEmpty() && version.length() != 8)) {
             throw new InvalidLengthException();
         }
         if (!check1.isEmpty()) {

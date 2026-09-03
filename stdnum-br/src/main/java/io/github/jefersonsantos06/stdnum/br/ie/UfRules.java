@@ -49,29 +49,23 @@ final class UfRules {
             case AC -> UfRules::ac;
             case AL -> UfRules::al;
             case AP -> UfRules::ap;
-            case AM -> n -> standard(n, 9, W9_2);
+            case AM, SE, SC, PI, PB, ES, CE -> n -> standard(n, 9, W9_2);
             case BA -> UfRules::ba;
-            case CE -> n -> standard(n, 9, W9_2);
             case DF -> UfRules::df;
-            case ES -> n -> standard(n, 9, W9_2);
             case GO -> UfRules::go;
             case MA -> n -> standard(prefixed(n, "12"), 9, W9_2);
             case MT -> n -> standard(n, 11, MT_10);
             case MS -> n -> standard(prefixed(n, "28", "50"), 9, W9_2);
             case MG -> UfRules::mg;
             case PA -> n -> standard(prefixed(n, "15", "75", "76", "77", "78", "79"), 9, W9_2);
-            case PB -> n -> standard(n, 9, W9_2);
             case PR -> UfRules::pr;
             case PE -> UfRules::pe;
-            case PI -> n -> standard(n, 9, W9_2);
             case RJ -> n -> standard(n, 8, RJ_7);
             case RN -> UfRules::rn;
             case RS -> n -> standard(n, 10, RS_10);
             case RO -> UfRules::ro;
             case RR -> UfRules::rr;
-            case SC -> n -> standard(n, 9, W9_2);
             case SP -> UfRules::sp;
-            case SE -> n -> standard(n, 9, W9_2);
             case TO -> UfRules::to;
         };
     }
@@ -157,6 +151,7 @@ final class UfRules {
         int d = 0;
         if (base >= 3_000_001L && base <= 3_017_000L) {
             p = 5;
+            //noinspection DataFlowIssue
             d = 0;
         } else if (base >= 3_017_001L && base <= 3_019_022L) {
             p = 9;

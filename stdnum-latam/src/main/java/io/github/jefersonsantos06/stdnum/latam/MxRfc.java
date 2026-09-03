@@ -185,7 +185,8 @@ public final class MxRfc implements StdNum {
     /** Whether the number is valid, optionally demanding the check character. */
     public boolean isValid(String number, boolean validateCheckDigits) {
         try {
-            return validate(number, validateCheckDigits) != null;
+            validate(number, validateCheckDigits);
+            return true;
         } catch (ValidationException e) {
             return false;
         }

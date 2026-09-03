@@ -59,7 +59,7 @@ public final class LinhaDigitavel implements StdNum {
     public static String toCodigoBarras(String number) {
         String n = INSTANCE.validate(number);
         return n.substring(0, 4)            // bank and currency
-                + n.substring(32, 33)       // general check digit
+                + n.charAt(32)       // general check digit
                 + n.substring(33)           // due-date factor and amount
                 + n.substring(4, 9)         // remainder of field 1
                 + n.substring(10, 20)       // field 2
@@ -92,7 +92,7 @@ public final class LinhaDigitavel implements StdNum {
 
     /** Rearranges an already-compacted line into its barcode. */
     private static String toBarcode(String n) {
-        return n.substring(0, 4) + n.substring(32, 33) + n.substring(33)
+        return n.substring(0, 4) + n.charAt(32) + n.substring(33)
                 + n.substring(4, 9) + n.substring(10, 20) + n.substring(21, 31);
     }
 
@@ -102,6 +102,6 @@ public final class LinhaDigitavel implements StdNum {
         return n.substring(0, 5) + "." + n.substring(5, 10) + " "
                 + n.substring(10, 15) + "." + n.substring(15, 21) + " "
                 + n.substring(21, 26) + "." + n.substring(26, 32) + " "
-                + n.substring(32, 33) + " " + n.substring(33);
+                + n.charAt(32) + " " + n.substring(33);
     }
 }

@@ -126,7 +126,8 @@ public final class Mac implements StdNum {
     /** Whether the address is valid, saying whether to demand a manufacturer. */
     public boolean isValid(String number, Boolean validateManufacturer) {
         try {
-            return validate(number, validateManufacturer) != null;
+            validate(number, validateManufacturer);
+            return true;
         } catch (ValidationException e) {
             return false;
         }

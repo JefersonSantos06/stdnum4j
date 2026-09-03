@@ -57,7 +57,7 @@ public final class CodigoBarras implements StdNum {
      */
     public static int calcCheckDigit(String base) {
         int digit = 11 - Weighted.weightedSum(base, WEIGHTS) % 11;
-        return digit == 0 || digit == 10 || digit == 11 ? 1 : digit;
+        return digit == 10 || digit == 11 ? 1 : digit;
     }
 
     @Override

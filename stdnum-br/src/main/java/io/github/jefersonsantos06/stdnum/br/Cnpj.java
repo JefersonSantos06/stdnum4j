@@ -85,7 +85,7 @@ public final class Cnpj implements StdNum {
         if (!isBaseAlphabet(n.substring(0, 12)) || !Strings.isDigits(n.substring(12))) {
             throw new InvalidFormatException();
         }
-        if (Repeats.allSame(n)) {
+        if (Strings.allSame(n)) {
             throw new InvalidFormatException(Message.of(Cnpj.class, "cnpj.repeated",
                     "A CNPJ consisting of a single repeated character is not valid."));
         }

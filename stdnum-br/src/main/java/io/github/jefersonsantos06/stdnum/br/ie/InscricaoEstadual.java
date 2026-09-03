@@ -58,7 +58,7 @@ public final class InscricaoEstadual implements StdNum {
                 .description("State tax registration (ICMS) of " + uf.displayName()
                         + ", validated with the state-specific SINTEGRA routine.")
                 .tags(Tag.TAX, Tag.COMPANY)
-                .references("http://www.sintegra.gov.br/insc_est.html")
+                .references("https://www.sintegra.gov.br/insc_est.html")
                 .build();
     }
 
@@ -103,7 +103,7 @@ public final class InscricaoEstadual implements StdNum {
         if (n.isEmpty()) {
             throw new InvalidFormatException();
         }
-        if (allSame(n)) {
+        if (Strings.allSame(n, true)) {
             throw new InvalidFormatException(Message.of(InscricaoEstadual.class, "ie.repeated",
                     "A state registration consisting of a single repeated character is not valid."));
         }
@@ -121,14 +121,5 @@ public final class InscricaoEstadual implements StdNum {
     @Override
     public String format(String number) {
         return UfMasks.apply(uf, validate(number));
-    }
-
-    private static boolean allSame(String s) {
-        for (int i = 1; i < s.length(); i++) {
-            if (s.charAt(i) != s.charAt(0)) {
-                return false;
-            }
-        }
-        return true;
     }
 }

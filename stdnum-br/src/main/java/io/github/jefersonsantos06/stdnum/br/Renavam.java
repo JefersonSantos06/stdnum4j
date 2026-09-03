@@ -76,7 +76,7 @@ public final class Renavam implements StdNum {
         if (n.length() != 11) {
             throw new InvalidLengthException();
         }
-        if (Repeats.allSame(n)) {
+        if (Strings.allSame(n)) {
             throw new InvalidFormatException(Message.of(Renavam.class, "renavam.repeated",
                     "A RENAVAM consisting of a single repeated digit is not valid."));
         }

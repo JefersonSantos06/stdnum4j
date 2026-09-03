@@ -1,6 +1,6 @@
 # Testes
 
-`mvn verify` roda **20.148 testes**. Quase nenhum deles foi escrito um a um.
+`mvn verify` roda **21.331 testes**. Quase nenhum deles foi escrito um a um.
 Esta página explica como se chega a esse número, para que adicionar um tipo de
 número signifique adicionar dados, e não adicionar código de teste.
 
@@ -97,11 +97,11 @@ a procedência da amostra.
 
 | Arquivo | Contém | Arquivos | Linhas |
 |---|---|---|---|
-| `<id>.txt` | números válidos | 251 | 13.365 |
-| `<id>-invalid.txt` | números que precisam ser recusados | 251 | 1.973 |
-| `<id>-format.txt` | `entrada<TAB>apresentação esperada` | 120 | 197 |
+| `<id>.txt` | números válidos | 265 | 13.452 |
+| `<id>-invalid.txt` | números que precisam ser recusados | 265 | 2.043 |
+| `<id>-format.txt` | `entrada<TAB>apresentação esperada` | 132 | 231 |
 | `<id>-accessor.txt` | `método<TAB>entrada<TAB>esperado` | 52 | 234 |
-| | | **674** | **15.769** |
+| | | **714** | **15.960** |
 
 Os dois últimos existem porque a verificação de ida e volta não prende tudo.
 `validate(format(x))` prova que o `format` produz *alguma coisa* válida; não
@@ -117,10 +117,10 @@ getGender	85473500193	M
 ```
 
 Um arquivo de fixture faltando não é falha — ele aborta como uma premissa
-pulada, nomeando o arquivo que queria. É daí que vêm os 330 pulos de um build
-verde, exatamente: das 251 classes de teste de contrato, 131 não têm arquivo de
-formato (a apresentação delas *é* a forma compacta) e 199 não têm arquivo de
-acessor (não expõem acessores). Todas as 251 têm arquivo válido e inválido, e é
+pulada, nomeando o arquivo que queria. É daí que vêm os 346 pulos de um build
+verde, exatamente: das 265 classes de teste de contrato, 133 não têm arquivo de
+formato (a apresentação delas *é* a forma compacta) e 213 não têm arquivo de
+acessor (não expõem acessores). Todas as 265 têm arquivo válido e inválido, e é
 por isso que nenhuma dessas duas fábricas jamais aborta. Um arquivo **válido**
 ou **inválido** faltando merece atenção; um de formato ou de acessor faltando
 costuma significar que não há nada a dizer.
@@ -198,8 +198,8 @@ que há nele, e acerta todo tipo descoberto com `null` e com a lista de lixo. Um
 módulo que registre um validador frágil falha aqui **mesmo que não traga teste
 nenhum**.
 
-Ele também afirma contagens fixas — 273 tipos registrados, 37 do Brasil, 10 da
-Espanha, 7 da França — e que os tipos internacionais não carregam país. Esses
+Ele também afirma contagens fixas — 451 tipos registrados, 38 do Brasil, 10 da
+Espanha, 8 da França — e que os tipos internacionais não carregam país. Esses
 números são um arame de tropeço: adicionar um tipo sem registrá-lo, ou
 registrá-lo duas vezes, falha aqui. Adicionar um tipo, portanto, significa
 atualizar este teste de propósito. Veja
@@ -209,7 +209,7 @@ atualizar este teste de propósito. Veja
 
 | Módulo | Testes | Pulados |
 |---|---:|---:|
-| `stdnum-core` | 80 | 0 |
+| `stdnum-core` | 89 | 0 |
 | `stdnum-tck` | 28 | 2 |
 | `stdnum-br` | 794 | 22 |
 | `stdnum-international` | 2.715 | 31 |
@@ -218,8 +218,9 @@ atualizar este teste de propósito. Veja
 | `stdnum-na` | 353 | 13 |
 | `stdnum-apac` | 3.069 | 35 |
 | `stdnum-africa` | 1.269 | 13 |
-| `stdnum-all` | 1.460 | 7 |
-| **Total** | **20.148** | **330** |
+| `stdnum-postal` | 815 | 16 |
+| `stdnum-all` | 1.819 | 7 |
+| **Total** | **21.331** | **346** |
 
 O `stdnum-tck` testa a si mesmo contra um `DummyNumber` que existe só para
 provar que o contrato pega o que diz pegar, e o `RegistryIntegrationTest` prova

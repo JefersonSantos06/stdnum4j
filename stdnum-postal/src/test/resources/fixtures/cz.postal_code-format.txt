@@ -1,0 +1,3 @@
+# how the metadata writes its own examples
+10000	100 00
+251-66	251 66

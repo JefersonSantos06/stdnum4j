@@ -1,6 +1,6 @@
 # Números
 
-**273 tipos**, em 89 países, mais 30 formatos independentes de país.
+**451 tipos**, em 183 países, mais 30 formatos independentes de país.
 
 Este inventário é mantido à mão. Ao adicionar um tipo, adicione-o aqui também —
 veja [CONTRIBUTING.md](CONTRIBUTING.md#passo-8--o-inventário). Se algum dia ele
@@ -21,7 +21,11 @@ StdNums.all().forEach(n -> System.out.println(n.descriptor().id()));
 | [`stdnum-na`](#américa-do-norte--stdnum-na-10) | 10 | 2 |
 | [`stdnum-apac`](#ásia-pacífico--stdnum-apac-33) | 33 | 17 |
 | [`stdnum-africa`](#áfrica--stdnum-africa-12) | 12 | 11 |
-| **Total** | **273** | **89** |
+| [`stdnum-postal`](#códigos-postais--stdnum-postal-178) | 178 | 178 |
+| **Total** | **451** | **183** |
+
+Os países do `stdnum-postal` se sobrepõem aos dos módulos regionais; distintos,
+são 183.
 
 ## Diante do python-stdnum
 
@@ -33,7 +37,8 @@ O python-stdnum 2.2 traz **235 tipos de número** (236 módulos, um dos quais,
   - [ ] `isil` — International Standard Identifier for Libraries. Deixado de
         fora de propósito: é uma sintaxe com um registro de prefixos, não um
         número com dígito verificador, e nada aqui precisa dele.
-- **39 tipos daqui não têm equivalente no python-stdnum:** os 35 brasileiros
+- **217 tipos daqui não têm equivalente no python-stdnum:** os 178 códigos
+  postais gerados, os 35 brasileiros
   (as inscrições estaduais das 27 unidades federativas, o CNS, o título de
   eleitor, o RENAVAM, a chave de acesso da NF-e, o boleto FEBRABAN nas suas
   duas formas e o Pix BR Code), mais `cz.ico`, `sk.ico`, `om.vat` e `upi`.
@@ -607,3 +612,189 @@ que ele aparece no `Descriptor`, e não é traduzido.
 
 - [x] `za.idnr` — ID number — South African Identity Document number
 - [x] `za.tin` — TIN — South African Tax Identification Number
+
+### Códigos postais — `stdnum-postal` (178)
+
+Um tipo por país ou território para o qual os metadados de endereço do Google
+(os da libaddressinput, dados CC BY 4.0) documentam um padrão — todos gerados
+de `postal-codes.dat`, nunca escritos à mão. AT, ES, NL e SE têm tipo próprio
+no `stdnum-eu` e ficam de fora daqui.
+
+- [x] `ac.postal_code` — Postal code — Ascension Island postal code
+- [x] `ad.postal_code` — Postal code — Andorra postal code
+- [x] `af.postal_code` — Postal code — Afghanistan postal code
+- [x] `ai.postal_code` — Postal code — Anguilla postal code
+- [x] `al.postal_code` — Postal code — Albania postal code
+- [x] `am.postal_code` — Postal code — Armenia postal code
+- [x] `ar.postal_code` — Postal code — Argentina postal code
+- [x] `as.postal_code` — ZIP code — American Samoa ZIP code
+- [x] `au.postal_code` — Postal code — Australia postal code
+- [x] `ax.postal_code` — Postal code — Åland Islands postal code
+- [x] `az.postal_code` — Postal code — Azerbaijan postal code
+- [x] `ba.postal_code` — Postal code — Bosnia & Herzegovina postal code
+- [x] `bb.postal_code` — Postal code — Barbados postal code
+- [x] `bd.postal_code` — Postal code — Bangladesh postal code
+- [x] `be.postal_code` — Postal code — Belgium postal code
+- [x] `bg.postal_code` — Postal code — Bulgaria postal code
+- [x] `bh.postal_code` — Postal code — Bahrain postal code
+- [x] `bl.postal_code` — Postal code — St. Barthélemy postal code
+- [x] `bm.postal_code` — Postal code — Bermuda postal code
+- [x] `bn.postal_code` — Postal code — Brunei postal code
+- [x] `br.postal_code` — Postal code — Brazil postal code
+- [x] `bt.postal_code` — Postal code — Bhutan postal code
+- [x] `by.postal_code` — Postal code — Belarus postal code
+- [x] `ca.postal_code` — Postal code — Canada postal code
+- [x] `cc.postal_code` — Postal code — Cocos (Keeling) Islands postal code
+- [x] `ch.postal_code` — Postal code — Switzerland postal code
+- [x] `cl.postal_code` — Postal code — Chile postal code
+- [x] `cn.postal_code` — Postal code — China postal code
+- [x] `co.postal_code` — Postal code — Colombia postal code
+- [x] `cr.postal_code` — Postal code — Costa Rica postal code
+- [x] `cu.postal_code` — Postal code — Cuba postal code
+- [x] `cv.postal_code` — Postal code — Cape Verde postal code
+- [x] `cx.postal_code` — Postal code — Christmas Island postal code
+- [x] `cy.postal_code` — Postal code — Cyprus postal code
+- [x] `cz.postal_code` — Postal code — Czechia postal code
+- [x] `de.postal_code` — Postal code — Germany postal code
+- [x] `dk.postal_code` — Postal code — Denmark postal code
+- [x] `do.postal_code` — Postal code — Dominican Republic postal code
+- [x] `dz.postal_code` — Postal code — Algeria postal code
+- [x] `ec.postal_code` — Postal code — Ecuador postal code
+- [x] `ee.postal_code` — Postal code — Estonia postal code
+- [x] `eg.postal_code` — Postal code — Egypt postal code
+- [x] `eh.postal_code` — Postal code — Western Sahara postal code
+- [x] `et.postal_code` — Postal code — Ethiopia postal code
+- [x] `fi.postal_code` — Postal code — Finland postal code
+- [x] `fk.postal_code` — Postal code — Falkland Islands postal code
+- [x] `fm.postal_code` — ZIP code — Micronesia ZIP code
+- [x] `fo.postal_code` — Postal code — Faroe Islands postal code
+- [x] `fr.postal_code` — Postal code — France postal code
+- [x] `gb.postal_code` — Postal code — United Kingdom postal code
+- [x] `ge.postal_code` — Postal code — Georgia postal code
+- [x] `gf.postal_code` — Postal code — French Guiana postal code
+- [x] `gg.postal_code` — Postal code — Guernsey postal code
+- [x] `gi.postal_code` — Postal code — Gibraltar postal code
+- [x] `gl.postal_code` — Postal code — Greenland postal code
+- [x] `gn.postal_code` — Postal code — Guinea postal code
+- [x] `gp.postal_code` — Postal code — Guadeloupe postal code
+- [x] `gr.postal_code` — Postal code — Greece postal code
+- [x] `gs.postal_code` — Postal code — South Georgia & South Sandwich Islands postal code
+- [x] `gt.postal_code` — Postal code — Guatemala postal code
+- [x] `gu.postal_code` — ZIP code — Guam ZIP code
+- [x] `gw.postal_code` — Postal code — Guinea-Bissau postal code
+- [x] `hm.postal_code` — Postal code — Heard & McDonald Islands postal code
+- [x] `hn.postal_code` — Postal code — Honduras postal code
+- [x] `hr.postal_code` — Postal code — Croatia postal code
+- [x] `ht.postal_code` — Postal code — Haiti postal code
+- [x] `hu.postal_code` — Postal code — Hungary postal code
+- [x] `id.postal_code` — Postal code — Indonesia postal code
+- [x] `ie.postal_code` — Eircode — Ireland Eircode
+- [x] `il.postal_code` — Postal code — Israel postal code
+- [x] `im.postal_code` — Postal code — Isle of Man postal code
+- [x] `in.postal_code` — PIN code — India PIN code
+- [x] `io.postal_code` — Postal code — British Indian Ocean Territory postal code
+- [x] `iq.postal_code` — Postal code — Iraq postal code
+- [x] `ir.postal_code` — Postal code — Iran postal code
+- [x] `is.postal_code` — Postal code — Iceland postal code
+- [x] `it.postal_code` — Postal code — Italy postal code
+- [x] `je.postal_code` — Postal code — Jersey postal code
+- [x] `jo.postal_code` — Postal code — Jordan postal code
+- [x] `jp.postal_code` — Postal code — Japan postal code
+- [x] `ke.postal_code` — Postal code — Kenya postal code
+- [x] `kg.postal_code` — Postal code — Kyrgyzstan postal code
+- [x] `kh.postal_code` — Postal code — Cambodia postal code
+- [x] `kr.postal_code` — Postal code — South Korea postal code
+- [x] `kw.postal_code` — Postal code — Kuwait postal code
+- [x] `ky.postal_code` — Postal code — Cayman Islands postal code
+- [x] `kz.postal_code` — Postal code — Kazakhstan postal code
+- [x] `la.postal_code` — Postal code — Laos postal code
+- [x] `lb.postal_code` — Postal code — Lebanon postal code
+- [x] `li.postal_code` — Postal code — Liechtenstein postal code
+- [x] `lk.postal_code` — Postal code — Sri Lanka postal code
+- [x] `lr.postal_code` — Postal code — Liberia postal code
+- [x] `ls.postal_code` — Postal code — Lesotho postal code
+- [x] `lt.postal_code` — Postal code — Lithuania postal code
+- [x] `lu.postal_code` — Postal code — Luxembourg postal code
+- [x] `lv.postal_code` — Postal code — Latvia postal code
+- [x] `ma.postal_code` — Postal code — Morocco postal code
+- [x] `mc.postal_code` — Postal code — Monaco postal code
+- [x] `md.postal_code` — Postal code — Moldova postal code
+- [x] `me.postal_code` — Postal code — Montenegro postal code
+- [x] `mf.postal_code` — Postal code — St. Martin postal code
+- [x] `mg.postal_code` — Postal code — Madagascar postal code
+- [x] `mh.postal_code` — ZIP code — Marshall Islands ZIP code
+- [x] `mk.postal_code` — Postal code — North Macedonia postal code
+- [x] `mm.postal_code` — Postal code — Myanmar (Burma) postal code
+- [x] `mn.postal_code` — Postal code — Mongolia postal code
+- [x] `mp.postal_code` — ZIP code — Northern Mariana Islands ZIP code
+- [x] `mq.postal_code` — Postal code — Martinique postal code
+- [x] `mt.postal_code` — Postal code — Malta postal code
+- [x] `mu.postal_code` — Postal code — Mauritius postal code
+- [x] `mv.postal_code` — Postal code — Maldives postal code
+- [x] `mx.postal_code` — Postal code — Mexico postal code
+- [x] `my.postal_code` — Postal code — Malaysia postal code
+- [x] `mz.postal_code` — Postal code — Mozambique postal code
+- [x] `na.postal_code` — Postal code — Namibia postal code
+- [x] `nc.postal_code` — Postal code — New Caledonia postal code
+- [x] `ne.postal_code` — Postal code — Niger postal code
+- [x] `nf.postal_code` — Postal code — Norfolk Island postal code
+- [x] `ng.postal_code` — Postal code — Nigeria postal code
+- [x] `ni.postal_code` — Postal code — Nicaragua postal code
+- [x] `no.postal_code` — Postal code — Norway postal code
+- [x] `np.postal_code` — Postal code — Nepal postal code
+- [x] `nz.postal_code` — Postal code — New Zealand postal code
+- [x] `om.postal_code` — Postal code — Oman postal code
+- [x] `pe.postal_code` — Postal code — Peru postal code
+- [x] `pf.postal_code` — Postal code — French Polynesia postal code
+- [x] `pg.postal_code` — Postal code — Papua New Guinea postal code
+- [x] `ph.postal_code` — Postal code — Philippines postal code
+- [x] `pk.postal_code` — Postal code — Pakistan postal code
+- [x] `pl.postal_code` — Postal code — Poland postal code
+- [x] `pm.postal_code` — Postal code — St. Pierre & Miquelon postal code
+- [x] `pn.postal_code` — Postal code — Pitcairn Islands postal code
+- [x] `pr.postal_code` — ZIP code — Puerto Rico ZIP code
+- [x] `pt.postal_code` — Postal code — Portugal postal code
+- [x] `pw.postal_code` — ZIP code — Palau ZIP code
+- [x] `py.postal_code` — Postal code — Paraguay postal code
+- [x] `re.postal_code` — Postal code — Réunion postal code
+- [x] `ro.postal_code` — Postal code — Romania postal code
+- [x] `rs.postal_code` — Postal code — Serbia postal code
+- [x] `ru.postal_code` — Postal code — Russia postal code
+- [x] `sa.postal_code` — Postal code — Saudi Arabia postal code
+- [x] `sd.postal_code` — Postal code — Sudan postal code
+- [x] `sg.postal_code` — Postal code — Singapore postal code
+- [x] `sh.postal_code` — Postal code — St. Helena postal code
+- [x] `si.postal_code` — Postal code — Slovenia postal code
+- [x] `sj.postal_code` — Postal code — Svalbard & Jan Mayen postal code
+- [x] `sk.postal_code` — Postal code — Slovakia postal code
+- [x] `sm.postal_code` — Postal code — San Marino postal code
+- [x] `sn.postal_code` — Postal code — Senegal postal code
+- [x] `so.postal_code` — Postal code — Somalia postal code
+- [x] `sv.postal_code` — Postal code — El Salvador postal code
+- [x] `sz.postal_code` — Postal code — Eswatini postal code
+- [x] `ta.postal_code` — Postal code — Tristan da Cunha postal code
+- [x] `tc.postal_code` — Postal code — Turks & Caicos Islands postal code
+- [x] `th.postal_code` — Postal code — Thailand postal code
+- [x] `tj.postal_code` — Postal code — Tajikistan postal code
+- [x] `tm.postal_code` — Postal code — Turkmenistan postal code
+- [x] `tn.postal_code` — Postal code — Tunisia postal code
+- [x] `tr.postal_code` — Postal code — Türkiye postal code
+- [x] `tt.postal_code` — Postal code — Trinidad & Tobago postal code
+- [x] `tw.postal_code` — Postal code — Taiwan postal code
+- [x] `tz.postal_code` — Postal code — Tanzania postal code
+- [x] `ua.postal_code` — Postal code — Ukraine postal code
+- [x] `um.postal_code` — ZIP code — U.S. Outlying Islands ZIP code
+- [x] `us.postal_code` — ZIP code — United States ZIP code
+- [x] `uy.postal_code` — Postal code — Uruguay postal code
+- [x] `uz.postal_code` — Postal code — Uzbekistan postal code
+- [x] `va.postal_code` — Postal code — Vatican City postal code
+- [x] `vc.postal_code` — Postal code — St. Vincent & Grenadines postal code
+- [x] `ve.postal_code` — Postal code — Venezuela postal code
+- [x] `vg.postal_code` — Postal code — British Virgin Islands postal code
+- [x] `vi.postal_code` — ZIP code — U.S. Virgin Islands ZIP code
+- [x] `vn.postal_code` — Postal code — Vietnam postal code
+- [x] `wf.postal_code` — Postal code — Wallis & Futuna postal code
+- [x] `xk.postal_code` — Postal code — Kosovo postal code
+- [x] `yt.postal_code` — Postal code — Mayotte postal code
+- [x] `za.postal_code` — Postal code — South Africa postal code
+- [x] `zm.postal_code` — Postal code — Zambia postal code

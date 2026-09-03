@@ -30,8 +30,8 @@ class AllRegisteredContractTest {
 
     @Test
     void registryIsPopulated() {
-        // 7 national numbers + 27 state registrations
-        assertEquals(37, StdNums.byCountry("BR").size());
+        // 10 national numbers, 27 state registrations and the postal code
+        assertEquals(38, StdNums.byCountry("BR").size());
         assertTrue(StdNums.byId("br.cpf").isPresent());
         assertTrue(StdNums.byId("br.ie.sp").isPresent());
         // international types carry no country and are found by id
@@ -41,8 +41,9 @@ class AllRegisteredContractTest {
             assertTrue(StdNums.byId(id).orElseThrow().descriptor().country().isEmpty(), id);
         }
         assertEquals(10, StdNums.byCountry("ES").size());
-        assertEquals(7, StdNums.byCountry("FR").size());
-        assertEquals(273, StdNums.all().size());
+        assertEquals(8, StdNums.byCountry("FR").size());
+        // 273 hand-written types and 178 generic postal codes
+        assertEquals(451, StdNums.all().size());
     }
 
     @TestFactory

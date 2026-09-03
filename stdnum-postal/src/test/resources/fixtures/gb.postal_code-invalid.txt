@@ -1,0 +1,8 @@
+EC1Y 8S
+12345
+ZZ1 1AA
+M2 5BQQ
+# C, I, K, M, O and V never end a postcode
+EC1Y 8SC
+SW1A 1AI
+BFPO

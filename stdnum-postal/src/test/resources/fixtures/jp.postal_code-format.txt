@@ -1,0 +1,3 @@
+# how the metadata writes its own examples
+1540023	154-0023
+154 0023	154-0023

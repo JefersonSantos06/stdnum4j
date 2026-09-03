@@ -62,4 +62,13 @@ class NumDbTest {
         assertThrows(IllegalArgumentException.class,
                 () -> NumDb.load(NumDbTest.class, "/numdb/nope.dat"));
     }
+
+    @Test
+    void entriesListTheTopLevelAsWritten() {
+        List<NumDb.Entry> entries = db.entries();
+        assertEquals(List.of("0-2", "9", "50-59", "5"),
+                entries.stream().map(NumDb.Entry::part).toList());
+        assertEquals(Map.of("zone", "low"), entries.get(0).properties());
+        assertEquals(Map.of("narrow", "2"), entries.get(3).properties());
+    }
 }

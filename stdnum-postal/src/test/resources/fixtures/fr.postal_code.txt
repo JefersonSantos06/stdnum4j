@@ -1,0 +1,8 @@
+# metadata examples
+33380
+34092
+33506
+# Paris, Corsica, with a space
+75001
+20090
+34 092

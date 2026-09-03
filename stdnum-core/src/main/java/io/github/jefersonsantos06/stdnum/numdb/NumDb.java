@@ -169,6 +169,23 @@ public final class NumDb {
         return Collections.unmodifiableList(result);
     }
 
+    /**
+     * The top-level ranges as written, in file order, each with its own
+     * properties — for a database whose first level is a list of things
+     * rather than a prefix to look a number up by, such as one line per
+     * country. A line naming several ranges yields one entry per range.
+     */
+    public List<Entry> entries() {
+        List<Entry> result = new ArrayList<>(roots.size());
+        for (Node node : roots) {
+            String part = node.low().equals(node.high())
+                    ? node.low()
+                    : node.low() + "-" + node.high();
+            result.add(new Entry(part, node.properties()));
+        }
+        return Collections.unmodifiableList(result);
+    }
+
     /** The parts of {@link #info(String)} without the properties. */
     public List<String> split(String number) {
         List<String> parts = new ArrayList<>();

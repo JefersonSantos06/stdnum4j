@@ -1,0 +1,7 @@
+# how the metadata writes its own examples
+sw1a1aa	SW1A 1AA
+BFPO61	BFPO 61
+M344AB	M34 4AB
+GIR0AA	GIR 0AA
+e14ab	E1 4AB
+BFPO 1234	BFPO1234

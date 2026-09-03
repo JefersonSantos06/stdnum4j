@@ -1,0 +1,5 @@
+# how the metadata writes its own examples
+NXR01	NXR 01
+BZN1130	BZN 1130
+MTP 1234	MTP 1234
+NXR 123	NXR123

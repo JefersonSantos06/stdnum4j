@@ -1,0 +1,5 @@
+# how the metadata writes its own examples
+LIMA23	LIMA 23
+CALLAO2	CALLAO 2
+LIMA 1	LIMA1
+02001	02001

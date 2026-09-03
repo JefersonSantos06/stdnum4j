@@ -113,6 +113,15 @@ que não tenha id `<cc>.vat` torna a busca ambígua, e o despachante passa a
 recusar todo número de VAT daquele país. Ou batize um deles de `<cc>.vat`, ou
 não marque o segundo com `VAT`.
 
+### Se é um código postal
+
+Os códigos postais genéricos moram no `stdnum-postal`, um tipo por país,
+gerados de `postal-codes.dat` — lá não se escreve um à mão. Um código postal
+que mereça regra própria (uma lista de códigos em uso, como o austríaco; um
+dígito verificador) vai para o módulo regional, com o id de sempre, e o país
+entra em `PostalCode.HAND_WRITTEN` para o genérico sair do caminho. O
+`PostalTypesTest` do `stdnum-all` quebra nomeando o país se você esquecer.
+
 ## Passo 2 — escreva a classe
 
 - `public final class`, construtor `private`, e
@@ -153,8 +162,8 @@ para os despachantes e para a varredura do registry.
 Depois **atualize as contagens no `AllRegisteredContractTest`**:
 
 ```java
-assertEquals(273, StdNums.all().size());
-assertEquals(37, StdNums.byCountry("BR").size());
+assertEquals(451, StdNums.all().size());
+assertEquals(38, StdNums.byCountry("BR").size());
 ```
 
 Essas asserções são arames de tropeço de propósito. Um tipo escrito e não
@@ -279,7 +288,8 @@ país dele, em ordem de id. Aquele arquivo é mantido à mão e nada o cobra.
 
 ## Regerar um arquivo de dados
 
-Catorze tipos leem um de quinze bancos de prefixo `.dat`. **Esses arquivos são
+Quinze classes leem um de dezesseis bancos de prefixo `.dat` — uma delas, o
+`PostalCode`, em nome de 178 tipos. **Esses arquivos são
 gerados e nunca editados à mão** — nem para corrigir uma linha errada, nem para
 acrescentar um banco que falta. Cada um tem um gerador Java de arquivo único em
 [`tools/`](../tools/README.md) com o `curl` e o `java` exatos que o produzem, e
@@ -321,7 +331,7 @@ estão no [passo 7](#passo-7--referências) acima; o método de uma varredura é
 3. abrir à mão qualquer coisa que voltou 403 ou não voltou nada. Isso costuma
    ser um WAF, e o link está bom.
 
-Na última varredura, **115 dos 273 tipos não citam referência nenhuma**. Isso é
+Na última varredura, **115 dos 451 tipos não citam referência nenhuma**. Isso é
 lacuna, não link quebrado — a hora natural de fechar um pedaço dela é quando
 você mexer num desses tipos por outro motivo.
 

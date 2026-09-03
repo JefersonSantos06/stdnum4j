@@ -1,0 +1,7 @@
+# metadata examples
+95014
+22162-1010
+# ZIP+4 with a space, and plain
+22162 1010
+10001
+90210

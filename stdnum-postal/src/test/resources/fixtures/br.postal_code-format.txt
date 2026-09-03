@@ -1,0 +1,4 @@
+# how the metadata writes its own examples
+40301110	40301-110
+70002-900	70002-900
+01310 100	01310-100

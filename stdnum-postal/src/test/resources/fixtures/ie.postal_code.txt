@@ -1,0 +1,6 @@
+# metadata example
+A65 F4E2
+# a Dublin routing key and a unique identifier of any shape
+D02 X285
+T12 AB12
+a65f4e2

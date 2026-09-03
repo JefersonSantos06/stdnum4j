@@ -1,0 +1,8 @@
+# metadata examples
+LIMA 23
+LIMA 42
+CALLAO 2
+02001
+# a five-digit code and a one-digit Lima district
+15001
+LIMA 1

@@ -1,0 +1,4 @@
+# how the metadata writes its own examples
+A65F4E2	A65 F4E2
+d02x285	D02 X285
+T12AB12	T12 AB12

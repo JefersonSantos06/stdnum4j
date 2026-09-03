@@ -1,0 +1,10 @@
+# metadata examples
+NXR 01
+ZTN 05
+GPO 01
+BZN 1130
+SPB 6031
+VCT 1753
+# Mtarfa: the code opens with the country letters and keeps them
+MTP 1234
+nxr01

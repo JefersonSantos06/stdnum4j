@@ -1,8 +1,8 @@
 # Arquitetura
 
 A biblioteca responde a uma pergunta — *esta string é um número tal-e-tal
-válido, e como ele fica escrito direito* — para 273 tipos de número. Tudo aqui
-existe para manter essa única pergunta respondida do mesmo jeito 273 vezes.
+válido, e como ele fica escrito direito* — para 451 tipos de número. Tudo aqui
+existe para manter essa única pergunta respondida do mesmo jeito 451 vezes.
 
 ## Uma interface, e nada mais para aprender
 
@@ -31,7 +31,7 @@ aprender: `Cpf.INSTANCE.validate(entrada)` é a API inteira.
 `validate` devolver a forma compacta em vez de `void` ou `boolean` é a decisão
 da qual o resto decorre. É o que faz o caso comum — *confira isto, depois
 guarde* — caber em uma chamada só, e é o que permite que `isValid`, `check` e
-`format` sejam defaults em vez de 273 cópias escritas à mão.
+`format` sejam defaults em vez de 451 cópias escritas à mão.
 
 ## Três pilares
 
@@ -172,6 +172,7 @@ de módulos no classpath e o mesmo despachante cobre outro conjunto de países.
 | `stdnum-na` | core | América do Norte. |
 | `stdnum-apac` | core | Ásia-Pacífico. |
 | `stdnum-africa` | core | África. |
+| `stdnum-postal` | core | Os códigos postais de 178 países e territórios: uma classe, um arquivo de dados, um tipo por país. |
 | `stdnum-all` | todos acima | Sem código. Um agregador, e a casa dos testes que precisam de todos os módulos ao mesmo tempo. |
 
 Todo módulo regional depende só do `stdnum-core`. A única exceção é o
@@ -220,9 +221,11 @@ jeito mais comum de uma entrada real falhar sem motivo real.
 
 ## Arquivos de dados
 
-Catorze tipos precisam de um banco de prefixos: um IBAN precisa da estrutura
+Quinze classes precisam de um banco de prefixos: um IBAN precisa da estrutura
 BBAN do país dele, um ISBN precisa das faixas de grupo de registro, um endereço
-MAC precisa do registro do IEEE para nomear o fabricante. Eles são distribuídos
+MAC precisa do registro do IEEE para nomear o fabricante, e os 178 códigos
+postais leem o padrão de cada país de um arquivo só, gerado dos metadados de
+endereço do Google que a libaddressinput usa (dados CC BY 4.0). Eles são distribuídos
 como arquivos `.dat` ao lado da classe que os lê, no formato que o `NumDb`
 interpreta: um prefixo, depois propriedades `chave="valor"`, uma entrada por
 linha, linhas indentadas aninhando sob o pai.

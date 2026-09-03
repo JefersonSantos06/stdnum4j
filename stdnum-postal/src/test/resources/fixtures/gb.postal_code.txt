@@ -1,0 +1,13 @@
+# metadata examples
+EC1Y 8SY
+GIR 0AA
+M2 5BQ
+M34 4AB
+CR0 2YR
+DN16 9AA
+W1A 4ZZ
+BFPO 61
+# written without the space, and in lower case
+SW1A1AA
+ec1y 8sy
+bfpo 61

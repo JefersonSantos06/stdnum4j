@@ -23,6 +23,7 @@
         <module>stdnum-na</module>
         <module>stdnum-apac</module>
         <module>stdnum-africa</module>
+        <module>stdnum-postal</module>
         <module>stdnum-all</module>
     </modules>
 
@@ -84,6 +85,11 @@
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
                 <artifactId>stdnum-africa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jefersonsantos06</groupId>
+                <artifactId>stdnum-postal</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

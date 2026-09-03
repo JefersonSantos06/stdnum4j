@@ -2,7 +2,7 @@
 
 Uma biblioteca Java para interpretar, validar e reformatar números e códigos
 padronizados — números fiscais, identificadores pessoais, números bancários e
-de pagamento, códigos de produto. **273 tipos de número em 89 países**, sem
+de pagamento, códigos de produto. **451 tipos de número em 183 países**, sem
 nenhuma dependência.
 
 Inspirada no [python-stdnum](https://github.com/arthurdejong/python-stdnum);
@@ -79,20 +79,22 @@ IBAN nacional é um IBAN com uma regra nacional por cima.
 | `stdnum-na` | 10 | América do Norte: os SSN, ITIN, EIN, PTIN e ATIN dos EUA, o TIN que é qualquer um deles que o contribuinte tenha, e o routing number; o SIN canadense, o business number e o número de saúde da Colúmbia Britânica. |
 | `stdnum-apac` | 33 | Ásia-Pacífico e adjacências: AU, CN, ID, IL, IN, JP, KR, MY, NZ, OM, PK, RU, SG, TH, TR, TW, VN. |
 | `stdnum-africa` | 12 | África: DZ, EG, GH, GN, KE, MA, MU, MZ, SN, TN, ZA. |
+| `stdnum-postal` | 178 | Códigos postais: um tipo por país ou território com padrão nos metadados de endereço do Google (os da libaddressinput, dados CC BY 4.0) — CEP, ZIP, Eircode, PIN e os demais, gerados de um arquivo só. |
 | `stdnum-all` | — | Agregador que depende de todos os módulos, e casa dos testes entre módulos. |
 
 O inventário completo, tipo a tipo, está em
 **[docs/NUMBERS.md](docs/NUMBERS.md)**. Ele cobre 234 dos 235 tipos de número
-que o python-stdnum traz, e acrescenta 39 que ele não tem.
+que o python-stdnum traz, e acrescenta 217 que ele não tem.
 
 ## Arquivos de dados
 
-Catorze tipos precisam de um banco de prefixos — os registros de IBAN e ISBN,
+Quinze classes leem um banco de prefixos — os registros de IBAN e ISBN,
 os CEPs austríacos, os cadastros bancários tcheco, belga e neozelandês, a
 classificação CFI da ISO 10962, os códigos de país e de rede móvel, o registro
 MAC do IEEE, as divisões administrativas chinesas, os identificadores de
-aplicação GS1, a classificação NACE, as repartições fiscais austríacas e as
-regiões indonésias.
+aplicação GS1, a classificação NACE, as repartições fiscais austríacas, as
+regiões indonésias e, num arquivo só, o formato do código postal de 178 países
+e territórios, tirado dos metadados de endereço do Google (dados CC BY 4.0).
 
 Eles são **gerados a partir dos registros de origem e nunca editados à mão**.
 Os geradores ficam em [`tools/`](tools/README.md), que documenta como
@@ -106,14 +108,14 @@ XML.
 mvn verify
 ```
 
-Requer JDK 17+. Roda 20.148 testes.
+Requer JDK 17+. Roda 21.331 testes.
 
 ## Documentação
 
 | | |
 |---|---|
 | **[Arquitetura](docs/ARCHITECTURE.md)** | A SPI, os três pilares, como as falhas são relatadas e traduzidas, o grafo de módulos, o que falta de propósito. |
-| **[Testes](docs/TESTING.md)** | Como 20.148 testes saem de um contrato e 15.769 linhas de fixture, e o que o contrato garante. |
+| **[Testes](docs/TESTING.md)** | Como 21.331 testes saem de um contrato e 15.960 linhas de fixture, e o que o contrato garante. |
 | **[Contribuindo](docs/CONTRIBUTING.md)** | Adicionar um tipo de número, passo a passo — e como se mantêm os arquivos de dados, os links de referência e o inventário. |
 | **[Números](docs/NUMBERS.md)** | Todos os tipos, por módulo e país. |
 | **[Geradores de dados](tools/README.md)** | Como reconstruir cada arquivo `.dat` a partir do registro dele. |

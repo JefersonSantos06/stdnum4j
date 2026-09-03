@@ -178,6 +178,38 @@ done
 java tools/GenerateIdLocDat.java provinsi.json kab-*.json   > stdnum-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/id-loc.dat
 ```
 
+## postal-codes.dat — o código postal de todos os países
+
+Fonte: os metadados de endereço do Google, os mesmos que a libaddressinput
+usa, que documentam para cada país e território o regex do código postal, os
+exemplos e o prefixo de exibição. Os dados são CC BY 4.0. O serviço não
+publica versão, então a data da coleta vai como argumento e para o cabeçalho.
+A raiz lista as regiões; busque uma a uma (a URL redireciona para o gstatic,
+daí o `-L`):
+
+```bash
+base=https://chromium-i18n.appspot.com/ssl-address/data
+curl -L -o data.json "$base"
+for c in $(grep -o '"countries":"[^"]*"' data.json | cut -d'"' -f4 | tr '~' ' '); do
+  curl -L -o "$c.json" "$base/$c"
+done
+java tools/GeneratePostalCodesDat.java 2026-09-03 data.json ??.json \
+  > stdnum-postal/src/main/resources/io/github/jefersonsantos06/stdnum/postal/postal-codes.dat
+```
+
+O regex da fonte descreve o código como se escreve, com separadores; a
+biblioteca casa a forma compacta. O gerador reescreve o regex para descrever
+essa forma — espaço e hífen literais somem junto com o `?` que os tornava
+opcionais, uma classe só de separadores some do mesmo jeito, e um prefixo
+literal opcional como `(?:PC )?` é tirado de dentro e vira um prefixo que o
+`compact()` sabe remover. A apresentação é recuperada dos exemplos, cada um
+virando uma máscara em que dígito é `9` e letra é `A`. Antes de escrever, todo
+exemplo passa pelo resultado: tem de casar, e tem de voltar a si mesmo quando
+formatado. Qualquer falha encerra o gerador com 1 e nada é escrito.
+
+Todo `\` do regex sai dobrado no arquivo, porque o leitor transforma `\x` em
+`x`; um diff de regeração precisa ser lido com isso em mente.
+
 ## Por que estes não são módulos Maven
 
 Eles rodam uma vez, quando um registro publica dados novos, não a cada build, e

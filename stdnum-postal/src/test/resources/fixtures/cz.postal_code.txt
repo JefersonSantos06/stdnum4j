@@ -1,0 +1,8 @@
+# metadata examples
+100 00
+251 66
+530 87
+110 00
+225 99
+# without the space
+10000

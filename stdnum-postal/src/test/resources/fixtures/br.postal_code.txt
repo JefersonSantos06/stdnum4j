@@ -1,0 +1,7 @@
+# metadata examples
+40301-110
+70002-900
+# Avenida Paulista and Centro, Rio
+01310-100
+20040-020
+40301110

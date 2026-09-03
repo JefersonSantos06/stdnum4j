@@ -1,0 +1,8 @@
+H3Z 2Y
+12345
+# D, F, I, O, Q and U never open a postal code
+D3Z 2Y7
+# nor appear in its other letters
+H3D 2Y7
+H3Z 2D7
+H3Z2Y77

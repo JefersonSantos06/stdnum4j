@@ -1,6 +1,6 @@
 # Testes
 
-`mvn verify` roda **19.776 testes**. Quase nenhum deles foi escrito um a um.
+`mvn verify` roda **19.999 testes**. Quase nenhum deles foi escrito um a um.
 Esta página explica como se chega a esse número, para que adicionar um tipo de
 número signifique adicionar dados, e não adicionar código de teste.
 
@@ -99,9 +99,9 @@ a procedência da amostra.
 |---|---|---|---|
 | `<id>.txt` | números válidos | 251 | 13.217 |
 | `<id>-invalid.txt` | números que precisam ser recusados | 251 | 1.973 |
-| `<id>-format.txt` | `entrada<TAB>apresentação esperada` | 117 | 186 |
+| `<id>-format.txt` | `entrada<TAB>apresentação esperada` | 120 | 196 |
 | `<id>-accessor.txt` | `método<TAB>entrada<TAB>esperado` | 52 | 234 |
-| | | **671** | **15.610** |
+| | | **674** | **15.620** |
 
 Os dois últimos existem porque a verificação de ida e volta não prende tudo.
 `validate(format(x))` prova que o `format` produz *alguma coisa* válida; não
@@ -117,8 +117,8 @@ getGender	85473500193	M
 ```
 
 Um arquivo de fixture faltando não é falha — ele aborta como uma premissa
-pulada, nomeando o arquivo que queria. É daí que vêm os 333 pulos de um build
-verde, exatamente: das 251 classes de teste de contrato, 134 não têm arquivo de
+pulada, nomeando o arquivo que queria. É daí que vêm os 330 pulos de um build
+verde, exatamente: das 251 classes de teste de contrato, 131 não têm arquivo de
 formato (a apresentação delas *é* a forma compacta) e 199 não têm arquivo de
 acessor (não expõem acessores). Todas as 251 têm arquivo válido e inválido, e é
 por isso que nenhuma dessas duas fábricas jamais aborta. Um arquivo **válido**
@@ -179,11 +179,14 @@ void unicodeSeparatorsAreCleaned() {
 
 Dois padrões se repetem:
 
-- **Um teste de tabela para uma família.** O `SintegraExamplesTest` guarda um
-  exemplo resolvido por unidade federativa, afirma que as 27 estão presentes, e
-  altera o último dígito verificador de cada exemplo válido para provar que ele
-  passa a ser recusado. É por isso que as 24 inscrições estaduais que não têm
-  arquivo de fixture próprio continuam cobertas.
+- **Um teste de tabela para uma família.** O `SintegraExamplesTest` guarda
+  exemplos resolvidos de cada unidade federativa, afirma que as 27 estão
+  presentes, e altera o último dígito verificador de cada exemplo válido para
+  provar que ele passa a ser recusado. É por isso que as 24 inscrições
+  estaduais que não têm arquivo de fixture próprio continuam cobertas. As
+  amostras escritas com separadores fazem dobro de serviço: para elas, o teste
+  também exige que `format` devolva exatamente a amostra, o que faz da tabela a
+  especificação das máscaras de todos os 27 estados.
 - **Um teste entre módulos.** Tudo que precisa de mais de um módulo mora no
   `stdnum-all`: os despachantes de IBAN, VATIN, EU VAT e excise só alcançam as
   regras nacionais quando todo jar regional está no classpath.
@@ -208,7 +211,7 @@ atualizar este teste de propósito. Veja
 |---|---:|---:|
 | `stdnum-core` | 80 | 0 |
 | `stdnum-tck` | 28 | 2 |
-| `stdnum-br` | 423 | 25 |
+| `stdnum-br` | 646 | 22 |
 | `stdnum-international` | 2.715 | 31 |
 | `stdnum-eu` | 6.702 | 180 |
 | `stdnum-latam` | 3.677 | 27 |
@@ -216,7 +219,7 @@ atualizar este teste de propósito. Veja
 | `stdnum-apac` | 3.069 | 35 |
 | `stdnum-africa` | 1.269 | 13 |
 | `stdnum-all` | 1.460 | 7 |
-| **Total** | **19.776** | **333** |
+| **Total** | **19.999** | **330** |
 
 O `stdnum-tck` testa a si mesmo contra um `DummyNumber` que existe só para
 provar que o contrato pega o que diz pegar, e o `RegistryIntegrationTest` prova

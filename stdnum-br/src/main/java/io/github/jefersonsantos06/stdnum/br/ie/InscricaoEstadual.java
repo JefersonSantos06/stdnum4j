@@ -29,9 +29,8 @@ import java.util.Map;
  * }</pre>
  *
  * <p>Rules follow the official SINTEGRA "Roteiro de Crítica" pages; see
- * {@link UfRules} for the two states with incomplete official sources.
- * {@code format()} returns the compact representation (state-specific
- * display masks may be added later).</p>
+ * {@link UfRules} for the two states with incomplete official sources, and
+ * {@link UfMasks} for how each state writes its number.</p>
  */
 public final class InscricaoEstadual implements StdNum {
 
@@ -109,6 +108,19 @@ public final class InscricaoEstadual implements StdNum {
                     "A state registration consisting of a single repeated character is not valid."));
         }
         return rule.validate(n);
+    }
+
+    /**
+     * The number written the way its own state writes it — {@code 20.089.514-1}
+     * for Rio Grande do Norte, {@code 425/3755495} for Rio Grande do Sul.
+     *
+     * <p>Where a state has more than one length in circulation, each has its
+     * own mask. Alagoas and Amapá write theirs as bare digits, so for them
+     * this is the compact form; see {@link UfMasks}.</p>
+     */
+    @Override
+    public String format(String number) {
+        return UfMasks.apply(uf, validate(number));
     }
 
     private static boolean allSame(String s) {

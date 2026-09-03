@@ -337,19 +337,31 @@ final class UfRules {
     }
 
     /**
-     * TO: 11 digits; positions 3-4 carry the registration type (01, 02, 03
-     * or 99) and are skipped by the check digit, which weighs the remaining
-     * digits with 9,8,7,6,5,4,3,2.
+     * TO: 11 digits, of which positions 3-4 carry the registration type (01,
+     * 02, 03 or 99) and are skipped by the check digit, which weighs the
+     * remaining digits with 9,8,7,6,5,4,3,2 — or 9 digits, which is the same
+     * number with the type left out.
+     *
+     * <p>The SINTEGRA page documents only the 11-digit form, but Tocantins
+     * stopped issuing the type digits and both are in circulation. Nothing
+     * else changes: the eight digits the check digit runs over are the same
+     * eight, and a 9-digit number carries no type to validate.</p>
      */
     private static String to(String n) {
-        digits(n, 11);
-        String type = n.substring(2, 4);
-        if (!type.equals("01") && !type.equals("02") && !type.equals("03") && !type.equals("99")) {
-            throw new InvalidComponentException(Message.of(InscricaoEstadual.class, "ie.to.registration-type",
-                    "Invalid registration type for TO."));
+        digits(n, 9, 11);
+        String worked;
+        if (n.length() == 11) {
+            String type = n.substring(2, 4);
+            if (!type.equals("01") && !type.equals("02")
+                    && !type.equals("03") && !type.equals("99")) {
+                throw new InvalidComponentException(Message.of(InscricaoEstadual.class,
+                        "ie.to.registration-type", "Invalid registration type for TO."));
+            }
+            worked = n.substring(0, 2) + n.substring(4, 10);
+        } else {
+            worked = n.substring(0, 8);
         }
-        String worked = n.substring(0, 2) + n.substring(4, 10);
-        expect(n, 10, Weighted.mod11CheckDigit(worked, W9_2));
+        expect(n, n.length() - 1, Weighted.mod11CheckDigit(worked, W9_2));
         return n;
     }
 }

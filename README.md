@@ -106,14 +106,14 @@ XML.
 mvn verify
 ```
 
-Requer JDK 17+. Roda 19.776 testes.
+Requer JDK 17+. Roda 19.999 testes.
 
 ## Documentação
 
 | | |
 |---|---|
 | **[Arquitetura](docs/ARCHITECTURE.md)** | A SPI, os três pilares, como as falhas são relatadas e traduzidas, o grafo de módulos, o que falta de propósito. |
-| **[Testes](docs/TESTING.md)** | Como 19.776 testes saem de um contrato e 15.610 linhas de fixture, e o que o contrato garante. |
+| **[Testes](docs/TESTING.md)** | Como 19.999 testes saem de um contrato e 15.620 linhas de fixture, e o que o contrato garante. |
 | **[Contribuindo](docs/CONTRIBUTING.md)** | Adicionar um tipo de número, passo a passo — e como se mantêm os arquivos de dados, os links de referência e o inventário. |
 | **[Números](docs/NUMBERS.md)** | Todos os tipos, por módulo e país. |
 | **[Geradores de dados](tools/README.md)** | Como reconstruir cada arquivo `.dat` a partir do registro dele. |

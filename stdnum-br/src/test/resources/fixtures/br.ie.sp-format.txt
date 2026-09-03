@@ -1,0 +1,6 @@
+# the industrial/commercial number in four groups of three
+110042490114	110.042.490.114
+110.042.490.114	110.042.490.114
+# the rural producer keeps its P, and the check digit stands alone
+P011004243002	P-01100424.3/002
+P-01100424.3/002	P-01100424.3/002

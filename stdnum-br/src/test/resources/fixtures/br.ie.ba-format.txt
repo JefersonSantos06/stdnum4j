@@ -1,0 +1,6 @@
+# the presentation SINTEGRA prints in its own worked examples:
+# eight digits group 6+2, nine group 7+2, the last two always the check digits
+12345663	123456-63
+123456-63	123456-63
+100000306	1000003-06
+160000005	1600000-05

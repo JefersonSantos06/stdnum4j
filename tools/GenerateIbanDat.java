@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -68,12 +69,13 @@ public final class GenerateIbanDat {
         }
         entries.sort(String::compareTo);
 
-        System.out.println("# IBAN country registry: ISO country code, country name and BBAN structure.");
-        System.out.println("# Generated from the \"IBAN formats by country\" table of");
-        System.out.println("# https://en.wikipedia.org/wiki/International_Bank_Account_Number,");
-        System.out.println("# which mirrors the SWIFT IBAN Registry; entry lengths cross-checked at generation time.");
-        System.out.println("# Structure notation: <count>!n digits, <count>!a upper-case letters, <count>!c alphanumeric.");
-        entries.forEach(System.out::println);
+        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+        out.println("# IBAN country registry: ISO country code, country name and BBAN structure.");
+        out.println("# Generated from the \"IBAN formats by country\" table of");
+        out.println("# https://en.wikipedia.org/wiki/International_Bank_Account_Number,");
+        out.println("# which mirrors the SWIFT IBAN Registry; entry lengths cross-checked at generation time.");
+        out.println("# Structure notation: <count>!n digits, <count>!a upper-case letters, <count>!c alphanumeric.");
+        entries.forEach(out::println);
     }
 
     /** One country record, or null when the row is not one. */

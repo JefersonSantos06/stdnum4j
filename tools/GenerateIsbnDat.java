@@ -4,6 +4,8 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -41,11 +43,12 @@ public final class GenerateIsbnDat {
 
         String serial = text(doc, "MessageSerialNumber");
         String date = text(doc, "MessageDate");
-        System.out.println("# ISBN prefix and registration group ranges.");
-        System.out.println("# Generated from RangeMessage.xml, downloaded from");
-        System.out.println("# https://www.isbn-international.org/export_rangemessage.xml");
-        System.out.println("# serial " + serial);
-        System.out.println("# date " + date);
+        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+        out.println("# ISBN prefix and registration group ranges.");
+        out.println("# Generated from RangeMessage.xml, downloaded from");
+        out.println("# https://www.isbn-international.org/export_rangemessage.xml");
+        out.println("# serial " + serial);
+        out.println("# date " + date);
 
         // group ranges per EAN.UCC prefix, and publisher ranges per group
         Map<String, List<String>> groupRanges = new LinkedHashMap<>();
@@ -66,15 +69,15 @@ public final class GenerateIsbnDat {
         }
 
         for (Map.Entry<String, List<String>> prefix : groupRanges.entrySet()) {
-            System.out.println(prefix.getKey());
-            emitRanges(" ", prefix.getValue());
+            out.println(prefix.getKey());
+            emitRanges(out, " ", prefix.getValue());
             Map<String, List<String>> prefixGroups =
                     groups.getOrDefault(prefix.getKey(), Map.of());
             for (Map.Entry<String, List<String>> group : prefixGroups.entrySet()) {
                 String agency = agencies.get(prefix.getKey() + "-" + group.getKey());
-                System.out.println(" " + group.getKey()
+                out.println(" " + group.getKey()
                         + " agency=\"" + agency.replace("\"", "'") + "\"");
-                emitRanges("  ", group.getValue());
+                emitRanges(out, "  ", group.getValue());
             }
         }
     }
@@ -97,9 +100,9 @@ public final class GenerateIsbnDat {
         return result;
     }
 
-    private static void emitRanges(String indent, List<String> ranges) {
+    private static void emitRanges(PrintStream out, String indent, List<String> ranges) {
         for (int i = 0; i < ranges.size(); i += 8) {
-            System.out.println(indent + String.join(",",
+            out.println(indent + String.join(",",
                     ranges.subList(i, Math.min(i + 8, ranges.size()))));
         }
     }

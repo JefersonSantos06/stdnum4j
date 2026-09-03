@@ -301,15 +301,29 @@ acrescentar um banco que falta. Cada um tem um gerador Java de arquivo único em
 [`tools/`](../tools/README.md) com o `curl` e o `java` exatos que o produzem, e
 cada arquivo carrega um cabeçalho nomeando a fonte e o carimbo de versão dela.
 
-Quando um registro publica dados novos:
+Não é preciso lembrar de nenhum `curl`: um comando regera os dezesseis, e cada
+arquivo só é escrito se mudou.
 
 ```bash
-curl -L -o RangeMessage.xml https://www.isbn-international.org/export_rangemessage.xml
-java tools/GenerateIsbnDat.java RangeMessage.xml \
-  > stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/isbn.dat
+javac -d tools/classes tools/*.java
+java -cp tools/classes Regenerate
 ```
 
-depois `mvn verify` e leia o diff. Uma regeração que muda milhares de linhas
+A CI faz isso toda segunda-feira e abre **um PR por `.dat` alterado**,
+atualizando o PR daquele arquivo em vez de acumular outro. Uma fonte fora do ar
+não derruba as demais; se a mesma falhar três execuções seguidas, uma issue a
+nomeia.
+
+Duas coisas que o `tools/README.md` detalha e que mordem quem esquecer: o
+`postal-codes.dat` precisa do **JDK 25** (os nomes de país vêm do CLDR do JDK), e
+a data de coleta no cabeçalho só anda quando o corpo do arquivo anda — senão
+nasceria um PR inútil por semana.
+
+O PR do `postal-codes` **chega vermelho de propósito** quando um país entra ou
+sai: ele move as contagens fixas dos testes e as menções na documentação, e
+mexer nelas é decisão humana. O corpo do PR lista o que atualizar.
+
+Depois `mvn verify` e leia o diff. Uma regeração que muda milhares de linhas
 quando o registro anunciou uma mudança pequena significa que o formato da fonte
 mudou, não que os dados mudaram.
 
@@ -394,7 +408,10 @@ quem estiver no module path ganha um nome derivado do arquivo.
   código, nenhum arquivo de dados e nenhuma redação veio de lá, e nenhum pode
   vir.
 - **Um arquivo `.dat` é gerado.** Se você se pegar abrindo um num editor, a
-  resposta está no gerador.
+  resposta está no gerador — e agora dá para provar: `Regenerate --check`
+  regera tudo e compara. A única exceção é o
+  `stdnum-core/src/test/resources/numdb/test.dat`, que é fixture escrita à mão
+  para exercitar o `NumDb` e não tem fonte para gerar.
 - **Um validador lança só subclasses de `ValidationException`.** Qualquer outra
   exceção escapando de `validate`, `compact` ou de um acessor é defeito, por
   mais estranha que tenha sido a entrada.

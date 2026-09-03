@@ -34,6 +34,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+### Generator scratch
+tools/classes/
+
 ### Reference material, not part of the build
 # The python-stdnum distribution is consulted while porting; it is not
 # a dependency and must not be redistributed with this project.

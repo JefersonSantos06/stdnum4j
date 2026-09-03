@@ -238,6 +238,14 @@ como arquivos `.dat` ao lado da classe que os lê, no formato que o `NumDb`
 interpreta: um prefixo, depois propriedades `chave="valor"`, uma entrada por
 linha, linhas indentadas aninhando sob o pai.
 
+Um comando regera os dezesseis: `java -cp tools/classes Regenerate`, cujo
+`TARGETS` é o único lugar onde a fonte, o gerador e o destino de cada arquivo
+ficam configurados. Ele roda semanalmente na CI e abre um PR por arquivo que
+mudou; uma fonte fora do ar vira aviso, não interrupção; e o carimbo de coleta
+no cabeçalho só anda quando o corpo anda, senão haveria um PR por semana sem
+nenhuma mudança de dado. O `postal-codes.dat` exige o JDK 25, porque os nomes
+de país saem do CLDR do próprio JDK.
+
 A regra é absoluta: **um arquivo `.dat` é gerado a partir do registro de origem
 e nunca editado à mão.** Cada um tem um gerador em [`tools/`](../tools/README.md),
 um programa Java de arquivo único sem dependências, e um cabeçalho nomeando a

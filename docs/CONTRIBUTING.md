@@ -1,18 +1,18 @@
-# Adding and maintaining number types
+# Adicionar e manter tipos de número
 
-Two halves: [adding a number type](#adding-a-number-type), and
-[maintaining what is already here](#maintenance). Read
-[ARCHITECTURE.md](ARCHITECTURE.md) first if you have not — this page assumes
-the SPI.
+Duas metades: [adicionar um tipo de número](#adicionar-um-tipo-de-número) e
+[manter o que já existe](#manutenção). Leia
+[ARCHITECTURE.md](ARCHITECTURE.md) antes, se ainda não leu — esta página
+pressupõe a SPI.
 
 ---
 
-# Adding a number type
+# Adicionar um tipo de número
 
-## What a finished type looks like
+## Como é um tipo pronto
 
-The CPF is the whole shape in fifty lines. Nothing below is boilerplate you
-could have skipped.
+O CPF é a forma inteira em cinquenta linhas. Nada abaixo é cerimônia que você
+poderia ter pulado.
 
 ```java
 public final class Cpf implements StdNum {
@@ -75,113 +75,117 @@ public final class Cpf implements StdNum {
 }
 ```
 
-## Step 1 — where it goes and what it is called
+O código e o Javadoc da biblioteca são escritos em inglês, inclusive o texto
+padrão das mensagens de erro. A tradução para português vive nos arquivos
+`.properties` (veja o [passo 6](#passo-6--traduções)), e a documentação, aqui
+em `docs/`, é em português.
 
-Pick the module by region: `stdnum-br`, `stdnum-eu`, `stdnum-latam`,
-`stdnum-na`, `stdnum-apac`, `stdnum-africa`, or `stdnum-international` for a
-number with no country.
+## Passo 1 — onde ele vai e como se chama
 
-The **id** is the registry key and the name of every fixture file. It is the
-lower-case ISO 3166-1 alpha-2 country code, a dot, and the number's everyday
-short name: `br.cpf`, `es.nif`, `de.vat`. An international number is just the
-short name: `iban`, `isbn`, `lei`. It must match
-`[a-z0-9]+([._-][a-z0-9]+)*`, which `Descriptor`'s constructor enforces.
+Escolha o módulo pela região: `stdnum-br`, `stdnum-eu`, `stdnum-latam`,
+`stdnum-na`, `stdnum-apac`, `stdnum-africa`, ou `stdnum-international` para um
+número sem país.
 
-The **class name** is the id in PascalCase with the dots removed — `es.nif` →
-`EsNif`, `at.uid` → `AtUid`. The Brazilian module uses local names instead
-(`Cpf`, `Renavam`, `TituloEleitor`), because there is only one country in it
-and the prefix would say nothing.
+O **id** é a chave do registry e o nome de todo arquivo de fixture. É o código
+ISO 3166-1 alfa-2 do país em minúsculas, um ponto, e o nome curto de todo dia
+do número: `br.cpf`, `es.nif`, `de.vat`. Um número internacional é só o nome
+curto: `iban`, `isbn`, `lei`. Ele precisa casar com
+`[a-z0-9]+([._-][a-z0-9]+)*`, o que o construtor do `Descriptor` exige.
 
-### If the type is a dispatcher target
+O **nome da classe** é o id em PascalCase sem os pontos — `es.nif` → `EsNif`,
+`at.uid` → `AtUid`. O módulo brasileiro usa os nomes locais (`Cpf`, `Renavam`,
+`TituloEleitor`), porque só há um país nele e o prefixo não diria nada.
 
-`iban`, `vatin` and `eu.excise` live in `stdnum-international` and reach
-national rules through the registry, never by importing them. Put the national
-rule in its regional module and make it findable — **do not touch the
-dispatcher**:
+### Se o tipo é alvo de um despachante
 
-| Dispatcher | Finds the national rule by |
+`iban`, `vatin` e `eu.excise` moram no `stdnum-international` e alcançam as
+regras nacionais pelo registry, nunca importando-as. Ponha a regra nacional no
+módulo regional dela e a torne localizável — **não mexa no despachante**:
+
+| Despachante | Acha a regra nacional por |
 |---|---|
-| `iban` | id `<cc>.iban`, and nothing else |
-| `vatin`, `eu.vat` | id `<cc>.vat`; failing that, the country's **one** type tagged `Tag.VAT` |
-| `eu.excise` | id `<cc>.excise`; failing that, the country's **one** type tagged `Tag.EXCISE` |
+| `iban` | id `<cc>.iban`, e nada mais |
+| `vatin`, `eu.vat` | id `<cc>.vat`; na falta dele, o **único** tipo do país com a tag `Tag.VAT` |
+| `eu.excise` | id `<cc>.excise`; na falta dele, o **único** tipo do país com a tag `Tag.EXCISE` |
 
-The fallback is by *unique* tag. Adding a second `Tag.VAT` type to a country
-that has no `<cc>.vat` id makes the lookup ambiguous, and the dispatcher then
-rejects every VAT number of that country. Either name one of them `<cc>.vat`,
-or do not tag the second one `VAT`.
+O plano B é pela tag *única*. Adicionar um segundo tipo com `Tag.VAT` a um país
+que não tenha id `<cc>.vat` torna a busca ambígua, e o despachante passa a
+recusar todo número de VAT daquele país. Ou batize um deles de `<cc>.vat`, ou
+não marque o segundo com `VAT`.
 
-## Step 2 — write the class
+## Passo 2 — escreva a classe
 
-- `public final class`, a `private` constructor, and
-  `public static final X INSTANCE`. There is no other way to obtain one.
-- The `Descriptor` is a `static final` field, built once at class
-  initialisation, never per call.
-- `compact` is almost always `Strings.compact(number, "<separators>")`, listing
-  every separator the number is written with. `Strings` folds the Unicode
-  look-alikes first — dashes, spaces, fullwidth and Arabic-Indic digits — which
-  is what makes a number pasted out of a PDF work.
-- `validate` **must** return the compact form. Check in order of how basic the
-  failure is: character set, then length, then components, then the check
-  digit. A caller who sees "invalid checksum" should be able to trust that
-  everything before the checksum was fine.
-- Use `algo` for the arithmetic — `Luhn`, `Damm`, `Verhoeff`, `Iso7064`,
-  `Mod97`, `Weighted`, `Crc16`. If the routine you need is genuinely new, add
-  it to `algo` with its own tests; if it is a one-off, keep it private in the
-  class. Do not paste a Luhn loop.
-- Override `format` **only** if the presentation differs from the compact form.
-  The default already validates and returns the compact form, which is the
-  correct presentation of a number written without separators.
-- Accessors (`getBirthDate`, `toSiren`, `manufacturer`) are `public static`,
-  take a single `String`, and **validate first**. A public method that throws
-  `NumberFormatException` on a number in our own fixtures is a defect; this has
-  happened, and the fixtures exist to catch it.
-- Never throw anything but a `ValidationException` subtype out of `validate`,
-  `compact` or an accessor. Not on `null`, not on an empty string, not on
-  1,024 nines, not on an emoji.
+- `public final class`, construtor `private`, e
+  `public static final X INSTANCE`. Não há outro jeito de obter uma.
+- O `Descriptor` é um campo `static final`, construído uma vez na inicialização
+  da classe, nunca a cada chamada.
+- `compact` é quase sempre `Strings.compact(number, "<separadores>")`, listando
+  todo separador com que o número é escrito. O `Strings` dobra antes os sósias
+  Unicode — traços, espaços, dígitos de largura completa e arábico-índicos — e
+  é isso que faz funcionar um número colado de um PDF.
+- `validate` **precisa** devolver a forma compacta. Verifique na ordem do mais
+  básico: conjunto de caracteres, depois comprimento, depois componentes,
+  depois o dígito verificador. Quem vê "checksum inválido" deve poder confiar
+  que tudo antes do checksum estava certo.
+- Use `algo` para a aritmética — `Luhn`, `Damm`, `Verhoeff`, `Iso7064`,
+  `Mod97`, `Weighted`, `Crc16`. Se a rotina de que você precisa for realmente
+  nova, acrescente-a a `algo` com testes próprios; se for caso único, mantenha
+  privada na classe. Não cole um laço de Luhn.
+- Sobrescreva `format` **só** se a apresentação diferir da forma compacta. O
+  padrão já valida e devolve a forma compacta, que é a apresentação correta de
+  um número escrito sem separadores.
+- Acessores (`getBirthDate`, `toSiren`, `manufacturer`) são `public static`,
+  recebem uma única `String` e **validam primeiro**. Um método público que
+  lança `NumberFormatException` num número dos nossos próprios fixtures é um
+  defeito; isso já aconteceu, e os fixtures existem para pegar.
+- Nunca deixe escapar de `validate`, `compact` ou de um acessor nada além de
+  uma subclasse de `ValidationException`. Nem em `null`, nem em string vazia,
+  nem em 1.024 noves, nem num emoji.
 
-## Step 3 — register it
+## Passo 3 — registre-o
 
-Add the instance to the module's provider — `BrProvider`, `EuProvider`, and
-so on — which is the only class listed in
-`META-INF/services/io.github.jefersonsantos06.stdnum.spi.StdNumProvider`. An
-unregistered type still validates; it is simply invisible to `StdNums`, to the
-dispatchers, and to the registry sweep.
+Acrescente a instância ao provider do módulo — `BrProvider`, `EuProvider` e
+assim por diante —, que é a única classe listada em
+`META-INF/services/io.github.jefersonsantos06.stdnum.spi.StdNumProvider`. Um
+tipo não registrado ainda valida; ele apenas fica invisível para o `StdNums`,
+para os despachantes e para a varredura do registry.
 
-Then **update the counts in `AllRegisteredContractTest`**:
+Depois **atualize as contagens no `AllRegisteredContractTest`**:
 
 ```java
 assertEquals(273, StdNums.all().size());
 assertEquals(37, StdNums.byCountry("BR").size());
 ```
 
-Those assertions are deliberate tripwires. A type that is written but not
-registered, or registered twice, fails here. Changing the number is a
-one-line, on-purpose edit.
+Essas asserções são arames de tropeço de propósito. Um tipo escrito e não
+registrado, ou registrado duas vezes, falha aqui. Mudar o número é uma edição
+de uma linha, feita de propósito.
 
-## Step 4 — fixtures
+## Passo 4 — fixtures
 
-In `src/test/resources/fixtures/` of the same module:
+Em `src/test/resources/fixtures/` do mesmo módulo:
 
-| File | Required | Contents |
+| Arquivo | Obrigatório | Conteúdo |
 |---|---|---|
-| `<id>.txt` | yes | valid numbers, one per line, as written in the wild |
-| `<id>-invalid.txt` | yes | numbers that must be rejected |
-| `<id>-format.txt` | only if `format` is overridden | `input<TAB>expected` |
-| `<id>-accessor.txt` | only if there are accessors | `method<TAB>input<TAB>expected` |
+| `<id>.txt` | sim | números válidos, um por linha, como se escreve no mundo real |
+| `<id>-invalid.txt` | sim | números que precisam ser recusados |
+| `<id>-format.txt` | só se o `format` for sobrescrito | `entrada<TAB>esperado` |
+| `<id>-accessor.txt` | só se houver acessores | `método<TAB>entrada<TAB>esperado` |
 
-Keep the masks and separators — `390.533.447-05` and `39053344705` are two
-different tests. Record where each sample came from in a `#` comment:
+Preserve as máscaras e os separadores — `390.533.447-05` e `39053344705` são
+dois testes diferentes. Registre num comentário `#` de onde veio cada amostra:
 
 ```
 # valid CPFs (well-known public test vectors)
 390.533.447-05
 ```
 
-The invalid file should include one number per failure mode the validator has:
-too short, wrong characters, a broken check digit, an unknown component. If
-you wrote an `if` that throws, there should be a line that reaches it.
+O arquivo de inválidos deve ter um número para cada modo de falha que o
+validador tem: curto demais, caracteres errados, dígito verificador quebrado,
+componente desconhecido. Se você escreveu um `if` que lança, deve haver uma
+linha que chega nele.
 
-## Step 5 — the test class
+## Passo 5 — a classe de teste
 
 ```java
 class EsNifTest extends StdNumContractTest {
@@ -192,95 +196,96 @@ class EsNifTest extends StdNumContractTest {
 }
 ```
 
-That is the whole file for most types. Add `@Test` methods only for what a
-generic contract cannot know — a documented presentation, an accessor's edge
-case, a rule the specification calls out. See
-[TESTING.md](TESTING.md) for what the contract already covers, so you do not
-write it twice.
+É o arquivo inteiro, para a maioria dos tipos. Acrescente métodos `@Test` só
+para o que um contrato genérico não tem como saber — uma apresentação
+documentada, o caso-limite de um acessor, uma regra que a especificação faz
+questão de citar. Veja [TESTING.md](TESTING.md) para o que o contrato já cobre,
+e assim não escrever duas vezes.
 
-## Step 6 — translations
+## Passo 6 — traduções
 
-If you threw a `Message.of(...)` with a code, add that key to
-`messages_pt.properties` **in the same package as the anchor class**:
+Se você lançou um `Message.of(...)` com código, acrescente essa chave ao
+`messages_pt.properties` **no mesmo pacote da classe âncora**:
 
 ```properties
 cpf.repeated = Um CPF formado por um único dígito repetido não é válido.
 ```
 
-The English stays in the Java source and is never repeated in a properties
-file. If the reason is one that other numbers also give — a birth date that is
-not a date, an all-zero serial, an unknown province — use the existing
-constant from `Reasons` instead of inventing a code, and there is nothing to
-translate.
+O inglês fica no código Java e nunca se repete num arquivo de propriedades. Se
+o motivo for daqueles que outros números também dão — uma data de nascimento
+que não é data, um serial só de zeros, uma província desconhecida — use a
+constante que já existe em `Reasons` em vez de inventar um código, e não há
+nada a traduzir.
 
-`everyReasonIsTranslated` will fail naming any code you forgot, so this step
-is enforced rather than remembered.
+O `everyReasonIsTranslated` vai falhar nomeando qualquer código que você
+esquecer, então este passo é cobrado, não lembrado.
 
-## Step 7 — references
+## Passo 7 — referências
 
-`.references(...)` says *where this number is documented*. The link review of
-September 2026 replaced 60 of 128 links; these are the rules that came out of it.
+`.references(...)` diz *onde o número está documentado*. A revisão de links de
+setembro de 2026 trocou 60 de 128 links; estas são as regras que saíram dela.
 
-**What counts, in order of preference:**
+**O que vale, em ordem de preferência:**
 
-1. the issuing authority's page **about the number** — not its home page, not
-   its portal;
-2. an official specification, or the OECD TIN sheet for a tax number when the
-   authority publishes nothing better;
-3. Wikipedia, when the authority publishes only a login wall, a search form or
-   a press release. This is not a retreat: for many numbers it is the only
-   place the check digit routine is written down.
+1. a página do órgão emissor **sobre o número** — não a home dele, não o portal;
+2. uma especificação oficial, ou a ficha TIN da OCDE para um número fiscal,
+   quando o órgão não publica nada melhor;
+3. a Wikipédia, quando o órgão só publica um login, um formulário de busca ou
+   um comunicado. Isso não é recuo: para muitos números, é o único lugar onde a
+   rotina do dígito verificador está escrita.
 
-**What does not count:**
+**O que não vale:**
 
-- a ministry or registry **home page** — it names an institution, not a number;
-- a **lookup form** — "type a number and we will tell you if it exists"
-  verifies one number and documents none;
-- a page about a **different number** of the same country. `sk.ico` cited the
-  English VAT article, whose Slovak row is IČ DPH, a different number entirely.
+- a **home** de um ministério ou de um registro — nomeia uma instituição, não
+  um número;
+- um **formulário de consulta** — "digite um número e dizemos se ele existe"
+  confere um número e documenta nenhum;
+- uma página sobre um **número diferente** do mesmo país. O `sk.ico` citava o
+  artigo inglês de VAT, cuja linha eslovaca é IČ DPH, um número inteiramente
+  outro.
 
-**Read the page. Do not just fetch it.** The commonest failure is not a 404;
-it is a URL that answers `200` and no longer documents anything, because it
-now redirects to a home page. Conversely a `403` or a connection failure is
-usually a WAF refusing a scripted fetch, not a dead link — open it in a
-browser before replacing it.
+**Leia a página. Não apenas busque.** A falha mais comum não é um 404; é uma
+URL que responde `200` e não documenta mais nada, porque agora redireciona para
+uma home. Por outro lado, um `403` ou uma conexão que não completa é quase
+sempre um WAF recusando busca automatizada, não um link morto — abra no
+navegador antes de trocar.
 
-## Step 8 — the inventory
+## Passo 8 — o inventário
 
-Add the type to [NUMBERS.md](NUMBERS.md), in its module's section, under its
-country, in id order. That file is maintained by hand and nothing enforces it.
+Acrescente o tipo ao [NUMBERS.md](NUMBERS.md), na seção do módulo dele, sob o
+país dele, em ordem de id. Aquele arquivo é mantido à mão e nada o cobra.
 
 ## Checklist
 
-- [ ] class in the right module, `final`, private constructor, `INSTANCE`
-- [ ] `Descriptor` with id, country, short name, title, description, tags,
-      references
-- [ ] `compact` lists every separator
-- [ ] `validate` returns the compact form and checks basics first
-- [ ] `format` overridden only if the presentation differs
-- [ ] registered in the module's provider
-- [ ] counts bumped in `AllRegisteredContractTest`
-- [ ] `<id>.txt` and `<id>-invalid.txt`, with provenance comments
-- [ ] `<id>-format.txt` / `<id>-accessor.txt` if applicable
-- [ ] test class extending `StdNumContractTest`
-- [ ] every new message code translated in `messages_pt.properties`
-- [ ] references read, not merely fetched
-- [ ] listed in `docs/NUMBERS.md`
-- [ ] `mvn verify` green
+- [ ] classe no módulo certo, `final`, construtor privado, `INSTANCE`
+- [ ] `Descriptor` com id, país, nome curto, título, descrição, tags e
+      referências
+- [ ] `compact` lista todo separador
+- [ ] `validate` devolve a forma compacta e verifica o básico primeiro
+- [ ] `format` sobrescrito só se a apresentação diferir
+- [ ] registrado no provider do módulo
+- [ ] contagens atualizadas no `AllRegisteredContractTest`
+- [ ] `<id>.txt` e `<id>-invalid.txt`, com comentários de procedência
+- [ ] `<id>-format.txt` / `<id>-accessor.txt`, se for o caso
+- [ ] classe de teste estendendo `StdNumContractTest`
+- [ ] todo código de mensagem novo traduzido em `messages_pt.properties`
+- [ ] referências lidas, não apenas buscadas
+- [ ] listado em `docs/NUMBERS.md`
+- [ ] `mvn verify` verde
 
 ---
 
-# Maintenance
+# Manutenção
 
-## Regenerating a data file
+## Regerar um arquivo de dados
 
-Fourteen types read one of fifteen `.dat` prefix databases. **These files are
-generated and never hand-edited** — not to fix one wrong row, not to add one
-missing bank. Each has a single-file Java generator in [`tools/`](../tools/README.md) with
-the exact `curl` and `java` invocation that produces it, and each file carries
-a header naming the source and its version stamp.
+Catorze tipos leem um de quinze bancos de prefixo `.dat`. **Esses arquivos são
+gerados e nunca editados à mão** — nem para corrigir uma linha errada, nem para
+acrescentar um banco que falta. Cada um tem um gerador Java de arquivo único em
+[`tools/`](../tools/README.md) com o `curl` e o `java` exatos que o produzem, e
+cada arquivo carrega um cabeçalho nomeando a fonte e o carimbo de versão dela.
 
-When a registry publishes new data:
+Quando um registro publica dados novos:
 
 ```bash
 curl -L -o RangeMessage.xml https://www.isbn-international.org/export_rangemessage.xml
@@ -288,100 +293,105 @@ java tools/GenerateIsbnDat.java RangeMessage.xml \
   > stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/isbn.dat
 ```
 
-then `mvn verify` and read the diff. A regeneration that changes thousands of
-rows when the registry announced a small change means the source format moved,
-not that the data did.
+depois `mvn verify` e leia o diff. Uma regeração que muda milhares de linhas
+quando o registro anunciou uma mudança pequena significa que o formato da fonte
+mudou, não que os dados mudaram.
 
-If a row really is wrong, fix the **generator** — the parser, the filter, the
-cross-check — so the next regeneration keeps the fix. `GenerateIbanDat` drops
-any entry whose parsed BBAN structure does not add up to the declared length
-rather than emitting it; `GenerateBeBanksDat` drops the rows the register
-marks as unheld. That is where corrections belong.
+Se uma linha estiver mesmo errada, conserte o **gerador** — o parser, o filtro,
+a conferência cruzada — para que a próxima regeração preserve a correção. O
+`GenerateIbanDat` descarta qualquer entrada cuja estrutura BBAN interpretada
+não bata com o comprimento declarado, em vez de emiti-la; o
+`GenerateBeBanksDat` descarta as linhas que o registro marca como não
+atribuídas. É ali que as correções pertencem.
 
-The generators are not Maven modules — they run when a registry publishes, not
-on every build, and they have no dependencies. CI compiles them on every push
-so a refactor cannot break them silently.
+Os geradores não são módulos Maven — eles rodam quando um registro publica, não
+a cada build, e não têm dependências. A CI os compila a cada push para que uma
+refatoração não os quebre em silêncio.
 
-## Reviewing reference links
+## Revisar links de referência
 
-Links rot, and they rot quietly. The rules for what counts as a reference are
-in [step 7](#step-7--references) above; the method for a sweep is:
+Links apodrecem, e apodrecem calados. As regras do que vale como referência
+estão no [passo 7](#passo-7--referências) acima; o método de uma varredura é:
 
-1. fetch all of them and note the status — this finds the outright 404s, which
-   are the minority;
-2. **read every page that answered**, checking it still documents the number
-   the type validates. The failure a status check cannot see is a URL that
-   answers 200 and lands on a home page;
-3. open by hand anything that returned 403 or nothing at all. That is usually a
-   WAF, and the link is fine.
+1. buscar todos e anotar o status — isso acha os 404 declarados, que são a
+   minoria;
+2. **ler toda página que respondeu**, conferindo se ela ainda documenta o
+   número que o tipo valida. A falha que uma checagem de status não vê é a URL
+   que responde 200 e cai numa home;
+3. abrir à mão qualquer coisa que voltou 403 ou não voltou nada. Isso costuma
+   ser um WAF, e o link está bom.
 
-As of the last sweep, **115 of the 273 types cite no reference at all**. That
-is a gap, not a break — the natural time to close a bit of it is when you touch
-one of those types for another reason.
+Na última varredura, **115 dos 273 tipos não citam referência nenhuma**. Isso é
+lacuna, não link quebrado — a hora natural de fechar um pedaço dela é quando
+você mexer num desses tipos por outro motivo.
 
-## Keeping the inventory honest
+## Manter o inventário honesto
 
-Two places drift when a type is added:
+Dois lugares saem do lugar quando um tipo é adicionado:
 
-- `AllRegisteredContractTest`'s hard counts — enforced, the build fails;
-- [NUMBERS.md](NUMBERS.md) — not enforced, hand-maintained.
+- as contagens fixas do `AllRegisteredContractTest` — cobradas, o build quebra;
+- o [NUMBERS.md](NUMBERS.md) — não cobrado, mantido à mão.
 
-The count in NUMBERS.md's header and the count in `AllRegisteredContractTest`
-should always be the same number. If you are ever unsure what is registered,
-the registry is the authority:
+A contagem no cabeçalho do NUMBERS.md e a do `AllRegisteredContractTest` devem
+ser sempre o mesmo número. Se em algum momento houver dúvida sobre o que está
+registrado, quem manda é o registry:
 
 ```java
 StdNums.all().forEach(n -> System.out.println(n.descriptor().id()));
 ```
 
-## Adding a language
+## Acrescentar um idioma
 
-Copy `messages_pt.properties` to `messages_<language>.properties` in the same
-package, in **every** module that has one — `spi`, `br`, `br/ie`,
-`international`, `eu`, `latam`, `na`, `apac`, `africa` — and translate. Then
-override `translations()` in the contract test to include the new locale, and
-the same coverage check that guards Portuguese will guard it.
+Copie `messages_pt.properties` para `messages_<idioma>.properties` no mesmo
+pacote, em **todo** módulo que tenha um — `spi`, `br`, `br/ie`,
+`international`, `eu`, `latam`, `na`, `apac`, `africa` — e traduza. Depois
+sobrescreva `translations()` no teste de contrato para incluir o novo locale, e
+a mesma verificação de cobertura que guarda o português passa a guardá-lo.
 
-Two things to know:
+Duas coisas a saber:
 
-- The four `error.*` keys in `stdnum-core`'s `spi` bundle are the safety net.
-  Any invalid number of any type falls back to one of them, so they must be
-  true of a "Chave NF-e" and a "Código de barras" alike. Never name a specific
-  number in them.
-- A country file (`messages_pt_BR.properties`) is **overlaid** on the language
-  file, so it should contain only what genuinely differs. Ship the language
-  file; add a country file only when a country actually needs different wording.
+- As quatro chaves `error.*` no pacote `spi` do `stdnum-core` são a rede de
+  segurança. Qualquer número inválido, de qualquer tipo, cai numa delas, então
+  elas precisam ser verdadeiras tanto para uma "Chave NF-e" quanto para um
+  "Código de barras". Nunca nomeie um número específico nelas.
+- Um arquivo de país (`messages_pt_BR.properties`) é **sobreposto** ao arquivo
+  do idioma, então deve conter só o que realmente difere. Distribua o arquivo
+  do idioma; acrescente um de país só quando um país de fato precisar de outra
+  redação.
 
-## Versions and dependencies
+## Versões e dependências
 
-`maven.compiler.release` is 17 and CI builds on 17 and 21. The only
-dependency is JUnit, declared once in the parent's `dependencyManagement`
-through the JUnit BOM. Adding a runtime dependency to any module is a
-decision to take deliberately, not a convenience — `stdnum-core` having none
-is a feature of the library.
+`maven.compiler.release` é 17 e a CI builda no 17 e no 21. A única dependência
+é o JUnit, declarada uma vez no `dependencyManagement` do pai, pelo BOM do
+JUnit. Acrescentar uma dependência de runtime a qualquer módulo é uma decisão a
+se tomar de propósito, não uma conveniência — o `stdnum-core` não ter nenhuma é
+uma característica da biblioteca.
 
-Every module's jar declares an `Automatic-Module-Name` through
-`${auto.module.name}`. A new module must set that property, or consumers on
-the module path get a name derived from the filename.
+O jar de todo módulo declara um `Automatic-Module-Name` via
+`${auto.module.name}`. Um módulo novo precisa definir essa propriedade, senão
+quem estiver no module path ganha um nome derivado do arquivo.
 
-## Rules that do not bend
+## Regras que não dobram
 
-- **python-stdnum is a reference, never a source.** Its behaviour was compared
-  against, and its test vectors were imported and re-verified. No code, no data
-  file and no wording came from it, and none may.
-- **A `.dat` file is generated.** If you find yourself opening one in an
-  editor, the answer is in the generator.
-- **A validator throws only `ValidationException` subtypes.** Any other
-  exception escaping `validate`, `compact` or an accessor is a defect,
-  regardless of how strange the input was.
-- **`format` refuses what `validate` refuses.** A number is formatted at the
-  moment it goes onto an invoice or a screen, which is the worst possible place
-  to launder an invalid one.
+- **O python-stdnum é referência, nunca fonte.** O comportamento dele foi
+  comparado, e os vetores de teste dele foram importados e reconferidos. Nenhum
+  código, nenhum arquivo de dados e nenhuma redação veio de lá, e nenhum pode
+  vir.
+- **Um arquivo `.dat` é gerado.** Se você se pegar abrindo um num editor, a
+  resposta está no gerador.
+- **Um validador lança só subclasses de `ValidationException`.** Qualquer outra
+  exceção escapando de `validate`, `compact` ou de um acessor é defeito, por
+  mais estranha que tenha sido a entrada.
+- **`format` recusa o que `validate` recusa.** Um número é formatado no momento
+  em que vai para uma nota ou para uma tela, que é o pior lugar possível para
+  lavar um inválido.
 
 ## Commits
 
-Commit messages here are prose, not conventional-commit prefixes. The subject
-says what changed in plain words — *"Sixty references that had stopped pointing
-at anything"*, *"Eleven types that need a prefix database, each with its own
-generator"* — and the body explains why, including what was found to be wrong
-and what was deliberately left undone. A commit that fixes defects names them.
+As mensagens de commit aqui são prosa, não prefixos de conventional commit. O
+assunto diz o que mudou em palavras comuns — *"Sixty references that had
+stopped pointing at anything"*, *"Eleven types that need a prefix database,
+each with its own generator"* — e o corpo explica por quê, incluindo o que se
+descobriu errado e o que se deixou de fazer de propósito. Um commit que
+conserta defeitos os nomeia. As mensagens são escritas em inglês, como o resto
+do histórico.

@@ -1,55 +1,58 @@
-# Numbers
+# Números
 
-**273 types**, across 89 countries plus 30 country-independent formats.
+**273 tipos**, em 89 países, mais 30 formatos independentes de país.
 
-This inventory is maintained by hand. When you add a type, add it here too —
-see [CONTRIBUTING.md](CONTRIBUTING.md#step-8--the-inventory). If it ever
-disagrees with the code, the code wins:
+Este inventário é mantido à mão. Ao adicionar um tipo, adicione-o aqui também —
+veja [CONTRIBUTING.md](CONTRIBUTING.md#passo-8--o-inventário). Se algum dia ele
+divergir do código, quem manda é o código:
 
 ```java
 StdNums.all().forEach(n -> System.out.println(n.descriptor().id()));
 ```
 
-## At a glance
+## Resumo
 
-| Module | Types | Countries |
+| Módulo | Tipos | Países |
 |---|---:|---:|
-| [`stdnum-international`](#country-independent--stdnum-international-30) | 30 | — |
-| [`stdnum-br`](#brazil--stdnum-br-37) | 37 | 1 |
-| [`stdnum-eu`](#europe--stdnum-eu-128) | 128 | 44 |
-| [`stdnum-latam`](#latin-america--stdnum-latam-23) | 23 | 14 |
-| [`stdnum-na`](#north-america--stdnum-na-10) | 10 | 2 |
-| [`stdnum-apac`](#asia-pacific--stdnum-apac-33) | 33 | 17 |
-| [`stdnum-africa`](#africa--stdnum-africa-12) | 12 | 11 |
+| [`stdnum-international`](#independentes-de-país--stdnum-international-30) | 30 | — |
+| [`stdnum-br`](#brasil--stdnum-br-37) | 37 | 1 |
+| [`stdnum-eu`](#europa--stdnum-eu-128) | 128 | 44 |
+| [`stdnum-latam`](#américa-latina--stdnum-latam-23) | 23 | 14 |
+| [`stdnum-na`](#américa-do-norte--stdnum-na-10) | 10 | 2 |
+| [`stdnum-apac`](#ásia-pacífico--stdnum-apac-33) | 33 | 17 |
+| [`stdnum-africa`](#áfrica--stdnum-africa-12) | 12 | 11 |
 | **Total** | **273** | **89** |
 
-## Against python-stdnum
+## Diante do python-stdnum
 
-python-stdnum 2.2 ships **235 number types** (236 modules, one of which,
-`iso9362`, is an alias of `bic`).
+O python-stdnum 2.2 traz **235 tipos de número** (236 módulos, um dos quais,
+`iso9362`, é apenas um apelido de `bic`).
 
-- **234 are implemented here.**
-- **1 is not:**
-  - [ ] `isil` — International Standard Identifier for Libraries. Deliberately
-        left out: it is a syntax with a registry of prefixes rather than a
-        number with a check digit, and nothing here needs it.
-- **39 types here have no python-stdnum equivalent:** the 35 Brazilian ones
-  (the state registrations of all 27 federative units, the CNS, the título de
-  eleitor, RENAVAM, the NF-e access key, the FEBRABAN payment slip in both its
-  forms, and the Pix BR Code), plus `cz.ico`, `sk.ico`, `om.vat` and `upi`.
+- **234 estão implementados aqui.**
+- **1 não está:**
+  - [ ] `isil` — International Standard Identifier for Libraries. Deixado de
+        fora de propósito: é uma sintaxe com um registro de prefixos, não um
+        número com dígito verificador, e nada aqui precisa dele.
+- **39 tipos daqui não têm equivalente no python-stdnum:** os 35 brasileiros
+  (as inscrições estaduais das 27 unidades federativas, o CNS, o título de
+  eleitor, o RENAVAM, a chave de acesso da NF-e, o boleto FEBRABAN nas suas
+  duas formas e o Pix BR Code), mais `cz.ico`, `sk.ico`, `om.vat` e `upi`.
 
-Where the reference names a module differently, the id here follows the
-natural spelling: `in_.pan` → `in.pan`, `is_.kennitala` → `is.kennitala`,
-`jp.in_` → `jp.in` (Python appends an underscore to reserved words),
-`gb.sedol` → `sedol` (the SEDOL is not a British-only format), and `iso9362`
-is simply `bic`.
+Onde a referência nomeia o módulo de outro jeito, o id aqui segue a grafia
+natural: `in_.pan` → `in.pan`, `is_.kennitala` → `is.kennitala`, `jp.in_` →
+`jp.in` (o Python acrescenta um sublinhado a palavras reservadas), `gb.sedol` →
+`sedol` (o SEDOL não é um formato só britânico), e `iso9362` é simplesmente
+`bic`.
 
-## The list
+## A lista
 
-Every box below is checked: this is what the library validates today. The one
-unchecked box in the project is `isil`, above.
+Toda caixa abaixo está marcada: é o que a biblioteca valida hoje. A única caixa
+desmarcada do projeto é o `isil`, acima.
 
-### Country-independent — `stdnum-international` (30)
+O nome de cada tipo é o nome real do número no idioma de quem o emite — é assim
+que ele aparece no `Descriptor`, e não é traduzido.
+
+### Independentes de país — `stdnum-international` (30)
 
 - [x] `bic` — BIC — Business Identifier Code
 - [x] `bitcoin` — Bitcoin address
@@ -82,7 +85,7 @@ unchecked box in the project is `isil`, above.
 - [x] `upi` — UPI — Unique Product Identifier
 - [x] `vatin` — VATIN — VAT identification number
 
-### Brazil — `stdnum-br` (37)
+### Brasil — `stdnum-br` (37)
 
 - [x] `br.boleto-barras` — Código de barras — Código de barras de cobrança (FEBRABAN)
 - [x] `br.boleto-linha` — Linha digitável — Linha digitável de cobrança (FEBRABAN)
@@ -122,9 +125,9 @@ unchecked box in the project is `isil`, above.
 - [x] `br.renavam` — RENAVAM — Registro Nacional de Veículos Automotores
 - [x] `br.titulo-eleitor` — Título de Eleitor
 
-### Europe — `stdnum-eu` (128)
+### Europa — `stdnum-eu` (128)
 
-**Not specific to one country**
+**Sem país definido**
 
 - [x] `eu.at_02` — SEPA Creditor Identifier — SEPA Identifier of the Creditor (AT-02)
 - [x] `eu.banknote` — Banknote serial — Euro banknote serial number
@@ -133,31 +136,38 @@ unchecked box in the project is `isil`, above.
 - [x] `eu.nace` — NACE — Statistical Classification of Economic Activities
 - [x] `eu.oss` — OSS — EU One Stop Shop VAT number
 
-**Albania (AL)**
+**Albânia (AL)**
 
 - [x] `al.nipt` — NIPT — Numri i Identifikimit për Personin e Tatueshëm
+
+**Alemanha (DE)**
+
+- [x] `de.handelsregisternummer` — Handelsregisternummer — Deutsche Handelsregisternummer
+- [x] `de.idnr` — IdNr — Steuerliche Identifikationsnummer
+- [x] `de.leitweg` — Leitweg-ID — Deutsche Leitweg-ID
+- [x] `de.stnr` — Steuernummer — Deutsche Steuernummer
+- [x] `de.vat` — USt-IdNr — Umsatzsteuer-Identifikationsnummer
+- [x] `de.wkn` — WKN — Wertpapierkennnummer
 
 **Andorra (AD)**
 
 - [x] `ad.nrt` — NRT — Número de Registre Tributari
 
-**Austria (AT)**
-
-- [x] `at.businessid` — Firmenbuchnummer — Osterreichische Firmenbuchnummer
-- [x] `at.postleitzahl` — Postleitzahl — Osterreichische Postleitzahl
-- [x] `at.tin` — Abgabenkontonummer — Osterreichische Abgabenkontonummer
-- [x] `at.uid` — UID — Umsatzsteuer-Identifikationsnummer
-- [x] `at.vnr` — VNR — Osterreichische Sozialversicherungsnummer
-
-**Azerbaijan (AZ)**
+**Azerbaijão (AZ)**
 
 - [x] `az.voen` — VÖEN — Vergi ödəyicisinin eyniləşdirmə nömrəsi
 
-**Belarus (BY)**
+**Bielorrússia (BY)**
 
 - [x] `by.unp` — UNP — Belarusian taxpayer number
 
-**Belgium (BE)**
+**Bulgária (BG)**
+
+- [x] `bg.egn` — ЕГН — Единен граждански номер
+- [x] `bg.pnf` — ЛНЧ — Личен номер на чужденец
+- [x] `bg.vat` — ДДС — Идентификационен номер по ДДС
+
+**Bélgica (BE)**
 
 - [x] `be.bis` — BIS-nummer — Belgisch BIS-nummer
 - [x] `be.eid` — eID — Belgisch eID-kaartnummer
@@ -167,188 +177,32 @@ unchecked box in the project is `isil`, above.
 - [x] `be.ssn` — INSZ — Belgisch identificatienummer van de sociale zekerheid
 - [x] `be.vat` — Ondernemingsnummer — Ondernemingsnummer (BTW, TVA, NWSt)
 
-**Bulgaria (BG)**
-
-- [x] `bg.egn` — ЕГН — Единен граждански номер
-- [x] `bg.pnf` — ЛНЧ — Личен номер на чужденец
-- [x] `bg.vat` — ДДС — Идентификационен номер по ДДС
-
-**Croatia (HR)**
-
-- [x] `hr.oib` — OIB — Osobni identifikacijski broj
-
-**Cyprus (CY)**
+**Chipre (CY)**
 
 - [x] `cy.vat` — ΦΠΑ — Αριθμός Εγγραφής Φ.Π.Α.
 
-**Czechia (CZ)**
+**Croácia (HR)**
 
-- [x] `cz.bankaccount` — Cislo uctu — Ceske cislo bankovniho uctu
-- [x] `cz.dic` — DIČ — Daňové identifikační číslo
-- [x] `cz.ico` — ICO — Identifikacni cislo osoby
-- [x] `cz.rc` — RČ — Rodné číslo
+- [x] `hr.oib` — OIB — Osobni identifikacijski broj
 
-**Denmark (DK)**
+**Dinamarca (DK)**
 
 - [x] `dk.cpr` — CPR — CPR-nummer (personnummer)
 - [x] `dk.cvr` — CVR — Momsregistreringsnummer (CVR)
 
-**Estonia (EE)**
-
-- [x] `ee.ik` — Isikukood — Eesti isikukood
-- [x] `ee.kmkr` — KMKR — Käibemaksukohuslase number
-- [x] `ee.registrikood` — Registrikood — Eesti registrikood
-
-**Faroe Islands (FO)**
-
-- [x] `fo.vn` — V-number — Vinnutal
-
-**Finland (FI)**
-
-- [x] `fi.alv` — ALV nro — Arvonlisäveronumero
-- [x] `fi.associationid` — Rekisterinumero — Suomalainen yhdistysrekisterinumero
-- [x] `fi.hetu` — HETU — Suomalainen henkilotunnus
-- [x] `fi.veronumero` — Veronumero — Suomalainen veronumero
-- [x] `fi.ytunnus` — Y-tunnus
-
-**France (FR)**
-
-- [x] `fr.accise` — Numero d'accise — Numero d'accise francais
-- [x] `fr.nif` — NIF — Numero fiscal de reference
-- [x] `fr.nir` — NIR — Numero d'inscription au repertoire
-- [x] `fr.rcs` — RCS — Numero RCS
-- [x] `fr.siren` — SIREN — Système d'Identification du Répertoire des Entreprises
-- [x] `fr.siret` — SIRET — Système d'Identification du Répertoire des ETablissements
-- [x] `fr.tva` — TVA — Numéro d'identification à la taxe sur la valeur ajoutée
-
-**Germany (DE)**
-
-- [x] `de.handelsregisternummer` — Handelsregisternummer — Deutsche Handelsregisternummer
-- [x] `de.idnr` — IdNr — Steuerliche Identifikationsnummer
-- [x] `de.leitweg` — Leitweg-ID — Deutsche Leitweg-ID
-- [x] `de.stnr` — Steuernummer — Deutsche Steuernummer
-- [x] `de.vat` — USt-IdNr — Umsatzsteuer-Identifikationsnummer
-- [x] `de.wkn` — WKN — Wertpapierkennnummer
-
-**Greece (GR)**
-
-- [x] `gr.amka` — AMKA — Arithmos Mitroou Koinonikis Asfalisis
-- [x] `gr.vat` — ΑΦΜ — Αριθμός Φορολογικού Μητρώου
-
-**Hungary (HU)**
-
-- [x] `hu.anum` — ANUM — Közösségi adószám
-
-**Iceland (IS)**
-
-- [x] `is.kennitala` — Kennitala
-- [x] `is.vsk` — VSK — Virdisaukaskattur
-
-**Ireland (IE)**
-
-- [x] `ie.pps` — PPS No — Personal Public Service Number
-- [x] `ie.vat` — VAT — Irish tax reference number
-
-**Italy (IT)**
-
-- [x] `it.aic` — AIC — Autorizzazione allImmissione in Commercio
-- [x] `it.codicefiscale` — Codice fiscale — Codice fiscale italiano
-- [x] `it.iva` — Partita IVA
-
-**Latvia (LV)**
-
-- [x] `lv.pvn` — PVN — Pievienotās vērtības nodokļa numurs
-
-**Liechtenstein (LI)**
-
-- [x] `li.peid` — PEID — Liechtenstein PEID
-
-**Lithuania (LT)**
-
-- [x] `lt.asmens` — Asmens kodas — Lietuvos asmens kodas
-- [x] `lt.pvm` — PVM — Pridėtinės vertės mokestis mokėtojo kodas
-
-**Luxembourg (LU)**
-
-- [x] `lu.tva` — TVA — Numéro d'identification à la taxe sur la valeur ajoutée
-
-**Malta (MT)**
-
-- [x] `mt.vat` — VAT — Maltese VAT number
-
-**Moldova (MD)**
-
-- [x] `md.idno` — IDNO — Numărul de identificare de stat
-
-**Monaco (MC)**
-
-- [x] `mc.tva` — TVA — Numero d'identification a la taxe sur la valeur ajoutee
-
-**Montenegro (ME)**
-
-- [x] `me.iban` — IBAN — Crnogorski medunarodni broj racuna
-- [x] `me.pib` — PIB — Poreski identifikacioni broj
-
-**Netherlands (NL)**
-
-- [x] `nl.brin` — BRIN — Basisregistratie Instellingen
-- [x] `nl.bsn` — BSN — Burgerservicenummer
-- [x] `nl.btw` — Btw-nummer — Btw-identificatienummer
-- [x] `nl.identiteitskaartnummer` — Documentnummer — Nederlands identiteitskaart- of paspoortnummer
-- [x] `nl.onderwijsnummer` — Onderwijsnummer — Nederlands onderwijsnummer
-- [x] `nl.postcode` — Postcode — Nederlandse postcode
-
-**North Macedonia (MK)**
-
-- [x] `mk.edb` — ЕДБ — Единствен даночен број
-
-**Norway (NO)**
-
-- [x] `no.fodselsnummer` — Fodselsnummer — Norsk fodselsnummer
-- [x] `no.iban` — IBAN — Norsk internasjonalt kontonummer
-- [x] `no.kontonr` — Kontonummer — Norsk kontonummer
-- [x] `no.mva` — MVA — Merverdiavgift
-- [x] `no.orgnr` — Orgnr — Organisasjonsnummer
-
-**Poland (PL)**
-
-- [x] `pl.nip` — NIP — Numer Identyfikacji Podatkowej
-- [x] `pl.pesel` — PESEL — Powszechny Elektroniczny System Ewidencji Ludności
-- [x] `pl.regon` — REGON — Rejestr Gospodarki Narodowej
-
-**Portugal (PT)**
-
-- [x] `pt.cc` — CC — Numero de Cartao de Cidadao
-- [x] `pt.nif` — NIF — Número de Identificação Fiscal
-
-**Romania (RO)**
-
-- [x] `ro.cf` — CF — Cod de înregistrare în scopuri de TVA
-- [x] `ro.cnp` — CNP — Cod Numeric Personal
-- [x] `ro.cui` — CUI — Codul Unic de Înregistrare
-- [x] `ro.onrc` — ONRC — Numarul de ordine in registrul comertului
-
-**San Marino (SM)**
-
-- [x] `sm.coe` — COE — Codice Operatore Economico
-
-**Serbia (RS)**
-
-- [x] `rs.pib` — PIB — Порески идентификациони број
-
-**Slovakia (SK)**
+**Eslováquia (SK)**
 
 - [x] `sk.dph` — IČ DPH — Identifikačné číslo pre daň z pridanej hodnoty
 - [x] `sk.ico` — ICO — Identifikacne cislo organizacie
 - [x] `sk.rc` — RČ — Rodné číslo
 
-**Slovenia (SI)**
+**Eslovênia (SI)**
 
 - [x] `si.ddv` — ID za DDV — Davčna številka
 - [x] `si.emso` — EMSO — Enotna maticna stevilka obcana
 - [x] `si.maticna` — Maticna stevilka — Slovenska maticna stevilka
 
-**Spain (ES)**
+**Espanha (ES)**
 
 - [x] `es.cae` — CAE — Codigo de Actividad y Establecimiento
 - [x] `es.ccc` — CCC — Codigo Cuenta Cliente
@@ -361,33 +215,182 @@ unchecked box in the project is `isil`, above.
 - [x] `es.postal_code` — Codigo postal — Codigo postal espanol
 - [x] `es.referenciacatastral` — Referencia catastral — Referencia catastral espanola
 
-**Sweden (SE)**
+**Estônia (EE)**
 
-- [x] `se.orgnr` — Orgnr — Organisationsnummer
-- [x] `se.personnummer` — Personnummer — Svenskt personnummer
-- [x] `se.postnummer` — Postnummer — Svenskt postnummer
-- [x] `se.vat` — Moms — Momsregistreringsnummer
+- [x] `ee.ik` — Isikukood — Eesti isikukood
+- [x] `ee.kmkr` — KMKR — Käibemaksukohuslase number
+- [x] `ee.registrikood` — Registrikood — Eesti registrikood
 
-**Switzerland (CH)**
+**Finlândia (FI)**
 
-- [x] `ch.esr` — ESR — Einzahlungsschein mit Referenznummer
-- [x] `ch.ssn` — AHV-Nr. — Schweizer Sozialversicherungsnummer
-- [x] `ch.uid` — UID — Unternehmens-Identifikationsnummer
-- [x] `ch.vat` — MWST/TVA/IVA — Mehrwertsteuernummer
+- [x] `fi.alv` — ALV nro — Arvonlisäveronumero
+- [x] `fi.associationid` — Rekisterinumero — Suomalainen yhdistysrekisterinumero
+- [x] `fi.hetu` — HETU — Suomalainen henkilotunnus
+- [x] `fi.veronumero` — Veronumero — Suomalainen veronumero
+- [x] `fi.ytunnus` — Y-tunnus
 
-**Ukraine (UA)**
+**França (FR)**
 
-- [x] `ua.edrpou` — ЄДРПОУ — Єдиний державний реєстр підприємств та організацій України
-- [x] `ua.rntrc` — RNTRC — Reyestratsiynyi nomer oblikovoyi kartky platnyka podatkiv
+- [x] `fr.accise` — Numero d'accise — Numero d'accise francais
+- [x] `fr.nif` — NIF — Numero fiscal de reference
+- [x] `fr.nir` — NIR — Numero d'inscription au repertoire
+- [x] `fr.rcs` — RCS — Numero RCS
+- [x] `fr.siren` — SIREN — Système d'Identification du Répertoire des Entreprises
+- [x] `fr.siret` — SIRET — Système d'Identification du Répertoire des ETablissements
+- [x] `fr.tva` — TVA — Numéro d'identification à la taxe sur la valeur ajoutée
 
-**United Kingdom (GB)**
+**Grécia (GR)**
+
+- [x] `gr.amka` — AMKA — Arithmos Mitroou Koinonikis Asfalisis
+- [x] `gr.vat` — ΑΦΜ — Αριθμός Φορολογικού Μητρώου
+
+**Hungria (HU)**
+
+- [x] `hu.anum` — ANUM — Közösségi adószám
+
+**Ilhas Faroé (FO)**
+
+- [x] `fo.vn` — V-number — Vinnutal
+
+**Irlanda (IE)**
+
+- [x] `ie.pps` — PPS No — Personal Public Service Number
+- [x] `ie.vat` — VAT — Irish tax reference number
+
+**Islândia (IS)**
+
+- [x] `is.kennitala` — Kennitala
+- [x] `is.vsk` — VSK — Virdisaukaskattur
+
+**Itália (IT)**
+
+- [x] `it.aic` — AIC — Autorizzazione allImmissione in Commercio
+- [x] `it.codicefiscale` — Codice fiscale — Codice fiscale italiano
+- [x] `it.iva` — Partita IVA
+
+**Letônia (LV)**
+
+- [x] `lv.pvn` — PVN — Pievienotās vērtības nodokļa numurs
+
+**Liechtenstein (LI)**
+
+- [x] `li.peid` — PEID — Liechtenstein PEID
+
+**Lituânia (LT)**
+
+- [x] `lt.asmens` — Asmens kodas — Lietuvos asmens kodas
+- [x] `lt.pvm` — PVM — Pridėtinės vertės mokestis mokėtojo kodas
+
+**Luxemburgo (LU)**
+
+- [x] `lu.tva` — TVA — Numéro d'identification à la taxe sur la valeur ajoutée
+
+**Macedônia do Norte (MK)**
+
+- [x] `mk.edb` — ЕДБ — Единствен даночен број
+
+**Malta (MT)**
+
+- [x] `mt.vat` — VAT — Maltese VAT number
+
+**Moldávia (MD)**
+
+- [x] `md.idno` — IDNO — Numărul de identificare de stat
+
+**Montenegro (ME)**
+
+- [x] `me.iban` — IBAN — Crnogorski medunarodni broj racuna
+- [x] `me.pib` — PIB — Poreski identifikacioni broj
+
+**Mônaco (MC)**
+
+- [x] `mc.tva` — TVA — Numero d'identification a la taxe sur la valeur ajoutee
+
+**Noruega (NO)**
+
+- [x] `no.fodselsnummer` — Fodselsnummer — Norsk fodselsnummer
+- [x] `no.iban` — IBAN — Norsk internasjonalt kontonummer
+- [x] `no.kontonr` — Kontonummer — Norsk kontonummer
+- [x] `no.mva` — MVA — Merverdiavgift
+- [x] `no.orgnr` — Orgnr — Organisasjonsnummer
+
+**Países Baixos (NL)**
+
+- [x] `nl.brin` — BRIN — Basisregistratie Instellingen
+- [x] `nl.bsn` — BSN — Burgerservicenummer
+- [x] `nl.btw` — Btw-nummer — Btw-identificatienummer
+- [x] `nl.identiteitskaartnummer` — Documentnummer — Nederlands identiteitskaart- of paspoortnummer
+- [x] `nl.onderwijsnummer` — Onderwijsnummer — Nederlands onderwijsnummer
+- [x] `nl.postcode` — Postcode — Nederlandse postcode
+
+**Polônia (PL)**
+
+- [x] `pl.nip` — NIP — Numer Identyfikacji Podatkowej
+- [x] `pl.pesel` — PESEL — Powszechny Elektroniczny System Ewidencji Ludności
+- [x] `pl.regon` — REGON — Rejestr Gospodarki Narodowej
+
+**Portugal (PT)**
+
+- [x] `pt.cc` — CC — Numero de Cartao de Cidadao
+- [x] `pt.nif` — NIF — Número de Identificação Fiscal
+
+**Reino Unido (GB)**
 
 - [x] `gb.nhs` — NHS number — United Kingdom National Health Service number
 - [x] `gb.upn` — UPN — Unique Pupil Number
 - [x] `gb.utr` — UTR — Unique Taxpayer Reference
 - [x] `gb.vat` — VAT — United Kingdom VAT registration number
 
-### Latin America — `stdnum-latam` (23)
+**Romênia (RO)**
+
+- [x] `ro.cf` — CF — Cod de înregistrare în scopuri de TVA
+- [x] `ro.cnp` — CNP — Cod Numeric Personal
+- [x] `ro.cui` — CUI — Codul Unic de Înregistrare
+- [x] `ro.onrc` — ONRC — Numarul de ordine in registrul comertului
+
+**San Marino (SM)**
+
+- [x] `sm.coe` — COE — Codice Operatore Economico
+
+**Suécia (SE)**
+
+- [x] `se.orgnr` — Orgnr — Organisationsnummer
+- [x] `se.personnummer` — Personnummer — Svenskt personnummer
+- [x] `se.postnummer` — Postnummer — Svenskt postnummer
+- [x] `se.vat` — Moms — Momsregistreringsnummer
+
+**Suíça (CH)**
+
+- [x] `ch.esr` — ESR — Einzahlungsschein mit Referenznummer
+- [x] `ch.ssn` — AHV-Nr. — Schweizer Sozialversicherungsnummer
+- [x] `ch.uid` — UID — Unternehmens-Identifikationsnummer
+- [x] `ch.vat` — MWST/TVA/IVA — Mehrwertsteuernummer
+
+**Sérvia (RS)**
+
+- [x] `rs.pib` — PIB — Порески идентификациони број
+
+**Tchéquia (CZ)**
+
+- [x] `cz.bankaccount` — Cislo uctu — Ceske cislo bankovniho uctu
+- [x] `cz.dic` — DIČ — Daňové identifikační číslo
+- [x] `cz.ico` — ICO — Identifikacni cislo osoby
+- [x] `cz.rc` — RČ — Rodné číslo
+
+**Ucrânia (UA)**
+
+- [x] `ua.edrpou` — ЄДРПОУ — Єдиний державний реєстр підприємств та організацій України
+- [x] `ua.rntrc` — RNTRC — Reyestratsiynyi nomer oblikovoyi kartky platnyka podatkiv
+
+**Áustria (AT)**
+
+- [x] `at.businessid` — Firmenbuchnummer — Osterreichische Firmenbuchnummer
+- [x] `at.postleitzahl` — Postleitzahl — Osterreichische Postleitzahl
+- [x] `at.tin` — Abgabenkontonummer — Osterreichische Abgabenkontonummer
+- [x] `at.uid` — UID — Umsatzsteuer-Identifikationsnummer
+- [x] `at.vnr` — VNR — Osterreichische Sozialversicherungsnummer
+
+### América Latina — `stdnum-latam` (23)
 
 **Argentina (AR)**
 
@@ -399,7 +402,7 @@ unchecked box in the project is `isil`, above.
 
 - [x] `cl.rut` — RUT — Rol Único Tributario
 
-**Colombia (CO)**
+**Colômbia (CO)**
 
 - [x] `co.nit` — NIT — Número De Identificación Tributaria
 
@@ -413,31 +416,25 @@ unchecked box in the project is `isil`, above.
 
 - [x] `cu.ni` — NI — Número de identidad
 
-**Dominican Republic (DO)**
-
-- [x] `do.cedula` — Cédula — Cédula de identidad y electoral
-- [x] `do.ncf` — NCF — Numero de Comprobante Fiscal
-- [x] `do.rnc` — RNC — Registro Nacional del Contribuyente
-
-**Ecuador (EC)**
-
-- [x] `ec.ci` — CI — Cédula de identidad
-- [x] `ec.ruc` — RUC — Registro Unico de Contribuyentes
-
 **El Salvador (SV)**
 
 - [x] `sv.nit` — NIT — Número de Identificación Tributaria
+
+**Equador (EC)**
+
+- [x] `ec.ci` — CI — Cédula de identidad
+- [x] `ec.ruc` — RUC — Registro Unico de Contribuyentes
 
 **Guatemala (GT)**
 
 - [x] `gt.nit` — NIT — Número de Identificación Tributaria
 
-**Mexico (MX)**
+**México (MX)**
 
 - [x] `mx.curp` — CURP — Clave Unica de Registro de Poblacion
 - [x] `mx.rfc` — RFC — Registro Federal de Contribuyentes
 
-**Paraguay (PY)**
+**Paraguai (PY)**
 
 - [x] `py.ruc` — RUC — Registro Único de Contribuyentes
 
@@ -446,7 +443,13 @@ unchecked box in the project is `isil`, above.
 - [x] `pe.cui` — CUI — Codigo Unico de Identificacion
 - [x] `pe.ruc` — RUC — Registro Único de Contribuyentes
 
-**Uruguay (UY)**
+**República Dominicana (DO)**
+
+- [x] `do.cedula` — Cédula — Cédula de identidad y electoral
+- [x] `do.ncf` — NCF — Numero de Comprobante Fiscal
+- [x] `do.rnc` — RNC — Registro Nacional del Contribuyente
+
+**Uruguai (UY)**
 
 - [x] `uy.rut` — RUT — Registro Único Tributario
 
@@ -454,15 +457,15 @@ unchecked box in the project is `isil`, above.
 
 - [x] `ve.rif` — RIF — Registro de Identificación Fiscal
 
-### North America — `stdnum-na` (10)
+### América do Norte — `stdnum-na` (10)
 
-**Canada (CA)**
+**Canadá (CA)**
 
 - [x] `ca.bc_phn` — PHN — British Columbia Personal Health Number
 - [x] `ca.bn` — BN — Business Number
 - [x] `ca.sin` — SIN — Social Insurance Number
 
-**United States (US)**
+**Estados Unidos (US)**
 
 - [x] `us.atin` — ATIN — Adoption Taxpayer Identification Number
 - [x] `us.ein` — EIN — Employer Identification Number
@@ -472,9 +475,9 @@ unchecked box in the project is `isil`, above.
 - [x] `us.ssn` — SSN — Social Security Number
 - [x] `us.tin` — TIN — Taxpayer Identification Number
 
-### Asia-Pacific — `stdnum-apac` (33)
+### Ásia-Pacífico — `stdnum-apac` (33)
 
-**Australia (AU)**
+**Austrália (AU)**
 
 - [x] `au.abn` — ABN — Australian Business Number
 - [x] `au.acn` — ACN — Australian Company Number
@@ -485,15 +488,12 @@ unchecked box in the project is `isil`, above.
 - [x] `cn.ric` — RIC — Chinese Resident Identity Card number
 - [x] `cn.uscc` — USCC — Unified Social Credit Code
 
-**India (IN)**
+**Coreia do Sul (KR)**
 
-- [x] `in.aadhaar` — Aadhaar
-- [x] `in.epic` — EPIC — Electoral Photo Identity Card number
-- [x] `in.gstin` — GSTIN — Goods and Services Tax identification number
-- [x] `in.pan` — PAN — Permanent Account Number
-- [x] `in.vid` — VID — Indian Virtual ID
+- [x] `kr.brn` — BRN — Korean Business Registration Number
+- [x] `kr.rrn` — RRN — Resident registration number (주민등록번호)
 
-**Indonesia (ID)**
+**Indonésia (ID)**
 
 - [x] `id.nik` — NIK — Nomor Induk Kependudukan
 - [x] `id.npwp` — NPWP — Nomor Pokok Wajib Pajak
@@ -503,104 +503,107 @@ unchecked box in the project is `isil`, above.
 - [x] `il.hp` — H.P. — Israeli company number
 - [x] `il.idnr` — Mispar Zehut — Israeli identity number
 
-**Japan (JP)**
+**Japão (JP)**
 
 - [x] `jp.cn` — 法人番号 — Corporate Number (hōjin bangō)
 - [x] `jp.in` — My Number — Japanese Individual Number
 
-**Malaysia (MY)**
+**Malásia (MY)**
 
 - [x] `my.nric` — NRIC No. — National Registration Identity Card Number
 
-**New Zealand (NZ)**
+**Nova Zelândia (NZ)**
 
 - [x] `nz.bankaccount` — Bank account number — New Zealand bank account number
 - [x] `nz.ird` — IRD — Inland Revenue Department number
 
-**Oman (OM)**
+**Omã (OM)**
 
 - [x] `om.vat` — VAT — Oman VAT identification number
 
-**Pakistan (PK)**
+**Paquistão (PK)**
 
 - [x] `pk.cnic` — CNIC — Computerised National Identity Card number
 
-**Russia (RU)**
+**Rússia (RU)**
 
 - [x] `ru.inn` — ИНН — Идентификационный номер налогоплательщика
 - [x] `ru.ogrn` — OGRN — Osnovnoy gosudarstvennyy registratsionnyy nomer
 
-**Singapore (SG)**
+**Singapura (SG)**
 
 - [x] `sg.uen` — UEN — Unique Entity Number
 
-**South Korea (KR)**
-
-- [x] `kr.brn` — BRN — Korean Business Registration Number
-- [x] `kr.rrn` — RRN — Resident registration number (주민등록번호)
-
-**Taiwan (TW)**
-
-- [x] `tw.ubn` — UBN — Unified Business Number (統一編號)
-
-**Thailand (TH)**
+**Tailândia (TH)**
 
 - [x] `th.moa` — MOA — Memorandum of Association Number
 - [x] `th.pin` — PIN — Thailand Personal Identification Number
 - [x] `th.tin` — TIN — Thai Tax Identification Number
 
-**Türkiye (TR)**
+**Taiwan (TW)**
+
+- [x] `tw.ubn` — UBN — Unified Business Number (統一編號)
+
+**Turquia (TR)**
 
 - [x] `tr.tckimlik` — T.C. Kimlik No. — Türkiye Cumhuriyeti Kimlik Numarası
 - [x] `tr.vkn` — VKN — Vergi Kimlik Numarasi
 
-**Vietnam (VN)**
+**Vietnã (VN)**
 
 - [x] `vn.mst` — MST — Mã số thuế
 
-### Africa — `stdnum-africa` (12)
+**Índia (IN)**
 
-**Algeria (DZ)**
+- [x] `in.aadhaar` — Aadhaar
+- [x] `in.epic` — EPIC — Electoral Photo Identity Card number
+- [x] `in.gstin` — GSTIN — Goods and Services Tax identification number
+- [x] `in.pan` — PAN — Permanent Account Number
+- [x] `in.vid` — VID — Indian Virtual ID
+
+### África — `stdnum-africa` (12)
+
+**Argélia (DZ)**
 
 - [x] `dz.nif` — NIF — Numéro d'Identification Fiscale
 
-**Egypt (EG)**
+**Egito (EG)**
 
 - [x] `eg.tn` — TN — Egyptian Tax Registration Number
 
-**Ghana (GH)**
+**Gana (GH)**
 
 - [x] `gh.tin` — TIN — Ghana Taxpayer Identification Number
 
-**Guinea (GN)**
+**Guiné (GN)**
 
 - [x] `gn.nifp` — NIFp — Numero d'Identification Fiscale permanent
 
-**Kenya (KE)**
-
-- [x] `ke.pin` — KRA PIN — Kenya Revenue Authority Personal Identification Number
-
-**Mauritius (MU)**
-
-- [x] `mu.nid` — NID — Mauritian National Identity number
-
-**Morocco (MA)**
+**Marrocos (MA)**
 
 - [x] `ma.ice` — ICE — Identifiant Commun de l'Entreprise
 
-**Mozambique (MZ)**
+**Maurício (MU)**
+
+- [x] `mu.nid` — NID — Mauritian National Identity number
+
+**Moçambique (MZ)**
 
 - [x] `mz.nuit` — NUIT — Número Único de Identificação Tributária
+
+**Quênia (KE)**
+
+- [x] `ke.pin` — KRA PIN — Kenya Revenue Authority Personal Identification Number
 
 **Senegal (SN)**
 
 - [x] `sn.ninea` — NINEA — Numéro d'Identification National des Entreprises et Associations
 
-**South Africa (ZA)**
+**Tunísia (TN)**
+
+- [x] `tn.mf` — Matricule fiscal — Matricule fiscal tunisien
+
+**África do Sul (ZA)**
 
 - [x] `za.idnr` — ID number — South African Identity Document number
 - [x] `za.tin` — TIN — South African Tax Identification Number
-
-**Tunisia (TN)**
-
-- [x] `tn.mf` — Matricule fiscal — Matricule fiscal tunisien

@@ -1,27 +1,27 @@
-# Testing
+# Testes
 
-`mvn verify` runs **19,776 tests**. Almost none of them were written one at a
-time. This page explains how that number is reached, so that adding a number
-type means adding data rather than adding test code.
+`mvn verify` roda **19.776 testes**. Quase nenhum deles foi escrito um a um.
+Esta página explica como se chega a esse número, para que adicionar um tipo de
+número signifique adicionar dados, e não adicionar código de teste.
 
-## Running them
+## Como rodar
 
 ```bash
-mvn verify                            # everything
-mvn -pl stdnum-br test                # one module
+mvn verify                            # tudo
+mvn -pl stdnum-br test                # um módulo
 mvn -pl stdnum-eu test -Dtest=EsNifTest
-mvn -pl stdnum-all test               # the cross-module tests only
+mvn -pl stdnum-all test               # só os testes entre módulos
 ```
 
-CI runs `mvn -B -ntp verify` on JDK 17 and 21, and then compiles `tools/*.java`
-separately — the data file generators are not Maven modules, so this is what
-keeps a refactor from breaking them unnoticed.
+A CI roda `mvn -B -ntp verify` no JDK 17 e no 21, e depois compila
+`tools/*.java` à parte — os geradores de arquivo de dados não são módulos
+Maven, e é isso que impede que uma refatoração os quebre sem ninguém notar.
 
-## The idea: one contract, many types
+## A ideia: um contrato, muitos tipos
 
-Every number type answers the same questions, so the assertions are written
-once, in `stdnum-tck`, and the types supply data. A test class is usually this
-and nothing more:
+Todo tipo de número responde às mesmas perguntas, então as asserções são
+escritas uma vez, no `stdnum-tck`, e os tipos fornecem os dados. Uma classe de
+teste costuma ser isto e nada mais:
 
 ```java
 class EsNifTest extends StdNumContractTest {
@@ -32,12 +32,13 @@ class EsNifTest extends StdNumContractTest {
 }
 ```
 
-That file is 11 lines and runs **22 tests**: the 5 valid and 3 invalid samples
-in its fixture files, the 9 garbage inputs every type gets, the translation
-check, the two fixed checks, and two skips for the format and accessor files it
-does not have. `StdNumContractTest` is mostly `@TestFactory` methods that turn
-each sample line into its own `DynamicTest`, named after the sample, so a
-failure reads:
+Esse arquivo tem 11 linhas e roda **22 testes**: as 5 amostras válidas e as 3
+inválidas dos arquivos de fixture, as 9 entradas-lixo que todo tipo recebe, a
+verificação de tradução, as duas verificações fixas, e dois pulos pelos
+arquivos de formato e de acessor que ele não tem. O `StdNumContractTest` é
+quase todo feito de métodos `@TestFactory` que transformam cada linha de
+amostra num `DynamicTest` próprio, nomeado com a amostra, de modo que uma falha
+se lê assim:
 
 ```
 valid: 39053344705
@@ -45,179 +46,178 @@ invalid: 111.111.111-11
 garbage: abc😀def
 ```
 
-`stdnum-tck` is a published artifact, not a test-jar, so anyone writing a
-number type outside this repository gets the same contract by depending on it.
+O `stdnum-tck` é um artefato publicado, não um test-jar, então quem escrever um
+tipo de número fora deste repositório ganha o mesmo contrato apenas dependendo
+dele.
 
-## What the contract checks
+## O que o contrato verifica
 
-**For every valid sample**
+**Para toda amostra válida**
 
-- `validate(x)` returns a non-empty string and equals `compact(x)`;
-- `compact` and `validate` are idempotent — feeding back the compact form
-  changes nothing;
-- `validate(format(x))` round-trips to the same compact form;
-- surrounding whitespace makes no difference (` \t<number>\n ` validates), the
-  way a number pasted out of a form or a spreadsheet arrives;
-- `isValid` returns true and `check` returns a `Check.Valid` carrying the same
-  compact form.
+- `validate(x)` devolve uma string não vazia e igual a `compact(x)`;
+- `compact` e `validate` são idempotentes — devolver a forma compacta para
+  dentro não muda nada;
+- `validate(format(x))` volta à mesma forma compacta;
+- espaço em branco em volta não faz diferença (` \t<número>\n ` valida), do
+  jeito que um número colado de um formulário ou de uma planilha chega;
+- `isValid` devolve verdadeiro e `check` devolve um `Check.Valid` carregando a
+  mesma forma compacta.
 
-**For every invalid and garbage sample**
+**Para toda amostra inválida e toda entrada-lixo**
 
-- `validate` throws a `ValidationException` subtype — never a
+- `validate` lança uma subclasse de `ValidationException` — nunca
   `NullPointerException`, `IndexOutOfBoundsException`,
   `StringIndexOutOfBoundsException`, `NumberFormatException`,
-  `DateTimeParseException` or any other unchecked exception;
-- `format` refuses what `validate` refuses, so a presentation is always the
-  presentation of a valid number;
-- `isValid` is false and `check` returns a `Check.Invalid` with a non-null
-  error.
+  `DateTimeParseException` nem qualquer outra exceção não verificada;
+- `format` recusa o que o `validate` recusa, de modo que uma apresentação é
+  sempre a apresentação de um número válido;
+- `isValid` é falso e `check` devolve um `Check.Invalid` com erro não nulo.
 
-**Always**
+**Sempre**
 
-- `null` is rejected by `validate` and `compact` with a `ValidationException`,
-  not an NPE;
-- the `Descriptor` has a non-blank id, short name and title;
-- every reason the type gives is translated into every language the library
-  ships (see below).
+- `null` é recusado por `validate` e por `compact` com uma
+  `ValidationException`, não com um NPE;
+- o `Descriptor` tem id, nome curto e título não vazios;
+- todo motivo que o tipo dá está traduzido para todos os idiomas que a
+  biblioteca distribui (veja abaixo).
 
-The garbage list is fixed and applied to every type without anyone writing it
-out: the empty string, three kinds of whitespace, `!!!`, `%%%`, `----`,
-`abc😀def` (a surrogate pair, which is where naive `charAt` loops break), and
-1,024 nines (which is where an `int` accumulator overflows). A type that
-legitimately accepts one of these overrides `garbageSamples()` and says why in
-the override.
+A lista de lixo é fixa e aplicada a todo tipo sem ninguém escrevê-la: a string
+vazia, três formas de espaço em branco, `!!!`, `%%%`, `----`, `abc😀def` (um par
+substituto, que é onde laços ingênuos de `charAt` quebram) e 1.024 noves (que é
+onde um acumulador `int` estoura). Um tipo que legitimamente aceite uma dessas
+sobrescreve `garbageSamples()` e diz por quê na sobrescrita.
 
 ## Fixtures
 
-Samples live in `src/test/resources/fixtures/` of the module that owns the
-type, named after the `Descriptor` id. One number per line, **kept exactly as
-found in the wild** — masks, separators and all. Blank lines and lines
-starting with `#` are ignored, and the `#` lines are where a sample's
-provenance is recorded.
+As amostras ficam em `src/test/resources/fixtures/` do módulo dono do tipo,
+nomeadas conforme o id do `Descriptor`. Um número por linha, **exatamente como
+aparece no mundo real** — máscaras, separadores e tudo. Linhas em branco e
+linhas começando com `#` são ignoradas, e as linhas de `#` são onde se registra
+a procedência da amostra.
 
-| File | Holds | Files | Lines |
+| Arquivo | Contém | Arquivos | Linhas |
 |---|---|---|---|
-| `<id>.txt` | valid numbers | 251 | 13,217 |
-| `<id>-invalid.txt` | numbers that must be rejected | 251 | 1,973 |
-| `<id>-format.txt` | `input<TAB>expected presentation` | 117 | 186 |
-| `<id>-accessor.txt` | `method<TAB>input<TAB>expected` | 52 | 234 |
-| | | **671** | **15,610** |
+| `<id>.txt` | números válidos | 251 | 13.217 |
+| `<id>-invalid.txt` | números que precisam ser recusados | 251 | 1.973 |
+| `<id>-format.txt` | `entrada<TAB>apresentação esperada` | 117 | 186 |
+| `<id>-accessor.txt` | `método<TAB>entrada<TAB>esperado` | 52 | 234 |
+| | | **671** | **15.610** |
 
-The last two exist because the round-trip check does not pin everything down.
-`validate(format(x))` proves `format` produces *something* valid; it does not
-prove it produces `16.727.230/0001-97`. And an accessor —
-`BeBis.getBirthDate`, `AtUid.calcCheckDigit`, `Mac.manufacturer`,
-`FrSiret.toSiren` — is not on the `StdNum` interface at all, so the contract
-cannot reach it. An accessor sample names a public static method of the
-implementation class taking one string, and compares `String.valueOf(result)`
-with the expected text:
+Os dois últimos existem porque a verificação de ida e volta não prende tudo.
+`validate(format(x))` prova que o `format` produz *alguma coisa* válida; não
+prova que produz `16.727.230/0001-97`. E um acessor — `BeBis.getBirthDate`,
+`AtUid.calcCheckDigit`, `Mac.manufacturer`, `FrSiret.toSiren` — nem está na
+interface `StdNum`, então o contrato não alcança. Uma amostra de acessor nomeia
+um método público estático da classe de implementação que recebe uma string, e
+compara `String.valueOf(resultado)` com o texto esperado:
 
 ```
 getBirthDate	75.46.08-980.95	1975-06-08
 getGender	85473500193	M
 ```
 
-A missing fixture file is not a failure — it aborts as a skipped assumption
-naming the file it wanted. That is where the 333 skips in a green build come
-from, exactly: of the 251 contract test classes, 134 have no format file
-(their presentation *is* the compact form) and 199 have no accessor file (they
-expose no accessors). Every one of the 251 has both a valid and an invalid
-file, which is why neither of those factories ever aborts. A missing **valid**
-or **invalid** file is worth noticing; a missing format or accessor file
-usually means there is nothing to say.
+Um arquivo de fixture faltando não é falha — ele aborta como uma premissa
+pulada, nomeando o arquivo que queria. É daí que vêm os 333 pulos de um build
+verde, exatamente: das 251 classes de teste de contrato, 134 não têm arquivo de
+formato (a apresentação delas *é* a forma compacta) e 199 não têm arquivo de
+acessor (não expõem acessores). Todas as 251 têm arquivo válido e inválido, e é
+por isso que nenhuma dessas duas fábricas jamais aborta. Um arquivo **válido**
+ou **inválido** faltando merece atenção; um de formato ou de acessor faltando
+costuma significar que não há nada a dizer.
 
-## Where the samples came from
+## De onde vieram as amostras
 
-The corpus is not invented. It is, in order of preference:
+O corpus não é inventado. Ele é, em ordem de preferência:
 
-1. the worked examples the issuing authority publishes (the SINTEGRA *Roteiro
-   de Crítica* pages, Hacienda's cédula documentation, the SWIFT IBAN
-   registry's own examples);
-2. the vectors python-stdnum tests against, imported mechanically and then
-   re-checked here;
-3. numbers derived by hand from a published check digit routine, marked as
-   such in a `#` comment.
+1. os exemplos resolvidos que o órgão emissor publica (as páginas do *Roteiro
+   de Crítica* do SINTEGRA, a documentação de cédula da Hacienda, os exemplos
+   do próprio registro IBAN da SWIFT);
+2. os vetores contra os quais o python-stdnum testa, importados mecanicamente e
+   depois reconferidos aqui;
+3. números derivados à mão de uma rotina de dígito verificador publicada,
+   marcados como tal num comentário `#`.
 
-Validation behaviour was compared against python-stdnum number by number over
-13,255 vectors and agrees on all of them. `format` agrees on 152 of 169
-comparable cases; the divergences are deliberate and each is documented in the
-Javadoc of the type that diverges — chiefly that `format` here refuses an
-invalid number where the reference regroups it and hands back a well-dressed
-string.
+O comportamento de validação foi comparado com o do python-stdnum número a
+número, ao longo de 13.255 vetores, e concorda em todos eles. O `format`
+concorda em 152 de 169 casos comparáveis; as divergências são deliberadas e
+cada uma está documentada no Javadoc do tipo que diverge — principalmente a de
+que aqui o `format` recusa um número inválido, enquanto a referência o
+reagrupa e devolve uma string bem-vestida.
 
-That comparison is a one-off oracle, not part of the build: python-stdnum is a
-reference, and nothing in this repository depends on it or copies from it.
+Essa comparação é um oráculo de uma vez só, não parte do build: o python-stdnum
+é referência, e nada neste repositório depende dele ou copia dele.
 
-## The translation check
+## A verificação de tradução
 
-`everyReasonIsTranslated` walks the invalid and garbage samples, collects the
-`Message` each rejection carries, and asserts that a code-bearing message has
-a key in the translation file of every language the library ships (today, `pt`).
+`everyReasonIsTranslated` percorre as amostras inválidas e de lixo, recolhe a
+`Message` que cada recusa carrega, e afirma que uma mensagem com código tem
+chave no arquivo de tradução de todo idioma que a biblioteca distribui (hoje,
+`pt`).
 
-It reads the `.properties` file directly rather than asking `Messages` how the
-sentence came out — and that distinction is the whole point of the test. An
-untranslated code falls back to the sentence for its `ValidationError`, which
-*is* translated, so rendering can never reveal a missing key. Asking the file
-can.
+Ela lê o arquivo `.properties` diretamente em vez de perguntar ao `Messages`
+como a frase saiu — e essa distinção é o sentido inteiro do teste. Um código
+sem tradução cai na frase do `ValidationError` dele, que *está* traduzida, de
+modo que renderizar nunca revela uma chave faltando. Perguntar ao arquivo,
+sim.
 
-A type that ships translations in another language overrides `translations()`
-and the same check covers it.
+Um tipo que distribua traduções em outro idioma sobrescreve `translations()` e
+a mesma verificação passa a cobri-lo.
 
-## Beyond the contract
+## Além do contrato
 
-The contract is the floor. A type with anything interesting about it also gets
-hand-written tests, in the same class, for the things a generic contract
-cannot know:
+O contrato é o piso. Um tipo com qualquer coisa interessante também ganha
+testes escritos à mão, na mesma classe, para o que um contrato genérico não tem
+como saber:
 
 ```java
 @Test
 void unicodeSeparatorsAreCleaned() {
-    // en dash instead of hyphen, as pasted from formatted documents
+    // travessão no lugar do hífen, como colado de documento formatado
     assertEquals("39053344705", Cpf.INSTANCE.validate("390.533.447–05"));
 }
 ```
 
-Two patterns recur:
+Dois padrões se repetem:
 
-- **A table test for a family.** `SintegraExamplesTest` holds one worked
-  example per Brazilian federative unit, asserts that all 27 are present, and
-  mutates each valid example's final check digit to prove it is then rejected.
-  This is why the 24 state registrations that have no fixture file of their own
-  are still covered.
-- **A cross-module test.** Anything needing more than one module lives in
-  `stdnum-all`: the IBAN, VATIN, EU VAT and EU excise dispatchers only reach
-  their national rules when every regional jar is on the classpath.
+- **Um teste de tabela para uma família.** O `SintegraExamplesTest` guarda um
+  exemplo resolvido por unidade federativa, afirma que as 27 estão presentes, e
+  altera o último dígito verificador de cada exemplo válido para provar que ele
+  passa a ser recusado. É por isso que as 24 inscrições estaduais que não têm
+  arquivo de fixture próprio continuam cobertas.
+- **Um teste entre módulos.** Tudo que precisa de mais de um módulo mora no
+  `stdnum-all`: os despachantes de IBAN, VATIN, EU VAT e excise só alcançam as
+  regras nacionais quando todo jar regional está no classpath.
 
-## The registry sweep
+## A varredura do registry
 
-`AllRegisteredContractTest` in `stdnum-all` iterates the registry without
-knowing what is in it, and hits every discovered type with `null` and the
-garbage list. A module that registers a fragile validator fails here **even if
-it ships no tests of its own**.
+O `AllRegisteredContractTest`, no `stdnum-all`, percorre o registry sem saber o
+que há nele, e acerta todo tipo descoberto com `null` e com a lista de lixo. Um
+módulo que registre um validador frágil falha aqui **mesmo que não traga teste
+nenhum**.
 
-It also asserts hard counts — 273 registered types, 37 for Brazil, 10 for
-Spain, 7 for France — and that the international types carry no country. Those
-numbers are a tripwire: adding a type without registering it, or registering
-one twice, fails here. Adding a type therefore means updating this test on
-purpose. See
-[CONTRIBUTING.md](CONTRIBUTING.md#adding-a-number-type).
+Ele também afirma contagens fixas — 273 tipos registrados, 37 do Brasil, 10 da
+Espanha, 7 da França — e que os tipos internacionais não carregam país. Esses
+números são um arame de tropeço: adicionar um tipo sem registrá-lo, ou
+registrá-lo duas vezes, falha aqui. Adicionar um tipo, portanto, significa
+atualizar este teste de propósito. Veja
+[CONTRIBUTING.md](CONTRIBUTING.md#adicionar-um-tipo-de-número).
 
-## Where the tests are
+## Onde estão os testes
 
-| Module | Tests | Skipped |
+| Módulo | Testes | Pulados |
 |---|---:|---:|
 | `stdnum-core` | 80 | 0 |
 | `stdnum-tck` | 28 | 2 |
 | `stdnum-br` | 423 | 25 |
-| `stdnum-international` | 2,715 | 31 |
-| `stdnum-eu` | 6,702 | 180 |
-| `stdnum-latam` | 3,677 | 27 |
+| `stdnum-international` | 2.715 | 31 |
+| `stdnum-eu` | 6.702 | 180 |
+| `stdnum-latam` | 3.677 | 27 |
 | `stdnum-na` | 353 | 13 |
-| `stdnum-apac` | 3,069 | 35 |
-| `stdnum-africa` | 1,269 | 13 |
-| `stdnum-all` | 1,460 | 7 |
-| **Total** | **19,776** | **333** |
+| `stdnum-apac` | 3.069 | 35 |
+| `stdnum-africa` | 1.269 | 13 |
+| `stdnum-all` | 1.460 | 7 |
+| **Total** | **19.776** | **333** |
 
-`stdnum-tck` tests itself against a `DummyNumber` that exists only to prove
-the contract catches what it claims to, and `RegistryIntegrationTest` proves a
-type registered through `ServiceLoader` is found by `StdNums`.
+O `stdnum-tck` testa a si mesmo contra um `DummyNumber` que existe só para
+provar que o contrato pega o que diz pegar, e o `RegistryIntegrationTest` prova
+que um tipo registrado por `ServiceLoader` é achado pelo `StdNums`.

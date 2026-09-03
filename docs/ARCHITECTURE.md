@@ -1,58 +1,58 @@
-# Architecture
+# Arquitetura
 
-The library answers one question — *is this string a valid such-and-such
-number, and what does it look like written properly* — for 273 kinds of
-number. Everything here exists to keep that one question answered the same
-way 273 times.
+A biblioteca responde a uma pergunta — *esta string é um número tal-e-tal
+válido, e como ele fica escrito direito* — para 273 tipos de número. Tudo aqui
+existe para manter essa única pergunta respondida do mesmo jeito 273 vezes.
 
-## One interface, and nothing else to learn
+## Uma interface, e nada mais para aprender
 
-A number type is a class that implements `StdNum`:
+Um tipo de número é uma classe que implementa `StdNum`:
 
 ```java
 public interface StdNum {
     Descriptor descriptor();
-    String compact(String number);         // minimal representation
-    String validate(String number);        // validates AND returns the compact form
+    String compact(String number);         // representação mínima
+    String validate(String number);        // valida E devolve a forma compacta
     default boolean isValid(String number);
-    default Check check(String number);    // exception-free result: Valid | Invalid
-    default String format(String number);  // the presentation people expect
+    default Check check(String number);    // resultado sem exceção: Valid | Invalid
+    default String format(String number);  // a apresentação que as pessoas esperam
 }
 ```
 
-Two methods are abstract; four have defaults written once in the interface.
-`isValid` and `check` are `validate` with its failure caught, and `format`
-defaults to `validate` — a type whose canonical presentation is its compact
-form gets a correct `format` by writing nothing.
+Dois métodos são abstratos; quatro têm implementação padrão escrita uma vez na
+interface. `isValid` e `check` são o `validate` com a falha capturada, e
+`format` cai no `validate` — um tipo cuja apresentação canônica é a própria
+forma compacta ganha um `format` correto sem escrever nada.
 
-The instance is a stateless singleton, by convention `Xyz.INSTANCE` with a
-private constructor. There is no factory, no configuration object and no
-builder to learn: `Cpf.INSTANCE.validate(input)` is the whole API.
+A instância é um singleton sem estado, por convenção `Xyz.INSTANCE` com
+construtor privado. Não há fábrica, objeto de configuração nem builder para
+aprender: `Cpf.INSTANCE.validate(entrada)` é a API inteira.
 
-`validate` returning the compact form rather than `void` or `boolean` is the
-one decision the rest follows from. It means the common case — *check this,
-then store it* — is a single call, and it is what lets `isValid`, `check` and
-`format` be defaults instead of 273 hand-written copies.
+`validate` devolver a forma compacta em vez de `void` ou `boolean` é a decisão
+da qual o resto decorre. É o que faz o caso comum — *confira isto, depois
+guarde* — caber em uma chamada só, e é o que permite que `isValid`, `check` e
+`format` sejam defaults em vez de 273 cópias escritas à mão.
 
-## Three pillars
+## Três pilares
 
-Everything the caller sees is one of three things.
+Tudo que quem chama enxerga é uma destas três coisas.
 
-**`Descriptor`** says what the number *is*. A record of id, country, short
-name, title, description, tags and reference URLs, built through a small
-fluent builder and validated in its compact constructor: the id must match
-`[a-z0-9]+([._-][a-z0-9]+)*`, the country must be two letters, the tag set is
-copied into an immutable `EnumSet`. It is the registry key, the documentation
-and the metadata in one object, and it is built once per type as a `static
-final` field.
+**`Descriptor`** diz o que o número *é*. Um record com id, país, nome curto,
+título, descrição, tags e URLs de referência, construído por um builder fluente
+pequeno e validado no construtor compacto: o id tem que casar com
+`[a-z0-9]+([._-][a-z0-9]+)*`, o país tem que ter duas letras, o conjunto de
+tags é copiado para um `EnumSet` imutável. É a chave do registry, a
+documentação e os metadados no mesmo objeto, e é construído uma vez por tipo
+como campo `static final`.
 
-**`Tag`** says what the number is *for*: `TAX`, `VAT`, `EXCISE`, `PERSON`,
+**`Tag`** diz para que o número *serve*: `TAX`, `VAT`, `EXCISE`, `PERSON`,
 `COMPANY`, `BANK`, `PAYMENT`, `FINANCIAL`, `HEALTH`, `VEHICLE`, `POSTAL`,
-`TELECOM`, `MEDIA`, `PRODUCT`, `EDUCATION`, `LOCATION`, `OTHER`. A number
-carries several — a personal tax number is both `TAX` and `PERSON` — and the
-registry indexes them, so "every VAT number this library knows" is one call.
+`TELECOM`, `MEDIA`, `PRODUCT`, `EDUCATION`, `LOCATION`, `OTHER`. Um número
+carrega várias — um número fiscal de pessoa física é `TAX` e `PERSON` — e o
+registry as indexa, então "todo número de VAT que esta biblioteca conhece" é
+uma chamada.
 
-**`Check`** says what happened. A sealed interface with two records:
+**`Check`** diz o que aconteceu. Uma interface selada com dois records:
 
 ```java
 public sealed interface Check {
@@ -61,188 +61,190 @@ public sealed interface Check {
 }
 ```
 
-Sealed, and its two cases are records nested inside it, so a `switch` over a
-`Check` is exhaustive and the compiler says so. This is the entry point for
-code that treats an invalid number as an expected outcome rather than an
-exception — a form, a spreadsheet import, a batch job.
+Selada, e seus dois casos são records aninhados dentro dela, então um `switch`
+sobre um `Check` é exaustivo e o compilador garante isso. É o ponto de entrada
+para código que trata número inválido como resultado esperado, não como
+exceção — um formulário, uma importação de planilha, um job em lote.
 
-## Failing
+## Falhar
 
-`validate` throws when the number is wrong. The hierarchy is four classes
-deep and no deeper:
+`validate` lança quando o número está errado. A hierarquia tem quatro classes e
+para por aí:
 
 ```
 ValidationException          (unchecked)
-├── InvalidFormatException   the characters are wrong
-│   └── InvalidLengthException   the characters are right, the count is not
-├── InvalidChecksumException the check digit does not close
-└── InvalidComponentException a part of the number names something that
-                             does not exist (a province, a bank, a date)
+├── InvalidFormatException   os caracteres estão errados
+│   └── InvalidLengthException   os caracteres estão certos, a quantidade não
+├── InvalidChecksumException o dígito verificador não fecha
+└── InvalidComponentException uma parte do número nomeia algo que não existe
+                             (uma província, um banco, uma data)
 ```
 
-`InvalidLengthException` extends `InvalidFormatException` because a caller
-who wants to catch "malformed" should not have to name both. Each maps to one
-of four `ValidationError` enum constants, which is what `Check.Invalid`
-carries.
+`InvalidLengthException` estende `InvalidFormatException` porque quem quer
+capturar "malformado" não deveria precisar nomear as duas. Cada uma mapeia para
+uma das quatro constantes do enum `ValidationError`, que é o que o
+`Check.Invalid` carrega.
 
-The exceptions are built with `super(message, null, false, false)`: no
-suppression, **no stack trace**. Filling in a stack trace costs more than
-every validation in this library put together, and the stack of a validation
-failure tells nobody anything — the useful information is the number and the
-reason, both of which are already there. They are signalling, not error
-reporting. This is why `isValid` can be implemented as a caught exception
-without apology.
+As exceções são construídas com `super(message, null, false, false)`: sem
+supressão, **sem stack trace**. Preencher um stack trace custa mais do que
+todas as validações desta biblioteca somadas, e a pilha de uma falha de
+validação não conta nada a ninguém — a informação útil é o número e o motivo,
+e os dois já estão ali. Elas são sinalização, não relato de erro. É por isso
+que `isValid` pode ser implementado como uma exceção capturada sem pedir
+desculpa.
 
-## Saying why, in a language
+## Dizer por quê, num idioma
 
-`getMessage()` and `Check.Invalid.reason()` are English, which is what belongs
-in a log. To show a failure to a person, hand it to a `Messages` for their
-locale. The library never picks one, holds no global state, and never reads
+`getMessage()` e `Check.Invalid.reason()` são em inglês, que é o que pertence a
+um log. Para mostrar a falha a uma pessoa, entregue-a a um `Messages` do idioma
+dela. A biblioteca nunca escolhe um, não guarda estado global e nunca lê
 `Locale.getDefault()`:
 
 ```java
 Messages pt = Messages.forLocale(Locale.forLanguageTag("pt-BR"));
 
-switch (cpf.check(input)) {
-    case Check.Valid v   -> store(v.compact());
-    case Check.Invalid i -> reject(pt.render(i));
+switch (cpf.check(entrada)) {
+    case Check.Valid v   -> guardar(v.compact());
+    case Check.Invalid i -> recusar(pt.render(i));
 }
 ```
 
-A `Message` is a record of *anchor class*, *code*, *English default text* and
-*arguments*. Resolution has three tiers, tried in order:
+Uma `Message` é um record com *classe âncora*, *código*, *texto padrão em
+inglês* e *argumentos*. A resolução tem três níveis, tentados nesta ordem:
 
-1. the message's own code, in the translation file beside the anchor class —
-   so a module ships its translations inside its own jar;
-2. `error.<NAME>` for the `ValidationError` — four sentences that every
-   translation carries;
-3. the English the validator was written with.
+1. o código da própria mensagem, no arquivo de tradução ao lado da classe
+   âncora — assim um módulo leva suas traduções dentro do próprio jar;
+2. `error.<NOME>` do `ValidationError` — quatro frases que toda tradução
+   carrega;
+3. o inglês com que o validador foi escrito.
 
-A translation is therefore never all-or-nothing: an untranslated code costs a
-less specific sentence, not an English one. Interpolation is `{0}`-style and
-hand-written, not `MessageFormat`, because `MessageFormat` eats apostrophes —
-and apostrophes are unavoidable in the languages this will be translated into.
+Uma tradução, portanto, nunca é tudo-ou-nada: um código sem tradução custa uma
+frase menos específica, não uma frase em inglês. A interpolação é no estilo
+`{0}` e escrita à mão, não `MessageFormat`, porque o `MessageFormat` come
+apóstrofos — e apóstrofo é inevitável nos idiomas para os quais isto vai ser
+traduzido.
 
-Translation files are `messages_<language>[_<COUNTRY>].properties`, read as
-UTF-8 through `getResourceAsStream` from the anchor's package. There is
-deliberately no `messages.properties`: English lives in the Java source, once,
-next to the `throw`. The language file is read first and the country file
-overlaid on it, so `pt` serves pt-BR, pt-PT and pt-419, and a country file
-only carries what actually differs.
+Os arquivos de tradução são `messages_<idioma>[_<PAÍS>].properties`, lidos como
+UTF-8 via `getResourceAsStream` a partir do pacote da âncora. Não existe
+`messages.properties` de propósito: o inglês mora no código Java, uma vez, ao
+lado do `throw`. O arquivo do idioma é lido primeiro e o do país sobreposto a
+ele, então `pt` atende pt-BR, pt-PT e pt-419, e um arquivo de país só carrega o
+que realmente difere.
 
-Reasons that more than one number gives — a birth date that is not a date, a
-serial of all zeroes, a province code that names no province — live once in
-`Reasons` as immutable constants, so they are translated once and read the
-same everywhere.
+Motivos que mais de um número dá — uma data de nascimento que não é data, um
+serial só de zeros, um código de província que não nomeia província nenhuma —
+moram uma vez em `Reasons`, como constantes imutáveis, então são traduzidos uma
+vez e leem igual em todo lugar.
 
-## The registry
+## O registry
 
-Implementations register through `StdNumProvider`, a `ServiceLoader` service.
-Each module has exactly one provider class listing its types, declared in
-`META-INF/services/io.github.jefersonsantos06.stdnum.spi.StdNumProvider`.
-`StdNums` loads them once and indexes by id, country and tag:
+As implementações se registram por `StdNumProvider`, um serviço de
+`ServiceLoader`. Cada módulo tem exatamente uma classe de provider listando
+seus tipos, declarada em
+`META-INF/services/io.github.jefersonsantos06.stdnum.spi.StdNumProvider`. O
+`StdNums` carrega todas uma vez e indexa por id, país e tag:
 
 ```java
-StdNums.all();                        // every type on the classpath
+StdNums.all();                        // todo tipo no classpath
 StdNums.byId("br.cpf");               // Optional<StdNum>
 StdNums.byCountry("BR");              // List<StdNum>
-StdNums.byCountry(locale);            // the country of a Locale you already hold
-StdNums.byCountry("ES", "nif");       // one type of a country, by short name
+StdNums.byCountry(locale);            // o país de um Locale que você já tem
+StdNums.byCountry("ES", "nif");       // um tipo de um país, pelo nome curto
 StdNums.byTag(Tag.VAT);
 ```
 
-The registry is what makes the dispatching types possible without a cyclic
-dependency: `iban` looks up the national IBAN rule for a country through
-`StdNums.byCountry(cc, "iban")`, and `vatin` finds the national VAT type the
-same way. Neither imports a country class. Put a different set of modules on
-the classpath and the same dispatcher covers a different set of countries.
+O registry é o que torna possíveis os tipos despachantes sem dependência
+cíclica: o `iban` procura a regra nacional de IBAN de um país por
+`StdNums.byCountry(cc, "iban")`, e o `vatin` acha o tipo nacional de VAT do
+mesmo jeito. Nenhum dos dois importa uma classe de país. Ponha outro conjunto
+de módulos no classpath e o mesmo despachante cobre outro conjunto de países.
 
-## Modules
+## Módulos
 
-| Module | Depends on | Contains |
+| Módulo | Depende de | Contém |
 |---|---|---|
-| `stdnum-core` | *(nothing)* | The SPI, the check digit algorithms, the `NumDb` prefix database, the text helpers, the registry. |
-| `stdnum-tck` | core | The reusable contract test. Consumed at `test` scope. |
-| `stdnum-international` | core | Country-independent numbers, and the `iban`/`vatin`/`eu.vat`/`eu.excise` dispatchers. |
-| `stdnum-br` | core | Brazil. |
-| `stdnum-eu` | core, **international** | Europe. |
-| `stdnum-latam` | core | Latin America. |
-| `stdnum-na` | core | North America. |
-| `stdnum-apac` | core | Asia-Pacific. |
-| `stdnum-africa` | core | Africa. |
-| `stdnum-all` | all of the above | No code. An aggregator, and the home of the tests that need every module at once. |
+| `stdnum-core` | *(nada)* | A SPI, os algoritmos de dígito verificador, o banco de prefixos `NumDb`, os utilitários de texto, o registry. |
+| `stdnum-tck` | core | O teste de contrato reutilizável. Consumido em escopo `test`. |
+| `stdnum-international` | core | Números independentes de país, e os despachantes `iban`/`vatin`/`eu.vat`/`eu.excise`. |
+| `stdnum-br` | core | Brasil. |
+| `stdnum-eu` | core, **international** | Europa. |
+| `stdnum-latam` | core | América Latina. |
+| `stdnum-na` | core | América do Norte. |
+| `stdnum-apac` | core | Ásia-Pacífico. |
+| `stdnum-africa` | core | África. |
+| `stdnum-all` | todos acima | Sem código. Um agregador, e a casa dos testes que precisam de todos os módulos ao mesmo tempo. |
 
-Every regional module depends on `stdnum-core` alone. The single exception is
-`stdnum-eu`, which also depends on `stdnum-international`, because a Spanish,
-Montenegrin or Norwegian IBAN *is* an IBAN with a national rule on top and
-inherits its structure.
+Todo módulo regional depende só do `stdnum-core`. A única exceção é o
+`stdnum-eu`, que também depende do `stdnum-international`, porque um IBAN
+espanhol, montenegrino ou norueguês *é* um IBAN com uma regra nacional por
+cima, e herda a estrutura dele.
 
-**The dependency runs one way.** The international module never imports a
-country class; it reaches country types through the registry. That rule is
-what keeps the graph acyclic while letting `iban` behave as if it knew about
-Spain.
+**A dependência corre num sentido só.** O módulo internacional nunca importa
+uma classe de país; ele alcança tipos nacionais pelo registry. É essa regra que
+mantém o grafo acíclico e ao mesmo tempo deixa o `iban` se comportar como se
+soubesse da Espanha.
 
-A consumer takes only the regions it needs. Someone validating Brazilian
-documents pulls `stdnum-br` and gets `stdnum-core`, not 128 European types.
+Quem consome leva só as regiões de que precisa. Alguém validando documentos
+brasileiros puxa `stdnum-br` e ganha `stdnum-core`, não 128 tipos europeus.
 
-Every jar declares an `Automatic-Module-Name`
-(`io.github.jefersonsantos06.stdnum`, `.br`, `.eu`, …), so consumers on the
-module path get named modules rather than filename-derived ones. Nothing here
-declares a `module-info`.
+Todo jar declara um `Automatic-Module-Name`
+(`io.github.jefersonsantos06.stdnum`, `.br`, `.eu`, …), para que quem estiver
+no module path ganhe módulos nomeados em vez de nomes derivados do arquivo.
+Nada aqui declara `module-info`.
 
-## Inside `stdnum-core`
+## Dentro do `stdnum-core`
 
 ```
-io.github.jefersonsantos06.stdnum          StdNums — the registry
+io.github.jefersonsantos06.stdnum          StdNums — o registry
                                     .spi   StdNum, Descriptor, Tag, Check,
-                                           the exceptions, Message, Messages,
+                                           as exceções, Message, Messages,
                                            Reasons, StdNumProvider
                                     .algo  Luhn, Damm, Verhoeff, Iso7064,
                                            Mod97, Weighted, Crc16
-                                    .numdb NumDb — the prefix database
+                                    .numdb NumDb — o banco de prefixos
                                     .text  Strings, Resources
 ```
 
-`algo` is the arithmetic, and only the arithmetic: `Luhn.calcCheckDigit`,
-`Weighted.mod11CheckDigit`, `Iso7064.MOD_11_2.validate`. No class in `algo`
-knows what a CPF is, and a validator is usually three lines of `Strings`
-cleaning plus one line of `algo`.
+`algo` é a aritmética, e só a aritmética: `Luhn.calcCheckDigit`,
+`Weighted.mod11CheckDigit`, `Iso7064.MOD_11_2.validate`. Nenhuma classe de
+`algo` sabe o que é um CPF, e um validador costuma ser três linhas de limpeza
+com `Strings` mais uma linha de `algo`.
 
-`Strings.compact(number, " -./")` strips the separators a number is written
-with and is what `compact` is nearly always implemented as. Before stripping
-them it folds the Unicode look-alikes that arrive when a number is pasted out
-of a formatted document: the twenty-three dash variants become `-`, sixteen
-space variants become `' '`, and fullwidth, Arabic-Indic and mathematical
-digits become ASCII digits. An en dash where a hyphen was meant is the single
-most common way a real input fails for no real reason.
+`Strings.compact(number, " -./")` tira os separadores com que o número é
+escrito e é como o `compact` é implementado quase sempre. Antes de tirá-los,
+ele dobra os sósias Unicode que aparecem quando um número é colado de um
+documento formatado: as vinte e três variantes de traço viram `-`, dezesseis
+variantes de espaço viram `' '`, e dígitos de largura completa, arábico-índicos
+e matemáticos viram dígitos ASCII. Um travessão onde deveria haver um hífen é o
+jeito mais comum de uma entrada real falhar sem motivo real.
 
-## Data files
+## Arquivos de dados
 
-Fourteen types need a prefix database: an IBAN needs the BBAN structure of its
-country, an ISBN needs the registration group ranges, a MAC address needs the
-IEEE registry to name the manufacturer. These ship as `.dat` files beside the
-class that reads them, in the format `NumDb` parses: a prefix, then
-`key="value"` properties, one entry per line, indented lines nesting under
-their parent.
+Catorze tipos precisam de um banco de prefixos: um IBAN precisa da estrutura
+BBAN do país dele, um ISBN precisa das faixas de grupo de registro, um endereço
+MAC precisa do registro do IEEE para nomear o fabricante. Eles são distribuídos
+como arquivos `.dat` ao lado da classe que os lê, no formato que o `NumDb`
+interpreta: um prefixo, depois propriedades `chave="valor"`, uma entrada por
+linha, linhas indentadas aninhando sob o pai.
 
-The rule is absolute: **a `.dat` file is generated from its upstream registry
-and never hand-edited.** Each one has a generator in [`tools/`](../tools/README.md),
-a single-file Java program with no dependencies, and a header naming the source
-and version it came from. When a registry publishes new data you re-run the
-generator; you do not patch the file. See
-[CONTRIBUTING.md](CONTRIBUTING.md#regenerating-a-data-file).
+A regra é absoluta: **um arquivo `.dat` é gerado a partir do registro de origem
+e nunca editado à mão.** Cada um tem um gerador em [`tools/`](../tools/README.md),
+um programa Java de arquivo único sem dependências, e um cabeçalho nomeando a
+fonte e a versão de onde veio. Quando um registro publica dados novos, você
+roda o gerador de novo; você não remenda o arquivo. Veja
+[CONTRIBUTING.md](CONTRIBUTING.md#regerar-um-arquivo-de-dados).
 
-## What is deliberately absent
+## O que falta de propósito
 
-- **No dependencies.** `stdnum-core` has none, and no module has one beyond
-  core. Nothing is pulled in for JSON, XML, HTTP or logging.
-- **No global state and no ambient locale.** Nothing reads
-  `Locale.getDefault()`, nothing caches a "current" anything. A `Messages` is
-  a value you hold.
-- **No reflection on the validation path.** The registry uses `ServiceLoader`
-  once at first use; after that everything is a plain virtual call.
-- **No `module-info`.** Automatic module names are enough today, and a real
-  module descriptor would need `opens` on every package that carries a
-  translation file.
-- **No annotations, no processors, no runtime configuration.** A number type
-  is a class with two methods.
+- **Nenhuma dependência.** O `stdnum-core` não tem nenhuma, e nenhum módulo tem
+  além do core. Nada é puxado para JSON, XML, HTTP ou log.
+- **Nenhum estado global e nenhum locale ambiente.** Nada lê
+  `Locale.getDefault()`, nada guarda um "atual" de coisa alguma. Um `Messages`
+  é um valor que você segura.
+- **Nenhuma reflexão no caminho de validação.** O registry usa `ServiceLoader`
+  uma vez, no primeiro uso; depois disso tudo é chamada virtual comum.
+- **Nenhum `module-info`.** Nomes automáticos de módulo bastam hoje, e um
+  descritor de módulo de verdade precisaria de `opens` em todo pacote que leva
+  arquivo de tradução.
+- **Nenhuma anotação, nenhum processador, nenhuma configuração em tempo de
+  execução.** Um tipo de número é uma classe com dois métodos.

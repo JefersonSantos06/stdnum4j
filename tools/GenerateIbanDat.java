@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,17 +18,29 @@ import java.util.regex.Pattern;
  * cross-checked against the structure that was parsed, and a mismatch
  * fails the run rather than emitting a bad record.</p>
  *
- * <p>Usage:</p>
- * <pre>
- *   curl -L -A "Mozilla/5.0" -o iban.html \
- *       https://en.wikipedia.org/wiki/International_Bank_Account_Number
- *   java tools/GenerateIbanDat.java iban.html \
- *       &gt; stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/iban.dat
- * </pre>
  */
-public final class GenerateIbanDat {
+public final class GenerateIbanDat implements Source {
 
-    private GenerateIbanDat() {
+    @Override
+    public String id() {
+        return "iban";
+    }
+
+    @Override
+    public String title() {
+        return "Regenerate iban.dat, the IBAN country registry";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/iban.dat";
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        return List.of(new Download(
+                "https://en.wikipedia.org/wiki/International_Bank_Account_Number",
+                "iban.html"));
     }
 
     private static final Pattern TABLE = Pattern.compile("<table.*?</table>", Pattern.DOTALL);
@@ -40,12 +53,10 @@ public final class GenerateIbanDat {
     private static final Pattern FOOTNOTE = Pattern.compile(" *\\[ [^]]* ]");
     private static final Pattern COUNTRY_CODE = Pattern.compile("[A-Z]{2}");
 
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.err.println("usage: java GenerateIbanDat.java <wikipedia-article.html>");
-            System.exit(2);
-        }
-        String html = Files.readString(Path.of(args[0]), StandardCharsets.UTF_8);
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
+        String html = Files.readString(run.file("iban.html"), StandardCharsets.UTF_8);
+        List<String> skipped = new ArrayList<>();
 
         List<String> entries = new ArrayList<>();
         Matcher tables = TABLE.matcher(html);
@@ -57,19 +68,18 @@ public final class GenerateIbanDat {
             }
             Matcher rows = ROW.matcher(table);
             while (rows.find()) {
-                String entry = parseRow(rows.group(1));
+                String entry = parseRow(rows.group(1), skipped);
                 if (entry != null) {
                     entries.add(entry);
                 }
             }
         }
         if (entries.isEmpty()) {
-            System.err.println("no country rows found: the article layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no country rows found: the article layout has changed");
         }
+        skipped.forEach(run::warn);
         entries.sort(String::compareTo);
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# IBAN country registry: ISO country code, country name and BBAN structure.");
         out.println("# Generated from the \"IBAN formats by country\" table of");
         out.println("# https://en.wikipedia.org/wiki/International_Bank_Account_Number,");
@@ -79,7 +89,7 @@ public final class GenerateIbanDat {
     }
 
     /** One country record, or null when the row is not one. */
-    private static String parseRow(String row) {
+    private static String parseRow(String row, List<String> skipped) {
         List<String> cells = new ArrayList<>();
         Matcher m = CELL.matcher(row);
         while (m.find()) {
@@ -114,7 +124,7 @@ public final class GenerateIbanDat {
         }
         // refuse to emit a record whose parts do not add up
         if (!declaredLength.equals(Integer.toString(total))) {
-            System.err.println("length mismatch for " + code + ": parsed " + total
+            skipped.add("length mismatch for " + code + ": parsed " + total
                     + " but the table declares " + declaredLength + " — skipped");
             return null;
         }

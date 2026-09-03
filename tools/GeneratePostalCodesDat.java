@@ -23,17 +23,7 @@ import java.util.regex.PatternSyntaxException;
  * matches ({@code zip}), examples ({@code zipex}) and a display prefix
  * ({@code postprefix}). The data is licensed CC BY 4.0. Fetch the root, which
  * lists the regions, then one file per region, and pass them all with the
- * date they were retrieved — the service publishes no version:</p>
- *
- * <pre>
- *   base=https://chromium-i18n.appspot.com/ssl-address/data
- *   curl -L -o data.json "$base"
- *   for c in $(grep -o '"countries":"[^"]*"' data.json | cut -d'"' -f4 | tr '~' ' '); do
- *     curl -L -o "$c.json" "$base/$c"
- *   done
- *   java tools/GeneratePostalCodesDat.java 2026-09-03 data.json ??.json \
- *       &gt; stdnum-postal/src/main/resources/io/github/jefersonsantos06/stdnum/postal/postal-codes.dat
- * </pre>
+ * date they were retrieved.</p>
  *
  * <p>The source's regex describes the code as written, separators and all;
  * the library matches the compact form, so the regex is rewritten here to
@@ -45,9 +35,62 @@ import java.util.regex.PatternSyntaxException;
  * a letter {@code A}. Every example is run through the result before it is
  * written: it must match, and it must format back to itself.</p>
  */
-public final class GeneratePostalCodesDat {
+public final class GeneratePostalCodesDat implements Source {
 
-    private GeneratePostalCodesDat() {
+    @Override
+    public String id() {
+        return "postal-codes";
+    }
+
+    @Override
+    public String title() {
+        return "Regenerate postal-codes.dat, the postal code shapes";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-postal/src/main/resources/io/github/jefersonsantos06"
+                + "/stdnum/postal/postal-codes.dat";
+    }
+
+    @Override
+    public List<Download> seeds() {
+        // the index says which regions exist, and there are about 250
+        return List.of(new Download(SOURCE, "data.json"));
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        String countries = first(COUNTRIES, seeds.get("data.json"));
+        if (countries == null) {
+            throw new IllegalStateException(
+                    "no countries in the index: the service layout has changed");
+        }
+        List<Download> all = new ArrayList<>(seeds());
+        for (String code : countries.split("~")) {
+            if (code.matches("[A-Z]{2}")) {
+                all.add(new Download(SOURCE + "/" + code, code + ".json"));
+            }
+        }
+        return all;
+    }
+
+    @Override
+    public List<String> volatileLines() {
+        // the service publishes no version, so the header records when it
+        // was read; that alone is not a change
+        return List.of("^# .*, retrieved [0-9]{4}-[0-9]{2}-[0-9]{2}\\.$");
+    }
+
+    @Override
+    public List<String> redFlags() {
+        return List.of(
+                "stdnum-all/src/test/java/io/github/jefersonsantos06/stdnum/all"
+                        + "/AllRegisteredContractTest.java (the registered total)",
+                "stdnum-postal/src/test/java/io/github/jefersonsantos06/stdnum/postal"
+                        + "/PostalCodeExamplesTest.java (the region count)",
+                "README.md, docs/NUMBERS.md, docs/ARCHITECTURE.md, docs/CONTRIBUTING.md"
+                        + " and docs/TESTING.md (the counts in prose)");
     }
 
     private static final String SOURCE = "https://chromium-i18n.appspot.com/ssl-address/data";
@@ -72,46 +115,23 @@ public final class GeneratePostalCodesDat {
                           String postprefix, String kind) {
     }
 
-    private static int failures;
+    /** What refused its own checks, so the message can say which. */
+    private static final List<String> problems = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
-        if (args.length < 3) {
-            System.err.println("usage: java GeneratePostalCodesDat.java <retrieved-date> "
-                    + "<data.json> <CC.json>...");
-            System.exit(2);
-        }
-        String retrieved = args[0];
-        String root = Files.readString(Path.of(args[1]), StandardCharsets.UTF_8);
-        String countries = first(COUNTRIES, root);
-        if (countries == null) {
-            System.err.println("no countries in " + args[1] + ": the service layout has changed");
-            System.exit(1);
-        }
-        Set<String> wanted = new TreeSet<>();
-        for (String c : countries.split("~")) {
-            if (c.matches("[A-Z]{2}")) {
-                wanted.add(c);
-            }
-        }
-
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
+        String retrieved = run.retrievedOn().toString();
         Map<String, Region> regions = new TreeMap<>();
-        for (int i = 2; i < args.length; i++) {
-            String json = Files.readString(Path.of(args[i]), StandardCharsets.UTF_8);
+        for (Path source : run.files()) {
+            String json = Files.readString(source, StandardCharsets.UTF_8);
             String key = first(KEY, json);
             if (key == null || !key.matches("[A-Z]{2}")) {
-                continue;
+                continue;   // the index itself, which carries no region
             }
             regions.put(key, new Region(key, first(NAME, json), first(ZIP, json),
                     first(ZIPEX, json), first(POSTPREFIX, json), first(KIND, json)));
         }
-        Set<String> missing = new TreeSet<>(wanted);
-        missing.removeAll(regions.keySet());
-        if (!missing.isEmpty()) {
-            System.err.println("regions listed but not passed: " + missing);
-            System.exit(1);
-        }
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# Postal code shapes of every country and territory: the pattern a code");
         out.println("# matches once its separators are gone, the way it is written, and the");
         out.println("# examples its issuer publishes.");
@@ -174,14 +194,14 @@ public final class GeneratePostalCodesDat {
             }
             out.println(line);
         }
-        if (failures > 0) {
-            System.err.println(failures + " region(s) failed their checks; nothing usable was written");
-            System.exit(1);
+        if (!problems.isEmpty()) {
+            throw new IllegalStateException(problems.size()
+                    + " region(s) failed their checks: " + problems);
         }
-        System.err.println("regions: " + regions.size() + ", with a postal code: " + withZip
+        run.warn("regions: " + regions.size() + ", with a postal code: " + withZip
                 + ", with masks: " + withMasks);
         if (!fallbackNames.isEmpty()) {
-            System.err.println("names the JDK does not know, taken from the source: "
+            run.warn("names the JDK does not know, taken from the source: "
                     + fallbackNames);
         }
     }
@@ -454,7 +474,6 @@ public final class GeneratePostalCodesDat {
     }
 
     private static void fail(Region region, String why) {
-        failures++;
-        System.err.println(region.key() + ": " + why);
+        problems.add(region.key() + ": " + why);
     }
 }

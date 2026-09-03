@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -19,28 +20,36 @@ import java.util.Set;
  * Onbeschikbaar/Indisponible (unavailable). Those name no institution, so an
  * account number in one of them belongs to nobody; they are left out.</p>
  *
- * <p>Usage:</p>
- * <pre>
- *   curl -L -o grouped_list_current.xlsx \
- *       https://www.nbb.be/doc/be/be/protocol/grouped_list_current.xlsx
- *   java -cp tools tools/GenerateBeBanksDat.java grouped_list_current.xlsx \
- *       &gt; stdnum-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/be-banks.dat
- * </pre>
  */
-public final class GenerateBeBanksDat {
+public final class GenerateBeBanksDat implements Source {
 
-    private GenerateBeBanksDat() {
+    @Override
+    public String id() {
+        return "be-banks";
     }
 
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.err.println("usage: java GenerateBeBanksDat.java <grouped_list_current.xlsx>");
-            System.exit(2);
-        }
-        List<List<String>> rows = Xlsx.rows(Path.of(args[0]));
+    @Override
+    public String title() {
+        return "Regenerate be-banks.dat, the Belgian bank codes";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/be-banks.dat";
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        return List.of(new Download(
+                "https://www.nbb.be/doc/be/be/protocol/grouped_list_current.xlsx",
+                "grouped_list_current.xlsx"));
+    }
+
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
+        List<List<String>> rows = Xlsx.rows(run.file("grouped_list_current.xlsx"));
         if (rows.size() < 3) {
-            System.err.println("no bank rows found: the spreadsheet layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no bank rows found: the spreadsheet layout has changed");
         }
         String version = cell(rows.get(0), 0);
 
@@ -53,11 +62,9 @@ public final class GenerateBeBanksDat {
             }
         }
         if (entries.isEmpty()) {
-            System.err.println("no bank rows found: the spreadsheet layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no bank rows found: the spreadsheet layout has changed");
         }
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# Belgian bank identification codes: the range of the three-digit code");
         out.println("# each institution holds, with its BIC and its name.");
         out.println("# Generated from grouped_list_current.xlsx downloaded from");

@@ -27,51 +27,64 @@ import java.util.TreeMap;
  * that a company holding a run of blocks costs one entry rather than
  * hundreds.</p>
  *
- * <p>Usage:</p>
- * <pre>
- *   curl -L -o oui.csv    https://standards-oui.ieee.org/oui/oui.csv
- *   curl -L -o mam.csv    https://standards-oui.ieee.org/oui28/mam.csv
- *   curl -L -o oui36.csv  https://standards-oui.ieee.org/oui36/oui36.csv
- *   java tools/GenerateOuiDat.java oui.csv mam.csv oui36.csv \
- *       &gt; stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/oui.dat
- * </pre>
  */
-public final class GenerateOuiDat {
+public final class GenerateOuiDat implements Source {
+
+    @Override
+    public String id() {
+        return "oui";
+    }
+
+    @Override
+    public String title() {
+        return "Regenerate oui.dat, the IEEE MAC address blocks";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/oui.dat";
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        return List.of(
+                new Download("https://standards-oui.ieee.org/oui/oui.csv", "oui.csv"),
+                new Download("https://standards-oui.ieee.org/oui28/mam.csv", "mam.csv"),
+                new Download("https://standards-oui.ieee.org/oui36/oui36.csv", "oui36.csv"));
+    }
+
+    @Override
+    public int timeoutSeconds() {
+        // 3.8 MB from a slow server: measured at about fifty seconds
+        return 240;
+    }
 
     /** Registrations under these names are the registry's own, not a maker's. */
     private static final List<String> UNASSIGNED =
             List.of("IEEE Registration Authority", "Private");
 
-    private GenerateOuiDat() {
-    }
-
-    public static void main(String[] args) throws IOException {
-        if (args.length != 3) {
-            System.err.println("usage: java GenerateOuiDat.java <oui.csv> <mam.csv> <oui36.csv>");
-            System.exit(2);
-        }
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
 
         // MA-L: the whole 24-bit block belongs to one organisation
         Map<String, List<String>> byOrganisation = new TreeMap<>();
-        for (String[] row : rows(Path.of(args[0]))) {
+        for (String[] row : rows(run.file("oui.csv"))) {
             byOrganisation.computeIfAbsent(row[1], k -> new ArrayList<>()).add(row[0]);
         }
 
         // MA-M and MA-S: a subdivision of a 24-bit block, keyed by that block
         Map<String, Map<String, String>> nested = new TreeMap<>();
-        for (String path : new String[] {args[1], args[2]}) {
-            for (String[] row : rows(Path.of(path))) {
+        for (String subdivided : new String[] {"mam.csv", "oui36.csv"}) {
+            for (String[] row : rows(run.file(subdivided))) {
                 nested.computeIfAbsent(row[0].substring(0, 6), k -> new TreeMap<>())
                         .put(row[0].substring(6), row[1]);
             }
         }
 
         if (byOrganisation.isEmpty() || nested.isEmpty()) {
-            System.err.println("no assignments found: the CSV layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no assignments found: the CSV layout has changed");
         }
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# IEEE MAC address block registry: the block each manufacturer holds.");
         out.println("# Generated from the registries published at");
         out.println("#   https://standards-oui.ieee.org/oui/oui.csv      (MA-L, 24 bits)");
@@ -102,8 +115,7 @@ public final class GenerateOuiDat {
         try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
             String header = reader.readLine();
             if (header == null || !header.startsWith("Registry,Assignment,Organization Name")) {
-                System.err.println("unexpected CSV heading in " + path + ": " + header);
-                System.exit(1);
+                throw new IllegalStateException("unexpected CSV heading in " + path + ": " + header);
             }
             String line;
             StringBuilder record = new StringBuilder();

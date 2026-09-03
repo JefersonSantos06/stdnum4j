@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,20 +20,32 @@ import java.util.regex.Pattern;
  * are written as one range, which is how the decimal-place identifiers such
  * as 3100 to 3105 are held.</p>
  *
- * <p>Usage:</p>
- * <pre>
- *   curl -L -o ai.html https://ref.gs1.org/ai/
- *   java tools/GenerateGs1AiDat.java ai.html \
- *       &gt; stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/gs1-ai.dat
- * </pre>
- *
  * <p>The block is walked by counting braces rather than with a JSON library,
  * the generators here having no dependencies. Only the five scalar fields
  * that matter are read; the nested parts are stepped over.</p>
  */
-public final class GenerateGs1AiDat {
+public final class GenerateGs1AiDat implements Source {
 
-    private GenerateGs1AiDat() {
+    @Override
+    public String id() {
+        return "gs1-ai";
+    }
+
+    @Override
+    public String title() {
+        return "Regenerate gs1-ai.dat, the GS1 application identifiers";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/gs1-ai.dat";
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        return List.of(new Download(
+                "https://ref.gs1.org/ai/",
+                "ai.html"));
     }
 
     /** One application identifier, as the file records it. */
@@ -48,22 +61,17 @@ public final class GenerateGs1AiDat {
     private static final Pattern COUNT_FORMAT = Pattern.compile("N[.]*[0-9]+");
     private static final Pattern PART = Pattern.compile("[NXY][0-9]*?[.]*([0-9]+)[\\[\\]]?");
 
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.err.println("usage: java GenerateGs1AiDat.java <ai.html>");
-            System.exit(2);
-        }
-        String html = Files.readString(Path.of(args[0]), StandardCharsets.UTF_8);
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
+        String html = Files.readString(run.file("ai.html"), StandardCharsets.UTF_8);
         Matcher script = SCRIPT.matcher(html);
         if (!script.find()) {
-            System.err.println("no JSON-LD block: the page layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no JSON-LD block: the page layout has changed");
         }
         String json = script.group(1);
         int at = json.indexOf("\"applicationIdentifiers\"");
         if (at < 0) {
-            System.err.println("no application identifiers: the vocabulary has changed");
-            System.exit(1);
+            throw new IllegalStateException("no application identifiers: the vocabulary has changed");
         }
 
         List<Ai> identifiers = new ArrayList<>();
@@ -83,12 +91,10 @@ public final class GenerateGs1AiDat {
                     string(object, "title"), string(object, "description")));
         }
         if (identifiers.isEmpty()) {
-            System.err.println("no application identifiers: the vocabulary has changed");
-            System.exit(1);
+            throw new IllegalStateException("no application identifiers: the vocabulary has changed");
         }
         identifiers.sort((a, b) -> a.ai().compareTo(b.ai()));
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# GS1 application identifiers: the format, name and description of each,");
         out.println("# and whether a separator is required after it.");
         out.println("# Generated from the vocabulary published at https://ref.gs1.org/ai/");

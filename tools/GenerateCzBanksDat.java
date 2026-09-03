@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Generates the cz-banks.dat registry consumed by the CzBankaccount class.
@@ -13,25 +14,34 @@ import java.util.List;
  * as a semicolon-separated file. Its columns are the four-digit code, the
  * institution, its BIC and whether it settles through CERTIS.</p>
  *
- * <p>Usage:</p>
- * <pre>
- *   curl -L -o kody_bank_CR.csv \
- *       https://www.cnb.cz/cs/platebni-styk/.galleries/ucty_kody_bank/download/kody_bank_CR.csv
- *   java tools/GenerateCzBanksDat.java kody_bank_CR.csv \
- *       &gt; stdnum-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/cz-banks.dat
- * </pre>
  */
-public final class GenerateCzBanksDat {
+public final class GenerateCzBanksDat implements Source {
 
-    private GenerateCzBanksDat() {
+    @Override
+    public String id() {
+        return "cz-banks";
     }
 
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.err.println("usage: java GenerateCzBanksDat.java <kody_bank_CR.csv>");
-            System.exit(2);
-        }
-        List<String> lines = Files.readAllLines(Path.of(args[0]), StandardCharsets.UTF_8);
+    @Override
+    public String title() {
+        return "Regenerate cz-banks.dat, the Czech payment system codes";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/cz-banks.dat";
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        return List.of(new Download(
+                "https://www.cnb.cz/cs/platebni-styk/.galleries/ucty_kody_bank/download/kody_bank_CR.csv",
+                "kody_bank_CR.csv"));
+    }
+
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
+        List<String> lines = Files.readAllLines(run.file("kody_bank_CR.csv"), StandardCharsets.UTF_8);
         List<String> entries = new ArrayList<>();
         for (String line : lines) {
             String entry = parseRow(line);
@@ -40,14 +50,12 @@ public final class GenerateCzBanksDat {
             }
         }
         if (entries.isEmpty()) {
-            System.err.println("no bank rows found: the file layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no bank rows found: the file layout has changed");
         }
         entries.sort(String::compareTo);
 
         // the institution names carry Czech diacritics, so the output must be
         // UTF-8 whatever the console the run is redirected from happens to use
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# Czech payment system codes: the four-digit code of each institution,");
         out.println("# its name, its BIC and whether it settles through CERTIS.");
         out.println("# Generated from the code list the Czech National Bank publishes at");

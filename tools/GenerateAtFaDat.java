@@ -3,6 +3,7 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -15,17 +16,29 @@ import java.util.regex.Pattern;
  * the Abgabenkontonummer, which is where the numbers are set out. Each row
  * gives the two-digit office number, the office and its Bundesland.</p>
  *
- * <p>Usage:</p>
- * <pre>
- *   curl -L -o abgabenkontonummer.wiki \
- *     "https://de.wikipedia.org/w/index.php?title=Abgabenkontonummer&amp;action=raw"
- *   java tools/GenerateAtFaDat.java abgabenkontonummer.wiki \
- *       &gt; stdnum-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/at-fa.dat
- * </pre>
  */
-public final class GenerateAtFaDat {
+public final class GenerateAtFaDat implements Source {
 
-    private GenerateAtFaDat() {
+    @Override
+    public String id() {
+        return "at-fa";
+    }
+
+    @Override
+    public String title() {
+        return "Regenerate at-fa.dat, the Austrian tax offices";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/at-fa.dat";
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        return List.of(new Download(
+                "https://de.wikipedia.org/w/index.php?title=Abgabenkontonummer&action=raw",
+                "abgabenkontonummer.wiki"));
     }
 
     /** The table cells, once the row markers have been made unambiguous. */
@@ -35,16 +48,12 @@ public final class GenerateAtFaDat {
     private static final Pattern TAG = Pattern.compile("<[^>]*>");
     private static final Pattern LINK = Pattern.compile("\\[\\[([^]|]*\\|)?([^]|]+)]]");
 
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.err.println("usage: java GenerateAtFaDat.java <abgabenkontonummer.wiki>");
-            System.exit(2);
-        }
-        String page = Files.readString(Path.of(args[0]), StandardCharsets.UTF_8);
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
+        String page = Files.readString(run.file("abgabenkontonummer.wiki"), StandardCharsets.UTF_8);
         int at = page.indexOf("|+ Finanzamtsnummern");
         if (at < 0) {
-            System.err.println("no table of office numbers: the article layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no table of office numbers: the article layout has changed");
         }
 
         Map<String, String[]> offices = new TreeMap<>();
@@ -66,11 +75,9 @@ public final class GenerateAtFaDat {
             }
         }
         if (offices.isEmpty()) {
-            System.err.println("no office rows found: the article layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no office rows found: the article layout has changed");
         }
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# Austrian tax office numbers: the two digits an Abgabenkontonummer opens");
         out.println("# with, and the office and Bundesland they name.");
         out.println("# Generated from the Finanzamtsnummern table of");

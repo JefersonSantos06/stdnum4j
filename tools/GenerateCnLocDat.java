@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,22 +18,38 @@ import java.util.regex.Pattern;
  * <p>Source: the eight Chinese Wikipedia pages listing the administrative
  * division codes, one per numbering region. Pass the raw wikitext of each:</p>
  *
- * <pre>
- *   for i in 1 2 3 4 5 6 7 8; do
- *     curl -L -o "region$i.wiki" \
- *       "https://zh.wikipedia.org/w/index.php?title=%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%88%92%E4%BB%A3%E7%A0%81_($i%E5%8C%BA)&amp;action=raw"
- *   done
- *   java tools/GenerateCnLocDat.java region*.wiki \
- *       &gt; stdnum-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/cn-loc.dat
- * </pre>
- *
  * <p>A county that existed only for a stretch of years is written with that
  * stretch in front of it, as {@code [start-end]name}, so a number can be read
  * against the year the holder was born.</p>
  */
-public final class GenerateCnLocDat {
+public final class GenerateCnLocDat implements Source {
 
-    private GenerateCnLocDat() {
+    @Override
+    public String id() {
+        return "cn-loc";
+    }
+
+    @Override
+    public String title() {
+        return "Regenerate cn-loc.dat, the Chinese administrative divisions";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/cn-loc.dat";
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        List<Download> pages = new ArrayList<>();
+        for (int region = 1; region <= 8; region++) {
+            String title = "\u4e2d\u534e\u4eba\u6c11\u5171\u548c\u56fd"
+                    + "\u884c\u653f\u533a\u5212\u4ee3\u7801_(" + region + "\u533a)";
+            pages.add(new Download("https://zh.wikipedia.org/w/index.php?title="
+                    + URLEncoder.encode(title, StandardCharsets.UTF_8).replace("+", "_")
+                    + "&action=raw", "region" + region + ".wiki"));
+        }
+        return pages;
     }
 
     private static final Pattern PROVINCE =
@@ -55,23 +72,18 @@ public final class GenerateCnLocDat {
     private static final Pattern BETWEEN =
             Pattern.compile("(?<county>.*) +\\((?<start>[0-9]{4})年?-(?<end>[0-9]{4})年\\) *");
 
-    public static void main(String[] args) throws IOException {
-        if (args.length == 0) {
-            System.err.println("usage: java GenerateCnLocDat.java <region.wiki>...");
-            System.exit(2);
-        }
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
         Map<String, String> provinces = new TreeMap<>();
         // province prefix -> the four digits under it -> the counties named
         Map<String, Map<String, TreeSet<String>>> counties = new TreeMap<>();
-        for (String arg : args) {
-            parse(Files.readString(Path.of(arg), StandardCharsets.UTF_8), provinces, counties);
+        for (Path page : run.files()) {
+            parse(Files.readString(page, StandardCharsets.UTF_8), provinces, counties);
         }
         if (provinces.isEmpty()) {
-            System.err.println("no provinces found: the page layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no provinces found: the page layout has changed");
         }
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# Chinese administrative division codes: the province, and the county");
         out.println("# within it that each six-digit code names.");
         out.println("# Generated from the Chinese Wikipedia pages listing the codes region by");

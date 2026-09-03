@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Generates the cfi.dat registry consumed by the Cfi class.
@@ -22,29 +24,58 @@ import java.util.TreeMap;
  * only value is X takes any letter and carries nothing, and is written as a
  * bare {@code A-Z}.</p>
  *
- * <p>Usage:</p>
- * <pre>
- *   curl -L -o cfi.xlsx &lt;the xlsx linked from the page above&gt;
- *   javac -d tools/classes tools/Xlsx.java tools/GenerateCfiDat.java
- *   java -cp tools/classes GenerateCfiDat cfi.xlsx \
- *       &gt; stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/cfi.dat
- * </pre>
  */
-public final class GenerateCfiDat {
+public final class GenerateCfiDat implements Source {
 
-    private GenerateCfiDat() {
+    @Override
+    public String id() {
+        return "cfi";
+    }
+
+    @Override
+    public String title() {
+        return "Regenerate cfi.dat, the ISO 10962 classification";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/cfi.dat";
+    }
+
+    private static final String STANDARDS = "https://www.six-group.com/en/"
+            + "products-services/financial-information/data-standards.html";
+    private static final Pattern SPREADSHEET =
+            Pattern.compile("href=\"([^\"]*/cfi/[^\"]*\\.xlsx)\"");
+
+    @Override
+    public List<Download> seeds() {
+        // the file is published under a dated name, so it has to be found
+        return List.of(new Download(STANDARDS, "six.html"));
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        Matcher link = SPREADSHEET.matcher(seeds.get("six.html"));
+        List<String> found = new ArrayList<>();
+        while (link.find()) {
+            if (!found.contains(link.group(1))) {
+                found.add(link.group(1));
+            }
+        }
+        if (found.size() != 1) {
+            throw new IllegalStateException("the data standards page links "
+                    + found.size() + " CFI spreadsheets, expected one: " + found);
+        }
+        return List.of(new Download(found.get(0), "cfi.xlsx"));
     }
 
     /** One attribute position: what it means, and the letters it takes. */
     private record Attribute(String name, Map<String, String> values) {
     }
 
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.err.println("usage: java GenerateCfiDat.java <cfi.xlsx>");
-            System.exit(2);
-        }
-        Path file = Path.of(args[0]);
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
+        Path file = run.file("cfi.xlsx");
         List<String> groups = new ArrayList<>();
         for (String sheet : Xlsx.sheetNames(file)) {
             if (sheet.length() == 6 && sheet.endsWith("XXXX")) {
@@ -54,11 +85,9 @@ public final class GenerateCfiDat {
         groups.sort(String::compareTo);
         Map<String, String> categories = categories(Xlsx.rows(file, "Categories"));
         if (categories.isEmpty() || groups.isEmpty()) {
-            System.err.println("no categories or groups: the workbook layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no categories or groups: the workbook layout has changed");
         }
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# ISO 10962 CFI codes: the category, the group within it and the four");
         out.println("# attribute positions, nested the way a code is read.");
         out.println("# Generated from the CFI code list published by the SIX group at");

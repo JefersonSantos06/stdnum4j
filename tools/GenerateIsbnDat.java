@@ -15,35 +15,49 @@ import java.util.Map;
  * Generates the isbn.dat prefix database consumed by the Isbn class from the
  * official ISBN International range message.
  *
- * <p>Usage:</p>
- * <pre>
- *   curl -L -o RangeMessage.xml https://www.isbn-international.org/export_rangemessage.xml
- *   java tools/GenerateIsbnDat.java RangeMessage.xml \
- *       &gt; stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/isbn.dat
- * </pre>
- *
  * <p>The output is a NumDb file: for each EAN.UCC prefix (978, 979) one line
  * per group-range rule, then one labelled line per registration group with
  * its publisher ranges as children. Rules with length 0 mark unassigned
  * ranges and are skipped.</p>
  */
-public final class GenerateIsbnDat {
+public final class GenerateIsbnDat implements Source {
 
-    private GenerateIsbnDat() {
+    @Override
+    public String id() {
+        return "isbn";
     }
 
-    public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            System.err.println("usage: java GenerateIsbnDat.java <RangeMessage.xml>");
-            System.exit(2);
-        }
+    @Override
+    public String title() {
+        return "Regenerate isbn.dat, the ISBN registration groups";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/isbn.dat";
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        return List.of(new Download(
+                "https://www.isbn-international.org/export_rangemessage.xml",
+                "RangeMessage.xml"));
+    }
+
+    @Override
+    public List<String> volatileLines() {
+        // the export is built per request: these two differ every time
+        return List.of("^# serial ", "^# date ");
+    }
+
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-        Document doc = factory.newDocumentBuilder().parse(new File(args[0]));
+        Document doc = factory.newDocumentBuilder().parse(run.file("RangeMessage.xml").toFile());
 
         String serial = text(doc, "MessageSerialNumber");
         String date = text(doc, "MessageDate");
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# ISBN prefix and registration group ranges.");
         out.println("# Generated from RangeMessage.xml, downloaded from");
         out.println("# https://www.isbn-international.org/export_rangemessage.xml");

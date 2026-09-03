@@ -18,28 +18,36 @@ import java.util.TreeMap;
  * indentation deep, which is how the account number is read: two digits of
  * bank, then four of branch.</p>
  *
- * <p>Usage:</p>
- * <pre>
- *   curl -L -o BankBranchRegister.xlsx \
- *       https://www.paymentsnz.co.nz/resources/industry-registers/bank-branch-register/download/xlsx/
- *   java -cp tools tools/GenerateNzBanksDat.java BankBranchRegister.xlsx \
- *       &gt; stdnum-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/nz-banks.dat
- * </pre>
  */
-public final class GenerateNzBanksDat {
+public final class GenerateNzBanksDat implements Source {
 
-    private GenerateNzBanksDat() {
+    @Override
+    public String id() {
+        return "nz-banks";
     }
 
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.err.println("usage: java GenerateNzBanksDat.java <BankBranchRegister.xlsx>");
-            System.exit(2);
-        }
-        List<List<String>> rows = Xlsx.rows(Path.of(args[0]));
+    @Override
+    public String title() {
+        return "Regenerate nz-banks.dat, the New Zealand bank branches";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/nz-banks.dat";
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        return List.of(new Download(
+                "https://www.paymentsnz.co.nz/resources/industry-registers/bank-branch-register/download/xlsx/",
+                "BankBranchRegister.xlsx"));
+    }
+
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
+        List<List<String>> rows = Xlsx.rows(run.file("BankBranchRegister.xlsx"));
         if (rows.size() < 2) {
-            System.err.println("no branch rows found: the spreadsheet layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no branch rows found: the spreadsheet layout has changed");
         }
         List<String> headings = rows.get(0);
         int bankNumber = columnOf(headings, "Bank_Number");
@@ -47,8 +55,7 @@ public final class GenerateNzBanksDat {
         int bankName = columnOf(headings, "Bank_Name");
         int branchName = columnOf(headings, "Branch_Information");
         if (bankNumber < 0 || branchNumber < 0 || bankName < 0 || branchName < 0) {
-            System.err.println("missing a column: the spreadsheet headings have changed");
-            System.exit(1);
+            throw new IllegalStateException("missing a column: the spreadsheet headings have changed");
         }
 
         // bank -> its name and its branches, both kept in numeric order
@@ -65,11 +72,9 @@ public final class GenerateNzBanksDat {
                     .putIfAbsent(branch, cell(row, branchName));
         }
         if (bankNames.isEmpty()) {
-            System.err.println("no branch rows found: the spreadsheet layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no branch rows found: the spreadsheet layout has changed");
         }
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# New Zealand bank and branch numbers: the two-digit bank, with its");
         out.println("# branches nested under it.");
         out.println("# Generated from the bank branch register Payments NZ publishes at");

@@ -238,19 +238,21 @@ como arquivos `.dat` ao lado da classe que os lê, no formato que o `NumDb`
 interpreta: um prefixo, depois propriedades `chave="valor"`, uma entrada por
 linha, linhas indentadas aninhando sob o pai.
 
-Um comando regera os dezesseis: `java -cp tools/classes Regenerate`, cujo
-`TARGETS` é o único lugar onde a fonte, o gerador e o destino de cada arquivo
-ficam configurados. Ele roda semanalmente na CI e abre um PR por arquivo que
+Um comando regera os dezesseis: `java -cp tools/classes Regenerate`. Cada
+arquivo é uma classe que implementa `Source` e declara de onde vem e como se
+produz; buscar, escolher o conjunto de caracteres e comparar são do driver,
+uma vez, para todas — não há um segundo jeito de gerar um `.dat`, e por isso
+gerar um e gerar todos não podem divergir. Ele roda semanalmente na CI e abre um PR por arquivo que
 mudou; uma fonte fora do ar vira aviso, não interrupção; e o carimbo de coleta
 no cabeçalho só anda quando o corpo anda, senão haveria um PR por semana sem
 nenhuma mudança de dado. O `postal-codes.dat` exige o JDK 25, porque os nomes
 de país saem do CLDR do próprio JDK.
 
 A regra é absoluta: **um arquivo `.dat` é gerado a partir do registro de origem
-e nunca editado à mão.** Cada um tem um gerador em [`tools/`](../tools/README.md),
-um programa Java de arquivo único sem dependências, e um cabeçalho nomeando a
-fonte e a versão de onde veio. Quando um registro publica dados novos, você
-roda o gerador de novo; você não remenda o arquivo. Veja
+e nunca editado à mão.** Cada um tem uma fonte em [`tools/`](../tools/README.md),
+sem dependências, e um cabeçalho nomeando a origem e a versão de onde veio.
+Quando um registro publica dados novos, você roda o `Regenerate`; você não
+remenda o arquivo. Veja
 [CONTRIBUTING.md](CONTRIBUTING.md#regerar-um-arquivo-de-dados).
 
 ## O que falta de propósito

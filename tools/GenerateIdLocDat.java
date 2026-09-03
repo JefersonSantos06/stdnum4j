@@ -3,6 +3,8 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -18,23 +20,48 @@ import java.util.regex.Pattern;
  * <p>Pass the province list and one regency list per province; the level of
  * each is told from the shape of the codes it holds:</p>
  *
- * <pre>
- *   base=https://sig.bps.go.id/rest-bridging/getwilayah
- *   curl -L -o provinsi.json "$base?level=provinsi"
- *   for p in $(grep -o '"kode_bps":"[0-9]*"' provinsi.json | cut -d'"' -f4); do
- *     curl -L -o "kab-$p.json" "$base?level=kabupaten&amp;parent=$p"
- *   done
- *   java tools/GenerateIdLocDat.java provinsi.json kab-*.json \
- *       &gt; stdnum-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/id-loc.dat
- * </pre>
- *
  * <p>The reference also records an ISO 3166-2 code and an English name for
  * each province. Neither is in this source and neither is what a number is
  * checked against, so neither is invented here.</p>
  */
-public final class GenerateIdLocDat {
+public final class GenerateIdLocDat implements Source {
 
-    private GenerateIdLocDat() {
+    @Override
+    public String id() {
+        return "id-loc";
+    }
+
+    @Override
+    public String title() {
+        return "Regenerate id-loc.dat, the Indonesian regions";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/id-loc.dat";
+    }
+
+    private static final String BRIDGING = "https://sig.bps.go.id/rest-bridging/getwilayah";
+    private static final Pattern PROVINCE_CODE = Pattern.compile("\"kode_bps\":\"([0-9]+)\"");
+
+    @Override
+    public List<Download> seeds() {
+        return List.of(new Download(BRIDGING + "?level=provinsi", "provinsi.json"));
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        List<Download> all = new ArrayList<>(seeds());
+        Matcher code = PROVINCE_CODE.matcher(seeds.get("provinsi.json"));
+        List<String> seen = new ArrayList<>();
+        while (code.find()) {
+            if (!seen.contains(code.group(1))) {
+                seen.add(code.group(1));
+                all.add(new Download(BRIDGING + "?level=kabupaten&parent=" + code.group(1),
+                        "kab-" + code.group(1) + ".json"));
+            }
+        }
+        return all;
     }
 
     /** One record of the service: the Kemendagri code and the name under it. */
@@ -42,16 +69,13 @@ public final class GenerateIdLocDat {
             "\"kode_dagri\"\\s*:\\s*\"([0-9]{2})(?:\\.([0-9]{2}))?\"\\s*,\\s*"
                     + "\"nama_dagri\"\\s*:\\s*\"((?:[^\"\\\\]|\\\\.)*)\"");
 
-    public static void main(String[] args) throws IOException {
-        if (args.length == 0) {
-            System.err.println("usage: java GenerateIdLocDat.java <provinsi.json> <kab-*.json>...");
-            System.exit(2);
-        }
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
         Map<String, String> provinces = new TreeMap<>();
         // province -> its regencies, both in code order
         Map<String, Map<String, String>> regencies = new TreeMap<>();
-        for (String arg : args) {
-            String json = Files.readString(Path.of(arg), StandardCharsets.UTF_8);
+        for (Path source : run.files()) {
+            String json = Files.readString(source, StandardCharsets.UTF_8);
             Matcher record = RECORD.matcher(json);
             while (record.find()) {
                 String province = record.group(1);
@@ -66,11 +90,9 @@ public final class GenerateIdLocDat {
             }
         }
         if (provinces.isEmpty()) {
-            System.err.println("no provinces found: the service layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no provinces found: the service layout has changed");
         }
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# Indonesian administrative region codes: the province a NIK opens with,");
         out.println("# and the regency or city within it.");
         out.println("# Generated from the bridging service of Badan Pusat Statistik at");

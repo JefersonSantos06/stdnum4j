@@ -1,9 +1,11 @@
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,29 +21,52 @@ import java.util.regex.Pattern;
  * gives the networks within it. Pass the raw wikitext of each page, in any
  * order:</p>
  *
- * <pre>
- *   for p in "Mobile_country_code" \
- *            "Mobile_network_codes_in_ITU_region_2xx_(Europe)" \
- *            "Mobile_network_codes_in_ITU_region_3xx_(North_America)" \
- *            "Mobile_network_codes_in_ITU_region_4xx_(Asia)" \
- *            "Mobile_network_codes_in_ITU_region_5xx_(Oceania)" \
- *            "Mobile_network_codes_in_ITU_region_6xx_(Africa)" \
- *            "Mobile_network_codes_in_ITU_region_7xx_(South_America)"; do
- *     curl -L -o "$p.wiki" "https://en.wikipedia.org/w/index.php?title=$p&amp;action=raw"
- *   done
- *   java tools/GenerateImsiDat.java *.wiki \
- *       &gt; stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/imsi.dat
- * </pre>
- *
  * <p>Country names come out as the page's own section headings. The
  * reference keeps a hand-maintained table of about a hundred rewrites for
  * them; that table is judgement about presentation rather than about which
  * numbers exist, so it is not reproduced here. It affects what
  * {@code Imsi.info} reports, never what {@code validate} accepts.</p>
  */
-public final class GenerateImsiDat {
+public final class GenerateImsiDat implements Source {
 
-    private GenerateImsiDat() {
+    @Override
+    public String id() {
+        return "imsi";
+    }
+
+    @Override
+    public String title() {
+        return "Regenerate imsi.dat, the mobile country and network codes";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/imsi.dat";
+    }
+
+    /**
+     * The pages, in the order a repeated code is resolved: a later one
+     * wins, so this order is part of the result and not a detail.
+     */
+    private static final List<String> PAGES = List.of(
+            "Mobile_country_code",
+            "Mobile_network_codes_in_ITU_region_2xx_(Europe)",
+            "Mobile_network_codes_in_ITU_region_3xx_(North_America)",
+            "Mobile_network_codes_in_ITU_region_4xx_(Asia)",
+            "Mobile_network_codes_in_ITU_region_5xx_(Oceania)",
+            "Mobile_network_codes_in_ITU_region_6xx_(Africa)",
+            "Mobile_network_codes_in_ITU_region_7xx_(South_America)");
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        return PAGES.stream()
+                .map(page -> new Download(
+                        "https://en.wikipedia.org/w/index.php?title="
+                                + URLEncoder.encode(page, StandardCharsets.UTF_8)
+                                        .replace("+", "_") + "&action=raw",
+                        page + ".wiki"))
+                .sorted(Comparator.comparing(Download::file))
+                .toList();
     }
 
     /** A section heading, which names the country and sometimes its code. */
@@ -60,16 +85,13 @@ public final class GenerateImsiDat {
     private static final Pattern TEMPLATE = Pattern.compile("\\{\\{.*?}}", Pattern.DOTALL);
     private static final Pattern URL = Pattern.compile("(?i)\\bhttps?://\\S+");
 
-    public static void main(String[] args) throws IOException {
-        if (args.length == 0) {
-            System.err.println("usage: java GenerateImsiDat.java <page.wiki>...");
-            System.exit(2);
-        }
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
         // mcc -> mnc -> properties, both kept in code order
         Map<String, Map<String, Map<String, String>>> operational = new TreeMap<>();
         Map<String, Map<String, Map<String, String>>> retired = new TreeMap<>();
-        for (String arg : args) {
-            parse(Files.readString(Path.of(arg), StandardCharsets.UTF_8), operational, retired);
+        for (Path page : run.files()) {
+            parse(Files.readString(page, StandardCharsets.UTF_8), operational, retired);
         }
         // a network that has been switched off is listed only where nothing
         // operational stands in its place
@@ -81,11 +103,9 @@ public final class GenerateImsiDat {
             }
         }));
         if (operational.isEmpty()) {
-            System.err.println("no networks found: the page layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no networks found: the page layout has changed");
         }
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# Mobile country and network codes: the first digits of an IMSI.");
         out.println("# Generated from the mobile network code tables on Wikipedia, which");
         out.println("# mirror the ITU list: https://en.wikipedia.org/wiki/Mobile_country_code");

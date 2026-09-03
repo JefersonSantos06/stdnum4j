@@ -297,12 +297,14 @@ país dele, em ordem de id. Aquele arquivo é mantido à mão e nada o cobra.
 Quinze classes leem um de dezesseis bancos de prefixo `.dat` — uma delas, o
 `PostalCode`, em nome de 178 tipos. **Esses arquivos são
 gerados e nunca editados à mão** — nem para corrigir uma linha errada, nem para
-acrescentar um banco que falta. Cada um tem um gerador Java de arquivo único em
-[`tools/`](../tools/README.md) com o `curl` e o `java` exatos que o produzem, e
+acrescentar um banco que falta. Cada um vem de uma classe em
+[`tools/`](../tools/README.md) que declara de onde vem e como se produz, e
 cada arquivo carrega um cabeçalho nomeando a fonte e o carimbo de versão dela.
 
-Não é preciso lembrar de nenhum `curl`: um comando regera os dezesseis, e cada
-arquivo só é escrito se mudou.
+Não é preciso lembrar de `curl` nem de argumento nenhum: as classes não são
+programas, não recebem parâmetro e não escolhem onde escrever. Um comando
+regera os dezesseis, e cada arquivo só é escrito se mudou — e regerar um só
+é o mesmo código, então dá o mesmo resultado.
 
 ```bash
 javac -d tools/classes tools/*.java

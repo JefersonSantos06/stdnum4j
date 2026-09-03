@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -17,20 +18,32 @@ import java.util.regex.Pattern;
  * Only the codes marked addressable are emitted; the rest are post office box
  * and internal codes that no address carries.</p>
  *
- * <p>Usage:</p>
- * <pre>
- *   curl -L -o plz.json https://data.rtr.at/api/v1/tables/plz.json
- *   java tools/GenerateAtPostleitzahlDat.java plz.json \
- *       &gt; stdnum-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/at-postleitzahl.dat
- * </pre>
- *
  * <p>The file is small and flat, so it is read with a scanner over its
  * records rather than by pulling in a JSON library: this repository's
  * generators have no dependencies.</p>
  */
-public final class GenerateAtPostleitzahlDat {
+public final class GenerateAtPostleitzahlDat implements Source {
 
-    private GenerateAtPostleitzahlDat() {
+    @Override
+    public String id() {
+        return "at-postleitzahl";
+    }
+
+    @Override
+    public String title() {
+        return "Regenerate at-postleitzahl.dat, the Austrian postcodes";
+    }
+
+    @Override
+    public String output() {
+        return "stdnum-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/at-postleitzahl.dat";
+    }
+
+    @Override
+    public List<Download> downloads(Map<String, String> seeds) {
+        return List.of(new Download(
+                "https://data.rtr.at/api/v1/tables/plz.json",
+                "plz.json"));
     }
 
     /** The nine Bundesländer, under the letters the table abbreviates them to. */
@@ -53,17 +66,13 @@ public final class GenerateAtPostleitzahlDat {
     private static final Pattern VERSION_ID = Pattern.compile("\"id\"\\s*:\\s*([0-9]+)");
     private static final Pattern PUBLISHED = Pattern.compile("\"published\"\\s*:\\s*\"([^\"]*)\"");
 
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.err.println("usage: java GenerateAtPostleitzahlDat.java <plz.json>");
-            System.exit(2);
-        }
-        String json = Files.readString(Path.of(args[0]), StandardCharsets.UTF_8);
+    @Override
+    public void generate(Run run, PrintStream out) throws Exception {
+        String json = Files.readString(run.file("plz.json"), StandardCharsets.UTF_8);
 
         int dataAt = json.indexOf("\"data\"");
         if (dataAt < 0) {
-            System.err.println("no data array: the table layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no data array: the table layout has changed");
         }
         // the version object sits after the data array, so look for it there
         int versionAt = json.indexOf("\"version\"");
@@ -71,8 +80,7 @@ public final class GenerateAtPostleitzahlDat {
         String version = group(VERSION_ID, header);
         String published = group(PUBLISHED, header);
         if (version == null || published == null) {
-            System.err.println("no version stamp: the table layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no version stamp: the table layout has changed");
         }
 
         TreeSet<String> entries = new TreeSet<>();
@@ -84,11 +92,9 @@ public final class GenerateAtPostleitzahlDat {
             }
         }
         if (entries.isEmpty()) {
-            System.err.println("no addressable postcodes found: the table layout has changed");
-            System.exit(1);
+            throw new IllegalStateException("no addressable postcodes found: the table layout has changed");
         }
 
-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.println("# Austrian postcodes: the addressable ones, with the place and the");
         out.println("# Bundesland each belongs to.");
         out.println("# Generated from https://data.rtr.at/api/v1/tables/plz.json");

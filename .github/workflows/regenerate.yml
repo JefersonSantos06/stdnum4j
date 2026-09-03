@@ -1,0 +1,215 @@
+name: regenerate data
+
+# Regenerates every .dat from its own source and opens one pull request per
+# file that moved. A source that will not answer is a warning, not a failure:
+# the other targets still finish. See tools/README.md.
+on:
+  schedule:
+    # Monday 06:17 UTC. Off the hour on purpose: the top of an hour is when
+    # every cron on GitHub queues at once.
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: 'Targets to regenerate, space separated. Empty means all.'
+        required: false
+        default: ''
+      check:
+        description: 'Only check that every .dat still reproduces. Writes nothing.'
+        type: boolean
+        required: false
+        default: false
+
+concurrency:
+  group: regenerate
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # a shallow base cannot take the force-push that keeps each data
+          # branch at exactly one commit
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          # Pinned, and load-bearing: GeneratePostalCodesDat takes its country
+          # names from the JDK's CLDR copy, which differs between releases —
+          # 17 says Turkey where 25 says Türkiye. tools/README.md explains.
+          java-version: '25'
+
+      - name: Regenerate
+        id: run
+        run: |
+          set -euo pipefail
+          javac -d "$RUNNER_TEMP/classes" tools/*.java
+          # --check proves every .dat still comes back from its own source,
+          # which is what makes "generated, never hand-edited" a fact
+          mode=''
+          [ "${{ github.event.inputs.check }}" = 'true' ] && mode='--check --strict'
+          java -cp "$RUNNER_TEMP/classes" Regenerate $mode \
+            --out-dir "$RUNNER_TEMP/out" \
+            --report "$RUNNER_TEMP/report" \
+            ${{ github.event.inputs.targets }}
+
+      - name: Job summary
+        if: always()
+        run: |
+          summary="$RUNNER_TEMP/report/summary.tsv"
+          [ -f "$summary" ] || { echo "The run produced no report." >> "$GITHUB_STEP_SUMMARY"; exit 0; }
+          {
+            echo "| arquivo | resultado | detalhe |"
+            echo "|---|---|---|"
+            while IFS=$'\t' read -r id status path detail title; do
+              echo "| \`$id\` | $status | ${detail:-—} |"
+            done < "$summary"
+          } >> "$GITHUB_STEP_SUMMARY"
+          for err in "$RUNNER_TEMP"/report/*.err; do
+            [ -e "$err" ] || continue
+            id=$(basename "$err" .err)
+            {
+              echo ""
+              echo "<details><summary>$id</summary>"
+              echo ""
+              echo '```'
+              tail -40 "$err"
+              echo '```'
+              echo ""
+              echo "</details>"
+            } >> "$GITHUB_STEP_SUMMARY"
+          done
+
+      - name: One pull request per changed file
+        if: github.event.inputs.check != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.DATA_PR_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          summary="$RUNNER_TEMP/report/summary.tsv"
+          [ -f "$summary" ] || exit 0
+          base="${GITHUB_REF_NAME}"
+          git config user.name  "stdnum data bot"
+          git config user.email "noreply@github.com"
+
+          while IFS=$'\t' read -r id status path detail title; do
+            [ "$status" = "changed" ] || continue
+            branch="data/$id"
+            body="$RUNNER_TEMP/body-$id.md"
+            {
+              echo "Regenerated from its own source by \`tools/Regenerate.java\`."
+              echo ""
+              echo "- **$path**"
+              echo "- $detail"
+              if [ -f "$RUNNER_TEMP/report/$id.err" ]; then
+                echo ""
+                echo "O gerador escreveu no stderr:"
+                echo ""
+                echo '```'
+                tail -20 "$RUNNER_TEMP/report/$id.err"
+                echo '```'
+              fi
+              if [ -f "$RUNNER_TEMP/report/$id.flags" ]; then
+                echo ""
+                echo "### Este PR falha a CI de propósito"
+                echo ""
+                echo "O conteúdo deste arquivo move contagens que são arames de"
+                echo "tropeço: elas existem para obrigar alguém a olhar. Atualize,"
+                echo "num commit:"
+                echo ""
+                while read -r flag; do echo "- $flag"; done < "$RUNNER_TEMP/report/$id.flags"
+              fi
+            } > "$body"
+
+            # the branch is recreated from the base every run and force-pushed,
+            # so it always holds exactly one commit and the pull request updates
+            # in place instead of a second one piling up beside it
+            git switch -C "$branch" "$base"
+            cp "$RUNNER_TEMP/out/$id.dat" "$path"
+            git add -- "$path"
+            git commit -m "$title"
+            git push --force-with-lease origin "$branch"
+
+            open=$(gh pr list --head "$branch" --state open --json number --jq '.[0].number // empty')
+            if [ -n "$open" ]; then
+              gh pr edit "$open" --body-file "$body"
+              echo "atualizado: PR #$open ($id)"
+            else
+              closed=$(gh pr list --head "$branch" --state closed --json number,state \
+                --jq '[.[] | select(.state == "CLOSED")] | .[0].number // empty')
+              if [ -n "$closed" ]; then
+                # somebody already said no to this branch; do not push it back
+                echo "PR #$closed para $id foi fechado sem merge; não reabrindo" \
+                  >> "$GITHUB_STEP_SUMMARY"
+                continue
+              fi
+              args=(--base "$base" --head "$branch" --title "$title" --body-file "$body")
+              [ -f "$RUNNER_TEMP/report/$id.flags" ] && args+=(--label needs-human)
+              gh pr create "${args[@]}"
+            fi
+            git switch --detach "$base"
+          done < "$summary"
+
+      - name: A source that keeps failing gets an issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.DATA_PR_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          summary="$RUNNER_TEMP/report/summary.tsv"
+          [ -f "$summary" ] || exit 0
+
+          # The issue is its own state: nothing else survives an ephemeral
+          # runner, and a cache would expire on exactly this cadence.
+          number=$(gh issue list --label data-source-down --state open \
+            --json number --jq '.[0].number // empty' || true)
+          state=""
+          if [ -n "$number" ]; then
+            state=$(gh issue view "$number" --json body --jq .body \
+              | sed -n '/<!-- regenerate-state/,/-->/p' | grep -E '^[a-z0-9-]+=[0-9]+$' || true)
+          fi
+
+          new_state=""; failing=""
+          while IFS=$'\t' read -r id status path detail title; do
+            was=$(echo "$state" | grep -E "^$id=" | cut -d= -f2 || true)
+            if [ "$status" = "failed" ]; then
+              count=$(( ${was:-0} + 1 ))
+            else
+              count=0
+            fi
+            new_state="$new_state$id=$count"$'\n'
+            [ "$count" -ge 3 ] && failing="$failing- \`$id\` falhou $count execuções seguidas: $detail"$'\n'
+          done < "$summary"
+
+          body="$RUNNER_TEMP/issue.md"
+          {
+            echo "Estas fontes vêm falhando na regeração semanal. Enquanto uma"
+            echo "estiver aqui, o \`.dat\` dela está parado na última versão boa —"
+            echo "os outros arquivos continuam sendo regerados normalmente."
+            echo ""
+            printf '%s' "$failing"
+            echo ""
+            echo "<!-- regenerate-state"
+            printf '%s' "$new_state"
+            echo "-->"
+          } > "$body"
+
+          if [ -n "$failing" ]; then
+            if [ -n "$number" ]; then
+              gh issue edit "$number" --body-file "$body"
+            else
+              gh issue create --label data-source-down \
+                --title "Fontes de dados fora do ar" --body-file "$body"
+            fi
+          elif [ -n "$number" ]; then
+            gh issue close "$number" --comment "Todas as fontes voltaram."
+          fi

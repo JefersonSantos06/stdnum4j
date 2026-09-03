@@ -645,8 +645,11 @@ public final class Regenerate {
             summary.append(r.target().id()).append('\t')
                     .append(r.status().name().toLowerCase(Locale.ROOT)).append('\t')
                     .append(r.target().out()).append('\t')
-                    .append(r.detail().replace('\t', ' ')).append('\t')
-                    .append(r.target().title()).append('\n');
+                    // never empty: a shell reading this with a tab IFS collapses
+                    // a run of separators and every later field shifts left
+                    .append(r.detail().isBlank() ? "-" : r.detail().replace('\t', ' '))
+                    .append('\t')
+                    .append(r.target().title().replace('\t', ' ')).append('\n');
             if (!r.stderr().isBlank()) {
                 Files.writeString(dir.resolve(r.target().id() + ".err"), r.stderr());
             }

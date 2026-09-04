@@ -14,17 +14,17 @@
     <url>https://github.com/jefersonsantos06/stdnum4j</url>
 
     <modules>
-        <module>stdnum-core</module>
-        <module>stdnum-tck</module>
-        <module>stdnum-br</module>
-        <module>stdnum-international</module>
-        <module>stdnum-eu</module>
-        <module>stdnum-latam</module>
-        <module>stdnum-na</module>
-        <module>stdnum-apac</module>
-        <module>stdnum-africa</module>
-        <module>stdnum-postal</module>
-        <module>stdnum-all</module>
+        <module>stdnum4j-core</module>
+        <module>stdnum4j-tck</module>
+        <module>stdnum4j-br</module>
+        <module>stdnum4j-international</module>
+        <module>stdnum4j-eu</module>
+        <module>stdnum4j-latam</module>
+        <module>stdnum4j-na</module>
+        <module>stdnum4j-apac</module>
+        <module>stdnum4j-africa</module>
+        <module>stdnum4j-postal</module>
+        <module>stdnum4j-all</module>
     </modules>
 
     <properties>
@@ -44,52 +44,52 @@
             </dependency>
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
-                <artifactId>stdnum-core</artifactId>
+                <artifactId>stdnum4j-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
-                <artifactId>stdnum-tck</artifactId>
+                <artifactId>stdnum4j-tck</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
-                <artifactId>stdnum-br</artifactId>
+                <artifactId>stdnum4j-br</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
-                <artifactId>stdnum-international</artifactId>
+                <artifactId>stdnum4j-international</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
-                <artifactId>stdnum-eu</artifactId>
+                <artifactId>stdnum4j-eu</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
-                <artifactId>stdnum-latam</artifactId>
+                <artifactId>stdnum4j-latam</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
-                <artifactId>stdnum-na</artifactId>
+                <artifactId>stdnum4j-na</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
-                <artifactId>stdnum-apac</artifactId>
+                <artifactId>stdnum4j-apac</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
-                <artifactId>stdnum-africa</artifactId>
+                <artifactId>stdnum4j-africa</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.jefersonsantos06</groupId>
-                <artifactId>stdnum-postal</artifactId>
+                <artifactId>stdnum4j-postal</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

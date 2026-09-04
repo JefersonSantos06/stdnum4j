@@ -31,7 +31,7 @@ public final class GenerateAtFaDat implements Source {
 
     @Override
     public String output() {
-        return "stdnum-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/at-fa.dat";
+        return "stdnum4j-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/at-fa.dat";
     }
 
     @Override

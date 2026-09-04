@@ -55,7 +55,7 @@ public final class PostalCode implements StdNum {
      * Countries whose postal code is validated by a hand-written type in a
      * regional module. The data file still describes them; no instance is
      * built for them, so that a country never has two postal code types that
-     * disagree. A test in {@code stdnum-all} names the country to add here
+     * disagree. A test in {@code stdnum4j-all} names the country to add here
      * when a new hand-written one appears.
      */
     private static final Set<String> HAND_WRITTEN = Set.of("AT", "ES", "NL", "SE");

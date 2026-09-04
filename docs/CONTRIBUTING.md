@@ -82,8 +82,8 @@ em `docs/`, é em português.
 
 ## Passo 1 — onde ele vai e como se chama
 
-Escolha o módulo pela região: `stdnum-br`, `stdnum-eu`, `stdnum-latam`,
-`stdnum-na`, `stdnum-apac`, `stdnum-africa`, ou `stdnum-international` para um
+Escolha o módulo pela região: `stdnum4j-br`, `stdnum4j-eu`, `stdnum4j-latam`,
+`stdnum4j-na`, `stdnum4j-apac`, `stdnum4j-africa`, ou `stdnum4j-international` para um
 número sem país.
 
 O **id** é a chave do registry e o nome de todo arquivo de fixture. É o código
@@ -98,7 +98,7 @@ O **nome da classe** é o id em PascalCase sem os pontos — `es.nif` → `EsNif
 
 ### Se o tipo é alvo de um despachante
 
-`iban`, `vatin` e `eu.excise` moram no `stdnum-international` e alcançam as
+`iban`, `vatin` e `eu.excise` moram no `stdnum4j-international` e alcançam as
 regras nacionais pelo registry, nunca importando-as. Ponha a regra nacional no
 módulo regional dela e a torne localizável — **não mexa no despachante**:
 
@@ -115,12 +115,12 @@ não marque o segundo com `VAT`.
 
 ### Se é um código postal
 
-Os códigos postais genéricos moram no `stdnum-postal`, um tipo por país,
+Os códigos postais genéricos moram no `stdnum4j-postal`, um tipo por país,
 gerados de `postal-codes.dat` — lá não se escreve um à mão. Um código postal
 que mereça regra própria (uma lista de códigos em uso, como o austríaco; um
 dígito verificador) vai para o módulo regional, com o id de sempre, e o país
 entra em `PostalCode.HAND_WRITTEN` para o genérico sair do caminho. O
-`PostalTypesTest` do `stdnum-all` quebra nomeando o país se você esquecer.
+`PostalTypesTest` do `stdnum4j-all` quebra nomeando o país se você esquecer.
 
 ## Passo 2 — escreva a classe
 
@@ -382,7 +382,7 @@ a mesma verificação de cobertura que guarda o português passa a guardá-lo.
 
 Duas coisas a saber:
 
-- As quatro chaves `error.*` no pacote `spi` do `stdnum-core` são a rede de
+- As quatro chaves `error.*` no pacote `spi` do `stdnum4j-core` são a rede de
   segurança. Qualquer número inválido, de qualquer tipo, cai numa delas, então
   elas precisam ser verdadeiras tanto para uma "Chave NF-e" quanto para um
   "Código de barras". Nunca nomeie um número específico nelas.
@@ -396,7 +396,7 @@ Duas coisas a saber:
 `maven.compiler.release` é 17 e a CI builda no 17 e no 21. A única dependência
 é o JUnit, declarada uma vez no `dependencyManagement` do pai, pelo BOM do
 JUnit. Acrescentar uma dependência de runtime a qualquer módulo é uma decisão a
-se tomar de propósito, não uma conveniência — o `stdnum-core` não ter nenhuma é
+se tomar de propósito, não uma conveniência — o `stdnum4j-core` não ter nenhuma é
 uma característica da biblioteca.
 
 O jar de todo módulo declara um `Automatic-Module-Name` via
@@ -412,7 +412,7 @@ quem estiver no module path ganha um nome derivado do arquivo.
 - **Um arquivo `.dat` é gerado.** Se você se pegar abrindo um num editor, a
   resposta está no gerador — e agora dá para provar: `Regenerate --check`
   regera tudo e compara. A única exceção é o
-  `stdnum-core/src/test/resources/numdb/test.dat`, que é fixture escrita à mão
+  `stdnum4j-core/src/test/resources/numdb/test.dat`, que é fixture escrita à mão
   para exercitar o `NumDb` e não tem fonte para gerar.
 - **Um validador lança só subclasses de `ValidationException`.** Qualquer outra
   exceção escapando de `validate`, `compact` ou de um acessor é defeito, por

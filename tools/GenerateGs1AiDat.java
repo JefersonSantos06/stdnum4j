@@ -38,7 +38,7 @@ public final class GenerateGs1AiDat implements Source {
 
     @Override
     public String output() {
-        return "stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/gs1-ai.dat";
+        return "stdnum4j-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/gs1-ai.dat";
     }
 
     @Override

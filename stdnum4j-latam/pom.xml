@@ -9,22 +9,22 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>stdnum-na</artifactId>
-    <name>stdnum4j :: na</name>
-    <description>North American standard numbers: United States and Canada.</description>
+    <artifactId>stdnum4j-latam</artifactId>
+    <name>stdnum4j :: latam</name>
+    <description>Latin American standard numbers (outside Brazil): Argentinian and Chilean identifiers.</description>
 
     <properties>
-        <auto.module.name>io.github.jefersonsantos06.stdnum.na</auto.module.name>
+        <auto.module.name>io.github.jefersonsantos06.stdnum.latam</auto.module.name>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-core</artifactId>
+            <artifactId>stdnum4j-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-tck</artifactId>
+            <artifactId>stdnum4j-tck</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

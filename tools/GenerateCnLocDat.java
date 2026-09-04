@@ -36,7 +36,7 @@ public final class GenerateCnLocDat implements Source {
 
     @Override
     public String output() {
-        return "stdnum-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/cn-loc.dat";
+        return "stdnum4j-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/cn-loc.dat";
     }
 
     @Override

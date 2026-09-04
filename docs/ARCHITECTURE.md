@@ -163,20 +163,20 @@ de módulos no classpath e o mesmo despachante cobre outro conjunto de países.
 
 | Módulo | Depende de | Contém |
 |---|---|---|
-| `stdnum-core` | *(nada)* | A SPI, os algoritmos de dígito verificador, o banco de prefixos `NumDb`, os utilitários de texto, o registry. |
-| `stdnum-tck` | core | O teste de contrato reutilizável. Consumido em escopo `test`. |
-| `stdnum-international` | core | Números independentes de país, e os despachantes `iban`/`vatin`/`eu.vat`/`eu.excise`. |
-| `stdnum-br` | core | Brasil. |
-| `stdnum-eu` | core, **international** | Europa. |
-| `stdnum-latam` | core | América Latina. |
-| `stdnum-na` | core | América do Norte. |
-| `stdnum-apac` | core | Ásia-Pacífico. |
-| `stdnum-africa` | core | África. |
-| `stdnum-postal` | core | Os códigos postais de 178 países e territórios: uma classe, um arquivo de dados, um tipo por país. |
-| `stdnum-all` | todos acima | Sem código. Um agregador, e a casa dos testes que precisam de todos os módulos ao mesmo tempo. |
+| `stdnum4j-core` | *(nada)* | A SPI, os algoritmos de dígito verificador, o banco de prefixos `NumDb`, os utilitários de texto, o registry. |
+| `stdnum4j-tck` | core | O teste de contrato reutilizável. Consumido em escopo `test`. |
+| `stdnum4j-international` | core | Números independentes de país, e os despachantes `iban`/`vatin`/`eu.vat`/`eu.excise`. |
+| `stdnum4j-br` | core | Brasil. |
+| `stdnum4j-eu` | core, **international** | Europa. |
+| `stdnum4j-latam` | core | América Latina. |
+| `stdnum4j-na` | core | América do Norte. |
+| `stdnum4j-apac` | core | Ásia-Pacífico. |
+| `stdnum4j-africa` | core | África. |
+| `stdnum4j-postal` | core | Os códigos postais de 178 países e territórios: uma classe, um arquivo de dados, um tipo por país. |
+| `stdnum4j-all` | todos acima | Sem código. Um agregador, e a casa dos testes que precisam de todos os módulos ao mesmo tempo. |
 
-Todo módulo regional depende só do `stdnum-core`. A única exceção é o
-`stdnum-eu`, que também depende do `stdnum-international`, porque um IBAN
+Todo módulo regional depende só do `stdnum4j-core`. A única exceção é o
+`stdnum4j-eu`, que também depende do `stdnum4j-international`, porque um IBAN
 espanhol, montenegrino ou norueguês *é* um IBAN com uma regra nacional por
 cima, e herda a estrutura dele.
 
@@ -186,14 +186,14 @@ mantém o grafo acíclico e ao mesmo tempo deixa o `iban` se comportar como se
 soubesse da Espanha.
 
 Quem consome leva só as regiões de que precisa. Alguém validando documentos
-brasileiros puxa `stdnum-br` e ganha `stdnum-core`, não 128 tipos europeus.
+brasileiros puxa `stdnum4j-br` e ganha `stdnum4j-core`, não 128 tipos europeus.
 
 Todo jar declara um `Automatic-Module-Name`
 (`io.github.jefersonsantos06.stdnum`, `.br`, `.eu`, …), para que quem estiver
 no module path ganhe módulos nomeados em vez de nomes derivados do arquivo.
 Nada aqui declara `module-info`.
 
-## Dentro do `stdnum-core`
+## Dentro do `stdnum4j-core`
 
 ```
 io.github.jefersonsantos06.stdnum          StdNums — o registry
@@ -257,7 +257,7 @@ remenda o arquivo. Veja
 
 ## O que falta de propósito
 
-- **Nenhuma dependência.** O `stdnum-core` não tem nenhuma, e nenhum módulo tem
+- **Nenhuma dependência.** O `stdnum4j-core` não tem nenhuma, e nenhum módulo tem
   além do core. Nada é puxado para JSON, XML, HTTP ou log.
 - **Nenhum estado global e nenhum locale ambiente.** Nada lê
   `Locale.getDefault()`, nada guarda um "atual" de coisa alguma. Um `Messages`

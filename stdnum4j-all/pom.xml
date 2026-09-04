@@ -9,7 +9,7 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>stdnum-all</artifactId>
+    <artifactId>stdnum4j-all</artifactId>
     <name>stdnum4j :: all</name>
     <description>Aggregator that depends on every number module and sweeps the whole registry with the generic contract.</description>
 
@@ -20,43 +20,43 @@
     <dependencies>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-core</artifactId>
+            <artifactId>stdnum4j-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-br</artifactId>
+            <artifactId>stdnum4j-br</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-international</artifactId>
+            <artifactId>stdnum4j-international</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-eu</artifactId>
+            <artifactId>stdnum4j-eu</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-latam</artifactId>
+            <artifactId>stdnum4j-latam</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-na</artifactId>
+            <artifactId>stdnum4j-na</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-apac</artifactId>
+            <artifactId>stdnum4j-apac</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-africa</artifactId>
+            <artifactId>stdnum4j-africa</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-postal</artifactId>
+            <artifactId>stdnum4j-postal</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-tck</artifactId>
+            <artifactId>stdnum4j-tck</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

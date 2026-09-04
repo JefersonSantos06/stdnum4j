@@ -41,7 +41,7 @@ public final class GenerateImsiDat implements Source {
 
     @Override
     public String output() {
-        return "stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/imsi.dat";
+        return "stdnum4j-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/imsi.dat";
     }
 
     /**

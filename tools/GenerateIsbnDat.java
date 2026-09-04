@@ -34,7 +34,7 @@ public final class GenerateIsbnDat implements Source {
 
     @Override
     public String output() {
-        return "stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/isbn.dat";
+        return "stdnum4j-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/isbn.dat";
     }
 
     @Override

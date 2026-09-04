@@ -39,7 +39,7 @@ public final class GenerateCfiDat implements Source {
 
     @Override
     public String output() {
-        return "stdnum-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/cfi.dat";
+        return "stdnum4j-international/src/main/resources/io/github/jefersonsantos06/stdnum/international/cfi.dat";
     }
 
     private static final String STANDARDS = "https://www.six-group.com/en/"

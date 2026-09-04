@@ -9,22 +9,28 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>stdnum-tck</artifactId>
-    <name>stdnum4j :: tck</name>
-    <description>Reusable contract test kit for StdNum implementations.</description>
+    <artifactId>stdnum4j-international</artifactId>
+    <name>stdnum4j :: international</name>
+    <description>International number formats: IBAN, ISBN, EAN, ISIN and BIC.</description>
 
     <properties>
-        <auto.module.name>io.github.jefersonsantos06.stdnum.tck</auto.module.name>
+        <auto.module.name>io.github.jefersonsantos06.stdnum.international</auto.module.name>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-core</artifactId>
+            <artifactId>stdnum4j-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.jefersonsantos06</groupId>
+            <artifactId>stdnum4j-tck</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

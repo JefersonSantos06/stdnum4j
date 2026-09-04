@@ -38,7 +38,7 @@ public final class GenerateIdLocDat implements Source {
 
     @Override
     public String output() {
-        return "stdnum-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/id-loc.dat";
+        return "stdnum4j-apac/src/main/resources/io/github/jefersonsantos06/stdnum/apac/id-loc.dat";
     }
 
     private static final String BRIDGING = "https://sig.bps.go.id/rest-bridging/getwilayah";

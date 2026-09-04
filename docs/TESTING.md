@@ -8,9 +8,9 @@ número signifique adicionar dados, e não adicionar código de teste.
 
 ```bash
 mvn verify                            # tudo
-mvn -pl stdnum-br test                # um módulo
-mvn -pl stdnum-eu test -Dtest=EsNifTest
-mvn -pl stdnum-all test               # só os testes entre módulos
+mvn -pl stdnum4j-br test                # um módulo
+mvn -pl stdnum4j-eu test -Dtest=EsNifTest
+mvn -pl stdnum4j-all test               # só os testes entre módulos
 ```
 
 A CI roda `mvn -B -ntp verify` no JDK 17 e no 21, e depois compila
@@ -20,7 +20,7 @@ Maven, e é isso que impede que uma refatoração os quebre sem ninguém notar.
 ## A ideia: um contrato, muitos tipos
 
 Todo tipo de número responde às mesmas perguntas, então as asserções são
-escritas uma vez, no `stdnum-tck`, e os tipos fornecem os dados. Uma classe de
+escritas uma vez, no `stdnum4j-tck`, e os tipos fornecem os dados. Uma classe de
 teste costuma ser isto e nada mais:
 
 ```java
@@ -46,7 +46,7 @@ invalid: 111.111.111-11
 garbage: abc😀def
 ```
 
-O `stdnum-tck` é um artefato publicado, não um test-jar, então quem escrever um
+O `stdnum4j-tck` é um artefato publicado, não um test-jar, então quem escrever um
 tipo de número fora deste repositório ganha o mesmo contrato apenas dependendo
 dele.
 
@@ -188,12 +188,12 @@ Dois padrões se repetem:
   também exige que `format` devolva exatamente a amostra, o que faz da tabela a
   especificação das máscaras de todos os 27 estados.
 - **Um teste entre módulos.** Tudo que precisa de mais de um módulo mora no
-  `stdnum-all`: os despachantes de IBAN, VATIN, EU VAT e excise só alcançam as
+  `stdnum4j-all`: os despachantes de IBAN, VATIN, EU VAT e excise só alcançam as
   regras nacionais quando todo jar regional está no classpath.
 
 ## A varredura do registry
 
-O `AllRegisteredContractTest`, no `stdnum-all`, percorre o registry sem saber o
+O `AllRegisteredContractTest`, no `stdnum4j-all`, percorre o registry sem saber o
 que há nele, e acerta todo tipo descoberto com `null` e com a lista de lixo. Um
 módulo que registre um validador frágil falha aqui **mesmo que não traga teste
 nenhum**.
@@ -209,19 +209,19 @@ atualizar este teste de propósito. Veja
 
 | Módulo | Testes | Pulados |
 |---|---:|---:|
-| `stdnum-core` | 92 | 0 |
-| `stdnum-tck` | 28 | 2 |
-| `stdnum-br` | 794 | 22 |
-| `stdnum-international` | 2.715 | 31 |
-| `stdnum-eu` | 6.702 | 180 |
-| `stdnum-latam` | 3.679 | 27 |
-| `stdnum-na` | 353 | 13 |
-| `stdnum-apac` | 3.069 | 35 |
-| `stdnum-africa` | 1.269 | 13 |
-| `stdnum-postal` | 820 | 16 |
-| `stdnum-all` | 1.819 | 7 |
+| `stdnum4j-core` | 92 | 0 |
+| `stdnum4j-tck` | 28 | 2 |
+| `stdnum4j-br` | 794 | 22 |
+| `stdnum4j-international` | 2.715 | 31 |
+| `stdnum4j-eu` | 6.702 | 180 |
+| `stdnum4j-latam` | 3.679 | 27 |
+| `stdnum4j-na` | 353 | 13 |
+| `stdnum4j-apac` | 3.069 | 35 |
+| `stdnum4j-africa` | 1.269 | 13 |
+| `stdnum4j-postal` | 820 | 16 |
+| `stdnum4j-all` | 1.819 | 7 |
 | **Total** | **21.340** | **346** |
 
-O `stdnum-tck` testa a si mesmo contra um `DummyNumber` que existe só para
+O `stdnum4j-tck` testa a si mesmo contra um `DummyNumber` que existe só para
 provar que o contrato pega o que diz pegar, e o `RegistryIntegrationTest` prova
 que um tipo registrado por `ServiceLoader` é achado pelo `StdNums`.

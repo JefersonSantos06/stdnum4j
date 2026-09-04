@@ -28,7 +28,7 @@ public final class GenerateEuNace21Dat implements Source {
 
     @Override
     public String output() {
-        return "stdnum-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/eu-nace21.dat";
+        return "stdnum4j-eu/src/main/resources/io/github/jefersonsantos06/stdnum/eu/eu-nace21.dat";
     }
 
     @Override

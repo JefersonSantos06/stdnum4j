@@ -14,17 +14,17 @@ StdNums.all().forEach(n -> System.out.println(n.descriptor().id()));
 
 | Módulo | Tipos | Países |
 |---|---:|---:|
-| [`stdnum-international`](#independentes-de-país--stdnum-international-30) | 30 | — |
-| [`stdnum-br`](#brasil--stdnum-br-37) | 37 | 1 |
-| [`stdnum-eu`](#europa--stdnum-eu-128) | 128 | 44 |
-| [`stdnum-latam`](#américa-latina--stdnum-latam-23) | 23 | 14 |
-| [`stdnum-na`](#américa-do-norte--stdnum-na-10) | 10 | 2 |
-| [`stdnum-apac`](#ásia-pacífico--stdnum-apac-33) | 33 | 17 |
-| [`stdnum-africa`](#áfrica--stdnum-africa-12) | 12 | 11 |
-| [`stdnum-postal`](#códigos-postais--stdnum-postal-178) | 178 | 178 |
+| [`stdnum4j-international`](#independentes-de-país--stdnum4j-international-30) | 30 | — |
+| [`stdnum4j-br`](#brasil--stdnum4j-br-37) | 37 | 1 |
+| [`stdnum4j-eu`](#europa--stdnum4j-eu-128) | 128 | 44 |
+| [`stdnum4j-latam`](#américa-latina--stdnum4j-latam-23) | 23 | 14 |
+| [`stdnum4j-na`](#américa-do-norte--stdnum4j-na-10) | 10 | 2 |
+| [`stdnum4j-apac`](#ásia-pacífico--stdnum4j-apac-33) | 33 | 17 |
+| [`stdnum4j-africa`](#áfrica--stdnum4j-africa-12) | 12 | 11 |
+| [`stdnum4j-postal`](#códigos-postais--stdnum4j-postal-178) | 178 | 178 |
 | **Total** | **451** | **183** |
 
-Os países do `stdnum-postal` se sobrepõem aos dos módulos regionais; distintos,
+Os países do `stdnum4j-postal` se sobrepõem aos dos módulos regionais; distintos,
 são 183.
 
 ## Diante do python-stdnum
@@ -57,7 +57,7 @@ desmarcada do projeto é o `isil`, acima.
 O nome de cada tipo é o nome real do número no idioma de quem o emite — é assim
 que ele aparece no `Descriptor`, e não é traduzido.
 
-### Independentes de país — `stdnum-international` (30)
+### Independentes de país — `stdnum4j-international` (30)
 
 - [x] `bic` — BIC — Business Identifier Code
 - [x] `bitcoin` — Bitcoin address
@@ -90,7 +90,7 @@ que ele aparece no `Descriptor`, e não é traduzido.
 - [x] `upi` — UPI — Unique Product Identifier
 - [x] `vatin` — VATIN — VAT identification number
 
-### Brasil — `stdnum-br` (37)
+### Brasil — `stdnum4j-br` (37)
 
 - [x] `br.boleto-barras` — Código de barras — Código de barras de cobrança (FEBRABAN)
 - [x] `br.boleto-linha` — Linha digitável — Linha digitável de cobrança (FEBRABAN)
@@ -130,7 +130,7 @@ que ele aparece no `Descriptor`, e não é traduzido.
 - [x] `br.renavam` — RENAVAM — Registro Nacional de Veículos Automotores
 - [x] `br.titulo-eleitor` — Título de Eleitor
 
-### Europa — `stdnum-eu` (128)
+### Europa — `stdnum4j-eu` (128)
 
 **Sem país definido**
 
@@ -395,7 +395,7 @@ que ele aparece no `Descriptor`, e não é traduzido.
 - [x] `at.uid` — UID — Umsatzsteuer-Identifikationsnummer
 - [x] `at.vnr` — VNR — Osterreichische Sozialversicherungsnummer
 
-### América Latina — `stdnum-latam` (23)
+### América Latina — `stdnum4j-latam` (23)
 
 **Argentina (AR)**
 
@@ -462,7 +462,7 @@ que ele aparece no `Descriptor`, e não é traduzido.
 
 - [x] `ve.rif` — RIF — Registro de Identificación Fiscal
 
-### América do Norte — `stdnum-na` (10)
+### América do Norte — `stdnum4j-na` (10)
 
 **Canadá (CA)**
 
@@ -480,7 +480,7 @@ que ele aparece no `Descriptor`, e não é traduzido.
 - [x] `us.ssn` — SSN — Social Security Number
 - [x] `us.tin` — TIN — Taxpayer Identification Number
 
-### Ásia-Pacífico — `stdnum-apac` (33)
+### Ásia-Pacífico — `stdnum4j-apac` (33)
 
 **Austrália (AU)**
 
@@ -566,7 +566,7 @@ que ele aparece no `Descriptor`, e não é traduzido.
 - [x] `in.pan` — PAN — Permanent Account Number
 - [x] `in.vid` — VID — Indian Virtual ID
 
-### África — `stdnum-africa` (12)
+### África — `stdnum4j-africa` (12)
 
 **Argélia (DZ)**
 
@@ -613,12 +613,12 @@ que ele aparece no `Descriptor`, e não é traduzido.
 - [x] `za.idnr` — ID number — South African Identity Document number
 - [x] `za.tin` — TIN — South African Tax Identification Number
 
-### Códigos postais — `stdnum-postal` (178)
+### Códigos postais — `stdnum4j-postal` (178)
 
 Um tipo por país ou território para o qual os metadados de endereço do Google
 (os da libaddressinput, dados CC BY 4.0) documentam um padrão — todos gerados
 de `postal-codes.dat`, nunca escritos à mão. AT, ES, NL e SE têm tipo próprio
-no `stdnum-eu` e ficam de fora daqui.
+no `stdnum4j-eu` e ficam de fora daqui.
 
 - [x] `ac.postal_code` — Postal code — Ascension Island postal code
 - [x] `ad.postal_code` — Postal code — Andorra postal code

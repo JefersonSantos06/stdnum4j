@@ -9,22 +9,22 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>stdnum-apac</artifactId>
-    <name>stdnum4j :: apac</name>
-    <description>Asia-Pacific standard numbers: Australia, New Zealand, India and China.</description>
+    <artifactId>stdnum4j-postal</artifactId>
+    <name>stdnum4j :: postal</name>
+    <description>Postal codes of every country and territory that has one, in the shape Google's address metadata (libaddressinput, data CC BY 4.0) documents.</description>
 
     <properties>
-        <auto.module.name>io.github.jefersonsantos06.stdnum.apac</auto.module.name>
+        <auto.module.name>io.github.jefersonsantos06.stdnum.postal</auto.module.name>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-core</artifactId>
+            <artifactId>stdnum4j-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-tck</artifactId>
+            <artifactId>stdnum4j-tck</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

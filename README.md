@@ -64,23 +64,23 @@ frase em inglês. [Como funciona →](docs/ARCHITECTURE.md#dizer-por-quê-num-id
 
 ## Módulos
 
-Leve só as regiões de que precisa. Todo módulo depende apenas do `stdnum-core`,
-exceto o `stdnum-eu`, que também depende do `stdnum-international` porque um
+Leve só as regiões de que precisa. Todo módulo depende apenas do `stdnum4j-core`,
+exceto o `stdnum4j-eu`, que também depende do `stdnum4j-international` porque um
 IBAN nacional é um IBAN com uma regra nacional por cima.
 
 | Módulo | Tipos | Conteúdo |
 |---|---:|---|
-| `stdnum-core` | — | SPI, exceções, algoritmos de dígito verificador (Luhn, Damm, Verhoeff, ISO 7064, Mod 97-10, mod 11 ponderado, CRC-16), o banco de prefixos `NumDb` e o registry. Zero dependências. |
-| `stdnum-tck` | — | Testes de contrato reutilizáveis, em JUnit 5, para implementações de `StdNum`. |
-| `stdnum-international` | 30 | Formatos independentes de país: IBAN, ISBN, ISSN, ISMN, ISNI, EAN/GTIN, ISIN, CUSIP, SEDOL, FIGI, BIC, IMEI, MAC, LEI, IMO, CAS RN, ISO 6346, ISO 11649, GRid, ISAN, ISRC, MEID, UPI, CFI, IMSI, a element string GS1-128, o endereço Bitcoin e os despachantes VATIN e EU VAT. |
-| `stdnum-br` | 37 | Brasil: CPF, CNPJ (inclusive o formato alfanumérico de 2026), PIS/PASEP, CNS, título de eleitor, RENAVAM, chave de acesso da NF-e, boleto FEBRABAN, Pix BR Code e as inscrições estaduais das 27 unidades federativas. |
-| `stdnum-eu` | 128 | Europa: 44 países, mais o identificador SEPA de credor, o One Stop Shop, o EIC, a NACE, o número CE e o serial de cédula de euro, todos válidos em toda a União. |
-| `stdnum-latam` | 23 | América Latina: AR, CL, CO, CR, CU, DO, EC, GT, MX, PE, PY, SV, UY, VE. |
-| `stdnum-na` | 10 | América do Norte: os SSN, ITIN, EIN, PTIN e ATIN dos EUA, o TIN que é qualquer um deles que o contribuinte tenha, e o routing number; o SIN canadense, o business number e o número de saúde da Colúmbia Britânica. |
-| `stdnum-apac` | 33 | Ásia-Pacífico e adjacências: AU, CN, ID, IL, IN, JP, KR, MY, NZ, OM, PK, RU, SG, TH, TR, TW, VN. |
-| `stdnum-africa` | 12 | África: DZ, EG, GH, GN, KE, MA, MU, MZ, SN, TN, ZA. |
-| `stdnum-postal` | 178 | Códigos postais: um tipo por país ou território com padrão nos metadados de endereço do Google (os da libaddressinput, dados CC BY 4.0) — CEP, ZIP, Eircode, PIN e os demais, gerados de um arquivo só. |
-| `stdnum-all` | — | Agregador que depende de todos os módulos, e casa dos testes entre módulos. |
+| `stdnum4j-core` | — | SPI, exceções, algoritmos de dígito verificador (Luhn, Damm, Verhoeff, ISO 7064, Mod 97-10, mod 11 ponderado, CRC-16), o banco de prefixos `NumDb` e o registry. Zero dependências. |
+| `stdnum4j-tck` | — | Testes de contrato reutilizáveis, em JUnit 5, para implementações de `StdNum`. |
+| `stdnum4j-international` | 30 | Formatos independentes de país: IBAN, ISBN, ISSN, ISMN, ISNI, EAN/GTIN, ISIN, CUSIP, SEDOL, FIGI, BIC, IMEI, MAC, LEI, IMO, CAS RN, ISO 6346, ISO 11649, GRid, ISAN, ISRC, MEID, UPI, CFI, IMSI, a element string GS1-128, o endereço Bitcoin e os despachantes VATIN e EU VAT. |
+| `stdnum4j-br` | 37 | Brasil: CPF, CNPJ (inclusive o formato alfanumérico de 2026), PIS/PASEP, CNS, título de eleitor, RENAVAM, chave de acesso da NF-e, boleto FEBRABAN, Pix BR Code e as inscrições estaduais das 27 unidades federativas. |
+| `stdnum4j-eu` | 128 | Europa: 44 países, mais o identificador SEPA de credor, o One Stop Shop, o EIC, a NACE, o número CE e o serial de cédula de euro, todos válidos em toda a União. |
+| `stdnum4j-latam` | 23 | América Latina: AR, CL, CO, CR, CU, DO, EC, GT, MX, PE, PY, SV, UY, VE. |
+| `stdnum4j-na` | 10 | América do Norte: os SSN, ITIN, EIN, PTIN e ATIN dos EUA, o TIN que é qualquer um deles que o contribuinte tenha, e o routing number; o SIN canadense, o business number e o número de saúde da Colúmbia Britânica. |
+| `stdnum4j-apac` | 33 | Ásia-Pacífico e adjacências: AU, CN, ID, IL, IN, JP, KR, MY, NZ, OM, PK, RU, SG, TH, TR, TW, VN. |
+| `stdnum4j-africa` | 12 | África: DZ, EG, GH, GN, KE, MA, MU, MZ, SN, TN, ZA. |
+| `stdnum4j-postal` | 178 | Códigos postais: um tipo por país ou território com padrão nos metadados de endereço do Google (os da libaddressinput, dados CC BY 4.0) — CEP, ZIP, Eircode, PIN e os demais, gerados de um arquivo só. |
+| `stdnum4j-all` | — | Agregador que depende de todos os módulos, e casa dos testes entre módulos. |
 
 O inventário completo, tipo a tipo, está em
 **[docs/NUMBERS.md](docs/NUMBERS.md)**. Ele cobre 234 dos 235 tipos de número

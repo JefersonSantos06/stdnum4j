@@ -98,7 +98,7 @@ jobs:
           summary="$RUNNER_TEMP/report/summary.tsv"
           [ -f "$summary" ] || exit 0
           base="${GITHUB_REF_NAME}"
-          git config user.name  "stdnum data bot"
+          git config user.name  "stdnum4j data bot"
           git config user.email "noreply@github.com"
 
           while IFS=$'\t' read -r id status path detail title; do

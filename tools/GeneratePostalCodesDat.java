@@ -49,7 +49,7 @@ public final class GeneratePostalCodesDat implements Source {
 
     @Override
     public String output() {
-        return "stdnum-postal/src/main/resources/io/github/jefersonsantos06"
+        return "stdnum4j-postal/src/main/resources/io/github/jefersonsantos06"
                 + "/stdnum/postal/postal-codes.dat";
     }
 
@@ -85,9 +85,9 @@ public final class GeneratePostalCodesDat implements Source {
     @Override
     public List<String> redFlags() {
         return List.of(
-                "stdnum-all/src/test/java/io/github/jefersonsantos06/stdnum/all"
+                "stdnum4j-all/src/test/java/io/github/jefersonsantos06/stdnum/all"
                         + "/AllRegisteredContractTest.java (the registered total)",
-                "stdnum-postal/src/test/java/io/github/jefersonsantos06/stdnum/postal"
+                "stdnum4j-postal/src/test/java/io/github/jefersonsantos06/stdnum/postal"
                         + "/PostalCodeExamplesTest.java (the region count)",
                 "README.md, docs/NUMBERS.md, docs/ARCHITECTURE.md, docs/CONTRIBUTING.md"
                         + " and docs/TESTING.md (the counts in prose)");

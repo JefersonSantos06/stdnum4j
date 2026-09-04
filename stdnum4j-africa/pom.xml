@@ -9,26 +9,22 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>stdnum-eu</artifactId>
-    <name>stdnum4j :: eu</name>
-    <description>European standard numbers: German, French, Spanish, Italian and Portuguese identifiers.</description>
+    <artifactId>stdnum4j-africa</artifactId>
+    <name>stdnum4j :: africa</name>
+    <description>African standard numbers.</description>
 
     <properties>
-        <auto.module.name>io.github.jefersonsantos06.stdnum.eu</auto.module.name>
+        <auto.module.name>io.github.jefersonsantos06.stdnum.africa</auto.module.name>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-core</artifactId>
+            <artifactId>stdnum4j-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-international</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.jefersonsantos06</groupId>
-            <artifactId>stdnum-tck</artifactId>
+            <artifactId>stdnum4j-tck</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

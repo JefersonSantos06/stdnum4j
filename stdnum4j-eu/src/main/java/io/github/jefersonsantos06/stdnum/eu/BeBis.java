@@ -7,9 +7,11 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * The Belgian BIS number, issued to people who are not in the national
@@ -92,5 +94,10 @@ public final class BeBis implements StdNum {
     @Override
     public String format(String number) {
         return BeNn.group(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(BeNn.MASK);
     }
 }

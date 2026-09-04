@@ -6,9 +6,11 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -29,6 +31,8 @@ public final class UsEin implements StdNum {
                     .description("US business tax identifier: 9 digits with no check digit.")
                     .tags(Tag.COMPANY, Tag.TAX)
                     .build();
+
+    private static final Mask MASK = Mask.of("99-9999999");
 
     /** A separator, if written at all, sits after the campus prefix. */
     private static final Pattern STRUCTURE = Pattern.compile("[0-9]{2}-?[0-9]{7}");
@@ -99,7 +103,11 @@ public final class UsEin implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 2) + "-" + n.substring(2);
+        return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

@@ -6,8 +6,10 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -32,6 +34,8 @@ public final class NlPostcode implements StdNum {
                     .tags(Tag.POSTAL)
                     .references("https://nl.wikipedia.org/wiki/Postcodes_in_Nederland")
                     .build();
+
+    private static final Mask MASK = Mask.of("9999 AA");
 
     private NlPostcode() {
     }
@@ -67,7 +71,11 @@ public final class NlPostcode implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 4) + ' ' + n.substring(4);
+        return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

@@ -9,8 +9,10 @@ import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -32,6 +34,8 @@ public final class ChUid implements StdNum {
                             + " weighted mod 11 check digit.")
                     .tags(Tag.COMPANY)
                     .build();
+
+    private static final Mask MASK = Mask.of("AAA-999.999.999");
 
     private static final int[] WEIGHTS = {5, 4, 3, 2, 7, 6, 5, 4};
 
@@ -83,7 +87,11 @@ public final class ChUid implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return "CHE-" + n.substring(3, 6) + "." + n.substring(6, 9) + "." + n.substring(9);
+        return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

@@ -9,7 +9,10 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
+
+import java.util.List;
 
 /**
  * Chave de Acesso da NF-e/NFC-e, the 44-digit access key of Brazilian
@@ -41,6 +44,8 @@ public final class ChaveNfe implements StdNum {
                     .references("https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/"
                             + "moc7-visao-geral.pdf")
                     .build();
+
+    private static final Mask MASK = Mask.of("9999 9999 9999 9999 9999 9999 9999 9999 9999 9999 9999");
 
     private static final int[] WEIGHTS = Weighted.cyclic(43, 2, 3, 4, 5, 6, 7, 8, 9);
 
@@ -108,15 +113,12 @@ public final class ChaveNfe implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        StringBuilder sb = new StringBuilder(54);
-        for (int i = 0; i < 44; i += 4) {
-            if (i > 0) {
-                sb.append(' ');
-            }
-            sb.append(n, i, i + 4);
-        }
-        return sb.toString();
+        return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 
     /** Validates the key and returns its decomposed fields. */

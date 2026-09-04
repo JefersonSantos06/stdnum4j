@@ -31,7 +31,7 @@ responder. `masks` responde *como este tipo se escreve*, e não precisa: são os
 templates que um formulário põe num campo antes de haver o que validar.
 Devolve uma lista porque um tipo escreve mais de uma forma — Pernambuco tem
 uma máscara para nove dígitos e outra para os catorze legados, e o código
-postal britânico tem oito. Os 114 tipos que têm máscara a devolvem; os demais
+postal britânico tem oito. Os 127 tipos que têm máscara a devolvem; os demais
 devolvem lista vazia, e o contrato do TCK prova, para todos, que a máscara e o
 `format` escrevem o mesmo número do mesmo jeito. Vazia não promete que a
 apresentação é a forma compacta: um `format` escrito à mão — o IBAN agrupando

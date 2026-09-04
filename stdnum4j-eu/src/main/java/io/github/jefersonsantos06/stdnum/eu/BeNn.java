@@ -8,10 +8,12 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,6 +42,8 @@ public final class BeNn implements StdNum {
                     .tags(Tag.PERSON)
                     .references("https://nl.wikipedia.org/wiki/Rijksregisternummer")
                     .build();
+
+    static final Mask MASK = Mask.of("99.99.99-999.99");
 
     private BeNn() {
     }
@@ -167,9 +171,13 @@ public final class BeNn implements StdNum {
         return group(validate(number));
     }
 
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
+    }
+
     /** The shared presentation of an eleven-digit compact number. */
     static String group(String n) {
-        return n.substring(0, 2) + '.' + n.substring(2, 4) + '.' + n.substring(4, 6)
-                + '-' + n.substring(6, 9) + '.' + n.substring(9);
+        return MASK.fill(n);
     }
 }

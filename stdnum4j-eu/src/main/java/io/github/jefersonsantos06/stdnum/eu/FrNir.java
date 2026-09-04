@@ -6,8 +6,10 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -32,6 +34,8 @@ public final class FrNir implements StdNum {
                     .tags(Tag.PERSON, Tag.HEALTH)
                     .references("https://en.wikipedia.org/wiki/INSEE_code")
                     .build();
+
+    private static final Mask MASK = Mask.of("# ## ## ## ### ### ##");
 
     private FrNir() {
     }
@@ -84,8 +88,11 @@ public final class FrNir implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return String.join(" ", n.substring(0, 1), n.substring(1, 3), n.substring(3, 5),
-                n.substring(5, 7), n.substring(7, 10), n.substring(10, 13), n.substring(13));
+        return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

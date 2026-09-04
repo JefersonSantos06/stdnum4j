@@ -6,8 +6,10 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -37,6 +39,8 @@ public final class EsReferenciacatastral implements StdNum {
                     .tags(Tag.LOCATION)
                     .references("https://www.catastro.hacienda.gob.es/es-ES/referencia_catastral.html")
                     .build();
+
+    private static final Mask MASK = Mask.of("####### ####### #### ##");
 
     private EsReferenciacatastral() {
     }
@@ -88,8 +92,11 @@ public final class EsReferenciacatastral implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return String.join(" ", n.substring(0, 7), n.substring(7, 14),
-                n.substring(14, 18), n.substring(18));
+        return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

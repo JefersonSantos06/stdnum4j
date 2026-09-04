@@ -52,7 +52,7 @@ InscricaoEstadual.of(Uf.PE)
 ```
 
 `#` toma o próximo caractere, `9` um dígito e `A` uma letra; o resto é
-separador. São 114 dos 451 tipos, e para eles o teste de contrato prova que a
+separador. São 127 dos 451 tipos, e para eles o teste de contrato prova que a
 máscara escreve todo número exatamente como o `format` escreve. Os demais
 devolvem lista vazia — o que não promete que a apresentação seja a forma
 compacta: o IBAN agrupa de quatro em quatro à mão e não tem máscara a

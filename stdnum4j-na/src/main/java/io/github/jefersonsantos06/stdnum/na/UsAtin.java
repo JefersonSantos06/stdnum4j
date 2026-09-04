@@ -4,8 +4,10 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -32,6 +34,8 @@ public final class UsAtin implements StdNum {
                     .references("https://www.irs.gov/individuals/adoption-taxpayer-identification-number")
                     .build();
 
+    private static final Mask MASK = Mask.of("999-99-9999");
+
     private UsAtin() {
     }
 
@@ -55,7 +59,11 @@ public final class UsAtin implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + '-' + n.substring(3, 5) + '-' + n.substring(5);
+        return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

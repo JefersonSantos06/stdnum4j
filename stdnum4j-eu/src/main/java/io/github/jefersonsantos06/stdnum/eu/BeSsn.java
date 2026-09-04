@@ -4,8 +4,10 @@ import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * The Belgian social security number, which is either a
@@ -90,5 +92,10 @@ public final class BeSsn implements StdNum {
     @Override
     public String format(String number) {
         return BeNn.group(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(BeNn.MASK);
     }
 }

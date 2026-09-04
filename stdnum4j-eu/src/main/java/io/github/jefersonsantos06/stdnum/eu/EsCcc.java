@@ -7,8 +7,10 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -32,6 +34,8 @@ public final class EsCcc implements StdNum {
                     .tags(Tag.BANK)
                     .references("https://es.wikipedia.org/wiki/C%C3%B3digo_cuenta_cliente")
                     .build();
+
+    private static final Mask MASK = Mask.of("9999 9999 99 99999 99999");
 
     private EsCcc() {
     }
@@ -85,8 +89,11 @@ public final class EsCcc implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return String.join(" ", n.substring(0, 4), n.substring(4, 8), n.substring(8, 10),
-                n.substring(10, 15), n.substring(15));
+        return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

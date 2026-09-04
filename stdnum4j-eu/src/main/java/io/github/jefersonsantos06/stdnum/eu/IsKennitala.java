@@ -7,10 +7,12 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -32,6 +34,8 @@ public final class IsKennitala implements StdNum {
                             + " 10 digits with an embedded date and a mod 11 check digit.")
                     .tags(Tag.PERSON, Tag.COMPANY)
                     .build();
+
+    private static final Mask MASK = Mask.of("999999-9999");
 
     private static final Pattern STRUCTURE =
             Pattern.compile("([01234567]\\d)([01]\\d)(\\d\\d)(\\d\\d)(\\d)([09])");
@@ -91,7 +95,11 @@ public final class IsKennitala implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 6) + "-" + n.substring(6);
+        return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

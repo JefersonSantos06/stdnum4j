@@ -3,6 +3,9 @@ package io.github.jefersonsantos06.stdnum.eu;
 import io.github.jefersonsantos06.stdnum.spi.Descriptor;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
+
+import java.util.List;
 
 /**
  * Y-tunnus, the Finnish business identifier: the same eight digits as the
@@ -21,6 +24,8 @@ public final class FiYtunnus implements StdNum {
                             + " hyphen before the check digit.")
                     .tags(Tag.COMPANY)
                     .build();
+
+    private static final Mask MASK = Mask.of("9999999-9");
 
     private FiYtunnus() {
     }
@@ -42,7 +47,11 @@ public final class FiYtunnus implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 7) + "-" + n.substring(7);
+        return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

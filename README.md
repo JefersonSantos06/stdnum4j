@@ -1,4 +1,4 @@
-# java-stdnum
+# stdnum4j
 
 Uma biblioteca Java para interpretar, validar e reformatar números e códigos
 padronizados — números fiscais, identificadores pessoais, números bancários e

@@ -1,5 +1,5 @@
 /**
- * java-stdnum: parse, validate and reformat standard numbers and codes.
+ * stdnum4j: parse, validate and reformat standard numbers and codes.
  *
  * <p>This package hosts {@link io.github.jefersonsantos06.stdnum.StdNums},
  * the registry that discovers every number type on the classpath. The

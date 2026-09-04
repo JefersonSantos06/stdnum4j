@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.jefersonsantos06</groupId>
-        <artifactId>java-stdnum-parent</artifactId>
+        <artifactId>stdnum4j-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>stdnum-eu</artifactId>
-    <name>java-stdnum :: eu</name>
+    <name>stdnum4j :: eu</name>
     <description>European standard numbers: German, French, Spanish, Italian and Portuguese identifiers.</description>
 
     <properties>

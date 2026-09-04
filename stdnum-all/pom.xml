@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.jefersonsantos06</groupId>
-        <artifactId>java-stdnum-parent</artifactId>
+        <artifactId>stdnum4j-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>stdnum-all</artifactId>
-    <name>java-stdnum :: all</name>
+    <name>stdnum4j :: all</name>
     <description>Aggregator that depends on every number module and sweeps the whole registry with the generic contract.</description>
 
     <properties>

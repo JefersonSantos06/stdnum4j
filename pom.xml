@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.jefersonsantos06</groupId>
-    <artifactId>java-stdnum-parent</artifactId>
+    <artifactId>stdnum4j-parent</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>java-stdnum</name>
+    <name>stdnum4j</name>
     <description>A Java library to parse, validate and reformat standard numbers and codes.</description>
-    <url>https://github.com/jefersonsantos06/java-stdnum</url>
+    <url>https://github.com/jefersonsantos06/stdnum4j</url>
 
     <modules>
         <module>stdnum-core</module>

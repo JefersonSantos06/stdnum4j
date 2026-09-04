@@ -73,7 +73,7 @@ public final class Regenerate {
      * to the JDK's default user agent, which would take four sources down.
      */
     private static final String USER_AGENT =
-            "stdnum-regenerate/1.0 (https://github.com/jefersonsantos06/java-stdnum)";
+            "stdnum-regenerate/1.0 (https://github.com/jefersonsantos06/stdnum4j)";
 
     private enum Status { UNCHANGED, CHANGED, FAILED }
 

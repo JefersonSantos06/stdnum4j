@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.jefersonsantos06</groupId>
-        <artifactId>java-stdnum-parent</artifactId>
+        <artifactId>stdnum4j-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>stdnum-apac</artifactId>
-    <name>java-stdnum :: apac</name>
+    <name>stdnum4j :: apac</name>
     <description>Asia-Pacific standard numbers: Australia, New Zealand, India and China.</description>
 
     <properties>

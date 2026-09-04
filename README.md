@@ -97,10 +97,20 @@ regiões indonésias e, num arquivo só, o formato do código postal de 178 paí
 e territórios, tirado dos metadados de endereço do Google (dados CC BY 4.0).
 
 Eles são **gerados a partir dos registros de origem e nunca editados à mão**.
-Os geradores ficam em [`tools/`](tools/README.md), que documenta como
-reconstruir cada arquivo; eles não têm dependências, e as duas fontes
-publicadas como planilha são lidas só com o JDK, já que um xlsx é um zip de
-XML.
+Um comando regera os dezesseis:
+
+```bash
+javac -d tools/classes tools/*.java
+java -cp tools/classes Regenerate          # --check regera e compara, sem escrever
+```
+
+Cada arquivo é uma classe em [`tools/`](tools/README.md) que declara de onde vem
+e como se produz; buscar, comparar e escrever são do driver, uma vez, para
+todas, e por isso regerar um arquivo e regerar todos não podem divergir. Os
+geradores não têm dependências, e as três fontes publicadas como planilha são
+lidas só com o JDK, já que um xlsx é um zip de XML. Na CI o `Regenerate` roda
+toda semana e abre um pull request por arquivo que mudou; uma fonte fora do ar
+vira aviso, não interrupção.
 
 ## Build
 
@@ -108,14 +118,15 @@ XML.
 mvn verify
 ```
 
-Requer JDK 17+. Roda 21.340 testes.
+Requer JDK 17+. Roda 21.340 testes. A CI roda o mesmo `verify` no JDK 17 e no
+21, e compila os geradores de `tools/`, que não são módulos Maven.
 
 ## Documentação
 
 | | |
 |---|---|
 | **[Arquitetura](docs/ARCHITECTURE.md)** | A SPI, os três pilares, como as falhas são relatadas e traduzidas, o grafo de módulos, o que falta de propósito. |
-| **[Testes](docs/TESTING.md)** | Como 21.340 testes saem de um contrato e 15.960 linhas de fixture, e o que o contrato garante. |
+| **[Testes](docs/TESTING.md)** | Como 21.340 testes saem de um contrato e 15.965 linhas de fixture, e o que o contrato garante. |
 | **[Contribuindo](docs/CONTRIBUTING.md)** | Adicionar um tipo de número, passo a passo — e como se mantêm os arquivos de dados, os links de referência e o inventário. |
 | **[Números](docs/NUMBERS.md)** | Todos os tipos, por módulo e país. |
 | **[Geradores de dados](tools/README.md)** | Como reconstruir cada arquivo `.dat` a partir do registro dele. |

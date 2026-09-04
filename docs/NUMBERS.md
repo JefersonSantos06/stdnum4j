@@ -39,9 +39,10 @@ O python-stdnum 2.2 traz **235 tipos de número** (236 módulos, um dos quais,
         número com dígito verificador, e nada aqui precisa dele.
 - **217 tipos daqui não têm equivalente no python-stdnum:** os 178 códigos
   postais gerados, os 35 brasileiros
-  (as inscrições estaduais das 27 unidades federativas, o CNS, o título de
-  eleitor, o RENAVAM, a chave de acesso da NF-e, o boleto FEBRABAN nas suas
-  duas formas e o Pix BR Code), mais `cz.ico`, `sk.ico`, `om.vat` e `upi`.
+  (as inscrições estaduais das 27 unidades federativas, o PIS/PASEP, o CNS, o
+  título de eleitor, o RENAVAM, a chave de acesso da NF-e, o boleto FEBRABAN
+  nas suas duas formas e o Pix BR Code), mais `cz.ico`, `sk.ico`, `om.vat` e
+  `upi`.
 
 Onde a referência nomeia o módulo de outro jeito, o id aqui segue a grafia
 natural: `in_.pan` → `in.pan`, `is_.kennitala` → `is.kennitala`, `jp.in_` →

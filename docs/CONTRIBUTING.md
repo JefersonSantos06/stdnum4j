@@ -11,7 +11,7 @@ pressupõe a SPI.
 
 ## Como é um tipo pronto
 
-O CPF é a forma inteira em cinquenta linhas. Nada abaixo é cerimônia que você
+O CPF é a forma inteira, tirando o Javadoc. Nada abaixo é cerimônia que você
 poderia ter pulado.
 
 ```java
@@ -30,6 +30,8 @@ public final class Cpf implements StdNum {
                     .references("https://www.gov.br/receitafederal/pt-br/assuntos/meu-cpf",
                             "https://en.wikipedia.org/wiki/CPF_number")
                     .build();
+
+    private static final Mask MASK = Mask.of("###.###.###-##");
 
     private static final int[] WEIGHTS_1 = Weighted.descending(10, 9);
     private static final int[] WEIGHTS_2 = Weighted.descending(11, 10);
@@ -68,9 +70,7 @@ public final class Cpf implements StdNum {
 
     @Override
     public String format(String number) {
-        String n = validate(number);
-        return n.substring(0, 3) + "." + n.substring(3, 6) + "."
-                + n.substring(6, 9) + "-" + n.substring(9);
+        return MASK.fill(validate(number));
     }
 }
 ```

@@ -19,7 +19,7 @@ public interface StdNum {
 }
 ```
 
-Dois métodos são abstratos; quatro têm implementação padrão escrita uma vez na
+Três métodos são abstratos; três têm implementação padrão escrita uma vez na
 interface. `isValid` e `check` são o `validate` com a falha capturada, e
 `format` cai no `validate` — um tipo cuja apresentação canônica é a própria
 forma compacta ganha um `format` correto sem escrever nada.
@@ -68,7 +68,7 @@ exceção — um formulário, uma importação de planilha, um job em lote.
 
 ## Falhar
 
-`validate` lança quando o número está errado. A hierarquia tem quatro classes e
+`validate` lança quando o número está errado. A hierarquia tem cinco classes e
 para por aí:
 
 ```
@@ -210,7 +210,7 @@ O que se repetiria em cada tipo mora aqui. `Mask` escreve o número do jeito
 que ele se escreve, e é o `format` de 57 tipos; `Strings.compact` de três
 argumentos tira o prefixo que 34 números carregam mas não guardam;
 `Strings.requireDigits` é a guarda com que todo acessor abre; `Dates.birthDate`
-é o que duas dúzias de identificadores pessoais fazem com os seis dígitos da
+é o que dezesseis identificadores pessoais fazem com os seis dígitos da
 data. A regra de qual século dois dígitos significam continua em cada país,
 porque cada país tem a sua.
 

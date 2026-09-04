@@ -32,7 +32,7 @@ class EsNifTest extends StdNumContractTest {
 }
 ```
 
-Esse arquivo tem 11 linhas e roda **22 testes**: as 5 amostras válidas e as 3
+Esse arquivo tem 12 linhas e roda **22 testes**: as 5 amostras válidas e as 3
 inválidas dos arquivos de fixture, as 9 entradas-lixo que todo tipo recebe, a
 verificação de tradução, as duas verificações fixas, e dois pulos pelos
 arquivos de formato e de acessor que ele não tem. O `StdNumContractTest` é
@@ -97,11 +97,11 @@ a procedência da amostra.
 
 | Arquivo | Contém | Arquivos | Linhas |
 |---|---|---|---|
-| `<id>.txt` | números válidos | 265 | 13.452 |
+| `<id>.txt` | números válidos | 265 | 13.457 |
 | `<id>-invalid.txt` | números que precisam ser recusados | 265 | 2.043 |
 | `<id>-format.txt` | `entrada<TAB>apresentação esperada` | 132 | 231 |
 | `<id>-accessor.txt` | `método<TAB>entrada<TAB>esperado` | 52 | 234 |
-| | | **714** | **15.960** |
+| | | **714** | **15.965** |
 
 Os dois últimos existem porque a verificação de ida e volta não prende tudo.
 `validate(format(x))` prova que o `format` produz *alguma coisa* válida; não

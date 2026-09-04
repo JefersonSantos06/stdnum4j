@@ -6,11 +6,13 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -121,5 +123,14 @@ public final class InscricaoEstadual implements StdNum {
     @Override
     public String format(String number) {
         return UfMasks.apply(uf, validate(number));
+    }
+
+    /**
+     * The masks this state writes its number with — one per length in
+     * circulation. Empty for Alagoas and Amapá, which write bare digits.
+     */
+    @Override
+    public List<Mask> masks() {
+        return UfMasks.of(uf);
     }
 }

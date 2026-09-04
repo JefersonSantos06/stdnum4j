@@ -11,6 +11,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * PHN, the personal health number of British Columbia: ten digits opening
  * with a 9 and closing with a weighted mod 11 check digit.
@@ -78,5 +80,10 @@ public final class CaBcPhn implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

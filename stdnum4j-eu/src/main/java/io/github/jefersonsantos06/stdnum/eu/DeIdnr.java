@@ -10,6 +10,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * Steuerliche Identifikationsnummer, the German personal tax number: eleven
  * digits closing with an ISO 7064 MOD 11,10 check digit.
@@ -87,5 +89,10 @@ public final class DeIdnr implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

@@ -9,6 +9,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * 法人番号 (hōjin bangō), the Japanese Corporate Number assigned by the
  * National Tax Agency: thirteen digits whose <em>first</em> digit is the
@@ -70,5 +72,10 @@ public final class JpCn implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

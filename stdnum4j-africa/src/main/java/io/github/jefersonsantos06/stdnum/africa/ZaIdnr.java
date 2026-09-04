@@ -13,6 +13,7 @@ import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * ID number (South African Identity Document number): thirteen digits
@@ -98,5 +99,10 @@ public final class ZaIdnr implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

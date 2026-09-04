@@ -16,13 +16,27 @@ public interface StdNum {
     default boolean isValid(String number);
     default Check check(String number);    // resultado sem exceção: Valid | Invalid
     default String format(String number);  // a apresentação que as pessoas esperam
+    default List<Mask> masks();            // como se escreve, para um campo vazio
 }
 ```
 
-Três métodos são abstratos; três têm implementação padrão escrita uma vez na
-interface. `isValid` e `check` são o `validate` com a falha capturada, e
+Três métodos são abstratos; quatro têm implementação padrão escrita uma vez na
+interface. `isValid` e `check` são o `validate` com a falha capturada,
 `format` cai no `validate` — um tipo cuja apresentação canônica é a própria
-forma compacta ganha um `format` correto sem escrever nada.
+forma compacta ganha um `format` correto sem escrever nada — e `masks` é vazia
+por padrão.
+
+`format` responde *como este número fica escrito*, e precisa de um número para
+responder. `masks` responde *como este tipo se escreve*, e não precisa: são os
+templates que um formulário põe num campo antes de haver o que validar.
+Devolve uma lista porque um tipo escreve mais de uma forma — Pernambuco tem
+uma máscara para nove dígitos e outra para os catorze legados, e o código
+postal britânico tem oito. Os 114 tipos que têm máscara a devolvem; os demais
+devolvem lista vazia, e o contrato do TCK prova, para todos, que a máscara e o
+`format` escrevem o mesmo número do mesmo jeito. Vazia não promete que a
+apresentação é a forma compacta: um `format` escrito à mão — o IBAN agrupando
+de quatro em quatro, o `CHE-` que o UID suíço escreve na frente — não tem o
+que devolver ali e formata assim mesmo.
 
 A instância é um singleton sem estado, por convenção `Xyz.INSTANCE` com
 construtor privado. Não há fábrica, objeto de configuração nem builder para

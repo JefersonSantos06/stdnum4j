@@ -49,6 +49,19 @@ public final class Cpf implements StdNum {
         return Strings.compact(number, " -.");
     }
 
+    public static String calcCheckDigits(String base) {
+        String b = INSTANCE.compact(base);
+        if (!Strings.isDigits(b)) {
+            throw new InvalidFormatException();
+        }
+        if (b.length() != 9) {
+            throw new InvalidLengthException();
+        }
+        int d1 = Weighted.mod11CheckDigit(b, WEIGHTS_1);
+        int d2 = Weighted.mod11CheckDigit(b + d1, WEIGHTS_2);
+        return "" + d1 + d2;
+    }
+
     @Override
     public String validate(String number) {
         String n = compact(number);
@@ -71,6 +84,11 @@ public final class Cpf implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }
 ```
@@ -146,6 +164,13 @@ entra em `PostalCode.HAND_WRITTEN` para o genérico sair do caminho. O
   `static final`, não aritmética de `substring`:
   `private static final Mask MASK = Mask.of("###.###.###-##");` e
   `return MASK.fill(validate(number));`.
+- Quem tem `MASK` também sobrescreve `masks`, com uma linha —
+  `return List.of(MASK);` —, que é o que um formulário põe num campo antes de
+  haver número. Um tipo com mais de uma forma devolve todas, e o `format` é
+  `Mask.apply(masks(), validate(number))`. O contrato do TCK compara as duas
+  respostas em toda amostra válida, então elas não podem divergir em silêncio.
+  Se o `format` não passa por máscara, deixe `masks` vazia: mentir ali é pior
+  que não responder.
 - Acessores (`getBirthDate`, `toSiren`, `manufacturer`) são `public static`,
   recebem uma única `String` e **validam primeiro**. Um método público que
   lança `NumberFormatException` num número dos nossos próprios fixtures é um
@@ -278,6 +303,7 @@ país dele, em ordem de id. Aquele arquivo é mantido à mão e nada o cobra.
 - [ ] `compact` lista todo separador
 - [ ] `validate` devolve a forma compacta e verifica o básico primeiro
 - [ ] `format` sobrescrito só se a apresentação diferir
+- [ ] `masks` devolvendo a `MASK` do tipo, se houver uma
 - [ ] registrado no provider do módulo
 - [ ] contagens atualizadas no `AllRegisteredContractTest`
 - [ ] `<id>.txt` e `<id>-invalid.txt`, com comentários de procedência

@@ -12,6 +12,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 
 /**
  * RUT (Registro Único Tributario), the Uruguayan tax number for legal
@@ -87,5 +89,10 @@ public final class UyRut implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

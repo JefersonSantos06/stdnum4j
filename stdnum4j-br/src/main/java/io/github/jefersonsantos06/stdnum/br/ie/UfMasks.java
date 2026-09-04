@@ -70,11 +70,16 @@ final class UfMasks {
         m.put(uf, List.of(templates).stream().map(Mask::of).toList());
     }
 
+    /** The masks that state writes its number with; empty when it has none. */
+    static List<Mask> of(Uf uf) {
+        return MASKS.getOrDefault(uf, List.of());
+    }
+
     /**
      * The compact number written the way its state writes it, or unchanged
      * when the state has no mask for a number of that length.
      */
     static String apply(Uf uf, String compact) {
-        return Mask.apply(MASKS.getOrDefault(uf, List.of()), compact);
+        return Mask.apply(of(uf), compact);
     }
 }

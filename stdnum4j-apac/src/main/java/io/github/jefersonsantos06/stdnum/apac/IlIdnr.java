@@ -10,6 +10,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * Mispar Zehut (מספר זהות), the Israeli identity number issued at birth:
  * nine Luhn-checked digits, commonly written without their leading zeros,
@@ -63,6 +65,11 @@ public final class IlIdnr implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 
 }

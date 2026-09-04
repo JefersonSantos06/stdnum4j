@@ -9,6 +9,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * SIREN (Système d'Identification du Répertoire des Entreprises), the
  * nine-digit French company identifier, validated with the Luhn checksum.
@@ -56,6 +58,11 @@ public final class FrSiren implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 
     /** The French VAT number derived from this SIREN (two check digits prepended). */

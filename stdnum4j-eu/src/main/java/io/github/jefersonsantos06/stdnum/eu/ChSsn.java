@@ -11,6 +11,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * AHV-Nummer (numero AVS), the Swiss social security number: thirteen digits
  * opening with the 756 country prefix and closing with an EAN-13 check digit.
@@ -81,5 +83,10 @@ public final class ChSsn implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

@@ -9,6 +9,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * The NHS number, which identifies a patient to the health services of
  * England, Wales and the Isle of Man: ten digits weighted 10 down to 1, the
@@ -71,5 +73,10 @@ public final class GbNhs implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

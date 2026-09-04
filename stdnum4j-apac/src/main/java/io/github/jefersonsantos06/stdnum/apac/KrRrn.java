@@ -13,6 +13,7 @@ import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * RRN (주민등록번호), the South Korean resident registration number:
@@ -100,6 +101,11 @@ public final class KrRrn implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 
     /**

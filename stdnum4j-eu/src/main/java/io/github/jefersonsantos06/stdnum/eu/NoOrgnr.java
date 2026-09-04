@@ -9,6 +9,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * Organisasjonsnummer, the Norwegian organisation number: nine digits
  * weighted 3,2,7,6,5,4,3,2,1 modulo 11.
@@ -65,5 +67,10 @@ public final class NoOrgnr implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

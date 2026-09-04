@@ -11,6 +11,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * MOA (Memorandum of Association Number), the Thai company taxpayer number
  * issued by the Department of Business Development: the same thirteen
@@ -67,5 +69,10 @@ public final class ThMoa implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

@@ -11,6 +11,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * SIN (Canadian Social Insurance Number): nine digits validated with the
  * Luhn checksum. Numbers starting with 0 or 8 are not issued; a leading 9
@@ -64,5 +66,10 @@ public final class CaSin implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

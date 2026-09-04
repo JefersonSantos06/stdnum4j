@@ -10,6 +10,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * BRN, the South Korean business registration number: ten digits in three
  * groups — the tax office that issued it, the kind of business, and a serial
@@ -75,5 +77,10 @@ public final class KrBrn implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

@@ -8,6 +8,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * TN (الرقم الضريبي), the Egyptian tax registration number: nine digits,
  * conventionally written in three hyphenated groups. Arabic-Indic digits
@@ -56,5 +58,10 @@ public final class EgTn implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

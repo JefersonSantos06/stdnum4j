@@ -9,6 +9,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * OGM, the Belgian structured payment reference: twelve digits whose last two
  * are the first ten modulo 97, with a remainder of 0 written as 97 so the
@@ -71,5 +73,10 @@ public final class BeOgmVcs implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

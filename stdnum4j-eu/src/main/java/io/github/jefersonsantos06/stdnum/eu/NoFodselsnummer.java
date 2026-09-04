@@ -13,6 +13,7 @@ import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Fodselsnummer, the Norwegian national identity number: the date of birth,
@@ -146,5 +147,10 @@ public final class NoFodselsnummer implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

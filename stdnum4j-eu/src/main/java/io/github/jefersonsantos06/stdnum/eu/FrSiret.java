@@ -10,6 +10,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * SIRET (Système d'Identification du Répertoire des ETablissements), the
  * fourteen-digit French establishment identifier: a SIREN plus a five-digit
@@ -74,6 +76,11 @@ public final class FrSiret implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 
     /** The SIREN of this establishment (the first nine digits). */

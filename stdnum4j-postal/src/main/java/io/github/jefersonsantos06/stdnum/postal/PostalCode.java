@@ -175,4 +175,13 @@ public final class PostalCode implements StdNum {
     public String format(String number) {
         return Mask.apply(masks, validate(number));
     }
+
+    /**
+     * The shapes this country's examples show, empty for the 145 whose codes
+     * the source writes without a separator.
+     */
+    @Override
+    public List<Mask> masks() {
+        return masks;
+    }
 }

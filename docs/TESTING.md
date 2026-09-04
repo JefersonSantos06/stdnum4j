@@ -1,6 +1,6 @@
 # Testes
 
-`mvn verify` roda **21.340 testes**. Quase nenhum deles foi escrito um a um.
+`mvn verify` roda **21.605 testes**. Quase nenhum deles foi escrito um a um.
 Esta página explica como se chega a esse número, para que adicionar um tipo de
 número signifique adicionar dados, e não adicionar código de teste.
 
@@ -32,9 +32,9 @@ class EsNifTest extends StdNumContractTest {
 }
 ```
 
-Esse arquivo tem 12 linhas e roda **22 testes**: as 5 amostras válidas e as 3
+Esse arquivo tem 12 linhas e roda **23 testes**: as 5 amostras válidas e as 3
 inválidas dos arquivos de fixture, as 9 entradas-lixo que todo tipo recebe, a
-verificação de tradução, as duas verificações fixas, e dois pulos pelos
+verificação de tradução, as três verificações fixas, e dois pulos pelos
 arquivos de formato e de acessor que ele não tem. O `StdNumContractTest` é
 quase todo feito de métodos `@TestFactory` que transformam cada linha de
 amostra num `DynamicTest` próprio, nomeado com a amostra, de modo que uma falha
@@ -78,6 +78,11 @@ dele.
 - `null` é recusado por `validate` e por `compact` com uma
   `ValidationException`, não com um NPE;
 - o `Descriptor` tem id, nome curto e título não vazios;
+- `masks()` não é nula nem carrega nulo, e quando não é vazia escreve toda
+  amostra válida exatamente como o `format` escreve — a máscara que um
+  formulário põe num campo vazio não pode discordar da biblioteca sobre o
+  mesmo número. Um tipo sem máscara passa em silêncio: um `format` escrito à
+  mão não tem com o que ser comparado;
 - todo motivo que o tipo dá está traduzido para todos os idiomas que a
   biblioteca distribui (veja abaixo).
 
@@ -210,17 +215,17 @@ atualizar este teste de propósito. Veja
 | Módulo | Testes | Pulados |
 |---|---:|---:|
 | `stdnum4j-core` | 92 | 0 |
-| `stdnum4j-tck` | 28 | 2 |
-| `stdnum4j-br` | 794 | 22 |
-| `stdnum4j-international` | 2.715 | 31 |
-| `stdnum4j-eu` | 6.702 | 180 |
-| `stdnum4j-latam` | 3.679 | 27 |
-| `stdnum4j-na` | 353 | 13 |
-| `stdnum4j-apac` | 3.069 | 35 |
-| `stdnum4j-africa` | 1.269 | 13 |
-| `stdnum4j-postal` | 820 | 16 |
-| `stdnum4j-all` | 1.819 | 7 |
-| **Total** | **21.340** | **346** |
+| `stdnum4j-tck` | 29 | 2 |
+| `stdnum4j-br` | 807 | 22 |
+| `stdnum4j-international` | 2.742 | 31 |
+| `stdnum4j-eu` | 6.830 | 180 |
+| `stdnum4j-latam` | 3.702 | 27 |
+| `stdnum4j-na` | 363 | 13 |
+| `stdnum4j-apac` | 3.102 | 35 |
+| `stdnum4j-africa` | 1.281 | 13 |
+| `stdnum4j-postal` | 834 | 16 |
+| `stdnum4j-all` | 1.823 | 7 |
+| **Total** | **21.605** | **346** |
 
 O `stdnum4j-tck` testa a si mesmo contra um `DummyNumber` que existe só para
 provar que o contrato pega o que diz pegar, e o `RegistryIntegrationTest` prova

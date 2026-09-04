@@ -9,6 +9,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * ACN (Australian Company Number), issued by ASIC: nine digits with a
  * descending-weight modulo 10 check digit.
@@ -68,6 +70,11 @@ public final class AuAcn implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 
     /** The ABN derived from this company number, by prepending its check digits. */

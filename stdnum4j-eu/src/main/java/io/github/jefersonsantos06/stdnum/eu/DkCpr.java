@@ -12,6 +12,7 @@ import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * CPR (personnummer), the Danish citizen number: ten digits in the form
@@ -91,6 +92,11 @@ public final class DkCpr implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 
     /**

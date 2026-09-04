@@ -11,6 +11,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * PIN, the Thailand Personal Identification Number issued by the Ministry
  * of Interior: thirteen digits closed by a descending-weight mod 11 check
@@ -77,5 +79,10 @@ public final class ThPin implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

@@ -40,6 +40,25 @@ StdNums.byCountry("ES");       // todo tipo espanhol no classpath
 StdNums.byTag(Tag.VAT);        // todo número de VAT
 ```
 
+### A máscara, antes de haver número
+
+`format` diz como *este* número fica escrito, e precisa de um número. Um campo
+de formulário vazio ainda não tem um, e é o que `masks` responde:
+
+```java
+Cpf.INSTANCE.masks();          // [###.###.###-##]
+InscricaoEstadual.of(Uf.PE)
+                 .masks();     // [#######-##, ##.#.###.#######-#]  — duas formas em circulação
+```
+
+`#` toma o próximo caractere, `9` um dígito e `A` uma letra; o resto é
+separador. São 114 dos 451 tipos, e para eles o teste de contrato prova que a
+máscara escreve todo número exatamente como o `format` escreve. Os demais
+devolvem lista vazia — o que não promete que a apresentação seja a forma
+compacta: o IBAN agrupa de quatro em quatro à mão e não tem máscara a
+oferecer. Para escrever um número, pergunte ao `format`; para vestir um campo
+vazio, pergunte aqui.
+
 ### Recusas no idioma de quem usa
 
 `reason()` e `getMessage()` são em inglês, que é o que pertence a um log. Para
@@ -118,7 +137,7 @@ vira aviso, não interrupção.
 mvn verify
 ```
 
-Requer JDK 17+. Roda 21.340 testes. A CI roda o mesmo `verify` no JDK 17 e no
+Requer JDK 17+. Roda 21.605 testes. A CI roda o mesmo `verify` no JDK 17 e no
 21, e compila os geradores de `tools/`, que não são módulos Maven.
 
 ## Documentação
@@ -126,7 +145,7 @@ Requer JDK 17+. Roda 21.340 testes. A CI roda o mesmo `verify` no JDK 17 e no
 | | |
 |---|---|
 | **[Arquitetura](docs/ARCHITECTURE.md)** | A SPI, os três pilares, como as falhas são relatadas e traduzidas, o grafo de módulos, o que falta de propósito. |
-| **[Testes](docs/TESTING.md)** | Como 21.340 testes saem de um contrato e 15.965 linhas de fixture, e o que o contrato garante. |
+| **[Testes](docs/TESTING.md)** | Como 21.605 testes saem de um contrato e 15.965 linhas de fixture, e o que o contrato garante. |
 | **[Contribuindo](docs/CONTRIBUTING.md)** | Adicionar um tipo de número, passo a passo — e como se mantêm os arquivos de dados, os links de referência e o inventário. |
 | **[Números](docs/NUMBERS.md)** | Todos os tipos, por módulo e país. |
 | **[Geradores de dados](tools/README.md)** | Como reconstruir cada arquivo `.dat` a partir do registro dele. |

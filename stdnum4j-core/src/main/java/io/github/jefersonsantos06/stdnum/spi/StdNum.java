@@ -1,5 +1,9 @@
 package io.github.jefersonsantos06.stdnum.spi;
 
+import io.github.jefersonsantos06.stdnum.text.Mask;
+
+import java.util.List;
+
 /**
  * A standard number or code format: the common contract every number type in
  * this library implements.
@@ -94,5 +98,32 @@ public interface StdNum {
      */
     default String format(String number) {
         return validate(number);
+    }
+
+    /**
+     * How this number is written, as templates a form can put on an input
+     * before there is a number to validate: {@code "###.###.###-##"} for the
+     * CPF. Empty when the presentation is the compact form itself, and
+     * {@link #format} agrees — a number no mask describes is its own
+     * presentation.
+     *
+     * <p>A list, not one mask, because a type may write more than one shape:
+     * Pernambuco writes nine digits as {@code 1908093-02} and the legacy
+     * fourteen as {@code 18.1.001.0000004-9}, and a postal code takes the
+     * shape its issuer's examples show. {@link Mask#apply(List, String)}
+     * picks the one that fits a given compact number, which is what
+     * {@code format} does with exactly this list.</p>
+     *
+     * <p>Empty does not promise the presentation is the compact form: a type
+     * whose {@code format} is written by hand rather than through a mask —
+     * the IBAN grouping in fours, the {@code CHE-} the Swiss UID writes in
+     * front — has nothing to return here and still formats. Ask
+     * {@code format} what a number looks like; ask this what an empty field
+     * looks like.</p>
+     *
+     * @return the masks, outermost first, never {@code null}; an immutable list
+     */
+    default List<Mask> masks() {
+        return List.of();
     }
 }

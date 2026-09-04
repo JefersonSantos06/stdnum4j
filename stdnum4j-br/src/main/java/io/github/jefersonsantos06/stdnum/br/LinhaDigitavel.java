@@ -10,6 +10,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.List;
+
 /**
  * Linha digitável, the 47-digit typeable line printed above the barcode of
  * a Brazilian bank payment slip.
@@ -102,5 +104,10 @@ public final class LinhaDigitavel implements StdNum {
     @Override
     public String format(String number) {
         return MASK.fill(validate(number));
+    }
+
+    @Override
+    public List<Mask> masks() {
+        return List.of(MASK);
     }
 }

@@ -6,16 +6,21 @@
     <parent>
         <groupId>io.github.jefersonsantos06</groupId>
         <artifactId>stdnum4j-parent</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>stdnum4j-all</artifactId>
+    <!--
+      A dependency aggregator: it carries no code, only the whole module list, so
+      that one coordinate puts all 451 types on the classpath. `pom` packaging is
+      what that is — and it keeps this module from having to publish a jar with
+      nothing in it. Its test sources are the other half of what it is for: the
+      checks that only mean something with the entire registry present, which is
+      why the test lifecycle below is wired on by hand. `pom` does not bring one.
+    -->
+    <packaging>pom</packaging>
     <name>stdnum4j :: all</name>
     <description>Aggregator that depends on every number module and sweeps the whole registry with the generic contract.</description>
-
-    <properties>
-        <auto.module.name>io.github.jefersonsantos06.stdnum.all</auto.module.name>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -65,4 +70,49 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>test-resources</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>testResources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

@@ -1,5 +1,9 @@
 # stdnum4j
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.jefersonsantos06/stdnum4j-core?label=Maven%20Central)](https://central.sonatype.com/namespace/io.github.jefersonsantos06)
+[![build](https://github.com/JefersonSantos06/stdnum4j/actions/workflows/build.yml/badge.svg)](https://github.com/JefersonSantos06/stdnum4j/actions/workflows/build.yml)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
+
 Uma biblioteca Java para interpretar, validar e reformatar números e códigos
 padronizados — números fiscais, identificadores pessoais, números bancários e
 de pagamento, códigos de produto. **451 tipos de número em 183 países**, sem
@@ -8,8 +12,25 @@ nenhuma dependência.
 Inspirada no [python-stdnum](https://github.com/arthurdejong/python-stdnum);
 implementada do zero a partir das especificações públicas.
 
-> **Estado: desenvolvimento inicial.** A API pública ainda pode mudar, e nada
-> foi publicado no Maven Central. Construa localmente com `mvn install`.
+## Instalando
+
+Leve o módulo da região que lhe interessa; a tabela adiante diz o que há em
+cada um. O Brasil, por exemplo:
+
+```xml
+<dependency>
+    <groupId>io.github.jefersonsantos06</groupId>
+    <artifactId>stdnum4j-br</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+```kotlin
+implementation("io.github.jefersonsantos06:stdnum4j-br:1.0.0")
+```
+
+Ou `stdnum4j-all`, que traz todos os 451 tipos de uma vez. Requer JDK 17+, e
+nenhum módulo tem dependência em tempo de execução.
 
 ## Usando
 
@@ -99,7 +120,7 @@ IBAN nacional é um IBAN com uma regra nacional por cima.
 | `stdnum4j-apac` | 33 | Ásia-Pacífico e adjacências: AU, CN, ID, IL, IN, JP, KR, MY, NZ, OM, PK, RU, SG, TH, TR, TW, VN. |
 | `stdnum4j-africa` | 12 | África: DZ, EG, GH, GN, KE, MA, MU, MZ, SN, TN, ZA. |
 | `stdnum4j-postal` | 178 | Códigos postais: um tipo por país ou território com padrão nos metadados de endereço do Google (os da libaddressinput, dados CC BY 4.0) — CEP, ZIP, Eircode, PIN e os demais, gerados de um arquivo só. |
-| `stdnum4j-all` | — | Agregador que depende de todos os módulos, e casa dos testes entre módulos. |
+| `stdnum4j-all` | 451 | Agregador: um `pom` que depende de todos os módulos, e casa dos testes entre módulos. |
 
 O inventário completo, tipo a tipo, está em
 **[docs/NUMBERS.md](docs/NUMBERS.md)**. Ele cobre 234 dos 235 tipos de número
@@ -149,6 +170,19 @@ Requer JDK 17+. Roda 21.605 testes. A CI roda o mesmo `verify` no JDK 17 e no
 | **[Contribuindo](docs/CONTRIBUTING.md)** | Adicionar um tipo de número, passo a passo — e como se mantêm os arquivos de dados, os links de referência e o inventário. |
 | **[Números](docs/NUMBERS.md)** | Todos os tipos, por módulo e país. |
 | **[Geradores de dados](tools/README.md)** | Como reconstruir cada arquivo `.dat` a partir do registro dele. |
+| **[Publicando](docs/RELEASING.md)** | Como uma versão vai parar no Maven Central. |
 
 A documentação é em português. O código, o Javadoc, o texto padrão das
 mensagens de erro e as mensagens de commit são em inglês.
+
+## Licença
+
+[Apache License 2.0](LICENSE).
+
+Os arquivos de dados vêm de registros públicos, e cada um nomeia o seu no
+próprio cabeçalho. Os que declaram licença estão listados no [NOTICE](NOTICE) —
+entre eles os formatos de código postal, tirados dos metadados de endereço do
+Google sob CC BY 4.0.
+
+As regras de validação foram implementadas do zero a partir das especificações
+públicas.

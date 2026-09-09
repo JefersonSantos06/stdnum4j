@@ -1,0 +1,173 @@
+name: release
+
+# One button publishes a version. Actions -> release -> Run workflow: pick
+# which part of the version goes up, and this does the rest — fixes the
+# version, runs the whole suite, signs, sends it to the Central portal, tags
+# the commit, and puts master back on a snapshot.
+#
+# Nothing is pushed until the upload succeeds, so a failed run leaves the
+# repository exactly as it was. See docs/RELEASING.md.
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Which part of the version goes up'
+        type: choice
+        options: [patch, minor, major]
+        default: patch
+      version:
+        description: 'Exact version, overriding the bump (e.g. 1.2.0)'
+        required: false
+        default: ''
+      dry_run:
+        description: 'Do everything except publish and push'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: maven-central
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+          # writes the settings.xml <server id="central"> the publishing plugin reads
+          server-id: central
+          server-username: MAVEN_CENTRAL_USERNAME
+          server-password: MAVEN_CENTRAL_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      # The snapshot on master is the version being prepared, so `patch` just
+      # drops the suffix. A minor or major bump moves up from there.
+      - name: Work out the versions
+        id: v
+        run: |
+          set -euo pipefail
+          current=$(mvn -B -ntp -q help:evaluate -Dexpression=project.version -DforceStdout)
+          echo "master is at $current"
+          case "$current" in
+            *-SNAPSHOT) ;;
+            *) echo "::error::master must sit on a -SNAPSHOT version, found $current"; exit 1 ;;
+          esac
+          base=${current%-SNAPSHOT}
+          IFS=. read -r maj min pat <<< "$base"
+
+          asked='${{ inputs.version }}'
+          if [ -n "$asked" ]; then
+            case "$asked" in
+              [0-9]*.[0-9]*.[0-9]*) release="$asked" ;;
+              *) echo "::error::'$asked' is not an X.Y.Z version"; exit 1 ;;
+            esac
+          else
+            case '${{ inputs.bump }}' in
+              patch) release="$base" ;;
+              minor) release="$maj.$((min + 1)).0" ;;
+              major) release="$((maj + 1)).0.0" ;;
+            esac
+          fi
+
+          if git rev-parse -q --verify "refs/tags/v$release" >/dev/null; then
+            echo "::error::v$release is already tagged. A published version cannot be replaced."
+            exit 1
+          fi
+
+          IFS=. read -r rmaj rmin rpat <<< "$release"
+          echo "release=$release"                             >> "$GITHUB_OUTPUT"
+          echo "next=$rmaj.$rmin.$((rpat + 1))-SNAPSHOT"      >> "$GITHUB_OUTPUT"
+          echo "### Releasing \`$release\`" >> "$GITHUB_STEP_SUMMARY"
+
+      # This also rewrites project.build.outputTimestamp, which is why nobody
+      # has to remember it
+      - name: Set the release version
+        run: mvn -B -ntp versions:set -DnewVersion=${{ steps.v.outputs.release }} -DgenerateBackupPoms=false
+
+      - name: The whole suite, on the version being released
+        run: mvn -B -ntp verify
+
+      # Committed and tagged locally. Pushed only once the upload succeeds.
+      - name: Commit and tag
+        run: |
+          set -euo pipefail
+          git config user.name  "stdnum4j release bot"
+          git config user.email "noreply@github.com"
+          git commit -am "Release ${{ steps.v.outputs.release }}"
+          git tag -a "v${{ steps.v.outputs.release }}" -m "v${{ steps.v.outputs.release }}"
+
+      - name: Sign and upload to Maven Central
+        run: |
+          mvn -B -ntp -Prelease -DskipTests \
+            ${{ inputs.dry_run && '-DskipPublishing=true' || '' }} deploy
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+
+      - name: Put master back on a snapshot
+        run: |
+          set -euo pipefail
+          mvn -B -ntp versions:set -DnewVersion=${{ steps.v.outputs.next }} -DgenerateBackupPoms=false
+          git commit -am "Prepare for ${{ steps.v.outputs.next }}"
+
+      - name: Push the branch and the tag
+        if: ${{ !inputs.dry_run }}
+        run: git push origin HEAD:${{ github.ref_name }} "v${{ steps.v.outputs.release }}"
+
+      - name: Draft the GitHub release
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v${{ steps.v.outputs.release }}" \
+            --title "v${{ steps.v.outputs.release }}" \
+            --generate-notes \
+            --draft
+
+      # A run that fell over before the push left the repository untouched;
+      # say so, because the half-finished job log does not.
+      - name: What a failed run left behind
+        if: failure()
+        run: |
+          {
+            echo ""
+            echo "This run did not finish. Nothing was pushed and no tag exists,"
+            echo "so re-running it after the fix is safe."
+            echo ""
+            echo "The one thing to check is the portal: if the upload step got"
+            echo "through, a deployment may be sitting at"
+            echo "<https://central.sonatype.com/publishing/deployments> waiting"
+            echo "to be dropped."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: What is left to do
+        if: success()
+        run: |
+          if [ '${{ inputs.dry_run }}' = 'true' ]; then
+            echo "Dry run: nothing was published and nothing was pushed." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          {
+            echo ""
+            echo "The deployment is sitting at \`VALIDATED\` in the portal. Two things left:"
+            echo ""
+            echo "1. Check the artifacts and press **Publish** at"
+            echo "   <https://central.sonatype.com/publishing/deployments>."
+            echo "2. Review the draft release notes and publish them at"
+            echo "   <${{ github.server_url }}/${{ github.repository }}/releases>."
+            echo ""
+            echo "master is now on \`${{ steps.v.outputs.next }}\`."
+          } >> "$GITHUB_STEP_SUMMARY"

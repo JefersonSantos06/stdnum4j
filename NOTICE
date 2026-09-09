@@ -1,0 +1,42 @@
+stdnum4j
+Copyright 2026 Jeferson Santos
+
+This product includes software developed by Jeferson Santos.
+
+The number validation rules are implemented from scratch against public
+specifications. No code, data file or wording was taken from python-stdnum
+(LGPL) or from any other implementation.
+
+python-stdnum served as a behavioural reference only. Part of the test corpus
+was imported from its test vectors and re-checked here; those fixtures live
+under src/test/resources and are not part of any published artifact.
+
+--------------------------------------------------------------------------
+Data files
+--------------------------------------------------------------------------
+
+The library ships generated data files (*.dat) built from public registers.
+Each file carries a header naming its own source; tools/README.md documents
+how every one of them is produced. The sources that state a licence:
+
+  stdnum4j-postal/src/main/resources/.../postal/postal-codes.dat
+      Derived from Google's address metadata (libaddressinput),
+      https://chromium-i18n.appspot.com/ssl-address/data/
+      Licensed under the Creative Commons Attribution 4.0 International
+      License (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/
+
+  stdnum4j-apac/src/main/resources/.../apac/cn-loc.dat
+  stdnum4j-eu/src/main/resources/.../eu/at-fa.dat
+  stdnum4j-international/src/main/resources/.../international/iban.dat
+  stdnum4j-international/src/main/resources/.../international/imsi.dat
+      Derived from Wikipedia tables, which mirror the official registers of
+      the Chinese National Bureau of Statistics, the Austrian Federal Ministry
+      of Finance, the SWIFT IBAN Registry and the ITU respectively.
+      Wikipedia content is licensed CC BY-SA 4.0,
+      https://creativecommons.org/licenses/by-sa/4.0/
+
+The remaining data files reproduce code lists published by their issuing
+bodies -- Payments NZ, the Czech National Bank, the National Bank of Belgium,
+RTR Austria, Eurostat, GS1, SIX, the IEEE, the International ISBN Agency and
+Badan Pusat Statistik. They are reproduced as factual registers, with
+attribution, in the file header of each.

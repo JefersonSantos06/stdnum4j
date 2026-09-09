@@ -187,7 +187,7 @@ de módulos no classpath e o mesmo despachante cobre outro conjunto de países.
 | `stdnum4j-apac` | core | Ásia-Pacífico. |
 | `stdnum4j-africa` | core | África. |
 | `stdnum4j-postal` | core | Os códigos postais de 178 países e territórios: uma classe, um arquivo de dados, um tipo por país. |
-| `stdnum4j-all` | todos acima | Sem código. Um agregador, e a casa dos testes que precisam de todos os módulos ao mesmo tempo. |
+| `stdnum4j-all` | todos acima | Sem código: um `pom` que só agrega, para quem quer os 451 tipos com uma coordenada. E a casa dos testes que precisam de todos os módulos ao mesmo tempo. |
 
 Todo módulo regional depende só do `stdnum4j-core`. A única exceção é o
 `stdnum4j-eu`, que também depende do `stdnum4j-international`, porque um IBAN

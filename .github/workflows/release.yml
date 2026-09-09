@@ -36,11 +36,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: maven-central
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '17'
@@ -49,8 +49,35 @@ jobs:
           server-id: central
           server-username: MAVEN_CENTRAL_USERNAME
           server-password: MAVEN_CENTRAL_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      # Imported here rather than by setup-java, which reports a bad secret as
+      # a bare "gpg failed with exit code 2" and leaves you guessing. The most
+      # common cause is an export that produced nothing: --export-secret-keys
+      # needs the passphrase, and without a tty gpg skips the key and still
+      # exits quietly enough to be piped into a clipboard. See docs/RELEASING.md.
+      - name: Import the signing key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GPG_PRIVATE_KEY:-}" ]; then
+            echo "::error::the GPG_PRIVATE_KEY secret is empty or missing"
+            exit 1
+          fi
+          case "$(printf '%s\n' "$GPG_PRIVATE_KEY" | head -1)" in
+            *"BEGIN PGP PRIVATE KEY BLOCK"*) ;;
+            *"BEGIN PGP PUBLIC KEY BLOCK"*)
+              echo "::error::the secret holds the PUBLIC half. Export with --export-secret-keys"
+              exit 1 ;;
+            *)
+              echo "::error::the secret does not begin with -----BEGIN PGP PRIVATE KEY BLOCK-----. \
+          Re-export it, check the file is not empty, and paste the whole block."
+              exit 1 ;;
+          esac
+          printf '%s\n' "$GPG_PRIVATE_KEY" | gpg --batch --yes --import
+          # the algorithm is worth having in the log: the portal is picky about
+          # what it will verify, and this is the first place to look if it is
+          gpg --list-secret-keys --keyid-format=long
 
       # The snapshot on master is the version being prepared, so `patch` just
       # drops the suffix. A minor or major bump moves up from there.

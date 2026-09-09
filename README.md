@@ -29,8 +29,28 @@ cada um. O Brasil, por exemplo:
 implementation("io.github.jefersonsantos06:stdnum4j-br:1.0.0")
 ```
 
-Ou `stdnum4j-all`, que traz todos os 451 tipos de uma vez. Requer JDK 17+, e
-nenhum módulo tem dependência em tempo de execução.
+Ou os 451 de uma vez, com o `stdnum4j-all`. Ele não tem código próprio — é a
+lista dos outros módulos, e por isso é um `pom`, não um jar. **No Maven, o
+`<type>pom</type>` não é opcional:** sem ele a resolução procura um jar que não
+existe e falha com `stdnum4j-all:jar:1.0.0 was not found`.
+
+```xml
+<dependency>
+    <groupId>io.github.jefersonsantos06</groupId>
+    <artifactId>stdnum4j-all</artifactId>
+    <version>1.0.0</version>
+    <type>pom</type>
+</dependency>
+```
+
+```kotlin
+implementation("io.github.jefersonsantos06:stdnum4j-all:1.0.0")
+```
+
+O Gradle não pede nada equivalente: ele lê o `pom` e traz o que está listado
+dentro.
+
+Requer JDK 17+, e nenhum módulo tem dependência em tempo de execução.
 
 ## Usando
 
@@ -120,7 +140,7 @@ IBAN nacional é um IBAN com uma regra nacional por cima.
 | `stdnum4j-apac` | 33 | Ásia-Pacífico e adjacências: AU, CN, ID, IL, IN, JP, KR, MY, NZ, OM, PK, RU, SG, TH, TR, TW, VN. |
 | `stdnum4j-africa` | 12 | África: DZ, EG, GH, GN, KE, MA, MU, MZ, SN, TN, ZA. |
 | `stdnum4j-postal` | 178 | Códigos postais: um tipo por país ou território com padrão nos metadados de endereço do Google (os da libaddressinput, dados CC BY 4.0) — CEP, ZIP, Eircode, PIN e os demais, gerados de um arquivo só. |
-| `stdnum4j-all` | 451 | Agregador: um `pom` que depende de todos os módulos, e casa dos testes entre módulos. |
+| `stdnum4j-all` | 451 | Agregador: um `pom` que depende de todos os módulos — no Maven, peça-o com `<type>pom</type>`. É também a casa dos testes entre módulos. |
 
 O inventário completo, tipo a tipo, está em
 **[docs/NUMBERS.md](docs/NUMBERS.md)**. Ele cobre 234 dos 235 tipos de número

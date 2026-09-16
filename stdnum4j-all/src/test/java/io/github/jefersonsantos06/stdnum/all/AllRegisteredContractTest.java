@@ -2,7 +2,6 @@ package io.github.jefersonsantos06.stdnum.all;
 
 import io.github.jefersonsantos06.stdnum.StdNums;
 import io.github.jefersonsantos06.stdnum.spi.Check;
-import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -11,11 +10,7 @@ import org.junit.jupiter.api.TestFactory;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Sweeps every number type discovered through the registry with the generic
@@ -42,8 +37,8 @@ class AllRegisteredContractTest {
         }
         assertEquals(10, StdNums.byCountry("ES").size());
         assertEquals(8, StdNums.byCountry("FR").size());
-        // 273 hand-written types and 178 generic postal codes
-        assertEquals(451, StdNums.all().size());
+        // 275 hand-written types and 178 generic postal codes
+        assertEquals(453, StdNums.all().size());
     }
 
     @TestFactory

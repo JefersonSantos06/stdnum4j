@@ -1,0 +1,49 @@
+# Legal entities, each from the document that publishes it.
+# https://www.hoteleuropeo.com.ni/politicas-y-terminos-de-uso
+J0310000135757
+# https://www.mapfre.com.ni/media/solicitud-de-seguro-suto-tradicional-membretada.pdf
+J0310000001286
+# https://www.cdn.com.ni/wp-content/uploads/dt/rc/RUC%20CDN%20VIGENTE%20DESDE%20OCTUBRE%202015.pdf
+J0310000193169
+# https://www.holcim.com.ni/legal-notice
+J0310000000794
+# https://www.serpesa.com.ni/site/nuestros-valores/index.html
+J0310000008000
+# https://www.tigo.com.ni/legales#tigo-terminos-y-condiciones
+J0310000001740
+# https://www.walmart.com.ni/terminos-y-condiciones-de-compra
+J0310000001693
+# https://www.provalores.com.ni/PROSPECTO%20DE%20EMISION%20DE%20VALORES%20BANPRO%20(8%20DE%20ENERO%202020).pdf
+J0310000002002
+# https://www.ccpn.org.ni/sites/default/files/publicaciones/Convenio_CCPN_OPTICA_MIRAMIRA.pdf
+J0310000405280
+# https://toyota.com.ni/proveedores-de-casa-pellas/
+J0110000003875
+# https://www.ine.gob.ni/wp-content/DGE/comprasDyD/comprasMayoristas/mercadoContrato/2014/09/Amayo_FaseII_Sept14_actEne15.pdf
+J0110000038601
+# https://www.ine.gob.ni/wp-content/DGE/comprasDyD/comprasMayoristas/mercadoContrato/2018/05/albanisa_mayo18.pdf
+J0320000086643
+# https://www.nicasalud.org.ni/wp-content/uploads/2022/07/LICITACION-PUBLICA-NACIONAL-No.-003-TELEFONIA-PLAN-DE-DATOS.pdf
+J0810000033156
+# https://www.cetrex.gob.ni/website/servicios/cuentas.jsp
+J0830000114467
+# https://www.yelu.com.ni/company/9151/CIPRES
+J0410000004174
+# https://www.epn.com.ni/docs_2016/exo_alcaldia.pdf
+J1330000003038
+# https://www.enacal.com.ni/estadosfinancieros/doc/ENACAL%202019.pdf
+J1330000006118
+# http://digesto.asamblea.gob.ni/consultas/util/pdf.php?type=rdd&rdd=PhAHIh7ZxYc%3D
+J0910000247398
+J0310000177678
+J0310000282676
+# the same register writes one of them with the separators of a cedula
+J091-000024-7328
+#
+# A natural person's RUC is their cedula; see fixtures/ni.cedula.txt for where
+# these come from.
+6011506790002W
+607-190468-0001F
+0011301871000R
+4412002011111D
+0012902000012G

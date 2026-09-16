@@ -1,0 +1,22 @@
+# a day that does not exist, the check letter being right in each case so the
+# date is what refuses them
+0013102900012W
+0012913900012P
+0013002000012J
+# 29 February of a year that is not a leap year under either reading
+0012902010012B
+# the check letter of 6011506790002 is W
+6011506790002X
+# I, O and Z are left out of the check alphabet
+6011506790002I
+6011506790002O
+6011506790002Z
+# too short, too long
+601150679000
+60115067900021W
+# a letter where the body takes digits
+60115O6790002W
+# a legal entity's RUC is not a cedula
+J0310000193169
+# the ten-digit number retired in 2013
+0912969541

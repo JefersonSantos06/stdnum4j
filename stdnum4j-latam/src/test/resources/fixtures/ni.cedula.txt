@@ -1,0 +1,22 @@
+# Confirmed against published examples of the number.
+# https://www.ccpn.org.ni/sites/default/files/2020-03/Certificado%20Proveedor%20del%20Estado%202017%20-%202018.pdf
+6011506790002W
+# https://lookuptax.com/docs/tax-identification-number/nicaragua-tax-id-guide
+607-190468-0001F
+#
+# Constructed from the published rule — the check letter is the thirteen
+# digits modulo 23 read off ABCDEFGHJKLMNPQRSTUVWXY — over municipality codes
+# the source names: 001 Managua, 041 Carazo, 081 Chinandega, 281 Leon,
+# 401 Masaya, 441 Matagalpa.
+# https://www.roderickzapata.com/herramientas/verificar-cedula-nicaragua/
+0011301871000R
+0011012900123M
+0412505900045K
+0812803751234X
+2810107850007F
+4011512990456S
+4412002011111D
+6010101000001M
+# 29 February of year 00: the one date the two readings of a two-digit year
+# disagree on, and the number that pins 2000 + YY down.
+0012902000012G

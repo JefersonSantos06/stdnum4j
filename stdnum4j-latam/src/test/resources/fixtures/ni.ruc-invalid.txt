@@ -1,0 +1,20 @@
+# a legal entity's RUC opens with J
+K0310000193169
+# fourteen digits and no check letter is neither shape
+00310000193169
+# transcription errors found in the wild: thirteen and fifteen characters
+# http://digesto.asamblea.gob.ni/consultas/util/pdf.php?type=rdd&rdd=PhAHIh7ZxYc%3D
+J03100000119694
+# https://www.siboif.gob.ni/system/files_force/documentos/prospectos/prospectobancolafisebancentroabr-2018.pdf
+J031000006296
+# a letter where the body takes digits
+J031000013575A
+# the ten-digit numbers the tax authority retired on 1 July 2013
+# https://www.mapfre.com.ni/media/ramosgeneralesequipocontratista.pdf
+091296-9541
+# https://www.superintendencia.gob.ni/instituciones/lafise-valoressa
+141093-9505
+# a natural person's RUC is refused for the reasons a cedula is
+6011506790002X
+6011506790002I
+0013102900012W

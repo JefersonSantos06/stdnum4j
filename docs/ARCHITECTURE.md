@@ -1,8 +1,8 @@
 # Arquitetura
 
 A biblioteca responde a uma pergunta — *esta string é um número tal-e-tal
-válido, e como ele fica escrito direito* — para 451 tipos de número. Tudo aqui
-existe para manter essa única pergunta respondida do mesmo jeito 451 vezes.
+válido, e como ele fica escrito direito* — para 453 tipos de número. Tudo aqui
+existe para manter essa única pergunta respondida do mesmo jeito 453 vezes.
 
 ## Uma interface, e nada mais para aprender
 
@@ -31,7 +31,7 @@ responder. `masks` responde *como este tipo se escreve*, e não precisa: são os
 templates que um formulário põe num campo antes de haver o que validar.
 Devolve uma lista porque um tipo escreve mais de uma forma — Pernambuco tem
 uma máscara para nove dígitos e outra para os catorze legados, e o código
-postal britânico tem oito. Os 127 tipos que têm máscara a devolvem; os demais
+postal britânico tem oito. Os 128 tipos que têm máscara a devolvem; os demais
 devolvem lista vazia, e o contrato do TCK prova, para todos, que a máscara e o
 `format` escrevem o mesmo número do mesmo jeito. Vazia não promete que a
 apresentação é a forma compacta: um `format` escrito à mão — o IBAN agrupando
@@ -45,7 +45,7 @@ aprender: `Cpf.INSTANCE.validate(entrada)` é a API inteira.
 `validate` devolver a forma compacta em vez de `void` ou `boolean` é a decisão
 da qual o resto decorre. É o que faz o caso comum — *confira isto, depois
 guarde* — caber em uma chamada só, e é o que permite que `isValid`, `check` e
-`format` sejam defaults em vez de 451 cópias escritas à mão.
+`format` sejam defaults em vez de 453 cópias escritas à mão.
 
 ## Três pilares
 
@@ -187,7 +187,7 @@ de módulos no classpath e o mesmo despachante cobre outro conjunto de países.
 | `stdnum4j-apac` | core | Ásia-Pacífico. |
 | `stdnum4j-africa` | core | África. |
 | `stdnum4j-postal` | core | Os códigos postais de 178 países e territórios: uma classe, um arquivo de dados, um tipo por país. |
-| `stdnum4j-all` | todos acima | Sem código: um `pom` que só agrega, para quem quer os 451 tipos com uma coordenada. E a casa dos testes que precisam de todos os módulos ao mesmo tempo. |
+| `stdnum4j-all` | todos acima | Sem código: um `pom` que só agrega, para quem quer os 453 tipos com uma coordenada. E a casa dos testes que precisam de todos os módulos ao mesmo tempo. |
 
 Todo módulo regional depende só do `stdnum4j-core`. A única exceção é o
 `stdnum4j-eu`, que também depende do `stdnum4j-international`, porque um IBAN

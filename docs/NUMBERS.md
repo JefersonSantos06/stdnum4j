@@ -1,6 +1,6 @@
 # Números
 
-**451 tipos**, em 183 países, mais 30 formatos independentes de país.
+**453 tipos**, em 183 países, mais 30 formatos independentes de país.
 
 Este inventário é mantido à mão. Ao adicionar um tipo, adicione-o aqui também —
 veja [CONTRIBUTING.md](CONTRIBUTING.md#passo-8--o-inventário). Se algum dia ele
@@ -17,12 +17,12 @@ StdNums.all().forEach(n -> System.out.println(n.descriptor().id()));
 | [`stdnum4j-international`](#independentes-de-país--stdnum4j-international-30) | 30 | — |
 | [`stdnum4j-br`](#brasil--stdnum4j-br-37) | 37 | 1 |
 | [`stdnum4j-eu`](#europa--stdnum4j-eu-128) | 128 | 44 |
-| [`stdnum4j-latam`](#américa-latina--stdnum4j-latam-23) | 23 | 14 |
+| [`stdnum4j-latam`](#américa-latina--stdnum4j-latam-25) | 25 | 15 |
 | [`stdnum4j-na`](#américa-do-norte--stdnum4j-na-10) | 10 | 2 |
 | [`stdnum4j-apac`](#ásia-pacífico--stdnum4j-apac-33) | 33 | 17 |
 | [`stdnum4j-africa`](#áfrica--stdnum4j-africa-12) | 12 | 11 |
 | [`stdnum4j-postal`](#códigos-postais--stdnum4j-postal-178) | 178 | 178 |
-| **Total** | **451** | **183** |
+| **Total** | **453** | **183** |
 
 Os países do `stdnum4j-postal` se sobrepõem aos dos módulos regionais; distintos,
 são 183.
@@ -37,12 +37,12 @@ O python-stdnum 2.2 traz **235 tipos de número** (236 módulos, um dos quais,
   - [ ] `isil` — International Standard Identifier for Libraries. Deixado de
         fora de propósito: é uma sintaxe com um registro de prefixos, não um
         número com dígito verificador, e nada aqui precisa dele.
-- **217 tipos daqui não têm equivalente no python-stdnum:** os 178 códigos
+- **219 tipos daqui não têm equivalente no python-stdnum:** os 178 códigos
   postais gerados, os 35 brasileiros
   (as inscrições estaduais das 27 unidades federativas, o PIS/PASEP, o CNS, o
   título de eleitor, o RENAVAM, a chave de acesso da NF-e, o boleto FEBRABAN
-  nas suas duas formas e o Pix BR Code), mais `cz.ico`, `sk.ico`, `om.vat` e
-  `upi`.
+  nas suas duas formas e o Pix BR Code), mais `cz.ico`, `sk.ico`, `ni.cedula`,
+  `ni.ruc`, `om.vat` e `upi`.
 
 Onde a referência nomeia o módulo de outro jeito, o id aqui segue a grafia
 natural: `in_.pan` → `in.pan`, `is_.kennitala` → `is.kennitala`, `jp.in_` →
@@ -396,7 +396,7 @@ que ele aparece no `Descriptor`, e não é traduzido.
 - [x] `at.uid` — UID — Umsatzsteuer-Identifikationsnummer
 - [x] `at.vnr` — VNR — Osterreichische Sozialversicherungsnummer
 
-### América Latina — `stdnum4j-latam` (23)
+### América Latina — `stdnum4j-latam` (25)
 
 **Argentina (AR)**
 
@@ -439,6 +439,11 @@ que ele aparece no `Descriptor`, e não é traduzido.
 
 - [x] `mx.curp` — CURP — Clave Unica de Registro de Poblacion
 - [x] `mx.rfc` — RFC — Registro Federal de Contribuyentes
+
+**Nicarágua (NI)**
+
+- [x] `ni.cedula` — Cédula — Cédula de identidad
+- [x] `ni.ruc` — RUC — Registro Único de Contribuyentes
 
 **Paraguai (PY)**
 

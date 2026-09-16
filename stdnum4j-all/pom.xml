@@ -12,7 +12,7 @@
     <artifactId>stdnum4j-all</artifactId>
     <!--
       A dependency aggregator: it carries no code, only the whole module list, so
-      that one coordinate puts all 451 types on the classpath. `pom` packaging is
+      that one coordinate puts all 453 types on the classpath. `pom` packaging is
       what that is — and it keeps this module from having to publish a jar with
       nothing in it. Its test sources are the other half of what it is for: the
       checks that only mean something with the entire registry present, which is

@@ -193,7 +193,7 @@ para os despachantes e para a varredura do registry.
 Depois **atualize as contagens no `AllRegisteredContractTest`**:
 
 ```java
-assertEquals(451, StdNums.all().size());
+assertEquals(453, StdNums.all().size());
 assertEquals(38, StdNums.byCountry("BR").size());
 ```
 
@@ -379,7 +379,7 @@ estão no [passo 7](#passo-7--referências) acima; o método de uma varredura é
 3. abrir à mão qualquer coisa que voltou 403 ou não voltou nada. Isso costuma
    ser um WAF, e o link está bom.
 
-Na última varredura, **115 dos 451 tipos não citam referência nenhuma**. Isso é
+Na última varredura, **115 dos 453 tipos não citam referência nenhuma**. Isso é
 lacuna, não link quebrado — a hora natural de fechar um pedaço dela é quando
 você mexer num desses tipos por outro motivo.
 

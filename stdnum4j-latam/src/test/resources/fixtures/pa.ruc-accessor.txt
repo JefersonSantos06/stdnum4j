@@ -1,0 +1,120 @@
+# Check digits as the DGI publishes them beside each RUC, from its list of
+# ITBMS withholding agents (see pa.ruc.txt for the URL). Only numbers with
+# one reading are here: where a number reads as two registers at once the
+# accessor refuses, and PaRucTest covers that.
+
+# current numbering
+calcCheckDigits	155628291-2-2016	32
+calcCheckDigits	723289-1-473588	55
+calcCheckDigits	454805-1-432117	82
+calcCheckDigits	1269902-1-597539	45
+calcCheckDigits	1722232-1-690575	68
+calcCheckDigits	395593-1-423610	04
+calcCheckDigits	66339-1-373342	60
+calcCheckDigits	1254470-1-594004	90
+calcCheckDigits	155618856-2-2015	65
+calcCheckDigits	2025792-1-744101	64
+calcCheckDigits	52877-115-326091	27
+calcCheckDigits	155664223-2-2018	71
+calcCheckDigits	2486668-1-817006	77
+calcCheckDigits	273003-1-406331	38
+calcCheckDigits	155597688-2-2015	76
+calcCheckDigits	2659472-1-842030	76
+calcCheckDigits	912255-1-517351	80
+calcCheckDigits	1208781-1-583792	03
+calcCheckDigits	155596428-2-2015	74
+calcCheckDigits	155600161-2-2015	18
+calcCheckDigits	959164-1-527572	68
+calcCheckDigits	1437404-1-635074	89
+calcCheckDigits	1283112-1-601012	31
+calcCheckDigits	63961-21-356475	62
+calcCheckDigits	1924089-1-726794	17
+calcCheckDigits	155612725-2-2015	74
+calcCheckDigits	1408703-1-629373	93
+calcCheckDigits	1207455-1-583557	26
+calcCheckDigits	1060762-1-549583	81
+calcCheckDigits	155623246-2-2016	64
+calcCheckDigits	283658-1-407733	63
+calcCheckDigits	155624335-2-2016	28
+calcCheckDigits	358157-1-418546	07
+calcCheckDigits	2636962-1-838889	45
+calcCheckDigits	835607-1-502581	22
+calcCheckDigits	1820287-1-1706	75
+calcCheckDigits	521347-1-438253	70
+calcCheckDigits	1647259-1-674887	01
+calcCheckDigits	2162963-1-767296	00
+calcCheckDigits	2451764-1-812364	93
+calcCheckDigits	155636329-2-2016	96
+calcCheckDigits	780179-1-487966	40
+calcCheckDigits	155660844-2-2018	03
+calcCheckDigits	2464567-1-814023	02
+calcCheckDigits	1002259-1-536336	18
+calcCheckDigits	58223-2-855	04
+calcCheckDigits	2344280-1-796794	38
+calcCheckDigits	1818454-1-708570	80
+calcCheckDigits	699126-1-468330	17
+
+# before the register was renumbered: cross reference and weight 11 twice
+calcCheckDigits	48700-46-311921	69
+calcCheckDigits	277-83-60760	90
+calcCheckDigits	125-103-33907	00
+calcCheckDigits	47101-2-306017	99
+calcCheckDigits	36633-66-264068	11
+calcCheckDigits	42629-2-288648	94
+calcCheckDigits	122-395-32518	95
+calcCheckDigits	766-19-135058	50
+calcCheckDigits	69-210-21057	74
+calcCheckDigits	69-554-21245	75
+calcCheckDigits	28956-128-233503	96
+calcCheckDigits	860-116-100257	06
+calcCheckDigits	2978-2-46909	09
+calcCheckDigits	19784-57-180195	91
+calcCheckDigits	572-395-119290	30
+calcCheckDigits	650-529-126088	77
+calcCheckDigits	15941-114-152468	02
+calcCheckDigits	122-66-32044	03
+calcCheckDigits	2357-1-364165	93
+calcCheckDigits	35226-2-259295	36
+calcCheckDigits	297-411-65651	44
+calcCheckDigits	3393-136-50801	30
+calcCheckDigits	578-536-121794	26
+calcCheckDigits	17365-9-163336	01
+calcCheckDigits	32410-153-247549	76
+calcCheckDigits	33739-33-253068	07
+calcCheckDigits	438-341-94672	13
+calcCheckDigits	656-413-132700	15
+calcCheckDigits	1019-225-108400	92
+calcCheckDigits	30747-40-240144	93
+calcCheckDigits	644-570-114659	12
+calcCheckDigits	342-240-75526	50
+calcCheckDigits	12793-123-126569	90
+calcCheckDigits	722-40-141442	11
+calcCheckDigits	337-297-72453	95
+calcCheckDigits	1031-503-116426	83
+calcCheckDigits	1091-157-111481	40
+calcCheckDigits	42819-60-289401	81
+calcCheckDigits	786-80-137748	06
+calcCheckDigits	673-355-132637	40
+calcCheckDigits	36101-76-262338	11
+calcCheckDigits	4265-60-58061	00
+
+# fields a register extract padded with zeros
+calcCheckDigits	43059-0023-290396	70
+calcCheckDigits	30746-002-240130	72
+calcCheckDigits	410-0018-001604	26
+calcCheckDigits	2251567-0001-781630	00
+calcCheckDigits	3724-0103-053659	43
+calcCheckDigits	46004-0187-302083	96
+
+# nationality letters, from the DGI's verifier at https://dgi.mef.gob.pa/DV
+calcCheckDigits	PE-8-30	23
+calcCheckDigits	E-8-127702	16
+calcCheckDigits	E-1234-123456789	26
+calcCheckDigits	N-19-1821	11
+calcCheckDigits	8AV-1-196	90
+calcCheckDigits	13PI-1-196	58
+calcCheckDigits	2PI-123-1234	41
+
+# a number written with its DV gets it back, ambiguous or not
+calcCheckDigits	8-473-515-70	70
+calcCheckDigits	8-NT-1-22684-98	98

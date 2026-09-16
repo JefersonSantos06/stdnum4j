@@ -1,6 +1,6 @@
 /**
- * Latin American standard numbers outside Brazil: the Argentinian CUIT and
- * the Chilean RUT. Validation rules mirror the battle-tested python-stdnum
- * routines.
+ * Latin American standard numbers outside Brazil: the tax and personal
+ * identifiers of fifteen countries, from the Argentinian CUIT to the
+ * Panamanian RUC.
  */
 package io.github.jefersonsantos06.stdnum.latam;

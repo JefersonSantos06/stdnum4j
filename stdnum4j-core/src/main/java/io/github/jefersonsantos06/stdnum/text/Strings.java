@@ -188,6 +188,50 @@ public final class Strings {
     }
 
     /**
+     * The value with {@code with} in front of it until it is that long, and
+     * unchanged where it is already at least that long — a field written back
+     * into the fixed-width form its checksum is taken over.
+     *
+     * <pre>{@code
+     * padStart("515", 5, '0')  -> "00515"
+     * padStart("515", 2, '0')  -> "515"     (never truncated)
+     * }</pre>
+     *
+     * @throws InvalidFormatException if {@code value} is {@code null}
+     */
+    public static String padStart(String value, int length, char with) {
+        if (value == null) {
+            throw new InvalidFormatException(Reasons.nullText());
+        }
+        if (value.length() >= length) {
+            return value;
+        }
+        return String.valueOf(with).repeat(length - value.length()) + value;
+    }
+
+    /**
+     * {@link #padStart(String, int, char)} with zeros, which is what a number
+     * almost always wants.
+     */
+    public static String padStart(String value, int length) {
+        return padStart(value, length, '0');
+    }
+
+    /**
+     * The first {@code length} characters, or the whole string where it is
+     * shorter — the head of a field a rule reads a fixed number of characters
+     * from, however long the field itself turned out to be.
+     *
+     * @throws InvalidFormatException if {@code value} is {@code null}
+     */
+    public static String first(String value, int length) {
+        if (value == null) {
+            throw new InvalidFormatException(Reasons.nullText());
+        }
+        return value.length() > length ? value.substring(0, Math.max(0, length)) : value;
+    }
+
+    /**
      * Whether the string is non-empty and made of a single repeated character
      * — {@code 11111111111}, which many issuers reject however well its check
      * digit closes. The empty string and {@code null} are not.

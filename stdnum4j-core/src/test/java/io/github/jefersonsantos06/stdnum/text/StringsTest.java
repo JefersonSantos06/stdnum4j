@@ -62,4 +62,30 @@ class StringsTest {
         // ARABIC-INDIC digits must be rejected
         assertFalse(Strings.isDigits("١٢٣"));
     }
+
+    @Test
+    void padStartFillsToTheLeftAndNeverTruncates() {
+        assertEquals("00515", Strings.padStart("515", 5, '0'));
+        assertEquals("515", Strings.padStart("515", 3, '0'));
+        assertEquals("515", Strings.padStart("515", 2, '0'));
+        assertEquals("0000", Strings.padStart("", 4, '0'));
+        assertEquals("  AB", Strings.padStart("AB", 4, ' '));
+    }
+
+    @Test
+    void padStartNullThrowsInvalidFormat() {
+        assertThrows(InvalidFormatException.class, () -> Strings.padStart(null, 4, '0'));
+    }
+
+    @Test
+    void firstTakesTheHeadAndNeverOverruns() {
+        assertEquals("12345", Strings.first("123456789", 5));
+        assertEquals("123", Strings.first("123", 5));
+        assertEquals("", Strings.first("123", 0));
+    }
+
+    @Test
+    void firstNullThrowsInvalidFormat() {
+        assertThrows(InvalidFormatException.class, () -> Strings.first(null, 5));
+    }
 }

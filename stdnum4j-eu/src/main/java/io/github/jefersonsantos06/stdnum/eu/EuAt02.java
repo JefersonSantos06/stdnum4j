@@ -48,7 +48,7 @@ public final class EuAt02 implements StdNum {
     /** The national identifier and the country code, in checksum order. */
     private static String checksumOrder(String n) {
         String tail = n.length() > 7 ? n.substring(7) : "";
-        String head = n.length() > 4 ? n.substring(0, 4) : n;
+        String head = Strings.first(n, 4);
         return tail + head;
     }
 
@@ -56,7 +56,7 @@ public final class EuAt02 implements StdNum {
     public static String calcCheckDigits(String number) {
         String n = INSTANCE.compact(number);
         String tail = n.length() > 7 ? n.substring(7) : "";
-        String countryCode = n.length() > 2 ? n.substring(0, 2) : n;
+        String countryCode = Strings.first(n, 2);
         return Mod97.calcCheckDigits(tail + countryCode);
     }
 

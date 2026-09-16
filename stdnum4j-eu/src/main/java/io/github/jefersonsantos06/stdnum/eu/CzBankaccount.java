@@ -75,16 +75,14 @@ public final class CzBankaccount implements StdNum {
             return n;
         }
         String prefix = m.group("prefix") == null ? "" : m.group("prefix");
-        return pad(prefix, 6) + '-' + pad(m.group("root"), 10) + '/' + m.group("bank");
+        return Strings.padStart(prefix, 6) + '-' + Strings.padStart(m.group("root"), 10)
+                + '/' + m.group("bank");
     }
 
-    private static String pad(String part, int width) {
-        return "0".repeat(Math.max(0, width - part.length())) + part;
-    }
 
     /** The weighted mod 11 sum of a part; a valid one yields 0. */
     public static int checksum(String part) {
-        String n = pad(part, 10);
+        String n = Strings.padStart(part, 10);
         int sum = 0;
         for (int i = 0; i < WEIGHTS.length && i < n.length(); i++) {
             sum += WEIGHTS[i] * (n.charAt(i) - '0');

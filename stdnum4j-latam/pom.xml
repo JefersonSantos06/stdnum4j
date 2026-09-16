@@ -11,7 +11,7 @@
 
     <artifactId>stdnum4j-latam</artifactId>
     <name>stdnum4j :: latam</name>
-    <description>Latin American standard numbers (outside Brazil): Argentinian and Chilean identifiers.</description>
+    <description>Latin American standard numbers (outside Brazil): tax and personal identifiers of fifteen countries.</description>
 
     <properties>
         <auto.module.name>io.github.jefersonsantos06.stdnum.latam</auto.module.name>

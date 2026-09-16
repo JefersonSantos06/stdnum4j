@@ -96,19 +96,16 @@ public final class NzBankaccount implements StdNum {
             int[] lengths = {2, 4, 7, 3};
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 4; i++) {
-                sb.append(pad(parts[i], lengths[i]));
+                sb.append(Strings.padStart(parts[i], lengths[i]));
             }
             return sb.toString();
         }
         String joined = String.join("", parts);
         return joined.length() <= 13
                 ? joined + "000"
-                : joined.substring(0, 13) + pad(joined.substring(13), 3);
+                : joined.substring(0, 13) + Strings.padStart(joined.substring(13), 3);
     }
 
-    private static String pad(String part, int width) {
-        return "0".repeat(Math.max(0, width - part.length())) + part;
-    }
 
     /** The weighted sum under the bank's own algorithm; a valid account yields 0. */
     public static int checksum(String number) {

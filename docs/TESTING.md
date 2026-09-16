@@ -1,6 +1,6 @@
 # Testes
 
-`mvn verify` roda **21.605 testes**. Quase nenhum deles foi escrito um a um.
+`mvn verify` roda **22.019 testes**. Quase nenhum deles foi escrito um a um.
 Esta página explica como se chega a esse número, para que adicionar um tipo de
 número signifique adicionar dados, e não adicionar código de teste.
 
@@ -102,11 +102,11 @@ a procedência da amostra.
 
 | Arquivo | Contém | Arquivos | Linhas |
 |---|---|---|---|
-| `<id>.txt` | números válidos | 265 | 13.457 |
-| `<id>-invalid.txt` | números que precisam ser recusados | 265 | 2.043 |
-| `<id>-format.txt` | `entrada<TAB>apresentação esperada` | 132 | 231 |
-| `<id>-accessor.txt` | `método<TAB>entrada<TAB>esperado` | 52 | 234 |
-| | | **714** | **15.965** |
+| `<id>.txt` | números válidos | 268 | 13.651 |
+| `<id>-invalid.txt` | números que precisam ser recusados | 268 | 2.095 |
+| `<id>-format.txt` | `entrada<TAB>apresentação esperada` | 133 | 233 |
+| `<id>-accessor.txt` | `método<TAB>entrada<TAB>esperado` | 53 | 340 |
+| | | **722** | **16.319** |
 
 Os dois últimos existem porque a verificação de ida e volta não prende tudo.
 `validate(format(x))` prova que o `format` produz *alguma coisa* válida; não
@@ -203,7 +203,7 @@ que há nele, e acerta todo tipo descoberto com `null` e com a lista de lixo. Um
 módulo que registre um validador frágil falha aqui **mesmo que não traga teste
 nenhum**.
 
-Ele também afirma contagens fixas — 453 tipos registrados, 38 do Brasil, 10 da
+Ele também afirma contagens fixas — 454 tipos registrados, 38 do Brasil, 10 da
 Espanha, 8 da França — e que os tipos internacionais não carregam país. Esses
 números são um arame de tropeço: adicionar um tipo sem registrá-lo, ou
 registrá-lo duas vezes, falha aqui. Adicionar um tipo, portanto, significa
@@ -214,18 +214,18 @@ atualizar este teste de propósito. Veja
 
 | Módulo | Testes | Pulados |
 |---|---:|---:|
-| `stdnum4j-core` | 92 | 0 |
+| `stdnum4j-core` | 96 | 0 |
 | `stdnum4j-tck` | 29 | 2 |
 | `stdnum4j-br` | 807 | 22 |
 | `stdnum4j-international` | 2.742 | 31 |
 | `stdnum4j-eu` | 6.830 | 180 |
-| `stdnum4j-latam` | 3.795 | 30 |
+| `stdnum4j-latam` | 4.106 | 31 |
 | `stdnum4j-na` | 363 | 13 |
 | `stdnum4j-apac` | 3.102 | 35 |
 | `stdnum4j-africa` | 1.281 | 13 |
 | `stdnum4j-postal` | 834 | 16 |
-| `stdnum4j-all` | 1.827 | 7 |
-| **Total** | **21.702** | **349** |
+| `stdnum4j-all` | 1.829 | 7 |
+| **Total** | **22.019** | **350** |
 
 O `stdnum4j-tck` testa a si mesmo contra um `DummyNumber` que existe só para
 provar que o contrato pega o que diz pegar, e o `RegistryIntegrationTest` prova

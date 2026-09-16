@@ -47,16 +47,14 @@ public final class CrCpf implements StdNum {
         String n = Strings.clean(number, " ").strip();
         String[] parts = n.split("-", -1);
         if (parts.length == 3) {
-            n = pad(parts[0], 2) + pad(parts[1], 4) + pad(parts[2], 4);
+            n = Strings.padStart(parts[0], 2) + Strings.padStart(parts[1], 4)
+                    + Strings.padStart(parts[2], 4);
         } else {
             n = n.replace("-", "");
         }
         return n.length() == 9 ? "0" + n : n;
     }
 
-    private static String pad(String part, int width) {
-        return part.length() < width ? "0".repeat(width - part.length()) + part : part;
-    }
 
     @Override
     public String validate(String number) {

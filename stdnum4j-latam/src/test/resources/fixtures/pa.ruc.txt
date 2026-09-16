@@ -1,0 +1,192 @@
+# Panamanian RUC numbers, written the way the issuer publishes them: the
+# register fields, and the two check digits (the DV) appended after a
+# hyphen where they were published with the number.
+#
+# The bulk of these come from the DGI's own list of ITBMS withholding
+# agents, which prints the DV beside every RUC:
+# https://dgi.mef.gob.pa/itbms/Pdf-Retencion/LISTADO%20DE%20AGENTES%20DE%20RETENCION%20DEL%20ITBMS%20(GRANDES%20COMPRADORES)%202022.pdf
+
+# Companies, Public Registry entries of the current numbering.
+155628291-2-2016-32
+1621672-1-670343-70
+155587102-2-2014-75
+61510-23-349564-24
+1129184-1-566509-26
+2077798-1-1949-67
+693864-1-1196-93
+2078063-1-752745-08
+2025792-1-744101-64
+56238-78-335605-32
+1423328-1-632401-69
+1529223-1-653120-85
+2520338-1-2351-81
+946321-1-524832-04
+57983-56-340439-65
+1830365-1-710381-17
+155596428-2-2015-74
+155650212-2-2017-05
+155604750-2-2015-39
+1980171-1-736896-28
+2065065-1-750454-23
+64919-2-359497-09
+1110865-1-562008-10
+155585423-2-2014-17
+1207455-1-583557-26
+914084-1-517780-00
+577479-1-447566-23
+406984-1-425359-70
+2218524-1-776090-01
+515924-1-437913-75
+155647984-2-2017-60
+53286-102-327332-35
+521347-1-438253-70
+853111-1-505797-30
+637305-1-457383-65
+50656-2-318866-55
+2122574-1-1987-70
+811457-1-498110-88
+1991429-1-738739-31
+2117539-1-759645-39
+
+# The same, written without the DV: a RUC is published on its own far more
+# often than with its check digits, and then only its shape can be checked.
+155628291-2-2016
+2536967-1-824337
+408176-1-1104
+1620775-1-670190
+55250-11-333107
+54350-2-330635
+1615238-1-669210
+769318-1-484965
+155624335-2-2016
+53286-102-327332
+65219-68-360495
+155660896-2-2018
+
+# Companies from before the register was renumbered: a tomo below 50000
+# takes the cross-reference table and weight 11 twice.
+48700-46-311921-69
+277-83-60760-90
+125-103-33907-00
+47101-2-306017-99
+36633-66-264068-11
+42629-2-288648-94
+122-395-32518-95
+766-19-135058-50
+69-210-21057-74
+69-554-21245-75
+28956-128-233503-96
+860-116-100257-06
+2978-2-46909-09
+19784-57-180195-91
+572-395-119290-30
+650-529-126088-77
+15941-114-152468-02
+122-66-32044-03
+2357-1-364165-93
+35226-2-259295-36
+297-411-65651-44
+3393-136-50801-30
+578-536-121794-26
+17365-9-163336-01
+32410-153-247549-76
+33739-33-253068-07
+438-341-94672-13
+656-413-132700-15
+1019-225-108400-92
+30747-40-240144-93
+644-570-114659-12
+342-240-75526-50
+12793-123-126569-90
+722-40-141442-11
+337-297-72453-95
+1031-503-116426-83
+1091-157-111481-40
+42819-60-289401-81
+786-80-137748-06
+673-355-132637-40
+
+# The same, without the DV.
+48700-46-311921
+1247-207-120963
+150-291-38284
+673-563-133317
+346-266-76470
+510-302-109858
+17365-9-163336
+82-30-15216
+652-446-131292
+30387-20-238537
+
+# Fields padded with zeros the way a register extract prints them.
+43059-0023-290396-70
+30746-002-240130-72
+410-0018-001604-26
+2251567-0001-781630-00
+3724-0103-053659-43
+46004-0187-302083-96
+
+# Natural persons: the cédula, opening with the province of birth. These
+# read as a tomo as well, and both readings are accepted -- 8-473-515
+# carries the cédula's digits, 1-513-153 the company's.
+1-513-153-21
+8-212-1552-30
+8-473-515-70
+8-305-117-40
+8-257-1465-84
+
+# NT (número tributario), for whoever qualifies for neither register.
+# Written alike for a person and for a company, so either set closes:
+# 8-NT-2-25024 carries the person's digits, 8-NT-1-22684 the company's.
+8-NT-2-3437-46
+8-NT-2-25024-36
+8-NT-1-22684-98
+8-NT-1-12701-89
+8-NT-0001-012571-66
+8-NT-1-10284-85
+8-NT-2-726340-56
+8-NT-1-22684
+
+# Natural persons whose nationality was acquired, and the two letters that
+# follow a province instead of replacing it. Check digits from the DGI's
+# verifier at https://dgi.mef.gob.pa/DV
+PE-8-30-23
+PE-1-19-60
+PE-123-12345-42
+PE-842-3681-51
+PE-712-5789-82
+PE-523-8262-37
+E-8-127702-16
+E-8-127703-05
+E-8-12770-72
+E-1-11-63
+E-1234-12770-98
+E-1235-12770-23
+E-7824-53189-90
+E-123-1277012-65
+E-8-96407-29
+E-1234-123456789-26
+N-19-1821-11
+N-1-24-89
+N-1234-12345-00
+N-7824-53189-73
+N-9624-41065-63
+8AV-1-196-90
+2AV-1234-12345-26
+2AV-1234-123-33
+2AV-123-123456-28
+8AV-123-123456-78
+13PI-1-196-58
+8PI-1-80-05
+8PI-23-65-91
+2PI-123-1234-41
+2PI-1234-12345-26
+
+# Ways the same number survives being copied out of a document: lower case,
+# spaces around the hyphens, an en dash for a hyphen, and the NT letters
+# left stuck to the province by a space that compacting removes.
+e-8-127702-16
+8 - 473 - 515 - 70
+1870951–1–1751–18
+8NT-1-22684-98
+8NT-1-22684

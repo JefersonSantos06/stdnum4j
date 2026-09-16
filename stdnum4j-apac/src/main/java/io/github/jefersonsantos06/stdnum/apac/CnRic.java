@@ -68,7 +68,7 @@ public final class CnRic implements StdNum {
      */
     public static char calcCheckDigit(String number) {
         String n = INSTANCE.compact(number);
-        String base = n.length() > 17 ? n.substring(0, 17) : n;
+        String base = Strings.first(n, 17);
         int checksum;
         try {
             checksum = BigInteger.ONE

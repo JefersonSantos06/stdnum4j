@@ -1,7 +1,7 @@
 # Austrian postcodes: the addressable ones, with the place and the
 # Bundesland each belongs to.
 # Generated from https://data.rtr.at/api/v1/tables/plz.json
-# version 59134 published 2026-08-04T09:06:00+02:00
+# version 59887 published 2026-09-03T13:45:00+02:00
 1010 location="Wien" region="Wien"
 1020 location="Wien" region="Wien"
 1030 location="Wien" region="Wien"

@@ -1,0 +1,14 @@
+# wrong check digit in the törzsszám
+24225222-2-43
+# VAT status codes 0 and 6 do not exist
+24225221-0-43
+24225221-6-43
+# tax office codes that do not exist
+24225221-2-01
+24225221-2-21
+24225221-2-45
+24225221-2-52
+# the Community VAT number alone, too long, a letter
+24225221
+242252212431
+24225221-2-4A

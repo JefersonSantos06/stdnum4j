@@ -89,6 +89,7 @@ public final class EuProvider implements StdNumProvider {
                 GrVat.INSTANCE,
                 HrOib.INSTANCE,
                 HuAdoazonosito.INSTANCE,
+                HuAdoszam.INSTANCE,
                 HuAnum.INSTANCE,
                 IePps.INSTANCE,
                 IeVat.INSTANCE,

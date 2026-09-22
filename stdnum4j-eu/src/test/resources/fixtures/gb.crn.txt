@@ -1,0 +1,18 @@
+# England and Wales, Tesco PLC — find-and-update.company-information.service.gov.uk/company/00445790
+00445790
+# quoted without leading zeros
+445790
+# Scotland, NatWest Group PLC — .../company/SC045551
+SC045551
+SC 045551
+sc045551
+# LLP, Deloitte LLP — .../company/OC303675
+OC303675
+# Northern Ireland before 1922
+R0000001
+# registered society, alphanumeric serial (rob-murray regex, tested on the bulk data)
+RS00785R
+# Scottish limited partnership ending in A
+SL00001A
+# the one nine-character number on the register
+RS007853Z

@@ -1,0 +1,9 @@
+# too long
+123456789
+SC0455511
+# unknown prefix
+XX123456
+# letters in the serial of a prefix that does not allow them
+SC04555A
+# a letter where the prefix should be
+S1234567

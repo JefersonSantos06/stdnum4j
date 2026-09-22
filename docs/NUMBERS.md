@@ -1,6 +1,6 @@
 # Números
 
-**454 tipos**, em 184 países, mais 30 formatos independentes de país.
+**455 tipos**, em 184 países, mais 30 formatos independentes de país.
 
 Este inventário é mantido à mão. Ao adicionar um tipo, adicione-o aqui também —
 veja [CONTRIBUTING.md](CONTRIBUTING.md#passo-8--o-inventário). Se algum dia ele
@@ -16,13 +16,13 @@ StdNums.all().forEach(n -> System.out.println(n.descriptor().id()));
 |---|---:|---:|
 | [`stdnum4j-international`](#independentes-de-país--stdnum4j-international-30) | 30 | — |
 | [`stdnum4j-br`](#brasil--stdnum4j-br-37) | 37 | 1 |
-| [`stdnum4j-eu`](#europa--stdnum4j-eu-128) | 128 | 44 |
+| [`stdnum4j-eu`](#europa--stdnum4j-eu-129) | 129 | 44 |
 | [`stdnum4j-latam`](#américa-latina--stdnum4j-latam-26) | 26 | 16 |
 | [`stdnum4j-na`](#américa-do-norte--stdnum4j-na-10) | 10 | 2 |
 | [`stdnum4j-apac`](#ásia-pacífico--stdnum4j-apac-33) | 33 | 17 |
 | [`stdnum4j-africa`](#áfrica--stdnum4j-africa-12) | 12 | 11 |
 | [`stdnum4j-postal`](#códigos-postais--stdnum4j-postal-178) | 178 | 178 |
-| **Total** | **454** | **184** |
+| **Total** | **455** | **184** |
 
 Os países do `stdnum4j-postal` se sobrepõem aos dos módulos regionais; distintos,
 são 184.
@@ -131,7 +131,7 @@ que ele aparece no `Descriptor`, e não é traduzido.
 - [x] `br.renavam` — RENAVAM — Registro Nacional de Veículos Automotores
 - [x] `br.titulo-eleitor` — Título de Eleitor
 
-### Europa — `stdnum4j-eu` (128)
+### Europa — `stdnum4j-eu` (129)
 
 **Sem país definido**
 
@@ -342,6 +342,7 @@ que ele aparece no `Descriptor`, e não é traduzido.
 
 **Reino Unido (GB)**
 
+- [x] `gb.crn` — CRN — Company Registration Number (Companies House)
 - [x] `gb.nhs` — NHS number — United Kingdom National Health Service number
 - [x] `gb.upn` — UPN — Unique Pupil Number
 - [x] `gb.utr` — UTR — Unique Taxpayer Reference

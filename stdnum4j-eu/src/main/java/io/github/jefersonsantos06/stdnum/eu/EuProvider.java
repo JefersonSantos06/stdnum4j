@@ -80,6 +80,7 @@ public final class EuProvider implements StdNumProvider {
                 FrSiren.INSTANCE,
                 FrSiret.INSTANCE,
                 FrTva.INSTANCE,
+                GbCrn.INSTANCE,
                 GbNhs.INSTANCE,
                 GbUpn.INSTANCE,
                 GbUtr.INSTANCE,

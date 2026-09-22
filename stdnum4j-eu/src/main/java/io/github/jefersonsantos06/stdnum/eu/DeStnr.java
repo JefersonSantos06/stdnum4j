@@ -1,12 +1,6 @@
 package io.github.jefersonsantos06.stdnum.eu;
 
-import io.github.jefersonsantos06.stdnum.spi.Descriptor;
-import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
-import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
-import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
-import io.github.jefersonsantos06.stdnum.spi.Message;
-import io.github.jefersonsantos06.stdnum.spi.StdNum;
-import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.spi.*;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.LinkedHashMap;
@@ -251,6 +245,30 @@ public final class DeStnr implements StdNum {
             }
         }
         return n;
+    }
+
+    /**
+     * {@link #format(String, String)} with the refusal handed back rather
+     * than thrown, the way {@link #safeFormat(String)} treats the one-argument
+     * form. Never throws.
+     *
+     * <p>Mind what the fallback covers: an unknown Land is an
+     * {@link InvalidComponentException}, and it comes back here as the number
+     * unchanged, indistinguishable from a number that is simply invalid. The
+     * Land is usually a string written into the program rather than typed by
+     * anyone, so a caller passing a region it did not choose itself should
+     * check that region before asking — this method cannot tell it that the
+     * Land does not exist.</p>
+     *
+     * @param region the Land that issued it, or {@code null} to guess
+     * @return the presentation, or {@code number} unchanged when it has none
+     */
+    public String safeFormat(String number, String region) {
+        try {
+            return format(number, region);
+        } catch (ValidationException e) {
+            return number;
+        }
     }
 
     @Override

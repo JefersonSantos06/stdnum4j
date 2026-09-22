@@ -58,12 +58,21 @@ class AllRegisteredContractTest {
                     assertThrows(ValidationException.class, () -> number.validate(null));
                     assertFalse(number.isValid(null));
                     assertInstanceOf(Check.Invalid.class, number.check(null));
+                    assertThrows(ValidationException.class, () -> number.format(null));
+                    assertNull(number.safeFormat(null),
+                            () -> "safeFormat(null) escaped in " + number.descriptor().id());
                     for (String garbage : GARBAGE) {
                         assertThrows(ValidationException.class,
                                 () -> number.validate(garbage),
                                 () -> "garbage accepted by " + number.descriptor().id()
                                         + ": " + garbage);
                         assertFalse(number.isValid(garbage));
+                        // safeFormat is the only call that may be aimed at
+                        // arbitrary input without a try, so it is the only way
+                        // to sweep every type down the formatting path at all
+                        assertEquals(garbage, number.safeFormat(garbage),
+                                () -> "garbage dressed up by " + number.descriptor().id()
+                                        + ": " + garbage);
                     }
                 }));
     }

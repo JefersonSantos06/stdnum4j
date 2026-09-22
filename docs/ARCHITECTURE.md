@@ -16,15 +16,16 @@ public interface StdNum {
     default boolean isValid(String number);
     default Check check(String number);    // resultado sem exceção: Valid | Invalid
     default String format(String number);  // a apresentação que as pessoas esperam
+    default String safeFormat(String number); // a mesma, ou a entrada crua de volta
     default List<Mask> masks();            // como se escreve, para um campo vazio
 }
 ```
 
-Três métodos são abstratos; quatro têm implementação padrão escrita uma vez na
+Três métodos são abstratos; cinco têm implementação padrão escrita uma vez na
 interface. `isValid` e `check` são o `validate` com a falha capturada,
 `format` cai no `validate` — um tipo cuja apresentação canônica é a própria
-forma compacta ganha um `format` correto sem escrever nada — e `masks` é vazia
-por padrão.
+forma compacta ganha um `format` correto sem escrever nada —, `safeFormat` é o
+`format` com a falha capturada, e `masks` é vazia por padrão.
 
 `format` responde *como este número fica escrito*, e precisa de um número para
 responder. `masks` responde *como este tipo se escreve*, e não precisa: são os
@@ -80,6 +81,14 @@ sobre um `Check` é exaustivo e o compilador garante isso. É o ponto de entrada
 para código que trata número inválido como resultado esperado, não como
 exceção — um formulário, uma importação de planilha, um job em lote.
 
+Não há selado equivalente do lado da formatação, e é de propósito. Uma falha
+de formatação não tem motivo próprio: ela *é* a falha de validação, e o `check`
+já a entrega inteira e traduzível. Um segundo selado carregaria o mesmo
+`ValidationError` com outra roupa e cobraria um `switch` a mais de todo mundo
+que lesse qualquer um dos dois. Por isso o `safeFormat` devolve uma `String` e
+não diz qual dos dois caminhos tomou: quem precisa saber não está formatando,
+está validando.
+
 ## Falhar
 
 `validate` lança quando o número está errado. A hierarquia tem cinco classes e
@@ -105,7 +114,9 @@ todas as validações desta biblioteca somadas, e a pilha de uma falha de
 validação não conta nada a ninguém — a informação útil é o número e o motivo,
 e os dois já estão ali. Elas são sinalização, não relato de erro. É por isso
 que `isValid` pode ser implementado como uma exceção capturada sem pedir
-desculpa.
+desculpa — e por isso o `check` e o `safeFormat` também podem. Os três são a
+mesma exceção lida como valor, em três formatos: um booleano, um resultado
+selado com o motivo, e a apresentação com a entrada crua no lugar da recusa.
 
 ## Dizer por quê, num idioma
 

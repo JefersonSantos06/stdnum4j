@@ -22,7 +22,9 @@ import java.util.List;
  * empty strings and garbage, the methods below either succeed or throw a
  * {@link ValidationException} subtype. They must never throw
  * {@code NullPointerException}, {@code IndexOutOfBoundsException} or any
- * other unchecked exception.</p>
+ * other unchecked exception. {@link #isValid}, {@link #check} and
+ * {@link #safeFormat} throw nothing at all: they are that same contract read
+ * as a value.</p>
  */
 public interface StdNum {
 
@@ -82,10 +84,11 @@ public interface StdNum {
      * given, which hands back a well-dressed string for a number that is not
      * one — the point at which a number is formatted is usually the point at
      * which it goes onto an invoice or a screen, and that is the worst place
-     * to launder it. A caller who wants the reference's behaviour writes
-     * {@code try { format(x) } catch (ValidationException e) { showRaw(x); }}
-     * and knows what it is showing; under the reference's rule there is no
-     * signal to catch.</p>
+     * to launder it. A caller who has to put something in the cell either way
+     * has {@link #safeFormat(String)}, which hands the number back as it came
+     * rather than dressed up; under the reference's rule there is nothing to
+     * ask for and no raw string left to fall back to, because the laundering
+     * has already happened.</p>
      *
      * <p>The default implementation is the compact form, which is already the
      * presentation of a number written without separators. An implementation
@@ -98,6 +101,42 @@ public interface StdNum {
      */
     default String format(String number) {
         return validate(number);
+    }
+
+    /**
+     * The presentation of the number, or the number as it was given when it
+     * has none: {@link #format} with the refusal handed back rather than
+     * thrown. Never throws — not for garbage, and not for {@code null}, which
+     * comes back as {@code null}.
+     *
+     * <p>{@code format} answers <em>how is this number written</em>, and for
+     * a string that is not a number of this type there is no answer, so it
+     * refuses. A screen, a report line, a spreadsheet column still has to put
+     * something in the cell either way, and the honest something is what came
+     * in. Handing it back is not the laundering {@code format} refuses to do:
+     * {@code "1234567"} comes back as {@code "1234567"}, never as
+     * {@code "123.456-7"} — an invalid number still looks like one, it is
+     * only undressed.</p>
+     *
+     * <pre>{@code
+     * row.set(column, cpf.safeFormat(input));  // "390.533.447-05", or "abacaxi"
+     * }</pre>
+     *
+     * <p>The answer does not say which of the two happened, and that is the
+     * point: a caller who needs to know is not formatting but validating.
+     * {@link #check} answers with the {@link ValidationError} and a
+     * {@link Message} that {@link Messages} can say in someone's language,
+     * after which {@code format} of the compact form it came back with cannot
+     * fail.</p>
+     *
+     * @return the presentation, or {@code number} unchanged when it is not valid
+     */
+    default String safeFormat(String number) {
+        try {
+            return format(number);
+        } catch (ValidationException e) {
+            return number;
+        }
     }
 
     /**

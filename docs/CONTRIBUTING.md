@@ -164,6 +164,9 @@ entra em `PostalCode.HAND_WRITTEN` para o genérico sair do caminho. O
   `static final`, não aritmética de `substring`:
   `private static final Mask MASK = Mask.of("###.###.###-##");` e
   `return MASK.fill(validate(number));`.
+- **Não sobrescreva `safeFormat`.** Ele chama o seu `format` e já apanha a sua
+  recusa, do mesmo jeito que `isValid` e `check` apanham a do seu `validate` —
+  e por isso ninguém neste repositório sobrescreve nenhum dos três.
 - Quem tem `MASK` também sobrescreve `masks`, com uma linha —
   `return List.of(MASK);` —, que é o que um formulário põe num campo antes de
   haver número. Um tipo com mais de uma forma devolve todas, e o `format` é
@@ -445,7 +448,9 @@ quem estiver no module path ganha um nome derivado do arquivo.
   mais estranha que tenha sido a entrada.
 - **`format` recusa o que `validate` recusa.** Um número é formatado no momento
   em que vai para uma nota ou para uma tela, que é o pior lugar possível para
-  lavar um inválido.
+  lavar um inválido. E **`safeFormat` devolve essa recusa como valor**, com a
+  entrada intacta, para quem tem de pôr algo na célula de qualquer jeito — o
+  inválido volta como veio, nunca vestido de máscara.
 
 ## Commits
 

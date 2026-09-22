@@ -1,6 +1,6 @@
 # Testes
 
-`mvn verify` roda **22.019 testes**. Quase nenhum deles foi escrito um a um.
+`mvn verify` roda **22.291 testes**. Quase nenhum deles foi escrito um a um.
 Esta página explica como se chega a esse número, para que adicionar um tipo de
 número signifique adicionar dados, e não adicionar código de teste.
 
@@ -61,7 +61,8 @@ dele.
 - espaço em branco em volta não faz diferença (` \t<número>\n ` valida), do
   jeito que um número colado de um formulário ou de uma planilha chega;
 - `isValid` devolve verdadeiro e `check` devolve um `Check.Valid` carregando a
-  mesma forma compacta.
+  mesma forma compacta;
+- `safeFormat(x)` devolve exatamente o que o `format(x)` devolve.
 
 **Para toda amostra inválida e toda entrada-lixo**
 
@@ -71,12 +72,16 @@ dele.
   `DateTimeParseException` nem qualquer outra exceção não verificada;
 - `format` recusa o que o `validate` recusa, de modo que uma apresentação é
   sempre a apresentação de um número válido;
-- `isValid` é falso e `check` devolve um `Check.Invalid` com erro não nulo.
+- `isValid` é falso e `check` devolve um `Check.Invalid` com erro não nulo;
+- `safeFormat` devolve a entrada inalterada, sem lançar e sem vesti-la de
+  máscara. É a única chamada do contrato que pode ser apontada para entrada
+  arbitrária sem `try`, e portanto a única maneira de varrer todo tipo pelo
+  caminho da formatação numa asserção só.
 
 **Sempre**
 
-- `null` é recusado por `validate` e por `compact` com uma
-  `ValidationException`, não com um NPE;
+- `null` é recusado por `validate`, por `compact` e por `format` com uma
+  `ValidationException`, não com um NPE, e o `safeFormat` devolve `null`;
 - o `Descriptor` tem id, nome curto e título não vazios;
 - `masks()` não é nula nem carrega nulo, e quando não é vazia escreve toda
   amostra válida exatamente como o `format` escreve — a máscara que um
@@ -147,7 +152,9 @@ número, ao longo de 13.255 vetores, e concorda em todos eles. O `format`
 concorda em 152 de 169 casos comparáveis; as divergências são deliberadas e
 cada uma está documentada no Javadoc do tipo que diverge — principalmente a de
 que aqui o `format` recusa um número inválido, enquanto a referência o
-reagrupa e devolve uma string bem-vestida.
+reagrupa e devolve uma string bem-vestida. Quem precisa preencher a célula de
+qualquer jeito tem o `safeFormat`, que devolve a entrada como ela veio: a
+recusa vira valor, sem que o inválido ganhe a máscara pelo caminho.
 
 Essa comparação é um oráculo de uma vez só, não parte do build: o python-stdnum
 é referência, e nada neste repositório depende dele ou copia dele.
@@ -199,9 +206,9 @@ Dois padrões se repetem:
 ## A varredura do registry
 
 O `AllRegisteredContractTest`, no `stdnum4j-all`, percorre o registry sem saber o
-que há nele, e acerta todo tipo descoberto com `null` e com a lista de lixo. Um
-módulo que registre um validador frágil falha aqui **mesmo que não traga teste
-nenhum**.
+que há nele, e acerta todo tipo descoberto com `null` e com a lista de lixo —
+pelo `validate` e, graças ao `safeFormat`, também pelo `format`. Um módulo que
+registre um validador frágil falha aqui **mesmo que não traga teste nenhum**.
 
 Ele também afirma contagens fixas — 454 tipos registrados, 38 do Brasil, 10 da
 Espanha, 8 da França — e que os tipos internacionais não carregam país. Esses
@@ -215,17 +222,17 @@ atualizar este teste de propósito. Veja
 | Módulo | Testes | Pulados |
 |---|---:|---:|
 | `stdnum4j-core` | 96 | 0 |
-| `stdnum4j-tck` | 29 | 2 |
-| `stdnum4j-br` | 807 | 22 |
-| `stdnum4j-international` | 2.742 | 31 |
-| `stdnum4j-eu` | 6.830 | 180 |
-| `stdnum4j-latam` | 4.106 | 31 |
-| `stdnum4j-na` | 363 | 13 |
-| `stdnum4j-apac` | 3.102 | 35 |
-| `stdnum4j-africa` | 1.281 | 13 |
-| `stdnum4j-postal` | 834 | 16 |
-| `stdnum4j-all` | 1.829 | 7 |
-| **Total** | **22.019** | **350** |
+| `stdnum4j-tck` | 31 | 2 |
+| `stdnum4j-br` | 821 | 22 |
+| `stdnum4j-international` | 2.769 | 31 |
+| `stdnum4j-eu` | 6.959 | 180 |
+| `stdnum4j-latam` | 4.132 | 31 |
+| `stdnum4j-na` | 374 | 13 |
+| `stdnum4j-apac` | 3.135 | 35 |
+| `stdnum4j-africa` | 1.293 | 13 |
+| `stdnum4j-postal` | 848 | 16 |
+| `stdnum4j-all` | 1.833 | 7 |
+| **Total** | **22.291** | **350** |
 
 O `stdnum4j-tck` testa a si mesmo contra um `DummyNumber` que existe só para
 provar que o contrato pega o que diz pegar, e o `RegistryIntegrationTest` prova

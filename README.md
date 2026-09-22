@@ -58,6 +58,7 @@ Requer JDK 17+, e nenhum módulo tem dependência em tempo de execução.
 Cpf.INSTANCE.isValid("390.533.447-05");   // true
 Cpf.INSTANCE.validate("390.533.447-05");  // "39053344705"  — a forma compacta
 Cpf.INSTANCE.format("39053344705");       // "390.533.447-05"
+Cpf.INSTANCE.safeFormat("abacaxi");       // "abacaxi"  — não lança
 ```
 
 `validate` devolve a forma compacta e lança uma subclasse de
@@ -72,6 +73,22 @@ switch (Cnpj.INSTANCE.check(entrada)) {
     case Check.Invalid i -> recusar(i.reason());
 }
 ```
+
+`format` também recusa um número inválido, em vez de reagrupá-lo: o momento de
+formatar costuma ser o momento em que o número vai para uma nota ou para uma
+tela, e é o pior lugar para lavar um inválido dando máscara a ele. Quando a
+célula tem de receber alguma coisa de qualquer jeito — uma linha de relatório,
+uma coluna de planilha —, `safeFormat` devolve a entrada como ela veio em vez
+de lançar:
+
+```java
+Cpf.INSTANCE.safeFormat("39053344705");   // "390.533.447-05"
+Cpf.INSTANCE.safeFormat("123");           // "123"  — nunca "123.4"
+```
+
+O inválido continua com cara de inválido; ele só não ganha a máscara pelo
+caminho. O retorno não diz qual dos dois aconteceu, e quem precisa saber não
+está formatando, está validando: é para isso que existe o `check`.
 
 Os tipos também são descobríveis em tempo de execução, sem importá-los:
 
@@ -97,8 +114,9 @@ separador. São 128 dos 454 tipos, e para eles o teste de contrato prova que a
 máscara escreve todo número exatamente como o `format` escreve. Os demais
 devolvem lista vazia — o que não promete que a apresentação seja a forma
 compacta: o IBAN agrupa de quatro em quatro à mão e não tem máscara a
-oferecer. Para escrever um número, pergunte ao `format`; para vestir um campo
-vazio, pergunte aqui.
+oferecer. Para escrever um número, pergunte ao `format` — ou ao `safeFormat`,
+quando a entrada pode não ser um número; para vestir um campo vazio, pergunte
+aqui.
 
 ### Recusas no idioma de quem usa
 

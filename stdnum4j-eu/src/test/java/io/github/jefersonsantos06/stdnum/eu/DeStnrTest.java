@@ -5,8 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.tck.StdNumContractTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DeStnrTest extends StdNumContractTest {
 
@@ -38,5 +37,17 @@ class DeStnrTest extends StdNumContractTest {
     void aLandThatDoesNotExistIsAComponentError() {
         assertThrows(InvalidComponentException.class,
                 () -> DeStnr.INSTANCE.format("18181508155", "Elsass"));
+    }
+
+    @Test
+    void safeFormatKeepsTheLandOverloadAndSwallowsBothRefusals() {
+        assertEquals("181/8150/8155",
+                DeStnr.INSTANCE.safeFormat("18181508155", "Nordrhein-Westfalen"));
+        assertEquals("181/815/08155", DeStnr.INSTANCE.safeFormat("18181508155"));
+        assertEquals("1", DeStnr.INSTANCE.safeFormat("1"));
+        assertNull(DeStnr.INSTANCE.safeFormat(null));
+        // a Land that does not exist falls into the same fallback as a number
+        // that is not one, which is why format keeps throwing
+        assertEquals("18181508155", DeStnr.INSTANCE.safeFormat("18181508155", "Elsass"));
     }
 }

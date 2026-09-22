@@ -4,6 +4,7 @@ import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Runs the full contract against {@link DummyNumber}, proving the TCK works
@@ -19,5 +20,12 @@ class DummyNumberContractTest extends StdNumContractTest {
     @Test
     void formatsWithHyphen() {
         assertEquals("1234-5674", DummyNumber.INSTANCE.format(" 12345674 "));
+    }
+
+    @Test
+    void safeFormatIsThatFormatWithTheRefusalAsAValue() {
+        assertEquals("1234-5674", DummyNumber.INSTANCE.safeFormat(" 12345674 "));
+        assertEquals("12345678", DummyNumber.INSTANCE.safeFormat("12345678"));
+        assertNull(DummyNumber.INSTANCE.safeFormat(null));
     }
 }

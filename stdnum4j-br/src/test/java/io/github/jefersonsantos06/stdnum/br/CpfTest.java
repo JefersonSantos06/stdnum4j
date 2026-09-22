@@ -5,8 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.ValidationException;
 import io.github.jefersonsantos06.stdnum.tck.StdNumContractTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CpfTest extends StdNumContractTest {
 
@@ -24,6 +23,16 @@ class CpfTest extends StdNumContractTest {
     void formatOfInvalidNumberThrows() {
         assertThrows(ValidationException.class, () -> Cpf.INSTANCE.format("123"));
         assertThrows(ValidationException.class, () -> Cpf.INSTANCE.format("11111111111"));
+    }
+
+    @Test
+    void safeFormatHandsTheRefusalBackInsteadOfThrowing() {
+        assertEquals("390.533.447-05", Cpf.INSTANCE.safeFormat("39053344705"));
+        // what it refuses comes back undressed, never wearing the mask
+        assertEquals("11111111111", Cpf.INSTANCE.safeFormat("11111111111"));
+        assertEquals("123", Cpf.INSTANCE.safeFormat("123"));
+        assertEquals("abacaxi", Cpf.INSTANCE.safeFormat("abacaxi"));
+        assertNull(Cpf.INSTANCE.safeFormat(null));
     }
 
     @Test

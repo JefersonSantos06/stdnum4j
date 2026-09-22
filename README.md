@@ -6,7 +6,7 @@
 
 Uma biblioteca Java para interpretar, validar e reformatar números e códigos
 padronizados — números fiscais, identificadores pessoais, números bancários e
-de pagamento, códigos de produto. **456 tipos de número em 184 países**, sem
+de pagamento, códigos de produto. **457 tipos de número em 184 países**, sem
 nenhuma dependência.
 
 Inspirada no [python-stdnum](https://github.com/arthurdejong/python-stdnum);
@@ -29,7 +29,7 @@ cada um. O Brasil, por exemplo:
 implementation("io.github.jefersonsantos06:stdnum4j-br:1.0.0")
 ```
 
-Ou os 456 de uma vez, com o `stdnum4j-all`. Ele não tem código próprio — é a
+Ou os 457 de uma vez, com o `stdnum4j-all`. Ele não tem código próprio — é a
 lista dos outros módulos, e por isso é um `pom`, não um jar. **No Maven, o
 `<type>pom</type>` não é opcional:** sem ele a resolução procura um jar que não
 existe e falha com `stdnum4j-all:jar:1.0.0 was not found`.
@@ -110,7 +110,7 @@ InscricaoEstadual.of(Uf.PE)
 ```
 
 `#` toma o próximo caractere, `9` um dígito e `A` uma letra; o resto é
-separador. São 129 dos 456 tipos, e para eles o teste de contrato prova que a
+separador. São 129 dos 457 tipos, e para eles o teste de contrato prova que a
 máscara escreve todo número exatamente como o `format` escreve. Os demais
 devolvem lista vazia — o que não promete que a apresentação seja a forma
 compacta: o IBAN agrupa de quatro em quatro à mão e não tem máscara a
@@ -152,13 +152,13 @@ IBAN nacional é um IBAN com uma regra nacional por cima.
 | `stdnum4j-tck` | — | Testes de contrato reutilizáveis, em JUnit 5, para implementações de `StdNum`. |
 | `stdnum4j-international` | 30 | Formatos independentes de país: IBAN, ISBN, ISSN, ISMN, ISNI, EAN/GTIN, ISIN, CUSIP, SEDOL, FIGI, BIC, IMEI, MAC, LEI, IMO, CAS RN, ISO 6346, ISO 11649, GRid, ISAN, ISRC, MEID, UPI, CFI, IMSI, a element string GS1-128, o endereço Bitcoin e os despachantes VATIN e EU VAT. |
 | `stdnum4j-br` | 37 | Brasil: CPF, CNPJ (inclusive o formato alfanumérico de 2026), PIS/PASEP, CNS, título de eleitor, RENAVAM, chave de acesso da NF-e, boleto FEBRABAN, Pix BR Code e as inscrições estaduais das 27 unidades federativas. |
-| `stdnum4j-eu` | 129 | Europa: 44 países, mais o identificador SEPA de credor, o One Stop Shop, o EIC, a NACE, o número CE e o serial de cédula de euro, todos válidos em toda a União. |
+| `stdnum4j-eu` | 130 | Europa: 44 países, mais o identificador SEPA de credor, o One Stop Shop, o EIC, a NACE, o número CE e o serial de cédula de euro, todos válidos em toda a União. |
 | `stdnum4j-latam` | 27 | América Latina: AR, CL, CO, CR, CU, DO, EC, GT, MX, NI, PA, PE, PY, SV, UY, VE. |
 | `stdnum4j-na` | 10 | América do Norte: os SSN, ITIN, EIN, PTIN e ATIN dos EUA, o TIN que é qualquer um deles que o contribuinte tenha, e o routing number; o SIN canadense, o business number e o número de saúde da Colúmbia Britânica. |
 | `stdnum4j-apac` | 33 | Ásia-Pacífico e adjacências: AU, CN, ID, IL, IN, JP, KR, MY, NZ, OM, PK, RU, SG, TH, TR, TW, VN. |
 | `stdnum4j-africa` | 12 | África: DZ, EG, GH, GN, KE, MA, MU, MZ, SN, TN, ZA. |
 | `stdnum4j-postal` | 178 | Códigos postais: um tipo por país ou território com padrão nos metadados de endereço do Google (os da libaddressinput, dados CC BY 4.0) — CEP, ZIP, Eircode, PIN e os demais, gerados de um arquivo só. |
-| `stdnum4j-all` | 456 | Agregador: um `pom` que depende de todos os módulos — no Maven, peça-o com `<type>pom</type>`. É também a casa dos testes entre módulos. |
+| `stdnum4j-all` | 457 | Agregador: um `pom` que depende de todos os módulos — no Maven, peça-o com `<type>pom</type>`. É também a casa dos testes entre módulos. |
 
 O inventário completo, tipo a tipo, está em
 **[docs/NUMBERS.md](docs/NUMBERS.md)**. Ele cobre 234 dos 235 tipos de número

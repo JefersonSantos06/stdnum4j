@@ -1,0 +1,13 @@
+# wrong check digit
+8123456789
+8414070001
+# serial 006 leaves remainder 10, so it is never issued
+8414070060
+# not an individual's number
+7414070000
+# born 2030-01-01, with a correct check digit
+8595350000
+# too short, too long, a letter
+841407000
+84140700000
+841407000A

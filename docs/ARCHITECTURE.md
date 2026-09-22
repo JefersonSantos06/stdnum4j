@@ -1,8 +1,8 @@
 # Arquitetura
 
 A biblioteca responde a uma pergunta — *esta string é um número tal-e-tal
-válido, e como ele fica escrito direito* — para 456 tipos de número. Tudo aqui
-existe para manter essa única pergunta respondida do mesmo jeito 456 vezes.
+válido, e como ele fica escrito direito* — para 457 tipos de número. Tudo aqui
+existe para manter essa única pergunta respondida do mesmo jeito 457 vezes.
 
 ## Uma interface, e nada mais para aprender
 
@@ -46,7 +46,7 @@ aprender: `Cpf.INSTANCE.validate(entrada)` é a API inteira.
 `validate` devolver a forma compacta em vez de `void` ou `boolean` é a decisão
 da qual o resto decorre. É o que faz o caso comum — *confira isto, depois
 guarde* — caber em uma chamada só, e é o que permite que `isValid`, `check` e
-`format` sejam defaults em vez de 456 cópias escritas à mão.
+`format` sejam defaults em vez de 457 cópias escritas à mão.
 
 ## Três pilares
 
@@ -198,7 +198,7 @@ de módulos no classpath e o mesmo despachante cobre outro conjunto de países.
 | `stdnum4j-apac` | core | Ásia-Pacífico. |
 | `stdnum4j-africa` | core | África. |
 | `stdnum4j-postal` | core | Os códigos postais de 178 países e territórios: uma classe, um arquivo de dados, um tipo por país. |
-| `stdnum4j-all` | todos acima | Sem código: um `pom` que só agrega, para quem quer os 456 tipos com uma coordenada. E a casa dos testes que precisam de todos os módulos ao mesmo tempo. |
+| `stdnum4j-all` | todos acima | Sem código: um `pom` que só agrega, para quem quer os 457 tipos com uma coordenada. E a casa dos testes que precisam de todos os módulos ao mesmo tempo. |
 
 Todo módulo regional depende só do `stdnum4j-core`. A única exceção é o
 `stdnum4j-eu`, que também depende do `stdnum4j-international`, porque um IBAN
@@ -211,7 +211,7 @@ mantém o grafo acíclico e ao mesmo tempo deixa o `iban` se comportar como se
 soubesse da Espanha.
 
 Quem consome leva só as regiões de que precisa. Alguém validando documentos
-brasileiros puxa `stdnum4j-br` e ganha `stdnum4j-core`, não 129 tipos europeus.
+brasileiros puxa `stdnum4j-br` e ganha `stdnum4j-core`, não 130 tipos europeus.
 
 Todo jar declara um `Automatic-Module-Name`
 (`io.github.jefersonsantos06.stdnum`, `.br`, `.eu`, …), para que quem estiver

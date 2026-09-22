@@ -1,0 +1,9 @@
+# computed from the rule in the OECD Hungary TIN sheet and hu.wikipedia
+# born 1980-05-15, serials 000 and 001
+8414070000
+8414070019
+8414 070 019
+# born 1886-08-08
+8071592153
+# born on the epoch, 1867-01-01
+8000000008

@@ -210,7 +210,7 @@ que há nele, e acerta todo tipo descoberto com `null` e com a lista de lixo —
 pelo `validate` e, graças ao `safeFormat`, também pelo `format`. Um módulo que
 registre um validador frágil falha aqui **mesmo que não traga teste nenhum**.
 
-Ele também afirma contagens fixas — 455 tipos registrados, 38 do Brasil, 10 da
+Ele também afirma contagens fixas — 456 tipos registrados, 38 do Brasil, 10 da
 Espanha, 8 da França — e que os tipos internacionais não carregam país. Esses
 números são um arame de tropeço: adicionar um tipo sem registrá-lo, ou
 registrá-lo duas vezes, falha aqui. Adicionar um tipo, portanto, significa

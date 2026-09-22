@@ -35,6 +35,7 @@ public final class LatamProvider implements StdNumProvider {
                 PeCui.INSTANCE,
                 PeRuc.INSTANCE,
                 PyRuc.INSTANCE,
+                SvDui.INSTANCE,
                 SvNit.INSTANCE,
                 UyRut.INSTANCE,
                 VeRif.INSTANCE);

@@ -1,0 +1,10 @@
+# wrong check digit
+12345678-9
+12345678-1
+# all zeros is never issued, although its check digit works out
+00000000-0
+# too long, too short
+123456789-1
+1234567-4
+# a letter
+1234567A-4

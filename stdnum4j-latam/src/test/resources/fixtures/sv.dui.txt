@@ -1,0 +1,7 @@
+# the test samples of avalon-tech/idsv-js (src/dui.ts) and the jrmoran gist
+12345678-4
+123456784
+00016297-5
+00000001-8
+# a check digit of 0, which the widely copied gist wrongly rejects
+00000005-0

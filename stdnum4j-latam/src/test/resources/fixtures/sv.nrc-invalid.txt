@@ -1,0 +1,7 @@
+# a zero sequence is never registered
+0-0
+000000-7
+# a verification digit alone, nine digits, a letter
+7
+12345678-9
+12345A-6

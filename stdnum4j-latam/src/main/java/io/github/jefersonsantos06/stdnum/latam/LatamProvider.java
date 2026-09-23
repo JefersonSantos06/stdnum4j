@@ -40,6 +40,7 @@ public final class LatamProvider implements StdNumProvider {
                 PyRuc.INSTANCE,
                 SvDui.INSTANCE,
                 SvNit.INSTANCE,
+                SvNrc.INSTANCE,
                 UyCi.INSTANCE,
                 UyRut.INSTANCE,
                 VeRif.INSTANCE);

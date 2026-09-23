@@ -1,0 +1,9 @@
+# Numbers made up for these tests in the shapes the NRC is written in: the
+# Ministry publishes no list of NRCs, and without a verification digit
+# algorithm any sequence of up to eight digits is well formed
+# (the tax credit invoice schema, fe-ccf-v3.json: ^[0-9]{1,8}$).
+123456-7
+1234567
+12345-6
+2-5
+1234567-8

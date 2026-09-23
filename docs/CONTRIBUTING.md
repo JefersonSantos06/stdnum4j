@@ -196,7 +196,7 @@ para os despachantes e para a varredura do registry.
 Depois **atualize as contagens no `AllRegisteredContractTest`**:
 
 ```java
-assertEquals(464, StdNums.all().size());
+assertEquals(465, StdNums.all().size());
 assertEquals(38, StdNums.byCountry("BR").size());
 ```
 

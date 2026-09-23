@@ -1,0 +1,14 @@
+# wrong check digit (ENEE's with its last digit changed)
+08019003243826
+# a remainder of 10 is written as 0, never as 1
+08019001211591
+# no department 00 or 19
+00019003243825
+19019003243825
+# Francisco Morazán has 28 municipalities, Islas de la Bahía 4
+08299003243825
+11059003243825
+# too short (a DNI alone), too long, a letter
+0801900324382
+080190032438250
+0801900324382A

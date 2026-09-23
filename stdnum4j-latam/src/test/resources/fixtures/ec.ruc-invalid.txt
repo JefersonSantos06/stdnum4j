@@ -14,3 +14,10 @@
 8810034069001
 8868152120001
 8892397539001
+# A check digit of 10 is written as 1, never as 0.
+0195132160001
+# Below Pichincha's counter the check digit still counts: the last number of
+# the old series (1793189504001) with its check digit changed.
+1793189505001
+# One past the first million values of Pichincha's counter.
+1794189506001

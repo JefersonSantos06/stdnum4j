@@ -12,6 +12,8 @@ import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.spi.ValidationException;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
+import java.util.Map;
+
 /**
  * RUC, the Ecuadorian taxpayer number: thirteen digits made of the province
  * of issue, a taxpayer number and an establishment number.
@@ -21,6 +23,21 @@ import io.github.jefersonsantos06.stdnum.text.Strings;
  * number appended, 6 marks a public body and 9 a company. The two upper
  * schemes overlap in practice, so a 6 that fails the public check is retried
  * as a natural person and a 9 as a company.</p>
+ *
+ * <p>The SRI changed how it numbers companies on 24 September 2021, and
+ * neither change is published. A company check digit that works out to 10,
+ * which the old series skipped, is now written as 1. And in all but six
+ * provinces (01, 14, 19, 22, 23 and 24) new companies take their seven digits
+ * from a plain counter that carries on after the last number of the old
+ * series, with no check digit at all. Both rules were measured on the SRI's
+ * open register of 1 September 2026: of its 827,234 numbers with a 9 in third
+ * place, 718,832 close the old check digit, 2,642 close it with a 10 written
+ * as 1, and the other 105,760 all lie in their province's counter.</p>
+ *
+ * <p>A number is taken on the counter's word only within the counter's first
+ * million values. Pichincha, the busiest province, used 51,515 of them in five
+ * years, so the bound leaves decades of room while still refusing a mistyped
+ * number that lands far beyond anything issued.</p>
  */
 public final class EcRuc implements StdNum {
 
@@ -28,6 +45,34 @@ public final class EcRuc implements StdNum {
 
     private static final int[] PUBLIC_WEIGHTS = {3, 2, 7, 6, 5, 4, 3, 2, 1};
     private static final int[] JURIDICAL_WEIGHTS = {4, 3, 2, 7, 6, 5, 4, 3, 2, 1};
+
+    /**
+     * The first value of each province's counter of company numbers without a
+     * check digit, read as the seven digits after the 9. Provinces missing
+     * here still give every company a check digit.
+     */
+    private static final Map<String, Integer> UNCHECKED_FROM = Map.ofEntries(
+            Map.entry("02", 1_526_180),
+            Map.entry("03", 1_034_037),
+            Map.entry("04", 1_533_677),
+            Map.entry("05", 1_762_673),
+            Map.entry("06", 1_784_259),
+            Map.entry("07", 1_840_210),
+            Map.entry("08", 1_791_676),
+            Map.entry("09", 3_366_529),
+            Map.entry("10", 1_796_090),
+            Map.entry("11", 1_795_188),
+            Map.entry("12", 1_789_518),
+            Map.entry("13", 1_931_701),
+            Map.entry("15", 1_727_793),
+            Map.entry("16", 1_728_754),
+            Map.entry("17", 3_189_506),
+            Map.entry("18", 1_809_245),
+            Map.entry("20", 1_766_970),
+            Map.entry("21", 1_773_318));
+
+    /** How many values of a counter are accepted without a check digit. */
+    private static final int UNCHECKED_SPAN = 1_000_000;
 
     private static final Descriptor DESCRIPTOR =
             Descriptor.of("ec.ruc", "RUC")
@@ -83,7 +128,14 @@ public final class EcRuc implements StdNum {
             throw new InvalidComponentException(Message.of(EcRuc.class, "ruc.establishment",
                     "Not an establishment number."));
         }
-        if (checksum(n.substring(0, 10), JURIDICAL_WEIGHTS) != 0) {
+        int check = (11 - checksum(n.substring(0, 9), JURIDICAL_WEIGHTS)) % 11;
+        if (n.charAt(9) - '0' == check || check == 10 && n.charAt(9) == '1') {
+            return;
+        }
+        Integer uncheckedFrom = UNCHECKED_FROM.get(n.substring(0, 2));
+        int serial = Integer.parseInt(n.substring(3, 10));
+        if (uncheckedFrom == null || serial < uncheckedFrom
+                || serial >= uncheckedFrom + UNCHECKED_SPAN) {
             throw new InvalidChecksumException();
         }
     }

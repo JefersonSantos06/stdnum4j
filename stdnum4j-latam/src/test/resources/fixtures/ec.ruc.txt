@@ -248,3 +248,24 @@
 2060000230001
 2160000480001
 2160011760001
+# Companies numbered after the SRI's change of 24 September 2021, all active
+# in its open RUC register of 1 September 2026
+# (https://www.sri.gob.ec/datasets, SRI_RUC_<provincia>.zip).
+# The counter without a check digit: the first number of the series in
+# Pichincha, Guayas and Manabí, and the four of python-stdnum issue #497.
+1793189506001
+0993366529001
+1391931701001
+1793213150001
+1793189906001
+0993366721001
+0993370026001
+# A check digit of 10 written as 1, in provinces that kept the check digit
+# (Azuay, Morona Santiago, Santo Domingo) and below Bolívar's counter.
+0195132161001
+1498309141001
+2390647241001
+0290025461001
+# The last value of Pichincha's counter taken without a check digit: the
+# first million values of each counter are accepted.
+1794189505001

@@ -1,0 +1,21 @@
+# Companies' NITs gathered in python-stdnum issue #134
+# (https://github.com/arthurdejong/python-stdnum/issues/134), with the page
+# each one was found on:
+# uagrm.edu.bo, aspb.gob.bo, anh.gob.bo, ylb.gob.bo and firmadigital.bo.
+1028037020
+1019023023
+120919027
+338612029
+120431020
+# The Ministry of Defence's list of companies (LISTADO_DE_EMPRESAS.pdf).
+1000867020
+150054023
+1020199024
+196654024
+158516028
+1020325026
+# Numbers made up for these tests: a person's identity card with the code 01,
+# and a foreign resident's number with the code 04.
+1234567013
+5555555019
+234567045

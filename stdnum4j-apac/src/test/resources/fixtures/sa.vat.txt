@@ -1,0 +1,7 @@
+# SABIC Group, on its supplier portal (supplier.sabic.com/SABICVAT.aspx).
+300000316410003
+300 000 316 410 003
+# The seller and buyer of the sample invoices of php-zatca-xml
+# (github.com/Saleh7/php-zatca-xml, examples/GeneratorSimplified_Invoice.php).
+399999999900003
+399999999800003

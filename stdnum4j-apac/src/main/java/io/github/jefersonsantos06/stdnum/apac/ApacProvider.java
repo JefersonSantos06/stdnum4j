@@ -38,6 +38,7 @@ public final class ApacProvider implements StdNumProvider {
                 PkCnic.INSTANCE,
                 RuInn.INSTANCE,
                 RuOgrn.INSTANCE,
+                SaVat.INSTANCE,
                 SgUen.INSTANCE,
                 ThMoa.INSTANCE,
                 ThPin.INSTANCE,

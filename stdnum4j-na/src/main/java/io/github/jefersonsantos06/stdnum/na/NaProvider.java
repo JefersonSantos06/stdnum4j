@@ -14,6 +14,7 @@ public final class NaProvider implements StdNumProvider {
         return List.of(
                 CaBcPhn.INSTANCE,
                 CaBn.INSTANCE,
+                CaQst.INSTANCE,
                 CaSin.INSTANCE,
                 UsAtin.INSTANCE,
                 UsEin.INSTANCE,

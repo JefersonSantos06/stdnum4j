@@ -1,0 +1,11 @@
+# wrong check digit
+1000042606 TQ0020
+1000042606
+# the account is a TQ one, and its reference never 0000
+1000042605 RT0001
+1000042605 TQ0000
+# too short, too long, a letter in the number
+100004260
+1000042605 TQ020
+100004260A TQ0020
+1000042605 TQ00A0

@@ -1,0 +1,14 @@
+# CN's list of its companies' GST and QST numbers
+# (www.cn.ca/-/media/Files/suppliers/Documents/gst-qst-registration-numbers-fr.pdf):
+# Compagnie des chemins de fer nationaux du Canada, CN Worldwide Distribution
+# Services (Canada) Inc. and Autoport Limited.
+1000043156 TQ0514
+1207130709 TQ0001
+1015426108 TQ0001
+# Hydro-Québec, on its page for suppliers
+# (www.hydroquebec.com/suppliers/invoicing-payment/preparing-submitting-invoice.html).
+1000042605 TQ0020
+1000042605TQ0020
+1000042605 tq 0020
+# The number alone, without the account.
+1000042605

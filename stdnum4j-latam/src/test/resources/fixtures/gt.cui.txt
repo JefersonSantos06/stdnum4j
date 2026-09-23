@@ -1,0 +1,16 @@
+# The valid samples of the Ministry of Public Finance's own validator tests
+# (github.com/minfingt/validators, CuiValidatorTests.cs).
+1587564440904
+1580352240101
+1587 56444 0904
+# Numbers made up for these tests: the check digit computed, one per
+# department and municipality at the edge of the tables.
+5345367350101
+0083890710117
+1053085520514
+0386859651333
+9241488532217
+0422787830924
+1633994331230
+9621318811714
+7450948481601

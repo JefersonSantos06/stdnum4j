@@ -1,0 +1,19 @@
+# The invalid sample of the Ministry's validator tests: department 00.
+2415751810000
+# wrong check digit
+1680352240101
+# a sequence whose remainder is 10 has no check digit
+8919578800101
+8919578810101
+# no department 23; Guatemala has 17 municipalities, Escuintla 14,
+# Huehuetenango 33
+1580352242301
+1580352240118
+1053085520515
+0386859651334
+# municipality 00
+1587564440900
+# too short, too long, a letter
+158756444090
+15875644409041
+158756444090A

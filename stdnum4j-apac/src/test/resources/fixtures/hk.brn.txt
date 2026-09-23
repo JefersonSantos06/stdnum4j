@@ -1,0 +1,12 @@
+# Companies Registry, mapping of CRN and BRN for non-Hong Kong companies
+# (cr.gov.hk/en/electronic/e-servicesportal/e-search/lists_for_the_mapping.htm)
+# Mercantile Company Limited, CR F0000002
+00000775
+# Sinomab Limited
+71412791
+# Prominent Pioneer Limited
+72993522
+# Guoan International Limited
+22241539
+# Edgar M. Bronfman Citrus Company LLC
+36285236

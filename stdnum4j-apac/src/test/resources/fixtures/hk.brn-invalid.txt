@@ -1,0 +1,8 @@
+# wrong check digit
+71412792
+00000776
+# the stand-in identifier of a company without a BRN, not a BRN itself
+F0000001
+# too short, too long
+7141279
+714127910

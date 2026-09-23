@@ -6,7 +6,7 @@
 
 Uma biblioteca Java para interpretar, validar e reformatar números e códigos
 padronizados — números fiscais, identificadores pessoais, números bancários e
-de pagamento, códigos de produto. **469 tipos de número em 187 países**, sem
+de pagamento, códigos de produto. **470 tipos de número em 188 países**, sem
 nenhuma dependência.
 
 Inspirada no [python-stdnum](https://github.com/arthurdejong/python-stdnum);
@@ -29,7 +29,7 @@ cada um. O Brasil, por exemplo:
 implementation("io.github.jefersonsantos06:stdnum4j-br:1.0.0")
 ```
 
-Ou os 469 de uma vez, com o `stdnum4j-all`. Ele não tem código próprio — é a
+Ou os 470 de uma vez, com o `stdnum4j-all`. Ele não tem código próprio — é a
 lista dos outros módulos, e por isso é um `pom`, não um jar. **No Maven, o
 `<type>pom</type>` não é opcional:** sem ele a resolução procura um jar que não
 existe e falha com `stdnum4j-all:jar:1.0.0 was not found`.
@@ -110,7 +110,7 @@ InscricaoEstadual.of(Uf.PE)
 ```
 
 `#` toma o próximo caractere, `9` um dígito e `A` uma letra; o resto é
-separador. São 134 dos 469 tipos, e para eles o teste de contrato prova que a
+separador. São 134 dos 470 tipos, e para eles o teste de contrato prova que a
 máscara escreve todo número exatamente como o `format` escreve. Os demais
 devolvem lista vazia — o que não promete que a apresentação seja a forma
 compacta: o IBAN agrupa de quatro em quatro à mão e não tem máscara a
@@ -156,9 +156,9 @@ IBAN nacional é um IBAN com uma regra nacional por cima.
 | `stdnum4j-latam` | 33 | América Latina: AR, BO, CL, CO, CR, CU, DO, EC, GT, HN, MX, NI, PA, PE, PY, SV, UY, VE. |
 | `stdnum4j-na` | 11 | América do Norte: os SSN, ITIN, EIN, PTIN e ATIN dos EUA, o TIN que é qualquer um deles que o contribuinte tenha, e o routing number; o SIN canadense, o business number, o número da TVQ de Quebec e o número de saúde da Colúmbia Britânica. |
 | `stdnum4j-apac` | 37 | Ásia-Pacífico e adjacências: AE, AU, CN, HK, ID, IL, IN, JP, KR, MY, NZ, OM, PK, RU, SA, SG, TH, TR, TW, VN. |
-| `stdnum4j-africa` | 12 | África: DZ, EG, GH, GN, KE, MA, MU, MZ, SN, TN, ZA. |
+| `stdnum4j-africa` | 13 | África: AO, DZ, EG, GH, GN, KE, MA, MU, MZ, SN, TN, ZA. |
 | `stdnum4j-postal` | 178 | Códigos postais: um tipo por país ou território com padrão nos metadados de endereço do Google (os da libaddressinput, dados CC BY 4.0) — CEP, ZIP, Eircode, PIN e os demais, gerados de um arquivo só. |
-| `stdnum4j-all` | 469 | Agregador: um `pom` que depende de todos os módulos — no Maven, peça-o com `<type>pom</type>`. É também a casa dos testes entre módulos. |
+| `stdnum4j-all` | 470 | Agregador: um `pom` que depende de todos os módulos — no Maven, peça-o com `<type>pom</type>`. É também a casa dos testes entre módulos. |
 
 O inventário completo, tipo a tipo, está em
 **[docs/NUMBERS.md](docs/NUMBERS.md)**. Ele cobre 234 dos 235 tipos de número

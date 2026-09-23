@@ -1,0 +1,11 @@
+# a company NIF opens with 5 (or 7)
+6000767115
+1000767115
+# the old personal NIF (Decree 61/04), fifteen characters with a check digit
+104797863LA0489
+# a digit where the province letters go, a letter among the digits
+0047978631A048
+500076711A
+# too short, too long
+500076711
+50007671150

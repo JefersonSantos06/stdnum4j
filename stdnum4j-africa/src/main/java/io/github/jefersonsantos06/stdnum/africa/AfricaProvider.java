@@ -12,6 +12,7 @@ public final class AfricaProvider implements StdNumProvider {
     @Override
     public Collection<StdNum> numbers() {
         return List.of(
+                AoNif.INSTANCE,
                 DzNif.INSTANCE,
                 EgTn.INSTANCE,
                 GhTin.INSTANCE,

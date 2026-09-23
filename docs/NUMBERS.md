@@ -1,6 +1,6 @@
 # Números
 
-**469 tipos**, em 187 países, mais 30 formatos independentes de país.
+**470 tipos**, em 188 países, mais 30 formatos independentes de país.
 
 Este inventário é mantido à mão. Ao adicionar um tipo, adicione-o aqui também —
 veja [CONTRIBUTING.md](CONTRIBUTING.md#passo-8--o-inventário). Se algum dia ele
@@ -20,12 +20,12 @@ StdNums.all().forEach(n -> System.out.println(n.descriptor().id()));
 | [`stdnum4j-latam`](#américa-latina--stdnum4j-latam-33) | 33 | 18 |
 | [`stdnum4j-na`](#américa-do-norte--stdnum4j-na-11) | 11 | 2 |
 | [`stdnum4j-apac`](#ásia-pacífico--stdnum4j-apac-37) | 37 | 20 |
-| [`stdnum4j-africa`](#áfrica--stdnum4j-africa-12) | 12 | 11 |
+| [`stdnum4j-africa`](#áfrica--stdnum4j-africa-13) | 13 | 12 |
 | [`stdnum4j-postal`](#códigos-postais--stdnum4j-postal-178) | 178 | 178 |
-| **Total** | **469** | **187** |
+| **Total** | **470** | **188** |
 
 Os países do `stdnum4j-postal` se sobrepõem aos dos módulos regionais; distintos,
-são 187.
+são 188.
 
 ## Diante do python-stdnum
 
@@ -606,7 +606,11 @@ que ele aparece no `Descriptor`, e não é traduzido.
 - [x] `in.pan` — PAN — Permanent Account Number
 - [x] `in.vid` — VID — Indian Virtual ID
 
-### África — `stdnum4j-africa` (12)
+### África — `stdnum4j-africa` (13)
+
+**Angola (AO)**
+
+- [x] `ao.nif` — NIF — Número de Identificação Fiscal
 
 **Argélia (DZ)**
 

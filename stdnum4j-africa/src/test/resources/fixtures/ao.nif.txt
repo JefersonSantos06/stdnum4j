@@ -1,0 +1,20 @@
+# Companies' NIFs gathered in python-stdnum issue #367
+# (https://github.com/arthurdejong/python-stdnum/issues/367), with the page
+# each was found on: armed.gov.ao, unitel.ao, ecodima.co.ao, bancobai.ao,
+# medicare.ao, nossaseguros.ao (report 2021), bancobic.ao and inacom.gov.ao.
+5000767115
+5410003144
+5000392413
+5410000510
+541.745.0855
+540 111 34 20
+500 002 85 50
+5000354643
+# The older code 7, in a 2018 instruction of the CMC and the ANR's list of
+# operators.
+7403008227
+7419001367
+# A national's NIF, the identity card number: AGT's own example of the new
+# NIF (its FAQ "Qual a diferença entre o NIF antigo e o novo NIF?").
+004797863LA048
+004797863 LA 048

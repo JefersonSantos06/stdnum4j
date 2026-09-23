@@ -1,0 +1,3 @@
+# the check digits of valid samples
+calcCheckDigit	20012977	5
+calcCheckDigit	25474642	0

@@ -13,6 +13,7 @@ public final class AfricaProvider implements StdNumProvider {
     public Collection<StdNum> numbers() {
         return List.of(
                 AoNif.INSTANCE,
+                CvNif.INSTANCE,
                 DzNif.INSTANCE,
                 EgTn.INSTANCE,
                 GhTin.INSTANCE,

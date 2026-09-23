@@ -1,0 +1,29 @@
+# NIFs of companies (2), national entities (3) and other entities (5)
+# found in public documents for python-stdnum pull request #391
+# (https://github.com/arthurdejong/python-stdnum/pull/391).
+200129775
+200146009
+353035572
+350067813
+350212929
+280150407
+281142602
+279721706
+213942704
+200 144 731
+366911198
+268 445 206
+279859805
+200252208
+572484305
+255965001
+557577748
+253.656.575
+# 11 minus the remainder comes to 10 or 11, and the check digit is 0.
+254746420
+352538600
+252214420
+275851400
+570648700
+252269080
+289478790

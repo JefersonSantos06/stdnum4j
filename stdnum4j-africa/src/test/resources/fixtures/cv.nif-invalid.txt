@@ -1,0 +1,11 @@
+# wrong check digit
+200129776
+254746421
+# no kind of taxpayer 0, 6 or 9 (python-stdnum pull request #391)
+023456789
+623456789
+923456789
+# too short, too long, letters
+12345
+2001297750
+VV3456789

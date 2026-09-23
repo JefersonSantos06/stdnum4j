@@ -12,6 +12,7 @@ public final class ApacProvider implements StdNumProvider {
     @Override
     public Collection<StdNum> numbers() {
         return List.of(
+                AeTrn.INSTANCE,
                 AuAbn.INSTANCE,
                 AuAcn.INSTANCE,
                 AuTfn.INSTANCE,

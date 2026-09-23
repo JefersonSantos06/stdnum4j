@@ -1,0 +1,6 @@
+# Numbers made up for these tests in the shape of rule IBR-132-AE of PINT AE
+# (fifteen digits, 1 first and 03 last): the Federal Tax Authority publishes
+# no register, and without a check digit any number in that shape is valid.
+100123456700003
+100-1234-5678-0003
+104982736100003

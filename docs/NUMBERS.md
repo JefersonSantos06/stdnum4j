@@ -1,6 +1,6 @@
 # Números
 
-**467 tipos**, em 186 países, mais 30 formatos independentes de país.
+**468 tipos**, em 186 países, mais 30 formatos independentes de país.
 
 Este inventário é mantido à mão. Ao adicionar um tipo, adicione-o aqui também —
 veja [CONTRIBUTING.md](CONTRIBUTING.md#passo-8--o-inventário). Se algum dia ele
@@ -19,10 +19,10 @@ StdNums.all().forEach(n -> System.out.println(n.descriptor().id()));
 | [`stdnum4j-eu`](#europa--stdnum4j-eu-131) | 131 | 44 |
 | [`stdnum4j-latam`](#américa-latina--stdnum4j-latam-33) | 33 | 18 |
 | [`stdnum4j-na`](#américa-do-norte--stdnum4j-na-11) | 11 | 2 |
-| [`stdnum4j-apac`](#ásia-pacífico--stdnum4j-apac-35) | 35 | 19 |
+| [`stdnum4j-apac`](#ásia-pacífico--stdnum4j-apac-36) | 36 | 19 |
 | [`stdnum4j-africa`](#áfrica--stdnum4j-africa-12) | 12 | 11 |
 | [`stdnum4j-postal`](#códigos-postais--stdnum4j-postal-178) | 178 | 178 |
-| **Total** | **467** | **186** |
+| **Total** | **468** | **186** |
 
 Os países do `stdnum4j-postal` se sobrepõem aos dos módulos regionais; distintos,
 são 186.
@@ -507,10 +507,11 @@ que ele aparece no `Descriptor`, e não é traduzido.
 - [x] `us.ssn` — SSN — Social Security Number
 - [x] `us.tin` — TIN — Taxpayer Identification Number
 
-### Ásia-Pacífico — `stdnum4j-apac` (35)
+### Ásia-Pacífico — `stdnum4j-apac` (36)
 
 **Arábia Saudita (SA)**
 
+- [x] `sa.cr` — CR — Commercial Registration number
 - [x] `sa.vat` — VAT — Saudi VAT registration number
 
 **Austrália (AU)**

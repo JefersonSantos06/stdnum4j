@@ -37,8 +37,8 @@ class AllRegisteredContractTest {
         }
         assertEquals(10, StdNums.byCountry("ES").size());
         assertEquals(8, StdNums.byCountry("FR").size());
-        // 289 hand-written types and 178 generic postal codes
-        assertEquals(467, StdNums.all().size());
+        // 290 hand-written types and 178 generic postal codes
+        assertEquals(468, StdNums.all().size());
     }
 
     @TestFactory

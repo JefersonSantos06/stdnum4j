@@ -1,0 +1,6 @@
+# no number starts with 0
+0101001081
+# too short, too long, a letter
+101001081
+10100108130
+101001081A

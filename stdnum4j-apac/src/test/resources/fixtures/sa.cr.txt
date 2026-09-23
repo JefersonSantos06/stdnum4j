@@ -1,0 +1,8 @@
+# SABIC (Riyadh) and Saudi Aramco (Dhahran), as their financial statements
+# give them.
+1010010813
+2052101150
+# Unified National Numbers, made up for these tests: ten digits beginning
+# with 7 (SAMA rulebook, on the Commercial Register Law of 2025).
+7001234567
+700 123 4568

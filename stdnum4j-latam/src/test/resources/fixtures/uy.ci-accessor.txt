@@ -1,0 +1,4 @@
+# the check digits of valid samples
+calcCheckDigit	1234567	2
+calcCheckDigit	123456	1
+calcCheckDigit	654321	0

@@ -1,0 +1,10 @@
+# wrong check digit
+1.234.567-3
+123.456-2
+# a zero number is never issued
+0.000.000-0
+000.000-0
+# too short, too long, a letter
+12345-6
+12.345.678-9
+1.234.56A-2

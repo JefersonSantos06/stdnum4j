@@ -1,0 +1,12 @@
+# The examples of the ciuy documentation (ciuy.readthedocs.io).
+1.234.567-2
+123.456-1
+# Numbers made up for these tests, the check digit computed; the shorter
+# ones are older cards with six-digit numbers.
+45678905
+3.000.000-4
+9.876.543-8
+654.321-0
+1000000-8
+5 555 555 5
+09999997

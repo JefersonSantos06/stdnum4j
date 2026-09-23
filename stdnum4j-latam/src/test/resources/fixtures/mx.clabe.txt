@@ -1,0 +1,13 @@
+# The example of the Wikipedia article (en.wikipedia.org/wiki/CLABE).
+032180000118359719
+032 180 00011835971 9
+# Numbers made up for these tests, the check digit computed: a CLABE is a
+# bank account, and a private one is personal data. They include bank codes
+# (722, 728) and a plaza (115) missing from stdnum-js's tables.
+002180001234567896
+722180000987654324
+728180000112233446
+646180000555666778
+012180004700273601
+002115016003269411
+144180000000000019

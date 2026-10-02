@@ -4,3 +4,8 @@
 12345678
 30-1234-1234
 FF8490717
+# no province has the code 0
+0-0455-0175
+004550175
+# a volume and an entry of zeros was never issued
+1-0000-0000

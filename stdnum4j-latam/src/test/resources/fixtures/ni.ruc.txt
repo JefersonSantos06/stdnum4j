@@ -47,3 +47,11 @@ J091-000024-7328
 0011301871000R
 4412002011111D
 0012902000012G
+#
+# The examples of the DGI notice on valid RUC numbers (2022): a legal entity,
+# a national without a cédula, a resident and a non-resident foreigner.
+# https://www.dgi.gob.ni/pdfNoticia/1715
+J0310000007669
+N0000000000019
+R1230003007661
+E1230003007661

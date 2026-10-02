@@ -22,9 +22,9 @@ import java.util.List;
  * empty strings and garbage, the methods below either succeed or throw a
  * {@link ValidationException} subtype. They must never throw
  * {@code NullPointerException}, {@code IndexOutOfBoundsException} or any
- * other unchecked exception. {@link #isValid}, {@link #check} and
- * {@link #safeFormat} throw nothing at all: they are that same contract read
- * as a value.</p>
+ * other unchecked exception. {@link #isValid}, {@link #check},
+ * {@link #isCompact} and {@link #safeFormat} throw nothing at all: they are
+ * that same contract read as a value.</p>
  */
 public interface StdNum {
 
@@ -71,6 +71,34 @@ public interface StdNum {
             return new Check.Valid(validate(number));
         } catch (ValidationException e) {
             return new Check.Invalid(e.error(), e.message());
+        }
+    }
+
+    /**
+     * Whether the number is valid <em>and</em> already written in its compact
+     * form, the form a column that stores numbers of this type should hold.
+     * Never throws; {@code null} is not compact.
+     *
+     * <p>{@link #validate} is lenient about how a number arrives: it drops
+     * separators and surrounding space, may fold letter case, and reads
+     * look-alike characters — full-width and Arabic-Indic digits, a no-break
+     * space — as the plain ones they stand for. That is right for input and
+     * wrong for a stored value, which is what other systems will be handed.
+     * This answers whether {@code number} is that form already: true exactly
+     * when {@code validate(number)} succeeds and returns {@code number}
+     * unchanged.</p>
+     *
+     * <pre>{@code
+     * cpf.isCompact("39053344705");     // true
+     * cpf.isCompact("390.533.447-05");  // false: valid, but not the stored form
+     * cpf.isCompact("３9053344705");     // false: a full-width 3
+     * }</pre>
+     */
+    default boolean isCompact(String number) {
+        try {
+            return validate(number).equals(number);
+        } catch (ValidationException e) {
+            return false;
         }
     }
 

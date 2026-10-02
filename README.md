@@ -90,6 +90,17 @@ O inválido continua com cara de inválido; ele só não ganha a máscara pelo
 caminho. O retorno não diz qual dos dois aconteceu, e quem precisa saber não
 está formatando, está validando: é para isso que existe o `check`.
 
+`validate` é tolerante com a entrada: tira separadores e espaços e lê dígitos
+de largura total ou arábico-índicos como os dígitos comuns que eles
+representam. Para conferir um valor já gravado — que é o que vai ser
+entregue a outro sistema —, `isCompact` responde se ele é válido *e* já está
+na forma compacta:
+
+```java
+Cpf.INSTANCE.isCompact("39053344705");     // true
+Cpf.INSTANCE.isCompact("390.533.447-05");  // false — válido, mas não é o que se grava
+```
+
 Os tipos também são descobríveis em tempo de execução, sem importá-los:
 
 ```java

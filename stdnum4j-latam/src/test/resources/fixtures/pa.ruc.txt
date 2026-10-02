@@ -190,3 +190,12 @@ e-8-127702-16
 1870951–1–1751–18
 8NT-1-22684-98
 8NT-1-22684
+
+# AV and PI in a field of their own after the province, the slot the DGI's
+# check digit algorithm keeps them in (N 08 AV 001 00196, N 08 PI 001 00080)
+# https://web.archive.org/web/20190105020632/https://dgi.mef.gob.pa/N-prensa/Calculo_DV_RUC_20180523.pdf
+8-AV-1-196-90
+8-AV-1-196
+13-PI-1-196-58
+8-PI-1-80-05
+8-PI-1-80

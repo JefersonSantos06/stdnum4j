@@ -27,7 +27,9 @@ import java.util.Locale;
  * natural person carries their cédula, which opens with a province code
  * ({@code 8-473-515}) or with a letter saying how nationality was acquired —
  * {@code E} foreigner, {@code PE} Panamanian foreigner, {@code N} naturalised,
- * and {@code AV} and {@code PI}, which follow a province ({@code 8AV-1-196}).
+ * and {@code AV} and {@code PI}, which follow a province, either stuck to it
+ * ({@code 8AV-1-196}) or in a field of their own ({@code 8-AV-1-196}), the
+ * slot the DGI's check digit algorithm keeps them in.
  * Whoever qualifies for neither gets an NT, número tributario, whose second
  * field is the letters themselves: {@code 8-NT-2-3437}.</p>
  *
@@ -87,6 +89,8 @@ public final class PaRuc implements StdNum {
             "Unknown letter in the first field of a RUC.");
     private static final Message CHECK_DIGITS = Message.of(PaRuc.class, "ruc.pa.check-digits",
             "The check digits appended to a RUC are two digits.");
+    private static final Message BASE_CHECK_DIGITS = Message.of(PaRuc.class, "ruc.pa.base-check-digits",
+            "The check digits are written apart from the RUC, not after it.");
     private static final Message AMBIGUOUS = Message.of(PaRuc.class, "ruc.pa.ambiguous",
             "The number reads as coming from more than one register, so the number"
                     + " alone does not fix its check digits.");
@@ -235,6 +239,34 @@ public final class PaRuc implements StdNum {
         return answer;
     }
 
+    /**
+     * Validates a RUC written without its check digits and returns its compact
+     * form. The electronic invoice carries the RUC and its DV in fields of their
+     * own ({@code dRuc} and {@code dDV}), and a RUC stored with the DV appended
+     * would be the same taxpayer twice; so a number that carries them, which
+     * {@link #validate} accepts, is refused here.
+     *
+     * @throws ValidationException if the number is not a valid RUC, or carries
+     *                             its check digits
+     */
+    public static String validateBase(String base) {
+        String n = INSTANCE.validate(base);
+        if (split(n).dv() != null) {
+            throw new InvalidFormatException(BASE_CHECK_DIGITS);
+        }
+        return n;
+    }
+
+    /** Whether the number is a valid RUC written without its check digits. Never throws. */
+    public static boolean isValidBase(String base) {
+        try {
+            validateBase(base);
+            return true;
+        } catch (ValidationException e) {
+            return false;
+        }
+    }
+
     private static void requireAlphabet(String n) {
         for (int i = 0; i < n.length(); i++) {
             char c = n.charAt(i);
@@ -258,6 +290,12 @@ public final class PaRuc implements StdNum {
         if (parts.length >= 2 && parts[1].equals("NT")) {
             requireParts(parts.length, 4, 5);
             nt = true;
+            folioAt = 2;
+        } else if (parts.length >= 2 && (parts[1].equals("AV") || parts[1].equals("PI"))) {
+            // 8-AV-1-196 is 8AV-1-196 with the letters in a field of their own
+            requireParts(parts.length, 4, 5);
+            nt = false;
+            head = head + parts[1];
             folioAt = 2;
         } else if (head.length() > 2 && head.endsWith("NT")) {
             // 8 NT-1-22684 loses its space to compact and arrives like this
@@ -437,6 +475,6 @@ public final class PaRuc implements StdNum {
     private static boolean isProvinceCode(String head) {
         String province = trimZeros(head);
         return Strings.isDigits(province) && province.length() <= 2
-                && Integer.parseInt(province) <= 13;
+                && Integer.parseInt(province) >= 1 && Integer.parseInt(province) <= 13;
     }
 }

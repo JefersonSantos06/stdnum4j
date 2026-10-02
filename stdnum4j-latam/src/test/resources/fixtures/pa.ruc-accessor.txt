@@ -112,9 +112,20 @@ calcCheckDigits	E-8-127702	16
 calcCheckDigits	E-1234-123456789	26
 calcCheckDigits	N-19-1821	11
 calcCheckDigits	8AV-1-196	90
+calcCheckDigits	8-AV-1-196	90
 calcCheckDigits	13PI-1-196	58
+calcCheckDigits	13-PI-1-196	58
 calcCheckDigits	2PI-123-1234	41
 
 # a number written with its DV gets it back, ambiguous or not
 calcCheckDigits	8-473-515-70	70
 calcCheckDigits	8-NT-1-22684-98	98
+# A RUC as dRuc carries it: without the DV, which goes in dDV.
+validateBase	934430-1-522379	934430-1-522379
+validateBase	8-AV-1-196	8-AV-1-196
+validateBase	8-NT-2-3437	8-NT-2-3437
+isValidBase	8-473-515	true
+isValidBase	8-473-515-70	false
+isValidBase	8-NT-2-3437-46	false
+isValidBase	8AV-1-196-90	false
+isValidBase	8-473	false

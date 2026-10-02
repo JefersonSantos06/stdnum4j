@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.spi.ValidationException;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Locale;
@@ -51,6 +52,35 @@ public final class CoNit implements StdNum {
             sum += WEIGHTS[i] * (base.charAt(base.length() - 1 - i) - '0');
         }
         return "01987654321".charAt(sum % 11);
+    }
+
+    /**
+     * Validates a NIT written without its check digit, the way the DIAN's own
+     * forms and electronic invoice write the DV apart from the number, and
+     * returns its compact form. With no check digit there is nothing to verify
+     * beyond the digits and their count: the 7 to 15 that come before the DV.
+     *
+     * @throws ValidationException if the base is not 7 to 15 digits
+     */
+    public static String validateBase(String base) {
+        String n = INSTANCE.compact(base);
+        if (n.length() < 7 || n.length() > 15) {
+            throw new InvalidLengthException();
+        }
+        if (!Strings.isDigits(n)) {
+            throw new InvalidFormatException();
+        }
+        return n;
+    }
+
+    /** Whether the number is a valid NIT written without its check digit. Never throws. */
+    public static boolean isValidBase(String base) {
+        try {
+            validateBase(base);
+            return true;
+        } catch (ValidationException e) {
+            return false;
+        }
     }
 
     @Override

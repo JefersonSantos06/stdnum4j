@@ -101,6 +101,13 @@ Cpf.INSTANCE.isCompact("39053344705");     // true
 Cpf.INSTANCE.isCompact("390.533.447-05");  // false — válido, mas não é o que se grava
 ```
 
+Alguns números costumam ser gravados sem o dígito verificador, que vai num
+campo à parte. Para eles, o tipo oferece `validateBase` e `isValidBase`:
+
+```java
+CoNit.isValidBase("900373115");        // o NIT sem o DV, como a DIAN o escreve
+```
+
 Os tipos também são descobríveis em tempo de execução, sem importá-los:
 
 ```java

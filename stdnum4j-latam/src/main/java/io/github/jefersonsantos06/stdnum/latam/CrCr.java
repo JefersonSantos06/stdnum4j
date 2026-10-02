@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Strings;
@@ -14,7 +15,8 @@ import java.util.Locale;
 /**
  * CR, the number Costa Rica gives a foreign resident: eleven or twelve digits
  * opening with a 1, with no check digit. Residents hold a {@link CrCpf}
- * instead.
+ * instead. With no check digit to verify, a number that is all zeros after
+ * the 1 is the one thing refused beyond the shape.
  */
 public final class CrCr implements StdNum {
 
@@ -55,6 +57,10 @@ public final class CrCr implements StdNum {
         if (n.charAt(0) != '1') {
             throw new InvalidComponentException(Message.of(CrCr.class, "cr.prefix",
                     "A residence number starts with 1."));
+        }
+        String sequence = n.substring(1);
+        if (Strings.allSame(sequence) && sequence.charAt(0) == '0') {
+            throw new InvalidComponentException(Reasons.zeroSequence());
         }
         return n;
     }

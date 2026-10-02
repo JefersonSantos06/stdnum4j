@@ -1,3 +1,11 @@
 # What python-stdnum's own tests expect of these accessors.
 toRuc	10117410-2	10101174102
 toRuc	10812543-3	10108125433
+# The DNI, the CUI without its check character, as the tax office takes it.
+validateBase	10117410	10117410
+validateBase	05209244	05209244
+isValidBase	10117410	true
+isValidBase	10117410-2	false
+isValidBase	76478492H	false
+isValidBase	1011741	false
+isValidBase	1011741A	false

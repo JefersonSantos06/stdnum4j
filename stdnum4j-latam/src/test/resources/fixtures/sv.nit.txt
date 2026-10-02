@@ -201,3 +201,9 @@ SV 0614-050707-104-8
 9483-140205-101-6
 9483-260110-101-0
 94833011640013
+# since the 2021 homologation an adult national's DUI is also their NIT
+# https://www.mh.gob.sv/homologacion-de-nit-y-dui-simplifica-tramites/
+# (the DUIs of fixtures/sv.dui.txt)
+00016297-5
+000162975
+12345678-4

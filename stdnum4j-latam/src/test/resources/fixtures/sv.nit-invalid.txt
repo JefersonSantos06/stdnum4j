@@ -6,3 +6,8 @@
 12345678
 52345678901234
 VV345678901234
+# nine digits are read as a DUI, and refused for the reasons a DUI is
+00016297-6
+000000000
+# all zeros was never issued, although its check digit works out
+00000000000000

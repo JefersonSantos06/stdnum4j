@@ -6,7 +6,7 @@
 
     <groupId>io.github.jefersonsantos06</groupId>
     <artifactId>stdnum4j-parent</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.3.0</version>
     <packaging>pom</packaging>
 
     <name>stdnum4j</name>
@@ -67,7 +67,7 @@
           edits it: `versions:set` rewrites it whenever it changes a version,
           which is how the release workflow keeps it honest.
         -->
-        <project.build.outputTimestamp>2026-10-04T12:36:51Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2026-10-04T12:51:42Z</project.build.outputTimestamp>
     </properties>
 
     <dependencyManagement>

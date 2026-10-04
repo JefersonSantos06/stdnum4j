@@ -106,6 +106,7 @@ campo à parte. Para eles, o tipo oferece `validateBase` e `isValidBase`:
 
 ```java
 CoNit.isValidBase("900373115");        // o NIT sem o DV, como a DIAN o escreve
+CoNit.formatBase("900373115");         // "900.373.115"
 PeCui.isValidBase("10117410");         // o DNI: o CUI sem o caractere verificador
 PaRuc.isValidBase("8-NT-2-3437");      // o dRuc da fatura eletrônica, sem o dDV
 PaRuc.isValidBase("8-NT-2-3437-46");   // false — o DV não vai junto

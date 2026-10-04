@@ -1,12 +1,6 @@
 package io.github.jefersonsantos06.stdnum.latam;
 
-import io.github.jefersonsantos06.stdnum.spi.Descriptor;
-import io.github.jefersonsantos06.stdnum.spi.InvalidChecksumException;
-import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
-import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
-import io.github.jefersonsantos06.stdnum.spi.StdNum;
-import io.github.jefersonsantos06.stdnum.spi.Tag;
-import io.github.jefersonsantos06.stdnum.spi.ValidationException;
+import io.github.jefersonsantos06.stdnum.spi.*;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Locale;
@@ -83,6 +77,17 @@ public final class CoNit implements StdNum {
         }
     }
 
+    /**
+     * The presentation of a NIT written without its check digit: the base
+     * grouped in thousands, as {@link #format} writes it before the DV
+     * ({@code 900.373.115}).
+     *
+     * @throws ValidationException if the base is not valid
+     */
+    public static String formatBase(String base) {
+        return group(validateBase(base));
+    }
+
     @Override
     public String validate(String number) {
         String n = compact(number);
@@ -101,14 +106,18 @@ public final class CoNit implements StdNum {
     @Override
     public String format(String number) {
         String n = validate(number);
-        String base = n.substring(0, n.length() - 1);
+        return group(n.substring(0, n.length() - 1)) + '-' + n.charAt(n.length() - 1);
+    }
+
+    /** The digits grouped in thousands with dots, from the right. */
+    private static String group(String digits) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < base.length(); i++) {
-            if (i > 0 && (base.length() - i) % 3 == 0) {
+        for (int i = 0; i < digits.length(); i++) {
+            if (i > 0 && (digits.length() - i) % 3 == 0) {
                 sb.append('.');
             }
-            sb.append(base.charAt(i));
+            sb.append(digits.charAt(i));
         }
-        return sb.append('-').append(n.charAt(n.length() - 1)).toString();
+        return sb.toString();
     }
 }

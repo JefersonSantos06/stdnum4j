@@ -1,0 +1,16 @@
+# The NIT without its check digit: the samples of fixtures/co.nit.txt with
+# the DV taken off, as the DIAN's forms write the number apart from the DV.
+validateBase	213.123.432	213123432
+validateBase	1118534248	1118534248
+validateBase	15.252.525	15252525
+validateBase	6.386.949	6386949
+formatBase	213123432	213.123.432
+formatBase	1118534248	1.118.534.248
+formatBase	6.386.949	6.386.949
+isValidBase	213123432	true
+isValidBase	52.238.803	true
+# six digits and sixteen are no NIT base; a letter is no digit
+isValidBase	638694	false
+isValidBase	1234567890123456	false
+isValidBase	21312343A	false
+isValidBase		false

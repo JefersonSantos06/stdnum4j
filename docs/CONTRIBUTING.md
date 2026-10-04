@@ -165,8 +165,9 @@ entra em `PostalCode.HAND_WRITTEN` para o genérico sair do caminho. O
   `private static final Mask MASK = Mask.of("###.###.###-##");` e
   `return MASK.fill(validate(number));`.
 - **Não sobrescreva `safeFormat`.** Ele chama o seu `format` e já apanha a sua
-  recusa, do mesmo jeito que `isValid` e `check` apanham a do seu `validate` —
-  e por isso ninguém neste repositório sobrescreve nenhum dos três.
+  recusa, do mesmo jeito que `isValid`, `check` e `isCompact` apanham a do seu
+  `validate` — e por isso ninguém neste repositório sobrescreve nenhum dos
+  quatro.
 - Quem tem `MASK` também sobrescreve `masks`, com uma linha —
   `return List.of(MASK);` —, que é o que um formulário põe num campo antes de
   haver número. Um tipo com mais de uma forma devolve todas, e o `format` é

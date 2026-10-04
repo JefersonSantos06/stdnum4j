@@ -28,10 +28,16 @@
 Q-8-127702
 8AX-1-196
 AV-1-196
+8-AX-1-196
+E-AV-1-196
 
-# Panama has fourteen provinces, numbered 00 to 13
+# provinces and comarcas are numbered 1 to 13 (table 25 of the DGI's
+# e-invoice technical sheet)
 14-NT-1-24
 14AV-1-196
+0-NT-1-24
+0-AV-1-196
+00PI-1-80
 
 # fields longer than the register they name, and a letter where digits go
 8-4A3-515

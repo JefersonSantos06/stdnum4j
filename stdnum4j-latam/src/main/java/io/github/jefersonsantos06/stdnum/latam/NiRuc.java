@@ -5,14 +5,17 @@ import io.github.jefersonsantos06.stdnum.text.Strings;
 
 /**
  * RUC (Registro Único de Contribuyentes), the Nicaraguan taxpayer number:
- * fourteen characters in one of two shapes. A legal entity carries a J and
- * thirteen digits; a natural person carries their {@link NiCedula}, which is
- * where the check letter is.
+ * fourteen characters in one of two shapes. A natural person with a cédula
+ * carries their {@link NiCedula}, which is where the check letter is. Everyone
+ * else carries a letter and thirteen digits: J for a legal entity, N for a
+ * national without a cédula, R for a resident foreigner and E for a
+ * non-resident one.
  *
- * <p>The tax authority gave the J form no published check digit and no
- * published meaning for its digits, so it is taken on its character set, its
- * length and its prefix alone. Ten-digit numbers were retired on 1 July 2013
- * and are refused.</p>
+ * <p>The tax authority gave the lettered forms no published check digit and
+ * no published meaning for their digits, so they are taken on their character
+ * set, their length and their letter alone, and thirteen zeros are refused.
+ * Its 2022 notice on valid RUC numbers also refuses any that opens with four
+ * zeros. Ten-digit numbers were retired on 1 July 2013 and are refused.</p>
  */
 public final class NiRuc implements StdNum {
 
@@ -22,13 +25,17 @@ public final class NiRuc implements StdNum {
             Descriptor.of("ni.ruc", "RUC")
                     .country("NI")
                     .title("Registro Único de Contribuyentes")
-                    .description("Nicaraguan taxpayer number: 14 characters, either a J and"
-                            + " 13 digits for a legal entity or a natural person's cédula.")
+                    .description("Nicaraguan taxpayer number: 14 characters, either a natural"
+                            + " person's cédula or a J, N, R or E letter and 13 digits.")
                     .tags(Tag.TAX, Tag.VAT)
-                    .references("http://nicaragua.justia.com/nacionales/disposiciones-administrativas"
+                    .references("https://www.dgi.gob.ni/pdfNoticia/1715",
+                            "http://nicaragua.justia.com/nacionales/disposiciones-administrativas"
                             + "/inscripcion-en-la-ventanilla-electronica-tributaria-vet-y-actualizacion"
                             + "-de-numero-ruc-jan-30-2013/gdoc/")
                     .build();
+
+    private static final Message LEADING_ZEROS = Message.of(NiRuc.class, "ruc.ni.leading-zeros",
+            "A RUC does not start with four zeros.");
 
     private NiRuc() {
     }
@@ -54,11 +61,17 @@ public final class NiRuc implements StdNum {
             if (!Strings.isDigits(n.substring(1))) {
                 throw new InvalidFormatException();
             }
-            if (first != 'J') {
+            if ("JNRE".indexOf(first) < 0) {
                 throw new InvalidComponentException(Message.of(NiRuc.class, "ruc.prefix",
-                        "A RUC of a legal entity starts with J."));
+                        "A RUC opens with J, N, R or E, or is a cédula."));
+            }
+            if (n.startsWith("0000000000000", 1)) {
+                throw new InvalidComponentException(Reasons.zeroSequence());
             }
             return n;
+        }
+        if (Strings.isDigits(n.substring(0, 13)) && n.startsWith("0000")) {
+            throw new InvalidComponentException(LEADING_ZEROS);
         }
         return NiCedula.INSTANCE.validate(n);
     }

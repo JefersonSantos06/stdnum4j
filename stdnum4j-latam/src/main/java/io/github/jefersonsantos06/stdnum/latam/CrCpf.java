@@ -5,6 +5,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidComponentException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.Message;
+import io.github.jefersonsantos06.stdnum.spi.Reasons;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
 import io.github.jefersonsantos06.stdnum.text.Mask;
@@ -17,7 +18,8 @@ import java.util.List;
  * natural persons: ten digits in the form {@code 0P-TTTT-AAAA} — a
  * province, a volume ({@code tomo}) and an entry ({@code asiento}), each
  * zero-padded. Leading zeros are commonly dropped and restored here. There
- * is no check digit.
+ * is no check digit, so the number is taken on its shape: a province from 1
+ * to 9 and a volume and entry that are not both zero.
  */
 public final class CrCpf implements StdNum {
 
@@ -68,6 +70,12 @@ public final class CrCpf implements StdNum {
         if (n.charAt(0) != '0') {
             throw new InvalidComponentException(Message.of(CrCpf.class, "cpf.prefix",
                     "A CPF starts with 0."));
+        }
+        if (n.charAt(1) == '0') {
+            throw new InvalidComponentException(Reasons.unknownProvince());
+        }
+        if (n.startsWith("00000000", 2)) {
+            throw new InvalidComponentException(Reasons.zeroSequence());
         }
         return n;
     }

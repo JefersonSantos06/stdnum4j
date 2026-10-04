@@ -6,8 +6,12 @@
 1-101-079297
 2-511-079297
 3-102-10536
-3-102-ABCDEF
 3-121-176017
 310132541
 4-001-123456
 5-000-123456
+# class and type stay digits after Decreto Ejecutivo 44648-MJP
+3-1A1-000001
+A-101-000001
+# a consecutive of zeros was never issued
+3-101-000000

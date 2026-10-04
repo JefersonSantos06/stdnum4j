@@ -206,3 +206,12 @@
 4 000 042138
 4-000-000019
 4-000-042152
+# Decreto Ejecutivo 44648-MJP, art. 137: the last six characters are alphanumeric;
+# the examples the Registro Nacional gives for the new format
+3-101-A00001
+3-102-A00002
+3102a00002
+# NITE in the shape of the OECD Costa Rica TIN sheet (3-120 natural persons,
+# 3-130 legal entities); the consecutive digits are illustrative
+3-120-123456
+3-130-123456

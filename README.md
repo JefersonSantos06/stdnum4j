@@ -90,6 +90,28 @@ O inválido continua com cara de inválido; ele só não ganha a máscara pelo
 caminho. O retorno não diz qual dos dois aconteceu, e quem precisa saber não
 está formatando, está validando: é para isso que existe o `check`.
 
+`validate` é tolerante com a entrada: tira separadores e espaços e lê dígitos
+de largura total ou arábico-índicos como os dígitos comuns que eles
+representam. Para conferir um valor já gravado — que é o que vai ser
+entregue a outro sistema —, `isCompact` responde se ele é válido *e* já está
+na forma compacta:
+
+```java
+Cpf.INSTANCE.isCompact("39053344705");     // true
+Cpf.INSTANCE.isCompact("390.533.447-05");  // false — válido, mas não é o que se grava
+```
+
+Alguns números costumam ser gravados sem o dígito verificador, que vai num
+campo à parte. Para eles, o tipo oferece `validateBase` e `isValidBase`:
+
+```java
+CoNit.isValidBase("900373115");        // o NIT sem o DV, como a DIAN o escreve
+CoNit.formatBase("900373115");         // "900.373.115"
+PeCui.isValidBase("10117410");         // o DNI: o CUI sem o caractere verificador
+PaRuc.isValidBase("8-NT-2-3437");      // o dRuc da fatura eletrônica, sem o dDV
+PaRuc.isValidBase("8-NT-2-3437-46");   // false — o DV não vai junto
+```
+
 Os tipos também são descobríveis em tempo de execução, sem importá-los:
 
 ```java

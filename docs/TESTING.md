@@ -62,6 +62,9 @@ dele.
   jeito que um número colado de um formulário ou de uma planilha chega;
 - `isValid` devolve verdadeiro e `check` devolve um `Check.Valid` carregando a
   mesma forma compacta;
+- `isCompact` é verdadeiro para a forma compacta, e para a amostra só quando
+  ela já é a própria forma compacta — `390.533.447-05` é válido, mas não é o
+  que uma coluna guarda;
 - `safeFormat(x)` devolve exatamente o que o `format(x)` devolve.
 
 **Para toda amostra inválida e toda entrada-lixo**
@@ -72,7 +75,8 @@ dele.
   `DateTimeParseException` nem qualquer outra exceção não verificada;
 - `format` recusa o que o `validate` recusa, de modo que uma apresentação é
   sempre a apresentação de um número válido;
-- `isValid` é falso e `check` devolve um `Check.Invalid` com erro não nulo;
+- `isValid` e `isCompact` são falsos e `check` devolve um `Check.Invalid` com
+  erro não nulo;
 - `safeFormat` devolve a entrada inalterada, sem lançar e sem vesti-la de
   máscara. É a única chamada do contrato que pode ser apontada para entrada
   arbitrária sem `try`, e portanto a única maneira de varrer todo tipo pelo
@@ -81,7 +85,8 @@ dele.
 **Sempre**
 
 - `null` é recusado por `validate`, por `compact` e por `format` com uma
-  `ValidationException`, não com um NPE, e o `safeFormat` devolve `null`;
+  `ValidationException`, não com um NPE, o `isCompact` responde falso e o
+  `safeFormat` devolve `null`;
 - o `Descriptor` tem id, nome curto e título não vazios;
 - `masks()` não é nula nem carrega nulo, e quando não é vazia escreve toda
   amostra válida exatamente como o `format` escreve — a máscara que um

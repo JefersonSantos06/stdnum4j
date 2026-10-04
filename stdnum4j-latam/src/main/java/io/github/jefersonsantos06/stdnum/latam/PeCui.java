@@ -6,6 +6,7 @@ import io.github.jefersonsantos06.stdnum.spi.InvalidFormatException;
 import io.github.jefersonsantos06.stdnum.spi.InvalidLengthException;
 import io.github.jefersonsantos06.stdnum.spi.StdNum;
 import io.github.jefersonsantos06.stdnum.spi.Tag;
+import io.github.jefersonsantos06.stdnum.spi.ValidationException;
 import io.github.jefersonsantos06.stdnum.text.Strings;
 
 import java.util.Locale;
@@ -61,6 +62,36 @@ public final class PeCui implements StdNum {
         }
         int c = sum % 11;
         return "" + CHECK_DIGITS.charAt(c) + CHECK_LETTERS.charAt(c);
+    }
+
+    /**
+     * Validates the DNI, the CUI as it is usually quoted — its eight digits
+     * without the check character — and returns its compact form. The tax
+     * office and the electronic invoice take the DNI this way, so a number
+     * that carries the check character is refused here, though
+     * {@link #validate} accepts it.
+     *
+     * @throws ValidationException if the base is not eight digits
+     */
+    public static String validateBase(String base) {
+        String n = INSTANCE.compact(base);
+        if (n.length() != 8) {
+            throw new InvalidLengthException();
+        }
+        if (!Strings.isDigits(n)) {
+            throw new InvalidFormatException();
+        }
+        return n;
+    }
+
+    /** Whether the number is a valid DNI, the CUI without its check character. Never throws. */
+    public static boolean isValidBase(String base) {
+        try {
+            validateBase(base);
+            return true;
+        } catch (ValidationException e) {
+            return false;
+        }
     }
 
     /** The RUC the tax office derives from this number. */

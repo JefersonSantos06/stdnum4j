@@ -15,14 +15,16 @@ public interface StdNum {
     String validate(String number);        // valida E devolve a forma compacta
     default boolean isValid(String number);
     default Check check(String number);    // resultado sem exceção: Valid | Invalid
+    default boolean isCompact(String number); // válido e já na forma compacta
     default String format(String number);  // a apresentação que as pessoas esperam
     default String safeFormat(String number); // a mesma, ou a entrada crua de volta
     default List<Mask> masks();            // como se escreve, para um campo vazio
 }
 ```
 
-Três métodos são abstratos; cinco têm implementação padrão escrita uma vez na
+Três métodos são abstratos; seis têm implementação padrão escrita uma vez na
 interface. `isValid` e `check` são o `validate` com a falha capturada,
+`isCompact` é o `validate` comparado com a própria entrada,
 `format` cai no `validate` — um tipo cuja apresentação canônica é a própria
 forma compacta ganha um `format` correto sem escrever nada —, `safeFormat` é o
 `format` com a falha capturada, e `masks` é vazia por padrão.

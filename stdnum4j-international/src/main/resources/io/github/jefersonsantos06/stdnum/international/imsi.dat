@@ -1055,7 +1055,7 @@
 272
  01 bands="GSM 900 / GSM 1800 / LTE 800 / LTE 1800 / 5G 2100 / 5G 3500" brand="Vodafone" cc="ie" country="Ireland" operator="Vodafone Ireland" status="Operational"
  02 bands="GSM 900 / UMTS 2100" brand="3" cc="ie" country="Ireland" operator="Three Ireland Services (Hutchison) Ltd" status="Operational"
- 03 bands="GSM 900 / UMTS 900 / UMTS 2100 / LTE 800 / LTE 1800 / LTE 2100 / 5G 1800 / 5G 3500" brand="Eir" cc="ie" country="Ireland" operator="Eir Group plc" status="Operational"
+ 03 bands="GSM 900 / LTE 800 / LTE 1800 / LTE 2100 / 5G 1800 / 5G 3500" brand="Eir" cc="ie" country="Ireland" operator="Eir Group plc" status="Operational"
  04 cc="ie" country="Ireland" operator="Access Telecom"
  05 bands="GSM 900 / UMTS 2100 / LTE 800 / LTE 1800 / LTE 2100 / LTE 2600 / 5G 1800 / 5G 3500" brand="3" cc="ie" country="Ireland" operator="Three Ireland (Hutchison) Ltd" status="Operational"
  07 bands="GSM 900 / UMTS 2100" brand="Eir" cc="ie" country="Ireland" operator="Eir Group plc" status="Operational"

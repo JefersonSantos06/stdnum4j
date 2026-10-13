@@ -1,8 +1,8 @@
 # ISBN prefix and registration group ranges.
 # Generated from RangeMessage.xml, downloaded from
 # https://www.isbn-international.org/export_rangemessage.xml
-# serial 9c69682a-dafa-4d76-98cb-3c02f218bf53
-# date Sun, 4 Oct 2026 12:30:29 UTC
+# serial abde987d-fcd7-4a21-b3dd-8e265fe3bf89
+# date Mon, 12 Oct 2026 15:31:59 UTC
 978
  0-5,600-649,65-65,66-66,69990-69999,7-7,80-94,950-989
  9900-9989,99900-99999
@@ -103,7 +103,7 @@
  633 agency="Egypt"
   00-01,300-349,8250-8999,99500-99999
  634 agency="Indonesia"
-  00-05,200-349,7000-7999,96000-99999
+  00-05,200-399,7000-8499,96000-99999
  635 agency="Iran"
   00-04,250-324,5800-6999,96000-99999
  65 agency="Brazil"
@@ -111,7 +111,7 @@
  66 agency="Federated Panel"
   30-30,850-850
  69990 agency="Zambia registration group"
-  50-51,990-999
+  50-52,980-999
  7 agency="China, People's Republic"
   00-09,100-499,5000-7999,80000-89999,900000-999999
  80 agency="former Czechoslovakia"
@@ -281,7 +281,7 @@
  9913 agency="Uganda"
   00-09,600-709,9500-9999
  9914 agency="Kenya"
-  27-55,700-799,9200-9999
+  24-55,700-799,9000-9999
  9915 agency="Uruguay"
   40-59,650-799,9300-9999
  9916 agency="Estonia"

@@ -2049,7 +2049,7 @@
  03 bands="CDMA 450" brand="FONEX" cc="az" country="Azerbaijan" operator="CATEL" status="Operational"
  04 bands="GSM 900 / GSM 1800 / UMTS 2100 / LTE 1800" brand="Nar Mobile" cc="az" country="Azerbaijan" operator="Azerfon" status="Operational"
  05 bands="TETRA?" cc="az" country="Azerbaijan" operator="Special State Protection Service of the Republic of Azerbaijan"
- 06 bands="CDMA 800 / LTE 800 / LTE 900 / LTE 1800" brand="Naxtel" cc="az" country="Azerbaijan" operator="Nakhtel LLC" status="Operational"
+ 06 bands="CDMA 800 / LTE 800 / LTE 900 / LTE 1800" brand="Naxtel" cc="az" country="Azerbaijan" operator="Nakhtel LLC" status="Not Operational"
  00-99
 401
  01 bands="GSM 900 / GSM 1800 / UMTS 2100 / LTE 800 / LTE 1800 / LTE 2100" brand="Beeline" cc="kz" country="Kazakhstan" operator="KaR-Tel LLP" status="Operational"
@@ -2649,7 +2649,7 @@
  03 bands="UMTS 900 / UMTS 2100 / LTE 900 / LTE 1800 / LTE 2100 / TD-LTE 2300 / LTE 2600 / 5G 700 / 5G 2100 / 5G 3500" brand="3" cc="hk" country="Hong Kong" operator="Hutchison Telecom" status="Operational"
  04 bands="GSM 900 / GSM 1800" brand="3 (2G)" cc="hk" country="Hong Kong" operator="Hutchison Telecom" status="Not operational"
  05 bands="CDMA 800" brand="3 (CDMA)" cc="hk" country="Hong Kong" operator="Hutchison Telecom" status="Not operational"
- 06 bands="UMTS 850 / UMTS 2100 / LTE 900 / LTE 1800 / LTE 2100 / LTE 2600 / 5G 850 / 5G 3500 / 5G 4700 / 5G 28000" brand="SmarTone" cc="hk" country="Hong Kong" operator="SmarTone Mobile Communications Limited" status="Operational"
+ 06 bands="LTE 900 / LTE 1800 / LTE 2100 / LTE 2600 / 5G 850 / 5G 3500 / 5G 4700 / 5G 28000" brand="SmarTone" cc="hk" country="Hong Kong" operator="SmarTone Mobile Communications Limited" status="Operational"
  07 bands="MVNO" brand="China Unicom" cc="hk" country="Hong Kong" operator="China Unicom (Hong Kong) Limited" status="Operational"
  08 bands="MVNO" brand="Truphone" cc="hk" country="Hong Kong" operator="TP Hong Kong Operations Limited" status="Operational"
  09 bands="MVNO" cc="hk" country="Hong Kong" operator="China Motion Telecom" status="Not operational"
@@ -3223,6 +3223,7 @@
  03 bands="GSM 900 / UMTS 2100 / LTE 2100" brand="Airtel" cc="ga" country="Gabon" operator="Airtel Gabon S.A." status="Operational"
  04 bands="GSM 900 / GSM 1800" brand="Azur" cc="ga" country="Gabon" operator="USAN Gabon S.A." status="Not operational"
  05 brand="RAG" cc="ga" country="Gabon" operator="Réseau de l’Administration Gabonaise"
+ 06 brand="Airtel" cc="ga" country="Gabon" operator="Airtel Gabon S.A."
  00-99
 629
  01 bands="GSM 900 / GSM 1800 / UMTS 900 / UMTS 2100 / LTE 2600" brand="Airtel" cc="cg" country="Congo" operator="Celtel Congo" status="Operational"
@@ -3253,6 +3254,7 @@
  01 bands="GSM 900 / UMTS / 5G" brand="Cable & Wireless" cc="sc" country="Seychelles" operator="Cable & Wireless Seychelles" status="Operational"
  02 bands="GSM 1800" brand="Mediatech" cc="sc" country="Seychelles" operator="Mediatech International" status="Not operational"
  05 cc="sc" country="Seychelles" operator="Intelvision Ltd"
+ 09 brand="Airtel" cc="sc" country="Seychelles" operator="Airtel (Seychelles) Ltd"
  10 bands="GSM 900 / UMTS 2100 / LTE 800" brand="Airtel" cc="sc" country="Seychelles" operator="Telecom Seychelles Ltd" status="Operational"
  00-99
 634
@@ -3687,6 +3689,7 @@
  04 bands="GSM 850 / UMTS 850 / LTE 1700" brand="Tigo" cc="py" country="Paraguay" operator="Telefónica Celular Del Paraguay S.A. (Telecel)" status="Operational"
  05 bands="GSM 850 / GSM 1900 / UMTS 850 / UMTS 1900 / LTE 1900" brand="Personal" cc="py" country="Paraguay" operator="Núcleo S.A. (TIM)" status="Operational"
  06 bands="GSM 1800 / LTE 1700" brand="Copaco" cc="py" country="Paraguay" operator="Copaco S.A." status="Operational"
+ 07 bands="5G 3500" cc="py" country="Paraguay" operator="Nubicom Paraguay S.A."
  00-99
 746
  02 bands="GSM 900 / GSM 1800 / UMTS 2100 / LTE 700 / LTE 1800 / 5G 3700" brand="Telesur" cc="sr" country="Suriname" operator="Telecommunications Company Suriname (Telesur)" status="Operational"

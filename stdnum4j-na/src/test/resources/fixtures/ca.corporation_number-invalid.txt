@@ -1,0 +1,13 @@
+# wrong check digit
+430805-2
+16469018
+# the textbook mod 11 rule would give 0 here; this number takes 1
+277892-0
+# a number that lost its leading zero, and one digit too many
+197998
+164690190
+# a letter in the number
+43080A-1
+# nothing but zeros before the check digit
+000000-1
+0000000-1

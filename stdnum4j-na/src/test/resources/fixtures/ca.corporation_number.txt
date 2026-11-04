@@ -1,0 +1,33 @@
+# Corporations Canada's profiles of federal corporations
+# (ised-isde.canada.ca/cc/lgcy/fdrlCrpDtls.html?corpId=...), written the way
+# the profile writes them, and as the numbered company names them.
+1898621
+3505553
+430805-1
+4308051
+1646901-9
+16469019
+16469019
+1388300-1
+1392706-7
+1590432-3
+1679974-4
+1657800-4
+1549565-2
+1349293-1
+1449411-3
+643102-0
+1147406-5
+1582333-1
+1432497-8
+# lookuptax.com/validate/canada/corporation-number: Shopify Inc., a number
+# with its leading zero, and Wikimedia Canada.
+426160-7
+019799-8
+767223-3
+# federalcorporation.ca: the two corners of the check digit — the sum
+# modulo 11 is 0 (check digit 1) and 1 (check digit 0).
+277892-1
+1832459-0
+# federalcorporation.ca: 18324433 Canada Inc., a space for the hyphen.
+1832443 3

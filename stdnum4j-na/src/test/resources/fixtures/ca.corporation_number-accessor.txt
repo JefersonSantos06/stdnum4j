@@ -1,0 +1,5 @@
+# the check digits of valid samples, the two corners of the rule among them
+calcCheckDigit	430805	1
+calcCheckDigit	1646901	9
+calcCheckDigit	277892	1
+calcCheckDigit	1832459	0

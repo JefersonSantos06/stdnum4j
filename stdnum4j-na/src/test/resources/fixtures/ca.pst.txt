@@ -1,0 +1,9 @@
+# British Columbia's own example
+# (www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/register), which says
+# the number is 11 characters long and written PST-1234-5678.
+PST-1234-5678
+PST12345678
+pst 1234 5678
+# The eight digits without the prefix, as some invoices print them.
+1234-5678
+12345678

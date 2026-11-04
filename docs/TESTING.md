@@ -215,7 +215,7 @@ que há nele, e acerta todo tipo descoberto com `null` e com a lista de lixo —
 pelo `validate` e, graças ao `safeFormat`, também pelo `format`. Um módulo que
 registre um validador frágil falha aqui **mesmo que não traga teste nenhum**.
 
-Ele também afirma contagens fixas — 471 tipos registrados, 38 do Brasil, 10 da
+Ele também afirma contagens fixas — 473 tipos registrados, 38 do Brasil, 10 da
 Espanha, 8 da França — e que os tipos internacionais não carregam país. Esses
 números são um arame de tropeço: adicionar um tipo sem registrá-lo, ou
 registrá-lo duas vezes, falha aqui. Adicionar um tipo, portanto, significa
@@ -232,12 +232,12 @@ atualizar este teste de propósito. Veja
 | `stdnum4j-international` | 2.769 | 31 |
 | `stdnum4j-eu` | 6.959 | 180 |
 | `stdnum4j-latam` | 4.132 | 31 |
-| `stdnum4j-na` | 374 | 13 |
+| `stdnum4j-na` | 489 | 14 |
 | `stdnum4j-apac` | 3.135 | 35 |
 | `stdnum4j-africa` | 1.293 | 13 |
 | `stdnum4j-postal` | 848 | 16 |
-| `stdnum4j-all` | 1.833 | 7 |
-| **Total** | **22.291** | **350** |
+| `stdnum4j-all` | 1.871 | 7 |
+| **Total** | **22.444** | **351** |
 
 O `stdnum4j-tck` testa a si mesmo contra um `DummyNumber` que existe só para
 provar que o contrato pega o que diz pegar, e o `RegistryIntegrationTest` prova

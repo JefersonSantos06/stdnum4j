@@ -1,0 +1,11 @@
+# a digit short, a digit too many, eight digits short of one
+PST-1234-567
+PST-1234-56789
+1234567
+123456789
+# another prefix
+GST-1234-5678
+# a letter among the digits
+PST-1234-567A
+# nothing but zeros
+PST-0000-0000

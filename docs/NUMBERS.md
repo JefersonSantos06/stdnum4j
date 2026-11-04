@@ -1,6 +1,6 @@
 # Números
 
-**471 tipos**, em 188 países, mais 30 formatos independentes de país.
+**473 tipos**, em 188 países, mais 30 formatos independentes de país.
 
 Este inventário é mantido à mão. Ao adicionar um tipo, adicione-o aqui também —
 veja [CONTRIBUTING.md](CONTRIBUTING.md#passo-8--o-inventário). Se algum dia ele
@@ -18,11 +18,11 @@ StdNums.all().forEach(n -> System.out.println(n.descriptor().id()));
 | [`stdnum4j-br`](#brasil--stdnum4j-br-37) | 37 | 1 |
 | [`stdnum4j-eu`](#europa--stdnum4j-eu-131) | 131 | 44 |
 | [`stdnum4j-latam`](#américa-latina--stdnum4j-latam-33) | 33 | 18 |
-| [`stdnum4j-na`](#américa-do-norte--stdnum4j-na-11) | 11 | 2 |
+| [`stdnum4j-na`](#américa-do-norte--stdnum4j-na-13) | 13 | 2 |
 | [`stdnum4j-apac`](#ásia-pacífico--stdnum4j-apac-37) | 37 | 20 |
 | [`stdnum4j-africa`](#áfrica--stdnum4j-africa-14) | 14 | 13 |
 | [`stdnum4j-postal`](#códigos-postais--stdnum4j-postal-178) | 178 | 178 |
-| **Total** | **471** | **188** |
+| **Total** | **473** | **188** |
 
 Os países do `stdnum4j-postal` se sobrepõem aos dos módulos regionais; distintos,
 são 188.
@@ -37,12 +37,13 @@ O python-stdnum 2.2 traz **235 tipos de número** (236 módulos, um dos quais,
   - [ ] `isil` — International Standard Identifier for Libraries. Deixado de
         fora de propósito: é uma sintaxe com um registro de prefixos, não um
         número com dígito verificador, e nada aqui precisa dele.
-- **220 tipos daqui não têm equivalente no python-stdnum:** os 178 códigos
+- **223 tipos daqui não têm equivalente no python-stdnum:** os 178 códigos
   postais gerados, os 35 brasileiros
   (as inscrições estaduais das 27 unidades federativas, o PIS/PASEP, o CNS, o
   título de eleitor, o RENAVAM, a chave de acesso da NF-e, o boleto FEBRABAN
-  nas suas duas formas e o Pix BR Code), mais `cz.ico`, `sk.ico`, `ni.cedula`,
-  `ni.ruc`, `om.vat`, `pa.ruc` e `upi`.
+  nas suas duas formas e o Pix BR Code), mais `ca.corporation_number`,
+  `ca.pst`, `ca.qst`, `cz.ico`, `sk.ico`, `ni.cedula`, `ni.ruc`, `om.vat`,
+  `pa.ruc` e `upi`.
 
 Onde a referência nomeia o módulo de outro jeito, o id aqui segue a grafia
 natural: `in_.pan` → `in.pan`, `is_.kennitala` → `is.kennitala`, `jp.in_` →
@@ -488,12 +489,14 @@ que ele aparece no `Descriptor`, e não é traduzido.
 
 - [x] `ve.rif` — RIF — Registro de Identificación Fiscal
 
-### América do Norte — `stdnum4j-na` (11)
+### América do Norte — `stdnum4j-na` (13)
 
 **Canadá (CA)**
 
 - [x] `ca.bc_phn` — PHN — British Columbia Personal Health Number
 - [x] `ca.bn` — BN — Business Number
+- [x] `ca.corporation_number` — Corporation number — Federal corporation number
+- [x] `ca.pst` — PST — British Columbia Provincial Sales Tax number
 - [x] `ca.qst` — QST — Quebec Sales Tax number
 - [x] `ca.sin` — SIN — Social Insurance Number
 

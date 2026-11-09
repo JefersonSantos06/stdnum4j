@@ -1,8 +1,8 @@
 # ISBN prefix and registration group ranges.
 # Generated from RangeMessage.xml, downloaded from
 # https://www.isbn-international.org/export_rangemessage.xml
-# serial 3afd7ef5-307c-4424-98e6-2ea5e9a01e62
-# date Mon, 2 Nov 2026 16:00:34 UTC
+# serial 606eea5b-9285-414b-b582-2c5b064c8127
+# date Mon, 9 Nov 2026 16:26:42 UTC
 978
  0-5,600-649,65-65,66-66,69990-69999,7-7,80-94,950-989
  9900-9989,99900-99999
@@ -302,7 +302,7 @@
  9923 agency="Jordan"
   0-0,10-69,700-899,9400-9999
  9924 agency="Cambodia"
-  28-39,500-659,8950-9999
+  26-39,500-669,8900-9999
  9925 agency="Cyprus"
   0-2,30-54,550-734,7350-9999
  9926 agency="Bosnia and Herzegovina"

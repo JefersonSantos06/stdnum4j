@@ -3041,7 +3041,7 @@
  03 bands="GSM 900 / GSM 1800 / UMTS 2100 / LTE 1800" brand="Ooredoo" cc="dz" country="Algeria" operator="Wataniya Télécom Algérie S.P.A." status="Operational"
  07 bands="CDMA 1900" brand="AT" cc="dz" country="Algeria" operator="Algérie Télécom" status="Not operational"
  09 bands="LTE" brand="AT" cc="dz" country="Algeria" operator="Algérie Télécom S.P.A." status="Operational"
- 21 bands="GSM-R" brand="ANESRIF" cc="dz" country="Algeria" operator="ANESRIF" status="Ongoing"
+ 21 bands="GSM-R" brand="ANESRIF" cc="dz" country="Algeria" operator="ANESRIF" status="Operational"
  00-99
 604
  00 bands="GSM 900 / GSM 1800 / UMTS 2100 / LTE 800 / LTE 1800 / LTE 2600 / 5G 700 / 5G 3500" brand="Orange Morocco" cc="ma" country="Morocco" operator="Médi Télécom" status="Operational"

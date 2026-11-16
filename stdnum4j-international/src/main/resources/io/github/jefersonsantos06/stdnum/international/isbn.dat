@@ -1,8 +1,8 @@
 # ISBN prefix and registration group ranges.
 # Generated from RangeMessage.xml, downloaded from
 # https://www.isbn-international.org/export_rangemessage.xml
-# serial 3afd7ef5-307c-4424-98e6-2ea5e9a01e62
-# date Mon, 2 Nov 2026 16:00:34 UTC
+# serial 28c2731e-76ad-4054-bcfb-a35947dde680
+# date Mon, 16 Nov 2026 15:52:08 UTC
 978
  0-5,600-649,65-65,66-66,69990-69999,7-7,80-94,950-989
  9900-9989,99900-99999
@@ -85,7 +85,7 @@
  624 agency="Sri Lanka"
   00-04,200-249,4850-7199,91000-99999
  625 agency="Türkiye"
-  00-01,30000-31999,320-442,44300-44499,445-449,5000-7793,77940-77949,7795-8999
+  00-02,30000-31999,320-442,44300-44499,445-449,5000-7793,77940-77949,7795-8999
   90000-99999
  626 agency="Taiwan"
   00-04,300-499,6500-7999,92500-99999
@@ -302,7 +302,7 @@
  9923 agency="Jordan"
   0-0,10-69,700-899,9400-9999
  9924 agency="Cambodia"
-  28-39,500-659,8950-9999
+  26-39,500-669,8900-9999
  9925 agency="Cyprus"
   0-2,30-54,550-734,7350-9999
  9926 agency="Bosnia and Herzegovina"

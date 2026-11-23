@@ -111,8 +111,8 @@
  99 bands="5G" cc="be" country="Belgium" operator="e-BO Enterprises"
  00-99
 208
- 01 bands="GSM 900 / UMTS 900 / UMTS 2100 / LTE 700 / LTE 800 / LTE 1800 / LTE 2100 / LTE 2600 / 5G 700 / 5G 2100 / 5G 3500" brand="Orange" cc="fr" country="France" operator="Orange S.A." status="Operational"
- 02 bands="GSM 900 / UMTS 900 / UMTS 2100 / LTE 700 / LTE 800 / LTE 1800 / LTE 2100 / LTE 2600 / 5G 2100 / 5G 3500" brand="Orange" cc="fr" country="France" operator="Orange S.A." status="Operational"
+ 01 bands="UMTS 900 / UMTS 2100 / LTE 700 / LTE 800 / LTE 1800 / LTE 2100 / LTE 2600 / 5G 700 / 5G 2100 / 5G 3500" brand="Orange" cc="fr" country="France" operator="Orange S.A." status="Operational"
+ 02 bands="UMTS 900 / UMTS 2100 / LTE 700 / LTE 800 / LTE 1800 / LTE 2100 / LTE 2600 / 5G 2100 / 5G 3500" brand="Orange" cc="fr" country="France" operator="Orange S.A." status="Operational"
  03 bands="MVNO" cc="fr" country="France" operator="Onoff Telecom" status="Operational"
  04 bands="MVNO" cc="fr" country="France" operator="Nexera" status="Operational"
  05 bands="Satellite" cc="fr" country="France" operator="Globalstar Europe" status="Operational"
@@ -289,7 +289,7 @@
  02 bands="GSM 1800 / UMTS 900 / UMTS 2100 / LTE 1800 / LTE 2600 / 5G 700 / 5G 3500" cc="hr" country="Croatia" operator="Telemach" status="Operational"
  03 cc="hr" country="Croatia" operator="ALTAVOX d.o.o."
  04 bands="MVNO" cc="hr" country="Croatia" operator="NTH Mobile d.o.o."
- 10 bands="GSM 900 / GSM 1800 / UMTS 2100 / LTE 800 / LTE 1800 / 5G 700 / 5G 3500" brand="A1 HR" cc="hr" country="Croatia" operator="A1 Hrvatska" status="Operational"
+ 10 bands="GSM 900 / GSM 1800 / LTE 800 / LTE 1800 / 5G 700 / 5G 3500" brand="A1 HR" cc="hr" country="Croatia" operator="A1 Hrvatska" status="Operational"
  12 bands="MVNO" cc="hr" country="Croatia" operator="TELE FOCUS d.o.o." status="Not operational"
  13 cc="hr" country="Croatia" operator="FENICE TELEKOM GRUPA d.o.o."
  15 cc="hr" country="Croatia" operator="BSG Estonia OÜ"
@@ -785,7 +785,7 @@
  05 bands="MVNO" brand="CSC Telecom" cc="ee" country="Estonia" operator="CSC Telecom Estonia OÜ" status="Operational"
  06 bands="UMTS 2100" cc="ee" country="Estonia" operator="Progroup Holding" status="Not operational"
  07 bands="CDMA2000 450" brand="Kõu" cc="ee" country="Estonia" operator="Televõrgu AS" status="Not operational"
- 08 bands="MVNO" brand="VIVEX" cc="ee" country="Estonia" operator="VIVEX OU" status="Not operational"
+ 08 cc="ee" country="Estonia" operator="Signalmover OÜ" status="Operational"
  09 cc="ee" country="Estonia" operator="Bravo Telecom" status="Not operational"
  10 cc="ee" country="Estonia" operator="Intergo Telecom OÜ"
  11 cc="ee" country="Estonia" operator="UAB Raystorm Eesti filiaal"
@@ -2409,7 +2409,7 @@
  11 bands="LTE 3" brand="Yemen Mobile" cc="ye" country="Yemen" operator="Yemen Mobile" status="Operational"
  00-99
 422
- 02 bands="GSM 900 / GSM 1800 / UMTS 900 / LTE 1800 / TD-LTE 2300 / 5G 3500" brand="Omantel" cc="om" country="Oman" operator="Oman Telecommunications Company" status="Operational"
+ 02 bands="GSM 900 / GSM 1800 / LTE 1800 / TD-LTE 2300 / 5G 3500" brand="Omantel" cc="om" country="Oman" operator="Oman Telecommunications Company" status="Operational"
  03 bands="GSM 900 / GSM 1800 / UMTS 900 / LTE 800 / LTE 1800 / TD-LTE 2300 / 5G 3500" brand="Ooredoo" cc="om" country="Oman" operator="Omani Qatari Telecommunications Company SAOC" status="Operational"
  04 brand="Omantel" cc="om" country="Oman" operator="Oman Telecommunications Company"
  06 bands="5G 700 / 5G 1800 / 5G 2600" brand="Vodafone" cc="om" country="Oman" operator="Oman Future Telecommunications Company SAOC" status="Operational"
@@ -2612,12 +2612,13 @@
  211 cc="jp" country="Japan" operator="Starcat Cable Network Co., Ltd."
  212 cc="jp" country="Japan" operator="I-TEC Solutions Co., Ltd."
  213 cc="jp" country="Japan" operator="Hokkaido Telecommunication Network Co., Inc."
- 214 cc="jp" country="Japan" operator="Vroove Inc."
+ 214 cc="jp" country="Japan" operator="Vroove Inc." status="Not operational"
  215 cc="jp" country="Japan" operator="KYOCERA Mirai Envision Co., Ltd." status="Not operational"
  216 cc="jp" country="Japan" operator="Eureka Wireless K.K."
  217 brand="NTT docomo" cc="jp" country="Japan" operator="NTT DoCoMo, Inc."
  218 cc="jp" country="Japan" operator="KDDI Corporation"
  219 brand="NTT docomo" cc="jp" country="Japan" operator="NTT DoCoMo, Inc."
+ 220 brand="SoftBank" cc="jp" country="Japan" operator="SoftBank Corp."
  91 cc="jp" country="Japan" operator="Tokyo Organising Committee of the Olympic and Paralympic Games" status="Not operational"
 450
  01 bands="Satellite" cc="kr" country="South Korea" operator="Globalstar Asia Pacific" status="Operational"
@@ -3041,7 +3042,7 @@
  03 bands="GSM 900 / GSM 1800 / UMTS 2100 / LTE 1800" brand="Ooredoo" cc="dz" country="Algeria" operator="Wataniya Télécom Algérie S.P.A." status="Operational"
  07 bands="CDMA 1900" brand="AT" cc="dz" country="Algeria" operator="Algérie Télécom" status="Not operational"
  09 bands="LTE" brand="AT" cc="dz" country="Algeria" operator="Algérie Télécom S.P.A." status="Operational"
- 21 bands="GSM-R" brand="ANESRIF" cc="dz" country="Algeria" operator="ANESRIF" status="Ongoing"
+ 21 bands="GSM-R" brand="ANESRIF" cc="dz" country="Algeria" operator="ANESRIF" status="Operational"
  00-99
 604
  00 bands="GSM 900 / GSM 1800 / UMTS 2100 / LTE 800 / LTE 1800 / LTE 2600 / 5G 700 / 5G 3500" brand="Orange Morocco" cc="ma" country="Morocco" operator="Médi Télécom" status="Operational"
@@ -3659,6 +3660,7 @@
  04 bands="GSM 850 / GSM 1900 / UMTS 1900 / LTE 1700" brand="Movistar" cc="ve" country="Venezuela" operator="Telefónica Móviles Venezuela" status="Operational"
  05 brand="Movistar" cc="ve" country="Venezuela" operator="Telefónica Venezolana C.A."
  06 bands="GSM 850 / UMTS 1900 / LTE 1700" brand="Movilnet" cc="ve" country="Venezuela" operator="Telecomunicaciones Movilnet" status="Operational"
+ 07 brand="Movilnet" cc="ve" country="Venezuela" operator="Telecomunicaciones Movilnet"
  08 cc="ve" country="Venezuela" operator="PATRIACELL C.A."
  00-99
 736
